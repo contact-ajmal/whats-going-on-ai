@@ -1,0 +1,76 @@
+export interface GitHubUser {
+    login: string;
+    avatar_url: string;
+    name: string;
+}
+
+export interface GitHubFile {
+    sha: string;
+    content: string;
+}
+
+const API_BASE = 'https://api.github.com';
+
+export class GitHubClient {
+    private token: string;
+    private repo: string; // "owner/repo"
+
+    constructor(token: string, repo: string) {
+        this.token = token;
+        this.repo = repo;
+    }
+
+    private async request(endpoint: string, options: RequestInit = {}) {
+        const url = `${API_BASE}${endpoint}`;
+        const headers = {
+            'Authorization': `Bearer ${this.token}`,
+            'Accept': 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json',
+            ...options.headers,
+        };
+
+        const response = await fetch(url, { ...options, headers });
+
+        if (!response.ok) {
+            if (response.status === 401) throw new Error("Invalid Token");
+            if (response.status === 404) throw new Error("Resource not found (check repo name)");
+            throw new Error(`GitHub API Error: ${response.statusText}`);
+        }
+
+        return response.json();
+    }
+
+    async getUser(): Promise<GitHubUser> {
+        return this.request('/user');
+    }
+
+    async getFile(path: string): Promise<GitHubFile> {
+        const data = await this.request(`/repos/${this.repo}/contents/${path}`);
+        return {
+            sha: data.sha,
+            content: atob(data.content.replace(/\n/g, '')),
+        };
+    }
+
+    async createFile(path: string, content: string, message: string): Promise<void> {
+        // Check if file exists to get SHA (for update) or null (for create)
+        let sha: string | undefined;
+        try {
+            const existing = await this.request(`/repos/${this.repo}/contents/${path}`);
+            sha = existing.sha;
+        } catch (e) {
+            // File doesn't exist, which is fine for creation
+        }
+
+        const body = {
+            message,
+            content: btoa(unescape(encodeURIComponent(content))), // Handle UTF-8
+            sha, // Include SHA if updating
+        };
+
+        await this.request(`/repos/${this.repo}/contents/${path}`, {
+            method: 'PUT',
+            body: JSON.stringify(body),
+        });
+    }
+}
