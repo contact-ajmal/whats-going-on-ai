@@ -89,7 +89,7 @@ ${content}`;
             // Looks for: const availablePosts = [ ... ];
             // We insert the new slug at the beginning
             const updatedConfigContent = configFile.content.replace(
-                /(const availablePosts\s*=\s*\[)/,
+                /(const availablePosts(?:\s*:\s*[^=]+)?\s*=\s*\[)/,
                 `$1\n  '${slug}',`
             );
 
