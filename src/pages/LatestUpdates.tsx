@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { NeuralBackground } from '@/components/NeuralBackground';
+import { NewsFeed } from '@/components/NewsFeed';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 
@@ -27,10 +28,8 @@ export default function LatestUpdates() {
           </motion.div>
 
           {/* Updates will go here */}
-          <div className="max-w-4xl mx-auto">
-            <p className="text-center text-muted-foreground">
-              Updates coming soon...
-            </p>
+          <div className="max-w-7xl mx-auto">
+            <NewsFeed />
           </div>
         </div>
       </main>
