@@ -12,6 +12,7 @@ const navLinks = [
   { path: '/blog', label: 'Blog' },
   { path: '/updates', label: 'Latest Updates' },
   { path: '/research', label: 'Research' },
+  { path: '/history', label: 'History' },
   { path: '/about', label: 'About' },
 ];
 

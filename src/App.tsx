@@ -9,6 +9,7 @@ import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import Research from "./pages/Research";
 import Admin from "./pages/Admin";
+import { History } from "./pages/History";
 import LatestUpdates from "./pages/LatestUpdates";
 import NotFound from "./pages/NotFound";
 
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/updates" element={<LatestUpdates />} />
           <Route path="/research" element={<Research />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/history" element={<History />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
