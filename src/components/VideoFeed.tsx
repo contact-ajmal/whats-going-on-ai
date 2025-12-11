@@ -32,6 +32,10 @@ const CHANNELS = [
 ];
 
 export function VideoFeed() {
+    const [videos, setVideos] = useState<Video[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [selectedChannel, setSelectedChannel] = useState<string | null>(null);
+    const [activeVideo, setActiveVideo] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [visibleCount, setVisibleCount] = useState(12);
 
