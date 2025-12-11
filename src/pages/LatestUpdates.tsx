@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { NeuralBackground } from '@/components/NeuralBackground';
 import { NewsFeed } from '@/components/NewsFeed';
+import { NewsletterSignup } from '@/components/NewsletterSignup';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
@@ -34,6 +35,11 @@ export default function LatestUpdates() {
               <NewsFeed />
             </ErrorBoundary>
           </div>
+        </div>
+
+        {/* Newsletter Section */}
+        <div className="container mx-auto px-6 mt-24">
+          <NewsletterSignup variant="default" />
         </div>
       </main>
 

@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Github, Twitter, Linkedin, Mail, ArrowUp } from 'lucide-react';
+import { NewsletterSignup } from './NewsletterSignup';
 
 const socialLinks = [
   { icon: Github, href: 'https://github.com/yourusername', label: 'GitHub' },
@@ -45,12 +46,13 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Socials */}
-          <div className="flex flex-col gap-4">
-            <h3 className="font-semibold text-foreground">Connect</h3>
-            <div className="flex gap-4">
-              {/* Social icons would go here */}
-            </div>
+          {/* Socials & Newsletter */}
+          <div className="flex flex-col gap-6 w-full max-w-sm">
+            <h3 className="font-semibold text-foreground">Stay Updated</h3>
+            <NewsletterSignup variant="minimal" />
+            <p className="text-xs text-muted-foreground">
+              Subscribe to get the latest AI research and updates delivered to your inbox.
+            </p>
           </div>
         </div>
 

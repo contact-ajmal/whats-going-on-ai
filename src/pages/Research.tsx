@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { NeuralBackground } from '@/components/NeuralBackground';
 import { ResearchFeed } from '@/components/ResearchFeed';
+import { NewsletterSignup } from '@/components/NewsletterSignup';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
@@ -35,9 +36,14 @@ export default function Research() {
                         </ErrorBoundary>
                     </div>
                 </div>
-            </main>
+
+                {/* Newsletter Section */}
+                <div className="container mx-auto px-6 mt-24">
+                    <NewsletterSignup variant="default" />
+                </div>
+            </main >
 
             <Footer />
-        </div>
+        </div >
     );
 }
