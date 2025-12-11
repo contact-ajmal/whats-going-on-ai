@@ -73,4 +73,22 @@ export class GitHubClient {
             body: JSON.stringify(body),
         });
     }
+
+    async uploadImage(file: File): Promise<string> {
+        const buffer = await file.arrayBuffer();
+        const bytes = new Uint8Array(buffer);
+        let binary = '';
+        for (let i = 0; i < bytes.byteLength; i++) {
+            binary += String.fromCharCode(bytes[i]);
+        }
+        const content = btoa(binary);
+
+        const filename = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '')}`;
+        const path = `public/images/uploads/${filename}`;
+
+        await this.createFile(path, content, `chore: upload image ${filename}`);
+
+        // Return public path relative to site root
+        return `images/uploads/${filename}`;
+    }
 }

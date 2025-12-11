@@ -1,11 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { GitHubClient } from '@/lib/github';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from 'sonner';
+import { EditorToolbar } from '@/components/EditorToolbar';
+import ReactMarkdown from 'react-markdown';
+import { Textarea } from '@/components/ui/textarea';
 
 const Admin = () => {
     const [token, setToken] = useState('');
@@ -18,6 +21,8 @@ const Admin = () => {
     const [description, setDescription] = useState('');
     const [tags, setTags] = useState('');
     const [content, setContent] = useState('');
+
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
 
     useEffect(() => {
         const storedToken = localStorage.getItem('gh_token');
@@ -50,6 +55,42 @@ const Admin = () => {
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
         verifyToken(token, repo);
+    };
+
+    const handleInsert = (textToInsert: string) => {
+        if (!textareaRef.current) return;
+
+        const start = textareaRef.current.selectionStart;
+        const end = textareaRef.current.selectionEnd;
+        const mainText = textareaRef.current.value;
+
+        const newText = mainText.substring(0, start) + textToInsert + mainText.substring(end);
+        setContent(newText);
+
+        // Restore focus
+        setTimeout(() => {
+            textareaRef.current?.focus();
+            textareaRef.current?.setSelectionRange(start + textToInsert.length, start + textToInsert.length);
+        }, 0);
+    };
+
+    const handleImageUpload = async (file: File) => {
+        const loadingToast = toast.loading('Uploading image...');
+        try {
+            const client = new GitHubClient(token, repo);
+            const publicPath = await client.uploadImage(file);
+
+            // Allow GitHub Pages some time to be aware? (Actually it needs a build usually, 
+            // but for raw content access or if using raw.githubusercontent it might work sooner.
+            // For now, we insert the relative path which will work after build)
+            const imageMarkdown = `\n![${file.name}](${publicPath})\n`;
+            handleInsert(imageMarkdown);
+
+            toast.success('Image uploaded! (Will appear after site rebuild)', { id: loadingToast });
+        } catch (error: any) {
+            console.error(error);
+            toast.error(`Upload failed: ${error.message}`, { id: loadingToast });
+        }
     };
 
     const handlePublish = async () => {
@@ -187,13 +228,36 @@ ${content}`;
                 </div>
 
                 <div className="grid gap-2">
-                    <Label>Content (Markdown)</Label>
-                    <Textarea
-                        className="min-h-[400px] font-mono"
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                        placeholder="# Hello World..."
-                    />
+                    <Label>Content</Label>
+                    <div className="border border-input rounded-md overflow-hidden bg-background">
+                        <EditorToolbar
+                            onInsert={handleInsert}
+                            onImageUpload={handleImageUpload}
+                            disabled={isLoading}
+                        />
+                        <Tabs defaultValue="write" className="w-full">
+                            <div className='bg-muted/30 px-2 pt-2 border-b'>
+                                <TabsList className="h-8">
+                                    <TabsTrigger value="write" className="text-xs h-6">Write</TabsTrigger>
+                                    <TabsTrigger value="preview" className="text-xs h-6">Preview</TabsTrigger>
+                                </TabsList>
+                            </div>
+                            <TabsContent value="write" className="p-0 m-0">
+                                <Textarea
+                                    ref={textareaRef}
+                                    className="min-h-[400px] font-mono border-0 focus-visible:ring-0 rounded-none resize-y p-4"
+                                    value={content}
+                                    onChange={(e) => setContent(e.target.value)}
+                                    placeholder="# Hello World..."
+                                />
+                            </TabsContent>
+                            <TabsContent value="preview" className="p-0 m-0">
+                                <div className="min-h-[400px] p-4 prose prose-invert max-w-none">
+                                    <ReactMarkdown>{content || '*Nothing to preview*'}</ReactMarkdown>
+                                </div>
+                            </TabsContent>
+                        </Tabs>
+                    </div>
                 </div>
 
                 <Button size="lg" onClick={handlePublish} disabled={isLoading} className="w-full md:w-auto md:self-start">
