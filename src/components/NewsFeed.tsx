@@ -179,17 +179,18 @@ export function NewsFeed() {
                 </div>
             )}
 
-            {/* Grid */}
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {/* Horizontal List View */}
+            <div className="flex flex-col gap-4">
                 {displayArticles.map((article) => (
-                    <Card key={article.id} className="group overflow-hidden border-white/10 bg-card/30 backdrop-blur-md hover:border-primary/50 hover:shadow-2xl transition-all duration-300 flex flex-col h-full rounded-xl">
-                        {/* Image Area */}
-                        <div className="aspect-video relative overflow-hidden bg-muted/20 border-b border-white/5">
+                    <Card key={article.id} className="group overflow-hidden border-white/10 bg-card/30 backdrop-blur-md hover:border-primary/50 hover:shadow-lg transition-all duration-300 flex flex-row h-32 rounded-lg items-stretch">
+
+                        {/* Image Thumbnail (Left, Fixed Width) */}
+                        <div className="w-48 shrink-0 relative overflow-hidden bg-muted/20 border-r border-white/5">
                             {article.image ? (
                                 <img
                                     src={article.image}
                                     alt={article.title}
-                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                     onError={(e) => {
                                         (e.target as HTMLImageElement).style.display = 'none';
                                         (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
@@ -198,41 +199,40 @@ export function NewsFeed() {
                             ) : null}
 
                             <div className={`w-full h-full absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 flex items-center justify-center ${article.image ? 'hidden' : ''}`}>
-                                <Rss className="w-12 h-12 text-primary/20" />
-                            </div>
-
-                            <div className="absolute top-2 right-2 flex gap-2">
-                                <Badge variant="secondary" className={`backdrop-blur-md border ${article.source.color} text-white`}>
-                                    {article.source.name}
-                                </Badge>
+                                <Rss className="w-8 h-8 text-primary/20" />
                             </div>
                         </div>
 
-                        <CardHeader className="pb-2">
-                            <div className="flex items-center gap-2 mb-2 text-xs text-muted-foreground">
-                                <Calendar className="w-3 h-3" />
-                                {article.publishedAt.toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                        {/* Content Area */}
+                        <div className="flex-1 flex flex-col justify-between p-4 min-w-0">
+                            <div className="flex justify-between items-start gap-4">
+                                <div className="space-y-1">
+                                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                        <Badge variant="secondary" className={`text-[10px] px-1.5 py-0 h-5 backdrop-blur-md border ${article.source.color} text-white`}>
+                                            {article.source.name}
+                                        </Badge>
+                                        <span className="flex items-center gap-1">
+                                            <Calendar className="w-3 h-3" />
+                                            {article.publishedAt.toLocaleDateString()}
+                                        </span>
+                                    </div>
+                                    <h3 className="text-base font-semibold text-foreground leading-tight group-hover:text-primary transition-colors line-clamp-1">
+                                        <a href={article.url} target="_blank" rel="noopener noreferrer">
+                                            {article.title}
+                                        </a>
+                                    </h3>
+                                    <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+                                        {article.description}
+                                    </p>
+                                </div>
+
+                                <Button variant="ghost" size="icon" className="shrink-0 h-8 w-8 text-muted-foreground hover:text-primary" asChild>
+                                    <a href={article.url} target="_blank" rel="noopener noreferrer">
+                                        <ExternalLink className="h-4 w-4" />
+                                    </a>
+                                </Button>
                             </div>
-                            <CardTitle className="line-clamp-2 text-lg group-hover:text-primary transition-colors leading-snug">
-                                <a href={article.url} target="_blank" rel="noopener noreferrer">
-                                    {article.title}
-                                </a>
-                            </CardTitle>
-                        </CardHeader>
-
-                        <CardContent className="pb-3 flex-grow">
-                            <p className="text-muted-foreground text-sm line-clamp-3">
-                                {article.description}
-                            </p>
-                        </CardContent>
-
-                        <CardFooter className="pt-3 border-t border-white/5 mt-auto">
-                            <Button variant="ghost" size="sm" className="w-full gap-2 text-primary/80 hover:text-primary group/btn" asChild>
-                                <a href={article.url} target="_blank" rel="noopener noreferrer">
-                                    Read Full Story <ExternalLink className="h-3 w-3 transition-transform group-hover/btn:translate-x-1" />
-                                </a>
-                            </Button>
-                        </CardFooter>
+                        </div>
                     </Card>
                 ))}
             </div>
