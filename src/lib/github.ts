@@ -74,6 +74,10 @@ export class GitHubClient {
         });
     }
 
+    async getRepoDetails(): Promise<{ default_branch: string }> {
+        return this.request(`/repos/${this.repo}`);
+    }
+
     async uploadImage(file: File): Promise<string> {
         const buffer = await file.arrayBuffer();
         const bytes = new Uint8Array(buffer);
@@ -88,7 +92,16 @@ export class GitHubClient {
 
         await this.createFile(path, content, `chore: upload image ${filename}`);
 
+        // Fetch default branch to ensure link is correct (handle main vs master)
+        let branch = 'main';
+        try {
+            const details = await this.getRepoDetails();
+            branch = details.default_branch;
+        } catch (e) {
+            console.warn('Could not fetch repo details, defaulting to main');
+        }
+
         // Return raw GitHub URL for immediate availability
-        return `https://raw.githubusercontent.com/${this.repo}/main/public/images/uploads/${filename}`;
+        return `https://raw.githubusercontent.com/${this.repo}/${branch}/public/images/uploads/${filename}`;
     }
 }
