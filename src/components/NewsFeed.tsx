@@ -30,67 +30,94 @@ export function NewsFeed() {
             try {
                 // Use allSettled to prevent one failure from breaking everything
                 const results = await Promise.allSettled([
-                    fetch('https://dev.to/api/articles?tag=ai&per_page=6&state=fresh').then(res => res.json()),
+                    // 1. Dev.to (Direct API)
+                    fetch('https://dev.to/api/articles?tag=ai&per_page=3&state=fresh').then(res => res.json()),
+
+                    // 2. Techmeme (via rss2json)
                     fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.techmeme.com/feed.xml').then(res => res.json()),
-                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss/search?q=Artificial+Intelligence+when:3d&hl=en-US&gl=US&ceid=US:en').then(res => res.json())
+
+                    // 3. Google News AI (via rss2json)
+                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss/search?q=Artificial+Intelligence+when:3d&hl=en-US&gl=US&ceid=US:en').then(res => res.json()),
+
+                    // 4. OpenAI (via rss2json)
+                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://openai.com/news/rss.xml').then(res => res.json()),
+
+                    // 5. MIT Technology Review (via rss2json)
+                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.technologyreview.com/topic/artificial-intelligence/feed/').then(res => res.json()),
+
+                    // 6. Hacker News AI (via rss2json)
+                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://hnrss.org/newest?q=AI').then(res => res.json()),
+
+                    // 7. Google DeepMind (via rss2json) - using blog research URL as proxy often works better or official feed
+                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://blog.research.google/atom.xml').then(res => res.json()),
+
+                    // 8. The Verge AI (via rss2json)
+                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.theverge.com/rss/ai-artificial-intelligence/index.xml').then(res => res.json())
                 ]);
 
-                const [devToResult, techmemeResult, googleResult] = results;
+                const [
+                    devToResult,
+                    techmemeResult,
+                    googleNewsResult,
+                    openAiResult,
+                    mitResult,
+                    hnResult,
+                    googleResearchResult,
+                    vergeResult
+                ] = results;
 
-                const articles: UnifiedArticle[] = [];
+                const newArticles: UnifiedArticle[] = [];
 
-                // 1. Dev.to
+                // Helper to process RSS-to-JSON results
+                const processRSS = (result: PromiseSettledResult<any>, sourceName: string, color: string, limit = 2) => {
+                    if (result.status === 'fulfilled' && result.value?.items) {
+                        result.value.items.slice(0, limit).forEach((item: any) => {
+                            newArticles.push({
+                                id: `${sourceName.toLowerCase().replace(/\s/g, '')}-${item.guid || item.link}`,
+                                title: item.title,
+                                description: item.description?.replace(/<[^>]*>?/gm, '').slice(0, 150) + '...' || '',
+                                url: item.link,
+                                image: extractImageFromContent(item.content || item.description || '') || item.thumbnail, // rss2json often passes thumbnail
+                                publishedAt: new Date(item.pubDate),
+                                source: { name: sourceName, color },
+                                tags: ['ai']
+                            });
+                        });
+                    }
+                };
+
+                // 1. Dev.to Processing
                 if (devToResult.status === 'fulfilled' && Array.isArray(devToResult.value)) {
                     devToResult.value.forEach((item: any) => {
-                        articles.push({
+                        newArticles.push({
                             id: `devto-${item.id}`,
                             title: item.title,
                             description: item.description,
                             url: item.url,
                             image: item.cover_image || item.social_image,
                             publishedAt: new Date(item.published_at),
-                            source: { name: 'Dev.to', color: 'bg-black border-white/20' },
+                            source: { name: 'Dev.to', color: 'bg-zinc-800 border-zinc-600' },
                             tags: item.tag_list || []
                         });
                     });
                 }
 
-                // 2. Techmeme
-                if (techmemeResult.status === 'fulfilled' && techmemeResult.value?.items) {
-                    techmemeResult.value.items.slice(0, 6).forEach((item: any) => {
-                        articles.push({
-                            id: `techmeme-${item.guid}`,
-                            title: item.title,
-                            description: item.description?.replace(/<[^>]*>?/gm, '').slice(0, 150) + '...',
-                            url: item.link,
-                            image: extractImageFromContent(item.content || item.description),
-                            publishedAt: new Date(item.pubDate),
-                            source: { name: 'Techmeme', color: 'bg-blue-900/50 border-blue-500/30' },
-                            tags: ['tech', 'news']
-                        });
-                    });
-                }
-
-                // 3. Google News
-                if (googleResult.status === 'fulfilled' && googleResult.value?.items) {
-                    googleResult.value.items.slice(0, 6).forEach((item: any) => {
-                        articles.push({
-                            id: `google-${item.guid}`,
-                            title: item.title,
-                            description: item.description?.replace(/<[^>]*>?/gm, '').slice(0, 150) + '...',
-                            url: item.link,
-                            image: null,
-                            publishedAt: new Date(item.pubDate),
-                            source: { name: 'Google News', color: 'bg-red-900/50 border-red-500/30' },
-                            tags: ['ai', 'google']
-                        });
-                    });
-                }
+                // Process others
+                processRSS(techmemeResult, 'Techmeme', 'bg-blue-900/40 border-blue-500/30');
+                processRSS(googleNewsResult, 'Google News', 'bg-red-900/40 border-red-500/30');
+                processRSS(openAiResult, 'OpenAI', 'bg-emerald-900/40 border-emerald-500/30', 4); // Higher priority
+                processRSS(mitResult, 'MIT Tech', 'bg-black border-white/20');
+                processRSS(hnResult, 'Hacker News', 'bg-orange-900/40 border-orange-500/30');
+                processRSS(googleResearchResult, 'Google Research', 'bg-blue-600/20 border-blue-400/30');
+                processRSS(vergeResult, 'The Verge', 'bg-purple-900/40 border-purple-500/30');
 
                 // Sort by date (descending)
-                articles.sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime());
+                newArticles.sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime());
 
-                setArticles(articles);
+                // Remove duplicates by URL
+                const uniqueArticles = Array.from(new Map(newArticles.map(item => [item.url, item])).values());
+
+                setArticles(uniqueArticles);
             } catch (err) {
                 console.error("Error fetching news:", err);
                 setError("Errors occurred while loading updates, but some content may be visible.");
@@ -146,7 +173,7 @@ export function NewsFeed() {
 
                         {/* Badges */}
                         <div className="absolute top-2 right-2 flex gap-2">
-                            <Badge variant="secondary" className={`backdrop-blur-md border ${article.source.color}`}>
+                            <Badge variant="secondary" className={`backdrop-blur-md border ${article.source.color} text-white`}>
                                 {article.source.name}
                             </Badge>
                         </div>
