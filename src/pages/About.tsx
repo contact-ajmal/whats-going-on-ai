@@ -119,22 +119,28 @@ export default function About() {
                   <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-background/50 border border-white/10">
                     <Briefcase size={14} className="text-primary" /> Principal Architect
                   </span>
-                  <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-background/50 border border-white/10">
-                    <Globe size={14} className="text-primary" /> Sports Tech
-                  </span>
+                  <a
+                    href="https://www.hawkeyeinnovations.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-background/50 border border-white/10 hover:border-primary/50 hover:text-primary transition-all cursor-pointer"
+                  >
+                    <Globe size={14} className="text-primary" /> Hawk-Eye Innovations
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/ajmalnazirbaba/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-background/50 border border-white/10 hover:border-primary/50 hover:text-primary transition-all cursor-pointer"
+                  >
+                    <Linkedin size={14} className="text-primary" /> LinkedIn
+                  </a>
                 </div>
                 <p className="text-lg text-muted-foreground leading-relaxed">
                   I am a Principal Architect specializing in Data & AI Platforms. My work focuses on building scalable, intelligent systems that bridge the gap between cutting-edge AI research and practical, high-impact enterprise solutions.
                 </p>
 
-                <div className="pt-4">
-                  <Button asChild className="gap-2" size="lg">
-                    <a href="https://www.linkedin.com/in/ajmalnazirbaba/" target="_blank" rel="noopener noreferrer">
-                      <Linkedin className="w-4 h-4" />
-                      Connect with me on LinkedIn
-                    </a>
-                  </Button>
-                </div>
+
                 <p className="text-lg text-muted-foreground leading-relaxed mt-4">
                   At Hawk-Eye Innovations, I design the data platforms behind world-leading tracking, officiating,
                   broadcast, and analytics systems used across 20+ global sports.
