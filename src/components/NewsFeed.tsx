@@ -181,25 +181,33 @@ export function NewsFeed() {
             {articles.length > 0 && (
                 <div className="w-full bg-black/40 border-y border-white/10 overflow-hidden relative h-12 flex items-center">
                     {/* Fixed Label */}
-                    <div className="absolute left-0 z-20 bg-background/95 backdrop-blur px-4 h-full flex items-center border-r border-white/10 text-xs font-bold text-primary shrink-0 uppercase tracking-wider shadow-[10px_0_20px_-5px_rgba(0,0,0,0.5)]">
-                        <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse mr-3 shadow-[0_0_10px_red]"></div>
-                        Live Updates
+                    <div className="absolute left-0 z-20 bg-background/95 backdrop-blur px-4 h-full flex items-center border-r border-white/10 text-xs font-bold text-primary shrink-0 uppercase tracking-wider shadow-[10px_0_20px_-5px_rgba(0,0,0,0.5)] cursor-pointer hover:bg-white/5 transition-colors"
+                        onClick={() => setSelectedSource(null)}
+                        title="Show All"
+                    >
+                        <div className={`w-2 h-2 rounded-full mr-3 shadow-[0_0_10px_currentColor] transition-all ${selectedSource ? 'bg-muted-foreground' : 'bg-red-500 animate-pulse'}`}></div>
+                        {selectedSource ? 'Show All' : 'Sources'}
                         <span className="hidden sm:inline ml-3 text-muted-foreground normal-case font-normal border-l border-white/10 pl-3">
-                            Last avg: {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            Select to filter
                         </span>
                     </div>
 
-                    {/* Scrolling Content */}
-                    <div className="flex animate-marquee items-center pl-40 sm:pl-64">
-                        {articles.slice(0, 15).map((article, i) => (
-                            <div key={`${article.id}-ticker`} className="inline-flex items-center mx-8 group cursor-pointer">
-                                <span className={`text-[10px] uppercase font-bold px-1.5 py-0.5 rounded mr-3 border ${article.source.color} bg-background text-foreground/80`}>
-                                    {article.source.name}
+                    {/* Scrolling Sources */}
+                    <div className="flex animate-marquee items-center pl-40 sm:pl-64 hover:[animation-play-state:paused]">
+                        {uniqueSources.concat(uniqueSources).map((source, i) => (
+                            <div
+                                key={`${source.name}-${i}`}
+                                onClick={() => setSelectedSource(source.name === selectedSource ? null : source.name)}
+                                className={`inline-flex items-center mx-6 group cursor-pointer px-3 py-1 rounded-full border transition-all duration-300
+                                    ${selectedSource === source.name
+                                        ? 'bg-primary text-primary-foreground border-primary scale-110 shadow-[0_0_15px_rgba(0,255,255,0.4)]'
+                                        : `${source.color} bg-opacity-20 hover:bg-opacity-40 hover:scale-105 border-transparent`
+                                    }
+                                `}
+                            >
+                                <span className="text-xs font-bold uppercase whitespace-nowrap">
+                                    {source.name}
                                 </span>
-                                <a href={article.url} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors hover:underline decoration-primary/50 underline-offset-4">
-                                    {article.title}
-                                </a>
-                                <span className="ml-8 text-white/10">•</span>
                             </div>
                         ))}
                     </div>
