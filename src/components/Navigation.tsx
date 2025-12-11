@@ -39,8 +39,8 @@ export function Navigation() {
                   W
                 </span>
               </div>
-              <span className="hidden sm:block text-foreground font-semibold group-hover:text-primary transition-colors">
-                WhatsgoingOn<span className="text-primary">AI</span>
+              <span className="hidden sm:block text-foreground font-bold text-lg group-hover:text-primary transition-colors">
+                WhatsGoingOn<span className="text-primary">AI</span>
               </span>
             </Link>
 

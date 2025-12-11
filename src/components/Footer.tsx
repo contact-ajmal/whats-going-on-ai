@@ -26,7 +26,7 @@ export function Footer() {
             <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
               <div className="w-6 h-6 rounded bg-gradient-to-br from-primary to-secondary" />
               <span className="font-semibold text-foreground">
-                WhatsgoingOn<span className="text-primary">AI</span>
+                WhatsGoingOn<span className="text-primary">AI</span>
               </span>
             </div>
             <p className="mt-4 text-muted-foreground text-sm leading-relaxed">
@@ -56,7 +56,7 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-primary/10 text-center text-sm text-muted-foreground">
           <p>
-            &copy; {new Date().getFullYear()} WhatsgoingOnAI.
+            &copy; {new Date().getFullYear()} WhatsGoingOnAI.
           </p>
         </div>
       </div>
