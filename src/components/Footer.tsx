@@ -56,8 +56,7 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-primary/10 text-center text-sm text-muted-foreground">
           <p>
-            &copy; {new Date().getFullYear()} WhatsgoingOnAI. Built with{' '}
-            <span className="text-primary">&hearts;</span> and neural networks.
+            &copy; {new Date().getFullYear()} WhatsgoingOnAI.
           </p>
         </div>
       </div>
