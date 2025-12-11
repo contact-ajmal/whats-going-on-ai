@@ -58,7 +58,10 @@ export function NewsFeed() {
                     fetch('https://api.rss2json.com/v1/api.json?rss_url=https://blog.research.google/atom.xml').then(res => res.json()),
 
                     // 8. The Verge AI
-                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.theverge.com/rss/ai-artificial-intelligence/index.xml').then(res => res.json())
+                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.theverge.com/rss/ai-artificial-intelligence/index.xml').then(res => res.json()),
+
+                    // 9. Google Blog (Official)
+                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://blog.google/feed/').then(res => res.json())
                 ]);
 
                 const newArticles: UnifiedArticle[] = [];
@@ -104,8 +107,9 @@ export function NewsFeed() {
                 processRSS(results[3], 'OpenAI', 'bg-emerald-900/40 border-emerald-500/30');
                 processRSS(results[4], 'MIT Tech', 'bg-black border-white/20');
                 processRSS(results[5], 'Hacker News', 'bg-orange-900/40 border-orange-500/30');
-                processRSS(results[6], 'Google Research', 'bg-blue-600/20 border-blue-400/30');
-                processRSS(results[7], 'The Verge', 'bg-purple-900/40 border-purple-500/30');
+                processRSS(results[6], 'Google DeepMind', 'bg-cyan-600 border-cyan-400');
+                processRSS(results[7], 'The Verge', 'bg-violet-600 border-violet-400');
+                processRSS(results[8], 'Google Blog', 'bg-blue-500 border-blue-300');
 
                 // Sort by date (descending)
                 newArticles.sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime());
