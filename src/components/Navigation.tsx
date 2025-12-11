@@ -5,6 +5,7 @@ import { Menu, X, Search } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { SearchDialog } from '@/components/SearchDialog';
 import { Button } from '@/components/ui/button';
+import { LibraryDrawer } from '@/components/LibraryDrawer';
 
 const navLinks = [
   { path: '/', label: 'Home' },
@@ -73,6 +74,7 @@ export function Navigation() {
               </div>
 
               <div className="flex items-center gap-2 pl-4 border-l border-border/50">
+                <LibraryDrawer />
                 <Button
                   variant="ghost"
                   size="icon"

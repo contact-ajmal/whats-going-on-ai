@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ExternalLink, Loader2, BookOpen, Calendar, Search, ChevronDown, FileText, User } from "lucide-react";
+import { BookmarkButton } from "@/components/BookmarkButton";
 
 interface ResearchPaper {
     id: string;
@@ -260,11 +261,23 @@ export function ResearchFeed() {
                                         </div>
                                     )}
                                 </div>
-                                <Button variant="ghost" size="icon" asChild className="shrink-0 text-muted-foreground hover:text-primary">
-                                    <a href={paper.url} target="_blank" rel="noopener noreferrer">
-                                        <ExternalLink className="w-5 h-5" />
-                                    </a>
-                                </Button>
+                                <div className="flex gap-1 shrink-0">
+                                    <BookmarkButton
+                                        item={{
+                                            id: paper.id,
+                                            title: paper.title,
+                                            url: paper.url,
+                                            source: paper.source,
+                                            type: 'research',
+                                            publishedAt: paper.publishedAt.toISOString()
+                                        }}
+                                    />
+                                    <Button variant="ghost" size="icon" asChild className="text-muted-foreground hover:text-primary">
+                                        <a href={paper.url} target="_blank" rel="noopener noreferrer">
+                                            <ExternalLink className="w-5 h-5" />
+                                        </a>
+                                    </Button>
+                                </div>
                             </div>
                         </CardHeader>
                         <CardContent>

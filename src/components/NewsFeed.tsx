@@ -3,8 +3,9 @@ import { Card, CardContent, CardTitle, CardFooter, CardHeader } from "@/componen
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ExternalLink, Loader2, Link as LinkIcon, Rss, Calendar, Search, ChevronDown } from "lucide-react";
+import { ExternalLink, Loader2, Link as LinkIcon, Rss, Calendar, Search, ChevronDown, Activity } from "lucide-react";
 import { extractImageFromContent } from "@/lib/utils";
+import { BookmarkButton } from "@/components/BookmarkButton";
 
 interface UnifiedArticle {
     id: string;
@@ -134,6 +135,34 @@ export function NewsFeed() {
         return Array.from(sources.values());
     }, [articles]);
 
+    // The Pulse: Calculate Trending Keywords
+    const trendingTopics = useMemo(() => {
+        if (articles.length === 0) return [];
+
+        const stopWords = new Set(['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'do', 'does', 'did', 'ai', 'artificial', 'intelligence', 'learning', 'machine', 'models', 'new', 'how', 'why', 'what', 'top', 'best', 'guide', 'review', 'vs', 'from', 'via']);
+
+        const wordCounts = new Map<string, number>();
+
+        articles.forEach(article => {
+            // Combine title and tags for analysis
+            const text = `${article.title} ${article.tags.join(' ')}`;
+            // Remove special chars and split
+            const words = text.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/);
+
+            words.forEach(word => {
+                if (word.length > 3 && !stopWords.has(word) && !/^\d+$/.test(word)) {
+                    wordCounts.set(word, (wordCounts.get(word) || 0) + 1);
+                }
+            });
+        });
+
+        // Convert to array and sort
+        return Array.from(wordCounts.entries())
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 7) // Top 7 topics
+            .map(([word]) => word.charAt(0).toUpperCase() + word.slice(1));
+    }, [articles]);
+
     // Filter Logic
     const filteredArticles = useMemo(() => {
         let filtered = articles;
@@ -220,6 +249,28 @@ export function NewsFeed() {
                 </div>
             )}
 
+
+
+            {/* The Pulse (Trending Topics) */}
+            <div className="max-w-4xl mx-auto mb-8">
+                <div className="flex flex-wrap justify-center gap-2 animate-in fade-in zoom-in duration-500">
+                    <span className="flex items-center text-sm font-semibold text-primary mr-2">
+                        <Activity className="w-4 h-4 mr-2 animate-pulse" />
+                        The Pulse:
+                    </span>
+                    {trendingTopics.map((topic) => (
+                        <Badge
+                            key={topic}
+                            variant={searchTerm.toLowerCase().includes(topic.toLowerCase()) ? "default" : "outline"}
+                            className="cursor-pointer hover:bg-primary/20 hover:text-primary transition-colors border-primary/20"
+                            onClick={() => setSearchTerm(topic)}
+                        >
+                            #{topic}
+                        </Badge>
+                    ))}
+                </div>
+            </div>
+
             {/* Search Bar */}
             <div className="max-w-md mx-auto relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -235,14 +286,16 @@ export function NewsFeed() {
             </div>
 
             {/* Empty State for Search */}
-            {filteredArticles.length === 0 && (
-                <div className="text-center py-12 text-muted-foreground">
-                    <p>No updates found for "{searchTerm}"</p>
-                    <Button variant="link" onClick={() => setSearchTerm("")} className="text-primary">
-                        Clear Search
-                    </Button>
-                </div>
-            )}
+            {
+                filteredArticles.length === 0 && (
+                    <div className="text-center py-12 text-muted-foreground">
+                        <p>No updates found for "{searchTerm}"</p>
+                        <Button variant="link" onClick={() => setSearchTerm("")} className="text-primary">
+                            Clear Search
+                        </Button>
+                    </div>
+                )
+            }
 
             {/* Horizontal List View */}
             <div className="flex flex-col gap-4">
@@ -296,6 +349,16 @@ export function NewsFeed() {
                                         <ExternalLink className="h-4 w-4" />
                                     </a>
                                 </Button>
+                                <BookmarkButton
+                                    item={{
+                                        id: article.id,
+                                        title: article.title,
+                                        url: article.url,
+                                        source: article.source.name,
+                                        type: 'news',
+                                        publishedAt: article.publishedAt.toISOString()
+                                    }}
+                                />
                             </div>
                         </div>
                     </Card>
@@ -303,18 +366,20 @@ export function NewsFeed() {
             </div>
 
             {/* Load More Button */}
-            {hasMore && (
-                <div className="flex justify-center pt-8">
-                    <Button
-                        variant="secondary"
-                        size="lg"
-                        className="gap-2 min-w-[200px]"
-                        onClick={() => setVisibleCount(prev => prev + 12)}
-                    >
-                        Load More Articles <ChevronDown className="h-4 w-4" />
-                    </Button>
-                </div>
-            )}
-        </div>
+            {
+                hasMore && (
+                    <div className="flex justify-center pt-8">
+                        <Button
+                            variant="secondary"
+                            size="lg"
+                            className="gap-2 min-w-[200px]"
+                            onClick={() => setVisibleCount(prev => prev + 12)}
+                        >
+                            Load More Articles <ChevronDown className="h-4 w-4" />
+                        </Button>
+                    </div>
+                )
+            }
+        </div >
     );
 }
