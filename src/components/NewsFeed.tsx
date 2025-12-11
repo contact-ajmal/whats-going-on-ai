@@ -61,7 +61,7 @@ export function NewsFeed() {
                     fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.theverge.com/rss/ai-artificial-intelligence/index.xml').then(res => res.json()),
 
                     // 9. Google Blog (Official)
-                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://blog.google/feed/').then(res => res.json())
+                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://blog.google/rss').then(res => res.json())
                 ]);
 
                 const newArticles: UnifiedArticle[] = [];
