@@ -37,25 +37,25 @@ export function NewsFeed() {
                     fetch('https://dev.to/api/articles?tag=ai&per_page=15&state=fresh').then(res => res.json()),
 
                     // 2. Techmeme (via rss2json)
-                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.techmeme.com/feed.xml&api_key=0&count=15').then(res => res.json()),
+                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.techmeme.com/feed.xml').then(res => res.json()),
 
                     // 3. Google News AI
-                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss/search?q=Artificial+Intelligence+when:7d&hl=en-US&gl=US&ceid=US:en&count=15').then(res => res.json()),
+                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss/search?q=Artificial+Intelligence+when:7d&hl=en-US&gl=US&ceid=US:en').then(res => res.json()),
 
                     // 4. OpenAI
-                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://openai.com/news/rss.xml&count=10').then(res => res.json()),
+                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://openai.com/news/rss.xml').then(res => res.json()),
 
                     // 5. MIT Technology Review
-                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.technologyreview.com/topic/artificial-intelligence/feed/&count=10').then(res => res.json()),
+                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.technologyreview.com/topic/artificial-intelligence/feed/').then(res => res.json()),
 
                     // 6. Hacker News AI
-                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://hnrss.org/newest?q=AI&count=20').then(res => res.json()),
+                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://hnrss.org/newest?q=AI').then(res => res.json()),
 
                     // 7. Google DeepMind
-                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://blog.research.google/atom.xml&count=10').then(res => res.json()),
+                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://blog.research.google/atom.xml').then(res => res.json()),
 
                     // 8. The Verge AI
-                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.theverge.com/rss/ai-artificial-intelligence/index.xml&count=10').then(res => res.json())
+                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.theverge.com/rss/ai-artificial-intelligence/index.xml').then(res => res.json())
                 ]);
 
                 const newArticles: UnifiedArticle[] = [];
