@@ -108,21 +108,21 @@ export default function About() {
                   About Me
                 </h1>
                 <p className="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400 font-medium mb-6">
-                  Ajmal Nazir Baba
+                  Ajmal Baba
                 </p>
                 <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-sm font-medium text-muted-foreground mb-8">
                   <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-background/50 border border-white/10">
                     <MapPin size={14} className="text-primary" /> London, UK
                   </span>
                   <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-background/50 border border-white/10">
-                    <Briefcase size={14} className="text-primary" /> Data Architect
+                    <Briefcase size={14} className="text-primary" /> Principal Architect
                   </span>
                   <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-background/50 border border-white/10">
                     <Globe size={14} className="text-primary" /> Sports Tech
                   </span>
                 </div>
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  I’m a Data Architect working at the intersection of sports, data, and real-time technology.
+                  I’m a Principal Architect: Data & AI Platform working at the intersection of sports, data, and real-time technology.
                   At Hawk-Eye Innovations, I design the data platforms behind world-leading tracking, officiating,
                   broadcast, and analytics systems used across 20+ global sports.
                 </p>
