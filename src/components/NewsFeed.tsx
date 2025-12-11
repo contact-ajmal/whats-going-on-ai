@@ -175,6 +175,9 @@ export function NewsFeed() {
         );
     }
 
+    // Get latest update time
+    const latestUpdate = articles.length > 0 ? articles[0].publishedAt : new Date();
+
     return (
         <div className="space-y-8">
             {/* Live Ticker */}
@@ -186,26 +189,26 @@ export function NewsFeed() {
                         title="Show All"
                     >
                         <div className={`w-2 h-2 rounded-full mr-3 shadow-[0_0_10px_currentColor] transition-all ${selectedSource ? 'bg-muted-foreground' : 'bg-red-500 animate-pulse'}`}></div>
-                        {selectedSource ? 'Show All' : 'Sources'}
+                        {selectedSource ? 'Show All' : 'Live Updates'}
                         <span className="hidden sm:inline ml-3 text-muted-foreground normal-case font-normal border-l border-white/10 pl-3">
-                            Select to filter
+                            Last: {latestUpdate.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })} at {latestUpdate.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}
                         </span>
                     </div>
 
                     {/* Scrolling Sources */}
-                    <div className="flex animate-marquee items-center pl-40 sm:pl-64 hover:[animation-play-state:paused]">
+                    <div className="flex animate-marquee items-center pl-40 sm:pl-72 hover:[animation-play-state:paused]">
                         {uniqueSources.concat(uniqueSources).map((source, i) => (
                             <div
                                 key={`${source.name}-${i}`}
                                 onClick={() => setSelectedSource(source.name === selectedSource ? null : source.name)}
-                                className={`inline-flex items-center mx-6 group cursor-pointer px-3 py-1 rounded-full border transition-all duration-300
+                                className={`inline-flex items-center mx-6 group cursor-pointer px-4 py-1.5 rounded-full border transition-all duration-300
                                     ${selectedSource === source.name
                                         ? 'bg-primary text-primary-foreground border-primary scale-110 shadow-[0_0_15px_rgba(0,255,255,0.4)]'
-                                        : `${source.color} bg-opacity-20 hover:bg-opacity-40 hover:scale-105 border-transparent`
+                                        : `${source.color} bg-opacity-30 hover:bg-opacity-50 hover:scale-105 border-white/10 text-white font-semibold tracking-wide shadow-sm`
                                     }
                                 `}
                             >
-                                <span className="text-xs font-bold uppercase whitespace-nowrap">
+                                <span className="text-xs uppercase whitespace-nowrap">
                                     {source.name}
                                 </span>
                             </div>
