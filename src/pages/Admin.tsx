@@ -80,10 +80,8 @@ const Admin = () => {
             const client = new GitHubClient(token, repo);
             const publicPath = await client.uploadImage(file);
 
-            // Allow GitHub Pages some time to be aware? (Actually it needs a build usually, 
-            // but for raw content access or if using raw.githubusercontent it might work sooner.
             // For now, we insert the relative path which will work after build)
-            const imageMarkdown = `\n![${file.name}](${publicPath})\n`;
+            const imageMarkdown = `\n![${file.name}](${import.meta.env.BASE_URL}${publicPath})\n`;
             handleInsert(imageMarkdown);
 
             toast.success('Image uploaded! (Will appear after site rebuild)', { id: loadingToast });
