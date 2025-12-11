@@ -152,6 +152,9 @@ export function ResearchFeed() {
         }
     };
 
+    // Get latest update time
+    const latestUpdate = papers.length > 0 ? papers[0].publishedAt : new Date();
+
     if (loading) {
         return (
             <div className="flex justify-center items-center py-20">
@@ -162,44 +165,67 @@ export function ResearchFeed() {
 
     return (
         <div className="space-y-8">
-            {/* Controls Container */}
-            <div className="flex flex-col md:flex-row gap-6 items-center justify-between max-w-4xl mx-auto">
-                {/* Source Filters */}
-                <div className="flex flex-wrap gap-2 justify-center">
-                    <Button
-                        variant={selectedSource === null ? "default" : "outline"}
-                        size="sm"
+            {/* Live Ticker */}
+            {papers.length > 0 && (
+                <div className="w-full bg-black/40 border-y border-white/10 overflow-hidden relative h-12 flex items-center">
+                    {/* Fixed Label */}
+                    <div className="absolute left-0 z-20 bg-background/95 backdrop-blur px-4 h-full flex items-center border-r border-white/10 text-xs font-bold text-primary shrink-0 uppercase tracking-wider shadow-[10px_0_20px_-5px_rgba(0,0,0,0.5)] cursor-pointer hover:bg-white/5 transition-colors"
                         onClick={() => setSelectedSource(null)}
-                        className="rounded-full"
+                        title="Show All"
                     >
-                        All
-                    </Button>
-                    {uniqueSources.map(source => (
-                        <Button
-                            key={source}
-                            variant={selectedSource === source ? "default" : "outline"}
-                            size="sm"
-                            onClick={() => setSelectedSource(source)}
-                            className={`rounded-full ${selectedSource === source ? '' : 'text-muted-foreground'}`}
-                        >
-                            {source}
-                        </Button>
-                    ))}
-                </div>
+                        <div className={`w-2 h-2 rounded-full mr-3 shadow-[0_0_10px_currentColor] transition-all ${selectedSource ? 'bg-muted-foreground' : 'bg-red-500 animate-pulse'}`}></div>
+                        {selectedSource ? 'Show All' : 'Live Updates'}
+                        <span className="hidden sm:inline ml-3 text-muted-foreground normal-case font-normal border-l border-white/10 pl-3">
+                            Last: {latestUpdate.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })} at {latestUpdate.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}
+                        </span>
+                    </div>
 
-                {/* Search Bar */}
-                <div className="relative w-full md:w-64 shrink-0">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                        placeholder="Search papers..."
-                        className="pl-10 bg-background/50 border-primary/20 focus:border-primary h-9"
-                        value={searchTerm}
-                        onChange={(e) => {
-                            setSearchTerm(e.target.value);
-                            setVisibleCount(9);
-                        }}
-                    />
+                    {/* Scrolling Sources */}
+                    <div className="flex animate-marquee items-center hover:[animation-play-state:paused]">
+                        {[...uniqueSources, ...uniqueSources, ...uniqueSources, ...uniqueSources].map((source, i) => (
+                            <div
+                                key={`${source}-${i}`}
+                                onClick={() => setSelectedSource(source === selectedSource ? null : source)}
+                                className={`inline-flex items-center mx-6 group cursor-pointer px-4 py-1.5 rounded-full border transition-all duration-300
+                                    ${selectedSource === source
+                                        ? 'bg-primary text-primary-foreground border-primary scale-110 shadow-[0_0_15px_rgba(0,255,255,0.4)]'
+                                        : `${getSourceColor(source).split(' ')[0]} border-white/10 bg-white/5 hover:bg-white/10 hover:scale-105`
+                                    }
+                                `}
+                            >
+                                <span className={`text-xs uppercase whitespace-nowrap font-bold ${selectedSource === source ? 'text-primary-foreground' : ''}`}>
+                                    {source}
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Fade overlay on right */}
+                    <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
                 </div>
+            )}
+
+            {/* Active Filter Indicator (if source selected) */}
+            {selectedSource && (
+                <div className="flex justify-center -mt-4 animate-in fade-in slide-in-from-top-2">
+                    <Button variant="secondary" size="sm" onClick={() => setSelectedSource(null)} className="gap-2 rounded-full shadow-lg border border-primary/20">
+                        Filtering by: <span className="text-primary font-bold">{selectedSource}</span> (Click to clear)
+                    </Button>
+                </div>
+            )}
+
+            {/* Search Bar */}
+            <div className="max-w-md mx-auto relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                    placeholder="Search research papers..."
+                    className="pl-10 bg-background/50 border-primary/20 focus:border-primary"
+                    value={searchTerm}
+                    onChange={(e) => {
+                        setSearchTerm(e.target.value);
+                        setVisibleCount(9);
+                    }}
+                />
             </div>
 
             {/* Papers List */}
