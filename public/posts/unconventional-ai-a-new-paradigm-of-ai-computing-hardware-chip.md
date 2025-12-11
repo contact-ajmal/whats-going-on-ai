@@ -48,7 +48,7 @@ Even though the computation itself is cheap, the **movement** is expensive.
 
 Physics dictates that moving electrons through wires produces heat (Joule heating). In modern 5 nm processes:
 
--   Fetching a value from memory consumes **100ÃÂÃÂÃÂÃÂ--1000ÃÂÃÂÃÂÃÂ more energy**\
+-   Fetching a value from memory consumes **100×–1000× more energy**
     than performing the floating-point multiplication.
 
 The compute units are fast. The wires are not.
@@ -89,7 +89,7 @@ Two fundamental laws of electricity perform matrix multiplication for *free*:
 
 #### **1. Multiplication — Ohm's Law**
 
-I=VÃÂÃÂÃÂÃÂGI = V \times GI=VÃÂÃÂÃÂÃÂG
+$$ I = V \times G $$
 
 When voltage hits a memristor, the resulting current is exactly the product of the input and the stored weight. No digital switching. No ALU.
 
