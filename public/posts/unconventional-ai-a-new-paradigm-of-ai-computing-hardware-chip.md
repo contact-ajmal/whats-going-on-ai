@@ -25,7 +25,7 @@ Below is the deep technical breakdown of what this means and why it matters.
 
 * * * * *
 
-**1\. The Legacy Problem: The "Digital Tax"**
+**1. The Legacy Problem: The "Digital Tax"**
 ---------------------------------------------
 
 Modern accelerators (GPUs and TPUs) suffer from a foundational inefficiency rooted in the Von Neumann separation of memory and compute.
@@ -67,7 +67,7 @@ Digital computation is increasingly dominated by the cost of *shuffling* data, n
 
 * * * * *
 
-**2\. The Architecture: In-Memory Analog Computing**
+**2. The Architecture: In-Memory Analog Computing**
 ----------------------------------------------------
 
 Unconventional AI's solution is a **Crossbar Array**, a form of Compute-in-Memory (CiM) that performs math directly inside the memory matrix using analog physics.
@@ -87,13 +87,13 @@ This isn't an optimization. It's a different computational universe.
 
 Two fundamental laws of electricity perform matrix multiplication for *free*:
 
-#### **1\. Multiplication — Ohm's Law**
+#### **1. Multiplication — Ohm's Law**
 
 I=VÃÂÃÂÃÂÃÂGI = V \times GI=VÃÂÃÂÃÂÃÂG
 
 When voltage hits a memristor, the resulting current is exactly the product of the input and the stored weight. No digital switching. No ALU.
 
-#### **2\. Accumulation — Kirchhoff's Current Law**
+#### **2. Accumulation — Kirchhoff's Current Law**
 
 Currents from all memristors in a column naturally sum at the wire.
 
@@ -123,7 +123,7 @@ Where GPUs simulate math with transistors, crossbars *become* the math.
 
 * * * * *
 
-**3\. The "Unconventional" Twist: Stochasticity vs. Precision**
+**3. The "Unconventional" Twist: Stochasticity vs. Precision**
 ---------------------------------------------------------------
 
 Analog compute introduces noise:
@@ -157,7 +157,7 @@ By embracing stochasticity instead of fighting it, Unconventional AI achieves:
 
 -   **Higher speed:** matrix multiply happens in one physical cycle
 
-Analog isn't worse precision.\
+Analog isn't worse precision.
 It's **appropriate precision** for AI.
 
 * * * * *
@@ -177,5 +177,5 @@ Math is *emulated* physically using Ohm's and Kirchhoff's laws.
 
 If Unconventional AI can maintain usable signal-to-noise ratios at scale, this marks the first true departure from the Von Neumann architecture since the invention of the transistor.
 
-The bottleneck was never the math.\
+The bottleneck was never the math.
 The bottleneck was refusing to let **physics compute for us**.
