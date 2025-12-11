@@ -155,6 +155,38 @@ export function NewsFeed() {
 
     return (
         <div className="space-y-8">
+            {/* Live Ticker */}
+            {articles.length > 0 && (
+                <div className="w-full bg-black/40 border-y border-white/10 overflow-hidden relative h-12 flex items-center">
+                    {/* Fixed Label */}
+                    <div className="absolute left-0 z-20 bg-background/95 backdrop-blur px-4 h-full flex items-center border-r border-white/10 text-xs font-bold text-primary shrink-0 uppercase tracking-wider shadow-[10px_0_20px_-5px_rgba(0,0,0,0.5)]">
+                        <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse mr-3 shadow-[0_0_10px_red]"></div>
+                        Live Updates
+                        <span className="hidden sm:inline ml-3 text-muted-foreground normal-case font-normal border-l border-white/10 pl-3">
+                            Last avg: {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </span>
+                    </div>
+
+                    {/* Scrolling Content */}
+                    <div className="flex animate-marquee items-center pl-40 sm:pl-64">
+                        {articles.slice(0, 15).map((article, i) => (
+                            <div key={`${article.id}-ticker`} className="inline-flex items-center mx-8 group cursor-pointer">
+                                <span className={`text-[10px] uppercase font-bold px-1.5 py-0.5 rounded mr-3 border ${article.source.color} bg-background text-foreground/80`}>
+                                    {article.source.name}
+                                </span>
+                                <a href={article.url} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors hover:underline decoration-primary/50 underline-offset-4">
+                                    {article.title}
+                                </a>
+                                <span className="ml-8 text-white/10">•</span>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Fade overlay on right */}
+                    <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+                </div>
+            )}
+
             {/* Search Bar */}
             <div className="max-w-md mx-auto relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />

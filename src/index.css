@@ -315,3 +315,23 @@
     background-position: 50px 50px;
   }
 }
+
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 60s linear infinite;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
