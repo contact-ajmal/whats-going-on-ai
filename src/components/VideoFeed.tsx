@@ -17,6 +17,11 @@ interface Video {
 }
 
 const CHANNELS = [
+    { id: 'UCg_p-Fp_b5Dq_09w6a4YwGA', name: 'Wes Roth', color: 'bg-orange-600 border-orange-400' },
+    { id: 'UCMi8qg-eB1d7kS_c7F3g_Cg', name: 'Matthew Berman', color: 'bg-blue-500 border-blue-300' },
+    { id: 'UCU5CjcEZoQS75t_bL-Q7MhQ', name: 'David Shapiro', color: 'bg-slate-600 border-slate-400' },
+    { id: 'UCXy2m-1m4jC-2uFvA5s3bBA', name: 'The AI Grid', color: 'bg-yellow-600 border-yellow-400' },
+    { id: 'UCGCz0fBqj2N_Jg7o-T-b99Q', name: 'Microsoft Mechanics', color: 'bg-blue-700 border-blue-500' },
     { id: 'UCbfYPyITQ-7l4upoX8nvctg', name: 'Two Minute Papers', color: 'bg-blue-600 border-blue-400' },
     { id: 'UCnAtMWn98fQ07kYy6_9v-w', name: 'Matt Wolfe', color: 'bg-green-600 border-green-400' },
     { id: 'UCNJ1Ymd5yFuUPtn21xtRbbw', name: 'AI Explained', color: 'bg-purple-600 border-purple-400' },
@@ -84,6 +89,10 @@ export function VideoFeed() {
     // Latest update time for ticker
     const latestUpdate = videos.length > 0 ? videos[0].publishedAt : new Date();
 
+    // Get set of active channels that actually have videos
+    const activeChannelNames = new Set(videos.map(v => v.channelTitle));
+    const activeChannels = CHANNELS.filter(c => activeChannelNames.has(c.name));
+
     if (loading) {
         return (
             <div className="flex flex-col items-center justify-center py-20 space-y-4">
@@ -103,7 +112,7 @@ export function VideoFeed() {
                     title="Show All"
                 >
                     <div className={`w-2 h-2 rounded-full mr-3 shadow-[0_0_10px_currentColor] transition-all ${selectedChannel ? 'bg-muted-foreground' : 'bg-red-500 animate-pulse'}`}></div>
-                    {selectedChannel ? 'Show All' : 'Latest Videos'}
+                    {selectedChannel ? 'Show All' : 'Active Channels'}
                     <span className="hidden sm:inline ml-3 text-muted-foreground normal-case font-normal border-l border-white/10 pl-3">
                         Updated: {latestUpdate.toLocaleDateString()}
                     </span>
@@ -111,7 +120,7 @@ export function VideoFeed() {
 
                 {/* Scrolling Channels */}
                 <div className="flex animate-marquee items-center hover:[animation-play-state:paused] ml-48">
-                    {[...CHANNELS, ...CHANNELS].map((channel, i) => (
+                    {[...activeChannels, ...activeChannels].map((channel, i) => (
                         <div
                             key={`${channel.name}-${i}`}
                             onClick={() => setSelectedChannel(channel.name === selectedChannel ? null : channel.name)}
