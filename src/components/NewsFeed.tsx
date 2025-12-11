@@ -28,61 +28,72 @@ export function NewsFeed() {
     useEffect(() => {
         const fetchAllNews = async () => {
             try {
-                const [devToData, techmemeRSS, googleRSS] = await Promise.all([
-                    // 1. Dev.to (Direct API)
+                // Use allSettled to prevent one failure from breaking everything
+                const results = await Promise.allSettled([
                     fetch('https://dev.to/api/articles?tag=ai&per_page=6&state=fresh').then(res => res.json()),
-
-                    // 2. Techmeme (via rss2json)
                     fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.techmeme.com/feed.xml').then(res => res.json()),
-
-                    // 3. Google News AI (via rss2json)
                     fetch('https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss/search?q=Artificial+Intelligence+when:3d&hl=en-US&gl=US&ceid=US:en').then(res => res.json())
                 ]);
 
-                // Normalize Dev.to
-                const devToArticles: UnifiedArticle[] = devToData.map((item: any) => ({
-                    id: `devto-${item.id}`,
-                    title: item.title,
-                    description: item.description,
-                    url: item.url,
-                    image: item.cover_image || item.social_image,
-                    publishedAt: new Date(item.published_at),
-                    source: { name: 'Dev.to', color: 'bg-black border-white/20' },
-                    tags: item.tag_list || []
-                }));
+                const [devToResult, techmemeResult, googleResult] = results;
 
-                // Normalize Techmeme
-                const techmemeArticles: UnifiedArticle[] = (techmemeRSS.items || []).slice(0, 6).map((item: any) => ({
-                    id: `techmeme-${item.guid}`,
-                    title: item.title,
-                    description: item.description?.replace(/<[^>]*>?/gm, '').slice(0, 150) + '...', // Strip HTML
-                    url: item.link,
-                    image: extractImageFromContent(item.content || item.description),
-                    publishedAt: new Date(item.pubDate),
-                    source: { name: 'Techmeme', color: 'bg-blue-900/50 border-blue-500/30' },
-                    tags: ['tech', 'news']
-                }));
+                const articles: UnifiedArticle[] = [];
 
-                // Normalize Google News
-                const googleArticles: UnifiedArticle[] = (googleRSS.items || []).slice(0, 6).map((item: any) => ({
-                    id: `google-${item.guid}`,
-                    title: item.title,
-                    description: item.description?.replace(/<[^>]*>?/gm, '').slice(0, 150) + '...',
-                    url: item.link,
-                    image: null, // Google RSS rarely has accessible images in feed
-                    publishedAt: new Date(item.pubDate),
-                    source: { name: 'Google News', color: 'bg-red-900/50 border-red-500/30' },
-                    tags: ['ai', 'google']
-                }));
+                // 1. Dev.to
+                if (devToResult.status === 'fulfilled' && Array.isArray(devToResult.value)) {
+                    devToResult.value.forEach((item: any) => {
+                        articles.push({
+                            id: `devto-${item.id}`,
+                            title: item.title,
+                            description: item.description,
+                            url: item.url,
+                            image: item.cover_image || item.social_image,
+                            publishedAt: new Date(item.published_at),
+                            source: { name: 'Dev.to', color: 'bg-black border-white/20' },
+                            tags: item.tag_list || []
+                        });
+                    });
+                }
 
-                // Merge and Sort
-                const allArticles = [...devToArticles, ...techmemeArticles, ...googleArticles]
-                    .sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime());
+                // 2. Techmeme
+                if (techmemeResult.status === 'fulfilled' && techmemeResult.value?.items) {
+                    techmemeResult.value.items.slice(0, 6).forEach((item: any) => {
+                        articles.push({
+                            id: `techmeme-${item.guid}`,
+                            title: item.title,
+                            description: item.description?.replace(/<[^>]*>?/gm, '').slice(0, 150) + '...',
+                            url: item.link,
+                            image: extractImageFromContent(item.content || item.description),
+                            publishedAt: new Date(item.pubDate),
+                            source: { name: 'Techmeme', color: 'bg-blue-900/50 border-blue-500/30' },
+                            tags: ['tech', 'news']
+                        });
+                    });
+                }
 
-                setArticles(allArticles);
+                // 3. Google News
+                if (googleResult.status === 'fulfilled' && googleResult.value?.items) {
+                    googleResult.value.items.slice(0, 6).forEach((item: any) => {
+                        articles.push({
+                            id: `google-${item.guid}`,
+                            title: item.title,
+                            description: item.description?.replace(/<[^>]*>?/gm, '').slice(0, 150) + '...',
+                            url: item.link,
+                            image: null,
+                            publishedAt: new Date(item.pubDate),
+                            source: { name: 'Google News', color: 'bg-red-900/50 border-red-500/30' },
+                            tags: ['ai', 'google']
+                        });
+                    });
+                }
+
+                // Sort by date (descending)
+                articles.sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime());
+
+                setArticles(articles);
             } catch (err) {
                 console.error("Error fetching news:", err);
-                setError("Could not load the latest updates. Check console for details.");
+                setError("Errors occurred while loading updates, but some content may be visible.");
             } finally {
                 setLoading(false);
             }
@@ -99,10 +110,11 @@ export function NewsFeed() {
         );
     }
 
-    if (error) {
+    // Only show error if NO articles loaded at all
+    if (articles.length === 0 && error) {
         return (
             <div className="text-center py-20 bg-destructive/10 rounded-lg border border-destructive/20">
-                <p className="text-destructive font-medium">{error}</p>
+                <p className="text-destructive font-medium">Failed to load any news feeds.</p>
                 <Button variant="outline" className="mt-4" onClick={() => window.location.reload()}>Retry</Button>
             </div>
         );
