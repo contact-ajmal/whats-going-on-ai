@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -40,11 +40,11 @@
     --glow-cyan: 0 0 20px hsl(180 100% 40% / 0.3), 0 0 40px hsl(180 100% 40% / 0.15);
     --glow-magenta: 0 0 20px hsl(280 80% 55% / 0.3), 0 0 40px hsl(280 80% 55% / 0.15);
     --glow-text: 0 0 10px hsl(180 100% 40% / 0.4);
-    
+
     --gradient-cyber: linear-gradient(135deg, hsl(180 100% 35%) 0%, hsl(280 80% 55%) 100%);
     --gradient-dark: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(220 15% 96%) 100%);
     --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(220 15% 98%) 100%);
-    
+
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 220 20% 10%;
     --sidebar-primary: 180 100% 35%;
@@ -58,28 +58,28 @@
   .dark {
     --background: 224 71% 4%;
     --foreground: 210 20% 98%;
- 
+
     --card: 224 71% 4%;
     --card-foreground: 210 20% 98%;
- 
+
     --popover: 224 71% 4%;
     --popover-foreground: 210 20% 98%;
- 
+
     --primary: 180 100% 45%;
     --primary-foreground: 0 0% 100%;
- 
+
     --secondary: 280 100% 65%;
     --secondary-foreground: 0 0% 100%;
- 
+
     --muted: 215 27.9% 16.9%;
     --muted-foreground: 217.9 10.6% 64.9%;
- 
+
     --accent: 280 100% 65%;
     --accent-foreground: 210 40% 98%;
- 
+
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 20% 98%;
- 
+
     --border: 215 27.9% 16.9%;
     --input: 215 27.9% 16.9%;
     --ring: 180 100% 45%;
@@ -167,51 +167,68 @@
   }
 
   .blog-content {
-    @apply max-w-none;
+    @apply max-w-none text-foreground/90 font-sans;
   }
 
   .blog-content h1 {
-    @apply text-3xl font-bold text-primary glow-text mb-6;
+    @apply text-4xl md:text-5xl font-extrabold font-heading text-transparent bg-clip-text bg-gradient-to-r from-primary via-blue-400 to-secondary mb-8 leading-tight tracking-tight;
+    filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.2));
   }
 
   .blog-content h2 {
-    @apply text-2xl font-semibold text-foreground mt-8 mb-4 border-b border-border pb-2;
+    @apply text-3xl font-bold font-heading text-foreground mt-12 mb-6 border-l-4 border-primary pl-4;
   }
 
   .blog-content h3 {
-    @apply text-xl font-medium text-foreground mt-6 mb-3;
+    @apply text-2xl font-semibold font-heading text-foreground/90 mt-8 mb-4;
   }
 
   .blog-content p {
-    @apply text-muted-foreground leading-relaxed mb-4;
+    @apply text-lg leading-8 text-muted-foreground mb-6 font-light;
   }
 
   .blog-content a {
-    @apply text-primary hover:text-accent transition-colors underline;
+    @apply text-primary font-medium border-b border-primary/30 hover:border-primary transition-all hover:text-accent no-underline;
+  }
+
+  .blog-content strong {
+    @apply font-bold text-foreground;
   }
 
   .blog-content code {
-    @apply bg-muted px-2 py-1 rounded text-primary text-sm;
+    @apply bg-muted/50 px-1.5 py-0.5 rounded text-primary font-mono text-sm border border-primary/20;
   }
 
   .blog-content pre {
-    @apply bg-muted p-4 rounded-lg overflow-x-auto border border-border my-6;
+    @apply bg-black/50 p-6 rounded-xl overflow-x-auto border border-white/10 my-8 shadow-2xl backdrop-blur-sm relative;
   }
 
   .blog-content pre code {
-    @apply bg-transparent p-0;
+    @apply bg-transparent p-0 text-sm md:text-base border-none text-gray-300;
   }
 
-  .blog-content ul, .blog-content ol {
-    @apply list-disc list-inside text-muted-foreground mb-4 space-y-2;
+  .blog-content ul {
+    @apply list-disc list-outside ml-6 text-muted-foreground mb-6 space-y-2 text-lg;
+  }
+
+  .blog-content ol {
+    @apply list-decimal list-outside ml-6 text-muted-foreground mb-6 space-y-2 text-lg;
+  }
+
+  .blog-content li::marker {
+    @apply text-primary;
   }
 
   .blog-content blockquote {
-    @apply border-l-4 border-primary pl-4 italic text-muted-foreground my-4;
+    @apply relative border-l-4 border-secondary bg-secondary/5 py-4 px-6 italic text-xl text-muted-foreground my-8 rounded-r-lg;
   }
 
   .blog-content img {
-    @apply rounded-lg my-6 max-w-full;
+    @apply rounded-xl my-8 w-full shadow-2xl border border-white/10;
+  }
+
+  .blog-content hr {
+    @apply border-white/10 my-10;
   }
 }
 
@@ -239,28 +256,53 @@
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { 
+
+  0%,
+  100% {
     opacity: 0.4;
     box-shadow: 0 0 5px hsl(180 100% 40% / 0.2);
   }
-  50% { 
+
+  50% {
     opacity: 1;
     box-shadow: 0 0 20px hsl(180 100% 40% / 0.4), 0 0 40px hsl(180 100% 40% / 0.2);
   }
 }
 
 @keyframes scan-line {
-  0% { transform: translateY(-100%); opacity: 0; }
-  50% { opacity: 1; }
-  100% { transform: translateY(100vh); opacity: 0; }
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
 }
 
 @keyframes grid-flow {
-  0% { background-position: 0 0; }
-  100% { background-position: 50px 50px; }
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 50px 50px;
+  }
 }

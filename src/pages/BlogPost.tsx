@@ -84,7 +84,11 @@ export default function BlogPostPage() {
 
       <main className="relative pt-24 pb-16">
         <article className="container mx-auto px-6">
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-4xl mx-auto bg-card/30 backdrop-blur-md rounded-2xl border border-white/10 p-8 md:p-12 shadow-2xl relative overflow-hidden">
+            {/* Ambient Background Glow inside card */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -z-10 opacity-50 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -z-10 opacity-50 pointer-events-none" />
+
             {/* Back link */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -108,32 +112,31 @@ export default function BlogPostPage() {
               className="mb-12"
             >
               {/* Meta */}
-              <div className="flex flex-wrap items-center gap-4 mb-4 text-sm text-muted-foreground">
-                <span className="flex items-center gap-1">
+              <div className="flex flex-wrap items-center gap-4 mb-6 text-sm font-medium tracking-wide text-muted-foreground">
+                <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary/10 text-secondary border border-secondary/20">
                   <Calendar size={14} />
                   {formatDate(post.date)}
                 </span>
-                <span className="flex items-center gap-1">
+                <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">
                   <Clock size={14} />
                   {getReadingTime(post.content)}
                 </span>
               </div>
 
               {/* Title */}
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-8 leading-tight font-heading text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400 drop-shadow-sm">
                 {post.title}
               </h1>
 
               {/* Tags */}
               {post.tags.length > 0 && (
                 <div className="flex items-center gap-2 flex-wrap">
-                  <Tag size={16} className="text-muted-foreground" />
                   {post.tags.map(tag => (
                     <span
                       key={tag}
-                      className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm border border-primary/20"
+                      className="px-4 py-1.5 rounded-md bg-muted/50 text-foreground/80 text-sm font-medium border border-white/5 hover:border-primary/30 transition-colors"
                     >
-                      {tag}
+                      #{tag}
                     </span>
                   ))}
                 </div>
@@ -141,12 +144,12 @@ export default function BlogPostPage() {
             </motion.header>
 
             {/* Share Buttons (Top) */}
-            <div className="mb-8">
+            <div className="mb-10">
               <ShareButtons title={post.title} />
             </div>
 
             {/* Divider */}
-            <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent mb-12" />
+            <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent mb-12" />
 
             {/* Content */}
             <motion.div
@@ -158,25 +161,27 @@ export default function BlogPostPage() {
             />
 
             {/* Share Buttons (Bottom) */}
-            <div className="mt-12">
+            <div className="mt-16">
               <ShareButtons title={post.title} />
             </div>
 
             {/* Comments */}
-            <Comments />
+            <div className="mt-16 pt-10 border-t border-white/5">
+              <Comments />
+            </div>
 
             {/* Footer */}
             <motion.footer
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
-              className="mt-16 pt-8 border-t border-border"
+              className="mt-16 pt-8 border-t border-white/5"
             >
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                 <p className="text-muted-foreground text-sm">
                   Thanks for reading! Feel free to share your thoughts.
                 </p>
-                <Button asChild variant="outline">
+                <Button asChild variant="outline" className="border-white/10 hover:bg-white/5">
                   <Link to="/blog">
                     <ArrowLeft size={16} className="mr-2" />
                     More Posts
