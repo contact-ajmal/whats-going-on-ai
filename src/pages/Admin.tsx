@@ -157,11 +157,12 @@ const Admin = () => {
             const client = new GitHubClient(token, repo);
             const publicPath = await client.uploadImage(file);
 
-            // For now, we insert the relative path which will work after build)
-            const imageMarkdown = `\n![${file.name}](${import.meta.env.BASE_URL}${publicPath})\n`;
+            // If it's an absolute URL (raw GitHub), don't prepend BASE_URL
+            const url = publicPath.startsWith('http') ? publicPath : `${import.meta.env.BASE_URL}${publicPath}`;
+            const imageMarkdown = `\n![${file.name}](${url})\n`;
             handleInsert(imageMarkdown);
 
-            toast.success('Image uploaded! (Will appear after site rebuild - approx 2 mins)', { id: loadingToast });
+            toast.success('Image uploaded! It should appear immediately.', { id: loadingToast });
         } catch (error: any) {
             console.error(error);
             toast.error(`Upload failed: ${error.message}`, { id: loadingToast });

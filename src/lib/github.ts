@@ -88,7 +88,7 @@ export class GitHubClient {
 
         await this.createFile(path, content, `chore: upload image ${filename}`);
 
-        // Return public path relative to site root
-        return `images/uploads/${filename}`;
+        // Return raw GitHub URL for immediate availability
+        return `https://raw.githubusercontent.com/${this.repo}/main/public/images/uploads/${filename}`;
     }
 }
