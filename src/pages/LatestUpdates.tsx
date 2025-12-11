@@ -3,6 +3,7 @@ import { NeuralBackground } from '@/components/NeuralBackground';
 import { NewsFeed } from '@/components/NewsFeed';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 export default function LatestUpdates() {
   return (
@@ -29,7 +30,9 @@ export default function LatestUpdates() {
 
           {/* Updates will go here */}
           <div className="max-w-7xl mx-auto">
-            <NewsFeed />
+            <ErrorBoundary>
+              <NewsFeed />
+            </ErrorBoundary>
           </div>
         </div>
       </main>
