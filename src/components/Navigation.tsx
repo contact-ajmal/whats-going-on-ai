@@ -8,9 +8,9 @@ import { Button } from '@/components/ui/button';
 
 const navLinks = [
   { path: '/', label: 'Home' },
-  { path: '/about', label: 'About' },
   { path: '/blog', label: 'Blog' },
   { path: '/updates', label: 'Latest Updates' },
+  { path: '/about', label: 'About' },
 ];
 
 export function Navigation() {
