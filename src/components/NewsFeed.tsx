@@ -26,6 +26,7 @@ export function NewsFeed() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState("");
+    const [selectedSource, setSelectedSource] = useState<string | null>(null); // New state for filtering
     const [visibleCount, setVisibleCount] = useState(12);
 
     useEffect(() => {
@@ -122,16 +123,37 @@ export function NewsFeed() {
         fetchAllNews();
     }, []);
 
+    // Extract Unique Sources
+    const uniqueSources = useMemo(() => {
+        const sources = new Map();
+        articles.forEach(article => {
+            if (!sources.has(article.source.name)) {
+                sources.set(article.source.name, article.source);
+            }
+        });
+        return Array.from(sources.values());
+    }, [articles]);
+
     // Filter Logic
     const filteredArticles = useMemo(() => {
-        if (!searchTerm) return articles;
-        const lowerTerm = searchTerm.toLowerCase();
-        return articles.filter(article =>
-            article.title.toLowerCase().includes(lowerTerm) ||
-            article.description.toLowerCase().includes(lowerTerm) ||
-            article.source.name.toLowerCase().includes(lowerTerm)
-        );
-    }, [articles, searchTerm]);
+        let filtered = articles;
+
+        // Source Filter
+        if (selectedSource) {
+            filtered = filtered.filter(article => article.source.name === selectedSource);
+        }
+
+        // Search Filter
+        if (searchTerm) {
+            const lowerTerm = searchTerm.toLowerCase();
+            filtered = filtered.filter(article =>
+                article.title.toLowerCase().includes(lowerTerm) ||
+                article.description.toLowerCase().includes(lowerTerm) ||
+                article.source.name.toLowerCase().includes(lowerTerm)
+            );
+        }
+        return filtered;
+    }, [articles, searchTerm, selectedSource]);
 
     const displayArticles = filteredArticles.slice(0, visibleCount);
     const hasMore = visibleCount < filteredArticles.length;
