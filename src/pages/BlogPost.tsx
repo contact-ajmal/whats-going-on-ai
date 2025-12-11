@@ -4,10 +4,12 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, Tag, Clock } from 'lucide-react';
 import { loadBlogPost, formatDate } from '@/lib/config';
 import { BlogPost } from '@/types/config';
+import Comments from '@/components/Comments';
 import { NeuralBackground } from '@/components/NeuralBackground';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/button';
+import ShareButtons from '@/components/ShareButtons';
 
 export default function BlogPostPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -16,7 +18,7 @@ export default function BlogPostPage() {
 
   useEffect(() => {
     if (!slug) return;
-    
+
     loadBlogPost(slug)
       .then(setPost)
       .finally(() => setLoading(false));
@@ -62,9 +64,9 @@ export default function BlogPostPage() {
             <p className="text-muted-foreground mb-8">
               The blog post you're looking for doesn't exist.
             </p>
-            <Button asChild variant="glow">
+            <Button asChild variant="default">
               <Link to="/blog">
-                <ArrowLeft size={16} />
+                <ArrowLeft size={16} className="mr-2" />
                 Back to Blog
               </Link>
             </Button>
@@ -129,7 +131,7 @@ export default function BlogPostPage() {
                   {post.tags.map(tag => (
                     <span
                       key={tag}
-                      className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm"
+                      className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm border border-primary/20"
                     >
                       {tag}
                     </span>
@@ -137,6 +139,11 @@ export default function BlogPostPage() {
                 </div>
               )}
             </motion.header>
+
+            {/* Share Buttons (Top) */}
+            <div className="mb-8">
+              <ShareButtons title={post.title} />
+            </div>
 
             {/* Divider */}
             <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent mb-12" />
@@ -149,6 +156,14 @@ export default function BlogPostPage() {
               className="blog-content"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
+
+            {/* Share Buttons (Bottom) */}
+            <div className="mt-12">
+              <ShareButtons title={post.title} />
+            </div>
+
+            {/* Comments */}
+            <Comments />
 
             {/* Footer */}
             <motion.footer
@@ -163,7 +178,7 @@ export default function BlogPostPage() {
                 </p>
                 <Button asChild variant="outline">
                   <Link to="/blog">
-                    <ArrowLeft size={16} />
+                    <ArrowLeft size={16} className="mr-2" />
                     More Posts
                   </Link>
                 </Button>

@@ -161,7 +161,7 @@ const Admin = () => {
             const imageMarkdown = `\n![${file.name}](${import.meta.env.BASE_URL}${publicPath})\n`;
             handleInsert(imageMarkdown);
 
-            toast.success('Image uploaded!', { id: loadingToast });
+            toast.success('Image uploaded! (Will appear after site rebuild - approx 2 mins)', { id: loadingToast });
         } catch (error: any) {
             console.error(error);
             toast.error(`Upload failed: ${error.message}`, { id: loadingToast });
