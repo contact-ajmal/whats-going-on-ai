@@ -113,18 +113,44 @@ export function ResearchFeed() {
         fetchResearch();
     }, []);
 
+    // Extract Unique Sources
+    const uniqueSources = useMemo(() => {
+        const sources = new Set(papers.map(p => p.source));
+        return Array.from(sources);
+    }, [papers]);
+
+    const [selectedSource, setSelectedSource] = useState<string | null>(null);
+
     // Filter Logic
     const filteredPapers = useMemo(() => {
-        if (!searchTerm) return papers;
-        const lowerTerm = searchTerm.toLowerCase();
-        return papers.filter(paper =>
-            paper.title.toLowerCase().includes(lowerTerm) ||
-            paper.abstract.toLowerCase().includes(lowerTerm)
-        );
-    }, [papers, searchTerm]);
+        let filtered = papers;
+
+        if (selectedSource) {
+            filtered = filtered.filter(p => p.source === selectedSource);
+        }
+
+        if (searchTerm) {
+            const lowerTerm = searchTerm.toLowerCase();
+            filtered = filtered.filter(paper =>
+                paper.title.toLowerCase().includes(lowerTerm) ||
+                paper.abstract.toLowerCase().includes(lowerTerm)
+            );
+        }
+        return filtered;
+    }, [papers, searchTerm, selectedSource]);
 
     const displayPapers = filteredPapers.slice(0, visibleCount);
     const hasMore = visibleCount < filteredPapers.length;
+
+    const getSourceColor = (source: string) => {
+        switch (source) {
+            case 'ArXiv': return 'text-red-400 border-red-500/30';
+            case 'Hugging Face': return 'text-yellow-400 border-yellow-500/30';
+            case 'BAIR': return 'text-blue-400 border-blue-500/30';
+            case 'Google Research': return 'text-green-400 border-green-500/30';
+            default: return 'text-primary border-primary/30';
+        }
+    };
 
     if (loading) {
         return (
@@ -136,18 +162,44 @@ export function ResearchFeed() {
 
     return (
         <div className="space-y-8">
-            {/* Search Bar */}
-            <div className="max-w-md mx-auto relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                    placeholder="Search research papers..."
-                    className="pl-10 bg-background/50 border-primary/20 focus:border-primary"
-                    value={searchTerm}
-                    onChange={(e) => {
-                        setSearchTerm(e.target.value);
-                        setVisibleCount(9);
-                    }}
-                />
+            {/* Controls Container */}
+            <div className="flex flex-col md:flex-row gap-6 items-center justify-between max-w-4xl mx-auto">
+                {/* Source Filters */}
+                <div className="flex flex-wrap gap-2 justify-center">
+                    <Button
+                        variant={selectedSource === null ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setSelectedSource(null)}
+                        className="rounded-full"
+                    >
+                        All
+                    </Button>
+                    {uniqueSources.map(source => (
+                        <Button
+                            key={source}
+                            variant={selectedSource === source ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => setSelectedSource(source)}
+                            className={`rounded-full ${selectedSource === source ? '' : 'text-muted-foreground'}`}
+                        >
+                            {source}
+                        </Button>
+                    ))}
+                </div>
+
+                {/* Search Bar */}
+                <div className="relative w-full md:w-64 shrink-0">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                        placeholder="Search papers..."
+                        className="pl-10 bg-background/50 border-primary/20 focus:border-primary h-9"
+                        value={searchTerm}
+                        onChange={(e) => {
+                            setSearchTerm(e.target.value);
+                            setVisibleCount(9);
+                        }}
+                    />
+                </div>
             </div>
 
             {/* Papers List */}
@@ -158,19 +210,19 @@ export function ResearchFeed() {
                             <div className="flex justify-between items-start gap-4">
                                 <div className="space-y-2">
                                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                                        <Badge variant="outline" className="text-primary border-primary/30">
-                                            {paper.category}
+                                        <Badge variant="outline" className={`${getSourceColor(paper.source)} bg-background/50`}>
+                                            {paper.source}
                                         </Badge>
-                                        <span className="flex items-center gap-1">
+                                        <span className="text-muted-foreground/60">•</span>
+                                        <span className="text-primary/80 font-medium">
+                                            {paper.category}
+                                        </span>
+                                        <span className="ml-auto flex items-center gap-1">
                                             <Calendar className="w-3 h-3" />
                                             {paper.publishedAt.toLocaleDateString()}
                                         </span>
-                                        <span className="flex items-center gap-1">
-                                            <BookOpen className="w-3 h-3" />
-                                            {paper.source}
-                                        </span>
                                     </div>
-                                    <CardTitle className="text-xl group-hover:text-primary transition-colors">
+                                    <CardTitle className="text-xl group-hover:text-primary transition-colors leading-tight">
                                         <a href={paper.url} target="_blank" rel="noopener noreferrer">
                                             {paper.title}
                                         </a>
@@ -178,7 +230,7 @@ export function ResearchFeed() {
                                     {paper.authors.length > 0 && (
                                         <div className="flex items-center gap-2 text-sm text-muted-foreground/80">
                                             <User className="w-3 h-3" />
-                                            {paper.authors.join(", ")}
+                                            {paper.authors.slice(0, 3).join(", ")}{paper.authors.length > 3 ? " et al." : ""}
                                         </div>
                                     )}
                                 </div>
