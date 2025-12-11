@@ -1,10 +1,12 @@
 import { motion } from 'framer-motion';
 import {
   Brain, Code, Cloud, Database, Network, Palette, MapPin, Calendar, Briefcase,
-  Cpu, Globe, Award, Zap, Server, Shield
+  Cpu, Globe, Award, Zap, Server, Shield, Linkedin
 } from 'lucide-react';
 import { NeuralBackground } from '@/components/NeuralBackground';
 import { Navigation } from '@/components/Navigation';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Footer } from '@/components/Footer';
 
 const skills = [
@@ -122,7 +124,18 @@ export default function About() {
                   </span>
                 </div>
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  I’m a Principal Architect: Data & AI Platform working at the intersection of sports, data, and real-time technology.
+                  I am a Principal Architect specializing in Data & AI Platforms. My work focuses on building scalable, intelligent systems that bridge the gap between cutting-edge AI research and practical, high-impact enterprise solutions.
+                </p>
+
+                <div className="pt-4">
+                  <Button asChild className="gap-2" size="lg">
+                    <a href="https://www.linkedin.com/in/ajmalnazirbaba/" target="_blank" rel="noopener noreferrer">
+                      <Linkedin className="w-4 h-4" />
+                      Connect with me on LinkedIn
+                    </a>
+                  </Button>
+                </div>
+                <p className="text-lg text-muted-foreground leading-relaxed mt-4">
                   At Hawk-Eye Innovations, I design the data platforms behind world-leading tracking, officiating,
                   broadcast, and analytics systems used across 20+ global sports.
                 </p>
