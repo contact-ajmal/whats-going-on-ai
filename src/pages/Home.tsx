@@ -6,6 +6,7 @@ import { NeuralBackground } from '@/components/NeuralBackground';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { NewsFeed } from '@/components/NewsFeed';
+import { FeaturedBlogs } from '@/components/FeaturedBlogs';
 
 const socialLinks = [
   { icon: Linkedin, href: 'https://linkedin.com/in/ajmalnazirbaba', label: 'LinkedIn' },
@@ -42,7 +43,7 @@ export default function Home() {
       <Navigation />
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
         {/* Gradient overlays */}
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background pointer-events-none" />
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
@@ -61,54 +62,36 @@ export default function Home() {
           >
             <div className="absolute inset-0 bg-gradient-to-br from-primary to-secondary rounded-full blur-xl opacity-50 animate-pulse" />
             <div className="absolute inset-2 bg-gradient-to-br from-primary to-secondary rounded-full" />
-            <div className="absolute inset-4 bg-background rounded-full flex items-center justify-center">
-              <span className="text-3xl font-bold text-gradient">A</span>
+            <div className="absolute inset-4 bg-background rounded-full flex items-center justify-center overflow-hidden">
+              <span className="text-3xl font-bold text-gradient">AI</span>
             </div>
           </motion.div>
 
           {/* Title */}
           <motion.h1
             variants={itemVariants}
-            className="text-4xl sm:text-5xl md:text-7xl font-extrabold font-heading mb-4 tracking-tight"
+            className="text-4xl sm:text-5xl md:text-7xl font-extrabold font-heading mb-6 tracking-tight"
           >
-            <span className="text-foreground">Hello, I'm </span>
-            <span className="text-gradient">Ajmal Baba</span>
+            <span className="text-foreground">WhatsGoingOn</span>
+            <span className="text-gradient">AI</span>
           </motion.h1>
 
           {/* Subtitle */}
           <motion.p
             variants={itemVariants}
-            className="text-xl sm:text-2xl text-primary font-medium mb-6 glow-text"
+            className="text-xl sm:text-2xl text-muted-foreground font-medium mb-8 max-w-2xl mx-auto"
           >
-            Data & AI Platform Architect
+            A curated feed of the latest breakthroughs, and deep dives into the future of technology.
           </motion.p>
 
-          {/* Description */}
-          <motion.p
-            variants={itemVariants}
-            className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10"
-          >
-          </motion.p>
-
-          {/* Social Links */}
+          {/* Author Byline */}
           <motion.div
             variants={itemVariants}
-            className="flex items-center justify-center gap-4 mb-10"
+            className="flex items-center justify-center gap-2 mb-10 text-sm font-medium text-primary/80"
           >
-            {socialLinks.map((social) => (
-              <motion.a
-                key={social.label}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.1, y: -3 }}
-                whileTap={{ scale: 0.95 }}
-                className="p-3 rounded-lg border border-border bg-card/50 backdrop-blur-sm text-muted-foreground hover:text-primary hover:border-primary/50 hover:bg-primary/5 transition-all"
-                aria-label={social.label}
-              >
-                <social.icon size={20} />
-              </motion.a>
-            ))}
+            <span className="px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
+              Curated by Ajmal Baba
+            </span>
           </motion.div>
 
           {/* CTA Buttons */}
@@ -118,13 +101,13 @@ export default function Home() {
           >
             <Button asChild variant="hero" size="lg">
               <Link to="/blog">
-                Read My Blog
+                Read Articles
                 <ArrowRight size={18} />
               </Link>
             </Button>
             <Button asChild variant="outline" size="lg">
-              <Link to="/updates">
-                Latest Updates
+              <Link to="/about">
+                About The Author
               </Link>
             </Button>
           </motion.div>
@@ -143,14 +126,40 @@ export default function Home() {
         </motion.button>
       </section>
 
-      {/* News Feed Section */}
-      <section className="py-20 px-6 container mx-auto">
+      {/* Featured Articles Section */}
+      <section className="py-16 px-6 container mx-auto border-t border-white/5">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
+          <div className="flex items-center justify-between mb-10">
+            <h2 className="text-3xl font-bold border-l-4 border-primary pl-4">
+              Featured Articles
+            </h2>
+            <Link to="/blog" className="text-primary hover:text-accent flex items-center gap-2 text-sm font-medium">
+              View All <ArrowRight size={16} />
+            </Link>
+          </div>
+          <FeaturedBlogs />
+        </motion.div>
+      </section>
+
+      {/* News Feed Section */}
+      <section className="py-16 px-6 container mx-auto bg-black/20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="mb-10">
+            <h2 className="text-3xl font-bold border-l-4 border-secondary pl-4 mb-2">
+              Latest Updates
+            </h2>
+            <p className="text-muted-foreground ml-5">Real-time news from around the AI web.</p>
+          </div>
           <NewsFeed />
         </motion.div>
       </section>
