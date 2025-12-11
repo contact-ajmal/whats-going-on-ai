@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Play, Calendar, ExternalLink, Loader2, Youtube } from "lucide-react";
+import { Play, Calendar, ExternalLink, Loader2, Youtube, Activity, Search, ChevronDown } from "lucide-react";
 import { extractImageFromContent } from "@/lib/utils";
 import { LinkedinShareButton } from './LinkedinShareButton';
 
@@ -32,10 +32,8 @@ const CHANNELS = [
 ];
 
 export function VideoFeed() {
-    const [videos, setVideos] = useState<Video[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [activeVideo, setActiveVideo] = useState<string | null>(null);
-    const [selectedChannel, setSelectedChannel] = useState<string | null>(null);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [visibleCount, setVisibleCount] = useState(12);
 
     useEffect(() => {
         const fetchVideos = async () => {
@@ -53,9 +51,7 @@ export function VideoFeed() {
                 results.forEach((result) => {
                     if (result.status === 'fulfilled' && result.value?.items) {
                         result.value.items.forEach((item: any) => {
-                            // Extract video ID from link or guid
                             const videoId = item.link.split('v=')[1] || item.guid.split('video:')[1];
-
                             allVideos.push({
                                 id: videoId,
                                 title: item.title,
@@ -69,7 +65,6 @@ export function VideoFeed() {
                     }
                 });
 
-                // Sort by date descending
                 allVideos.sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime());
                 setVideos(allVideos);
             } catch (err) {
@@ -82,14 +77,43 @@ export function VideoFeed() {
         fetchVideos();
     }, []);
 
-    const filteredVideos = selectedChannel
-        ? videos.filter(v => v.channelTitle === selectedChannel)
-        : videos;
+    // Trending Keywords Logic (The Pulse)
+    const trendingTopics = useMemo(() => {
+        if (videos.length === 0) return [];
+        const stopWords = new Set(['the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'do', 'does', 'did', 'ai', 'artificial', 'intelligence', 'learning', 'machine', 'models', 'new', 'how', 'why', 'what', 'top', 'best', 'guide', 'review', 'vs', 'from', 'via', 'video', 'part', 'episode']);
+        const wordCounts = new Map<string, number>();
 
-    // Latest update time for ticker
+        videos.forEach(video => {
+            const text = `${video.title}`;
+            const words = text.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/);
+            words.forEach(word => {
+                if (word.length > 3 && !stopWords.has(word) && !/^\d+$/.test(word)) {
+                    wordCounts.set(word, (wordCounts.get(word) || 0) + 1);
+                }
+            });
+        });
+
+        return Array.from(wordCounts.entries())
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 7)
+            .map(([word]) => word.charAt(0).toUpperCase() + word.slice(1));
+    }, [videos]);
+
+    // Filtering Logic
+    const filteredVideos = videos.filter(video => {
+        const matchesChannel = selectedChannel ? video.channelTitle === selectedChannel : true;
+        const matchesSearch = searchTerm
+            ? (video.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                video.channelTitle.toLowerCase().includes(searchTerm.toLowerCase()))
+            : true;
+        return matchesChannel && matchesSearch;
+    });
+
+    const displayVideos = filteredVideos.slice(0, visibleCount);
+    const hasMore = visibleCount < filteredVideos.length;
     const latestUpdate = videos.length > 0 ? videos[0].publishedAt : new Date();
 
-    // Get set of active channels that actually have videos
+    // Active channels logic
     const activeChannelNames = new Set(videos.map(v => v.channelTitle));
     const activeChannels = CHANNELS.filter(c => activeChannelNames.has(c.name));
 
@@ -104,6 +128,44 @@ export function VideoFeed() {
 
     return (
         <div className="space-y-8">
+            {/* Controls Section */}
+            <div className="space-y-6">
+                {/* Search Bar */}
+                <div className="relative max-w-2xl mx-auto group">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-red-600 to-orange-600 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                    <div className="relative">
+                        <Search className="absolute left-3 top-3 h-5 w-5 text-muted-foreground group-focus-within:text-red-500 transition-colors" />
+                        <input
+                            type="text"
+                            placeholder="Search videos (e.g., 'Gemini', 'Sora', 'Reasoning')..."
+                            className="w-full pl-10 pr-4 py-3 bg-card/80 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500/50 text-foreground placeholder:text-muted-foreground/70 transition-all font-medium"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
+                </div>
+
+                {/* The Pulse (Trending Keywords) */}
+                {trendingTopics.length > 0 && (
+                    <div className="flex flex-wrap items-center justify-center gap-2">
+                        <div className="flex items-center text-xs font-semibold text-red-400 uppercase tracking-widest mr-2">
+                            <Activity className="w-3 h-3 mr-1 animate-pulse" />
+                            Pulse
+                        </div>
+                        {trendingTopics.map((topic, i) => (
+                            <Badge
+                                key={i}
+                                variant="outline"
+                                className="cursor-pointer hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/30 transition-all text-xs"
+                                onClick={() => setSearchTerm(topic)}
+                            >
+                                #{topic}
+                            </Badge>
+                        ))}
+                    </div>
+                )}
+            </div>
+
             {/* Ticker */}
             <div className="w-full bg-black/40 border-y border-white/10 overflow-hidden relative h-12 flex items-center mb-8">
                 {/* Fixed Label */}
@@ -142,7 +204,7 @@ export function VideoFeed() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredVideos.map((video) => (
+                {displayVideos.map((video) => (
                     <Card key={video.id} className="group overflow-hidden border-white/10 bg-card/30 backdrop-blur-md hover:border-primary/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
 
                         {/* Video Player / Thumbnail Area */}
@@ -208,6 +270,21 @@ export function VideoFeed() {
                     </Card>
                 ))}
             </div>
+
+            {/* Load More Button */}
+            {hasMore && (
+                <div className="flex justify-center pt-8">
+                    <Button
+                        variant="ghost"
+                        size="lg"
+                        className="group text-muted-foreground hover:text-foreground border border-white/5 hover:border-white/20 bg-black/20 hover:bg-black/40"
+                        onClick={() => setVisibleCount(prev => prev + 12)}
+                    >
+                        Load More Videos
+                        <ChevronDown className="ml-2 h-4 w-4 group-hover:translate-y-1 transition-transform" />
+                    </Button>
+                </div>
+            )}
         </div>
     );
 }
