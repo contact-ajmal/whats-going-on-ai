@@ -196,8 +196,8 @@ export function NewsFeed() {
                     </div>
 
                     {/* Scrolling Sources */}
-                    <div className="flex animate-marquee items-center pl-40 sm:pl-72 hover:[animation-play-state:paused]">
-                        {uniqueSources.concat(uniqueSources).map((source, i) => (
+                    <div className="flex animate-marquee items-center hover:[animation-play-state:paused]">
+                        {[...uniqueSources, ...uniqueSources, ...uniqueSources, ...uniqueSources].map((source, i) => (
                             <div
                                 key={`${source.name}-${i}`}
                                 onClick={() => setSelectedSource(source.name === selectedSource ? null : source.name)}
