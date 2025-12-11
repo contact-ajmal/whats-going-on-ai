@@ -52,7 +52,8 @@ function parseFrontmatter(content: string): { meta: Record<string, any>; content
 }
 
 // List of available posts (add your post slugs here)
-const availablePosts: string[] = [];
+const availablePosts: string[] = [
+  'unconventional-ai-a-new-paradigm-of-ai-computing-hardware-chip',];
 
 export async function loadBlogPosts(): Promise<BlogPostMeta[]> {
   const posts: BlogPostMeta[] = [];
