@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Card, CardContent, CardTitle, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Loader2, Link as LinkIcon, Rss } from "lucide-react";
+import { ExternalLink, Loader2, Link as LinkIcon, Rss, Calendar } from "lucide-react";
 import { extractImageFromContent } from "@/lib/utils";
 
 interface UnifiedArticle {
