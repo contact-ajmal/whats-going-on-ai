@@ -52,7 +52,7 @@ export class GitHubClient {
         };
     }
 
-    async createFile(path: string, content: string, message: string): Promise<void> {
+    async createFile(path: string, content: string, message: string, isBase64: boolean = false): Promise<void> {
         // Check if file exists to get SHA (for update) or null (for create)
         let sha: string | undefined;
         try {
@@ -64,7 +64,7 @@ export class GitHubClient {
 
         const body = {
             message,
-            content: btoa(unescape(encodeURIComponent(content))), // Handle UTF-8
+            content: isBase64 ? content : btoa(unescape(encodeURIComponent(content))), // Handle UTF-8 or use raw base64
             sha, // Include SHA if updating
         };
 
@@ -90,7 +90,8 @@ export class GitHubClient {
         const filename = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '')}`;
         const path = `public/images/uploads/${filename}`;
 
-        await this.createFile(path, content, `chore: upload image ${filename}`);
+        // Pass true for isBase64 to prevent double encoding
+        await this.createFile(path, content, `chore: upload image ${filename}`, true);
 
         // Fetch default branch to ensure link is correct (handle main vs master)
         let branch = 'main';
