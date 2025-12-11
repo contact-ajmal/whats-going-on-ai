@@ -27,53 +27,78 @@ export function ResearchFeed() {
         const fetchResearch = async () => {
             try {
                 const results = await Promise.allSettled([
-                    // ArXiv AI
+                    // 1. ArXiv AI
                     fetch('https://api.rss2json.com/v1/api.json?rss_url=http://export.arxiv.org/rss/cs.AI').then(res => res.json()),
-                    // ArXiv Machine Learning
+                    // 2. ArXiv Machine Learning
                     fetch('https://api.rss2json.com/v1/api.json?rss_url=http://export.arxiv.org/rss/cs.LG').then(res => res.json()),
-                    // ArXiv Computer Vision
+                    // 3. ArXiv CV
                     fetch('https://api.rss2json.com/v1/api.json?rss_url=http://export.arxiv.org/rss/cs.CV').then(res => res.json()),
-                    // ArXiv CL (Computation and Language)
-                    fetch('https://api.rss2json.com/v1/api.json?rss_url=http://export.arxiv.org/rss/cs.CL').then(res => res.json())
+                    // 4. ArXiv CL
+                    fetch('https://api.rss2json.com/v1/api.json?rss_url=http://export.arxiv.org/rss/cs.CL').then(res => res.json()),
+                    // 5. Hugging Face Daily Papers (Community Feed)
+                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://papers.takara.ai/api/feed').then(res => res.json()),
+                    // 6. BAIR Blog
+                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://bair.berkeley.edu/blog/feed.xml').then(res => res.json()),
+                    // 7. Google Research
+                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://blog.research.google/atom.xml').then(res => res.json()),
                 ]);
 
                 const newPapers: ResearchPaper[] = [];
 
-                const processArXiv = (result: PromiseSettledResult<any>, category: string) => {
+                const processFeed = (result: PromiseSettledResult<any>, category: string, sourceName: string) => {
                     if (result.status === 'fulfilled' && result.value?.items) {
                         result.value.items.forEach((item: any) => {
-                            // Extract authors from description if possible, or usually rss2json puts author in author field
-                            // ArXiv RSS descriptions often start with "Authors: ... <br>" or similar
-                            // But usually item.author is available or we parse it. 
-                            // rss2json maps <dc:creator> to 'author'.
+                            // Abstract cleanup
+                            let abstractClean = item.description?.replace(/<[^>]*>?/gm, '') || '';
+                            // Remove "Abstract: " prefix if present (common in ArXiv)
+                            abstractClean = abstractClean.replace(/^Abstract:\s*/i, '');
+                            // Truncate if too long (for initial view)
+                            if (abstractClean.length > 300) abstractClean = abstractClean.slice(0, 300) + '...';
 
-                            // Cleanup abstract
-                            // ArXiv RSS description usually: <p>Abstract...</p>
-                            const abstractClean = item.description?.replace(/<[^>]*>?/gm, '').replace(/^Abstract: /, '') || '';
+                            // Author extraction attempt
+                            let authors: string[] = [];
+                            if (item.author && typeof item.author === 'string') {
+                                authors = [item.author];
+                            } else if (item.authors) {
+                                authors = item.authors; // Google often provides this
+                            }
+
+                            // Title cleanup
+                            const titleClean = item.title?.replace(/^\[.*?\]\s*/, '') || 'Untitled'; // Remove [cs.AI] etc
 
                             newPapers.push({
-                                id: item.guid || item.link,
-                                title: item.title?.replace(/^\[.*?\]\s*/, ''), // Remove [cs.AI] prefix
+                                id: item.guid || item.link || Math.random().toString(),
+                                title: titleClean,
                                 abstract: abstractClean,
                                 url: item.link,
                                 publishedAt: new Date(item.pubDate),
-                                authors: item.author ? [item.author] : [], // rss2json might return single string
+                                authors: authors,
                                 category: category,
-                                source: 'ArXiv'
+                                source: sourceName
                             });
                         });
                     }
                 };
 
-                processArXiv(results[0], 'Artificial Intelligence');
-                processArXiv(results[1], 'Machine Learning');
-                processArXiv(results[2], 'Computer Vision');
-                processArXiv(results[3], 'Computation & Language');
+                // Process ArXiv
+                processFeed(results[0], 'Artificial Intelligence', 'ArXiv');
+                processFeed(results[1], 'Machine Learning', 'ArXiv');
+                processFeed(results[2], 'Computer Vision', 'ArXiv');
+                processFeed(results[3], 'Computation & Language', 'ArXiv');
+
+                // Process Hugging Face
+                processFeed(results[4], 'Daily Papers', 'Hugging Face');
+
+                // Process BAIR
+                processFeed(results[5], 'AI Research', 'BAIR');
+
+                // Process Google
+                processFeed(results[6], 'Deep Learning', 'Google Research');
 
                 // Sort by date (descending)
                 newPapers.sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime());
 
-                // Remove duplicates
+                // Remove duplicates by URL
                 const uniquePapers = Array.from(new Map(newPapers.map(item => [item.url, item])).values());
 
                 setPapers(uniquePapers);
