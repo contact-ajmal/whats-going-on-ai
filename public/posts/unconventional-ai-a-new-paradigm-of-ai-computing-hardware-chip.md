@@ -11,7 +11,9 @@ tags: [AI, GPU, AIHardware]
 ### *A deep dive into the architecture of Unconventional AI and the return of the analog crossbar*
 
 
-![image.png](https://raw.githubusercontent.com/contact-ajmal/whats-going-on-ai/main/public/images/uploads/1765457458109-image.png)
+
+![unconventionalAI.png](https://raw.githubusercontent.com/contact-ajmal/whats-going-on-ai/main/public/images/uploads/1765458479606-unconventionalAI.png)
+
 
 If you compare the block diagram of an H100 GPU with that of a 1990s CPU, the surprising truth is this: the fundamental architecture hasn't changed. We still live inside the Von Neumann paradigm, where **memory** and **compute** are separated by design.
 
@@ -46,7 +48,7 @@ Even though the computation itself is cheap, the **movement** is expensive.
 
 Physics dictates that moving electrons through wires produces heat (Joule heating). In modern 5 nm processes:
 
--   Fetching a value from memory consumes **100ÃÂ--1000ÃÂ more energy**\
+-   Fetching a value from memory consumes **100ÃÂÃÂ--1000ÃÂÃÂ more energy**\
     than performing the floating-point multiplication.
 
 The compute units are fast. The wires are not.
@@ -87,7 +89,7 @@ Two fundamental laws of electricity perform matrix multiplication for *free*:
 
 #### **1\. Multiplication --- Ohm's Law**
 
-I=VÃÂGI = V \times GI=VÃÂG
+I=VÃÂÃÂGI = V \times GI=VÃÂÃÂG
 
 When voltage hits a memristor, the resulting current is exactly the product of the input and the stored weight. No digital switching. No ALU.
 
