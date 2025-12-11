@@ -18,7 +18,7 @@ export default function Videos() {
                     className="space-y-8"
                 >
                     <div className="text-center space-y-4 mb-16">
-                        <h1 className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-orange-200">
+                        <h1 className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
                             AI Video Feed
                         </h1>
                         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
