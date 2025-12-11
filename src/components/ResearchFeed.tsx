@@ -4,7 +4,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ExternalLink, Loader2, BookOpen, Calendar, Search, ChevronDown, FileText, User } from "lucide-react";
-import { BookmarkButton } from "@/components/BookmarkButton";
+import { BookmarkButton } from './BookmarkButton';
+import { LinkedinShareButton } from './LinkedinShareButton';
 
 interface ResearchPaper {
     id: string;
@@ -262,6 +263,7 @@ export function ResearchFeed() {
                                     )}
                                 </div>
                                 <div className="flex gap-1 shrink-0">
+                                    <LinkedinShareButton url={paper.url} />
                                     <BookmarkButton
                                         item={{
                                             id: paper.id,
