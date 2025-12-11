@@ -338,7 +338,56 @@ ${content}`;
                             onImageUpload={handleImageUpload}
                             disabled={isLoading}
                         />
-                        <Tabs defaultValue="write" className="w-full">
+                        <Tabs defaultValue="write" className="w-full relative"
+                            onDragOver={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                e.currentTarget.classList.add('ring-2', 'ring-primary', 'bg-primary/5');
+                            }}
+                            onDragLeave={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                e.currentTarget.classList.remove('ring-2', 'ring-primary', 'bg-primary/5');
+                            }}
+                            onDrop={async (e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                e.currentTarget.classList.remove('ring-2', 'ring-primary', 'bg-primary/5');
+
+                                const files = Array.from(e.dataTransfer.files);
+                                if (files.length === 0) return;
+
+                                const file = files[0];
+                                // Determine type
+                                const isImage = file.type.startsWith('image/');
+                                const isVideo = file.type.startsWith('video/');
+
+                                if (!isImage && !isVideo) {
+                                    toast.error('Only images and videos are supported via drag & drop');
+                                    return;
+                                }
+
+                                const loadingToast = toast.loading(`Uploading ${file.name}...`);
+                                try {
+                                    const client = new GitHubClient(token, repo);
+                                    const publicPath = await client.uploadImage(file); // Reusing uploadImage as it handles generic binary files well enough
+                                    const url = publicPath.startsWith('http') ? publicPath : `${import.meta.env.BASE_URL}${publicPath}`;
+
+                                    let insertText = '';
+                                    if (isImage) {
+                                        insertText = `\n![${file.name}](${url})\n`;
+                                    } else {
+                                        insertText = `\n<video src="${url}" controls width="100%"></video>\n`;
+                                    }
+
+                                    handleInsert(insertText);
+                                    toast.success('File uploaded!', { id: loadingToast });
+                                } catch (error: any) {
+                                    console.error(error);
+                                    toast.error(`Upload failed: ${error.message}`, { id: loadingToast });
+                                }
+                            }}
+                        >
                             <div className='bg-muted/30 px-2 pt-2 border-b'>
                                 <TabsList className="h-8">
                                     <TabsTrigger value="write" className="text-xs h-6">Write</TabsTrigger>

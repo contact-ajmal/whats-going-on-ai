@@ -8,7 +8,11 @@ import {
     Link as LinkIcon,
     Image as ImageIcon,
     Quote,
-    Code
+    Code,
+    Table,
+    Minus,
+    Video,
+    Youtube
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useRef } from "react";
@@ -66,6 +70,21 @@ export function EditorToolbar({ onInsert, onImageUpload, disabled }: EditorToolb
             <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => onInsert('[link](url)')} disabled={disabled} title="Link">
                 <LinkIcon className="h-4 w-4" />
             </Button>
+            <div className="w-px h-6 bg-border mx-1 self-center" />
+            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => onInsert('\n| Header 1 | Header 2 |\n| -------- | -------- |\n| Row 1    | Row 1    |\n')} disabled={disabled} title="Table">
+                <Table className="h-4 w-4" />
+            </Button>
+            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => onInsert('\n---\n')} disabled={disabled} title="Divider">
+                <Minus className="h-4 w-4" />
+            </Button>
+            <div className="w-px h-6 bg-border mx-1 self-center" />
+            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => onInsert('<video src="URL" controls width="100%"></video>')} disabled={disabled} title="Embed Video">
+                <Video className="h-4 w-4" />
+            </Button>
+            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => onInsert('<iframe width="560" height="315" src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen></iframe>')} disabled={disabled} title="Embed YouTube">
+                <Youtube className="h-4 w-4" />
+            </Button>
+            <div className="w-px h-6 bg-border mx-1 self-center" />
             <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleImageClick} disabled={disabled} title="Upload Image">
                 <ImageIcon className="h-4 w-4" />
             </Button>
