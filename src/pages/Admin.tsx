@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from 'sonner';
 import { EditorToolbar } from '@/components/EditorToolbar';
-import ReactMarkdown from 'react-markdown';
+import { MarkdownRenderer } from '@/components/MarkdownRenderer';
 import { Textarea } from '@/components/ui/textarea';
 import { Loader2 } from 'lucide-react';
 
@@ -355,8 +355,8 @@ ${content}`;
                                 />
                             </TabsContent>
                             <TabsContent value="preview" className="p-0 m-0">
-                                <div className="min-h-[400px] p-4 prose prose-invert max-w-none">
-                                    <ReactMarkdown>{content || '*Nothing to preview*'}</ReactMarkdown>
+                                <div className="min-h-[400px] p-4 bg-background/50 rounded-b-md">
+                                    <MarkdownRenderer content={content || '*Nothing to preview*'} />
                                 </div>
                             </TabsContent>
                         </Tabs>

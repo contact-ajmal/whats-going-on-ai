@@ -90,21 +90,13 @@ export async function loadBlogPost(slug: string): Promise<BlogPost | null> {
     const text = await response.text();
     const { meta, content } = parseFrontmatter(text);
 
-    // Configure marked for better code highlighting
-    marked.setOptions({
-      gfm: true,
-      breaks: true
-    });
-
-    const htmlContent = await marked(content);
-
     return {
       slug,
       title: meta.title || slug,
       date: meta.date || '',
       description: meta.description || '',
       tags: meta.tags || [],
-      content: htmlContent
+      content: content // Return raw markdown now
     };
   } catch (error) {
     console.error(`Error loading post ${slug}:`, error);

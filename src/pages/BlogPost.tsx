@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, Tag, Clock } from 'lucide-react';
+import { MarkdownRenderer } from '@/components/MarkdownRenderer';
 import { loadBlogPost, formatDate } from '@/lib/config';
 import { BlogPost } from '@/types/config';
 import Comments from '@/components/Comments';
@@ -157,8 +158,9 @@ export default function BlogPostPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
               className="blog-content"
-              dangerouslySetInnerHTML={{ __html: post.content }}
-            />
+            >
+              <MarkdownRenderer content={post.content} />
+            </motion.div>
 
             {/* Share Buttons (Bottom) */}
             <div className="mt-16">
