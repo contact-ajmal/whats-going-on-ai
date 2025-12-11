@@ -47,7 +47,10 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
                 img: ({ src, alt }) => (
                     <div className="my-8 rounded-xl overflow-hidden border border-white/10 shadow-2xl bg-black/20">
                         <img src={src} alt={alt} className="w-full h-auto object-cover" />
+                        {/* Caption hidden by default to prevent filenames from showing. 
+                            If you want captions, uncomment below or add logic to check if alt !== filename 
                         {alt && <p className="text-center text-xs text-muted-foreground py-2 bg-black/40 italic">{alt}</p>}
+                        */}
                     </div>
                 ),
                 table: ({ children }) => <div className="my-6 w-full overflow-y-auto"><table className="w-full text-sm text-left">{children}</table></div>,
