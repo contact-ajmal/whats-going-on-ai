@@ -24,7 +24,7 @@ export default function Research() {
                             <span className="text-primary">//</span> Latest Research
                         </h1>
                         <p className="text-xl text-muted-foreground">
-                            Cutting-edge AI papers from ArXiv.
+                            Cutting-edge AI papers from ArXiv, Hugging Face, and top research labs.
                         </p>
                     </motion.div>
 
