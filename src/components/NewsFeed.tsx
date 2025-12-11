@@ -278,7 +278,7 @@ export function NewsFeed() {
                                         </Badge>
                                         <span className="flex items-center gap-1">
                                             <Calendar className="w-3 h-3" />
-                                            {article.publishedAt.toLocaleDateString()}
+                                            {article.publishedAt.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                                         </span>
                                     </div>
                                     <h3 className="text-base font-semibold text-foreground leading-tight group-hover:text-primary transition-colors line-clamp-1">
