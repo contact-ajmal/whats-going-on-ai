@@ -182,7 +182,7 @@ export function NewsFeed() {
             {/* Grid */}
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {displayArticles.map((article) => (
-                    <Card key={article.id} className="group overflow-hidden border-primary/20 bg-card/40 backdrop-blur-sm hover:border-primary/50 transition-all duration-300 flex flex-col h-full">
+                    <Card key={article.id} className="group overflow-hidden border-white/10 bg-card/30 backdrop-blur-md hover:border-primary/50 hover:shadow-2xl transition-all duration-300 flex flex-col h-full rounded-xl">
                         {/* Image Area */}
                         <div className="aspect-video relative overflow-hidden bg-muted/20 border-b border-white/5">
                             {article.image ? (

@@ -66,9 +66,13 @@ export default function About() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="max-w-4xl mx-auto"
+            className="max-w-5xl mx-auto bg-card/30 backdrop-blur-md rounded-2xl border border-white/10 p-8 md:p-12 shadow-2xl overflow-hidden relative"
           >
-            <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
+            {/* Ambient Background Glow inside card */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -z-10 opacity-50 pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -z-10 opacity-50 pointer-events-none" />
+
+            <div className="flex flex-col md:flex-row gap-12 items-center md:items-start">
               {/* Avatar */}
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
@@ -76,37 +80,38 @@ export default function About() {
                 transition={{ delay: 0.2 }}
                 className="relative shrink-0"
               >
-                <div className="w-40 h-40 rounded-full bg-gradient-to-br from-primary to-secondary p-1">
-                  <div className="w-full h-full rounded-full bg-card flex items-center justify-center overflow-hidden">
-                    <span className="text-5xl font-bold text-gradient">YN</span>
+                <div className="w-48 h-48 rounded-full bg-gradient-to-br from-primary to-secondary p-1 shadow-xl">
+                  <div className="w-full h-full rounded-full bg-card flex items-center justify-center overflow-hidden relative">
+                    <div className="absolute inset-0 bg-primary/5"></div>
+                    <span className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-primary to-secondary">YN</span>
                   </div>
                 </div>
                 <div className="absolute -inset-4 bg-primary/20 rounded-full blur-2xl -z-10 animate-pulse" />
               </motion.div>
 
               {/* Bio */}
-              <div className="text-center md:text-left">
-                <h1 className="text-4xl md:text-5xl font-bold mb-2">
-                  <span className="text-primary">//</span> About Me
+              <div className="text-center md:text-left flex-1">
+                <h1 className="text-4xl md:text-6xl font-extrabold mb-4 font-heading tracking-tight">
+                  About Me
                 </h1>
-                <p className="text-xl text-primary font-medium mb-4 glow-text">
+                <p className="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400 font-medium mb-6">
                   Your Name
                 </p>
-                <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-sm text-muted-foreground mb-6">
-                  <span className="flex items-center gap-1">
-                    <MapPin size={14} /> San Francisco, CA
+                <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-sm font-medium text-muted-foreground mb-8">
+                  <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-background/50 border border-white/10">
+                    <MapPin size={14} className="text-primary" /> San Francisco, CA
                   </span>
-                  <span className="flex items-center gap-1">
-                    <Briefcase size={14} /> AI Engineer
+                  <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-background/50 border border-white/10">
+                    <Briefcase size={14} className="text-primary" /> AI Engineer
                   </span>
-                  <span className="flex items-center gap-1">
-                    <Calendar size={14} /> 5+ Years Experience
+                  <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-background/50 border border-white/10">
+                    <Calendar size={14} className="text-primary" /> 5+ Years Experience
                   </span>
                 </div>
-                <p className="text-muted-foreground leading-relaxed max-w-2xl">
-                  I'm a passionate developer and AI enthusiast dedicated to building intelligent systems 
-                  that make a difference. With a background in computer science and years of experience 
-                  in both startups and enterprise environments, I bring a unique perspective to solving 
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                  I'm a passionate developer and AI enthusiast dedicated to building intelligent systems
+                  that make a difference. With a background in computer science and years of experience
+                  in both startups and enterprise environments, I bring a unique perspective to solving
                   complex problems.
                 </p>
               </div>
@@ -127,26 +132,26 @@ export default function About() {
             </h2>
             <div className="space-y-4 text-muted-foreground leading-relaxed">
               <p>
-                My journey into technology started with a fascination for how things work. 
-                As a kid, I would take apart electronics just to understand their inner workings. 
-                This curiosity led me to computer science, where I discovered the power of 
+                My journey into technology started with a fascination for how things work.
+                As a kid, I would take apart electronics just to understand their inner workings.
+                This curiosity led me to computer science, where I discovered the power of
                 software to create and transform.
               </p>
               <p>
-                During my time at university, I became captivated by artificial intelligence 
-                and its potential to solve problems that seemed impossible. I spent countless 
-                hours exploring neural networks, reinforcement learning, and natural language 
+                During my time at university, I became captivated by artificial intelligence
+                and its potential to solve problems that seemed impossible. I spent countless
+                hours exploring neural networks, reinforcement learning, and natural language
                 processing.
               </p>
               <p>
-                Today, I work at the intersection of AI and software engineering, building 
-                systems that are not only intelligent but also reliable, scalable, and 
-                maintainable. I believe that great technology should feel magical while 
+                Today, I work at the intersection of AI and software engineering, building
+                systems that are not only intelligent but also reliable, scalable, and
+                maintainable. I believe that great technology should feel magical while
                 being grounded in solid engineering principles.
               </p>
               <p>
-                When I'm not coding, you'll find me reading about cognitive science, hiking 
-                in nature, or experimenting with new recipes in the kitchen. I also enjoy 
+                When I'm not coding, you'll find me reading about cognitive science, hiking
+                in nature, or experimenting with new recipes in the kitchen. I also enjoy
                 contributing to open-source projects and mentoring aspiring developers.
               </p>
             </div>
@@ -228,7 +233,7 @@ export default function About() {
                         {item.year}
                       </span>
                     </div>
-                    
+
                     {/* Dot */}
                     <div className="absolute left-[30px] top-1 w-3 h-3 rounded-full bg-primary animate-glow-pulse" />
 

@@ -69,7 +69,7 @@ export default function Home() {
           {/* Title */}
           <motion.h1
             variants={itemVariants}
-            className="text-4xl sm:text-5xl md:text-7xl font-bold mb-4"
+            className="text-4xl sm:text-5xl md:text-7xl font-extrabold font-heading mb-4 tracking-tight"
           >
             <span className="text-foreground">Hello, I'm </span>
             <span className="text-gradient">Ajmal Baba</span>
