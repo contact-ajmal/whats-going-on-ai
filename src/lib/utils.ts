@@ -7,6 +7,13 @@ export function cn(...inputs: ClassValue[]) {
 
 export function extractImageFromContent(content: string): string | null {
   if (!content) return null;
-  const match = content.match(/!\[.*?\]\((.*?)\)/);
-  return match ? match[1] : null;
+  // Match Markdown image: ![...](url)
+  const mdMatch = content.match(/!\[.*?\]\((.*?)\)/);
+  if (mdMatch) return mdMatch[1];
+
+  // Match HTML image: <img src="url" ... />
+  const htmlMatch = content.match(/<img[^>]+src=["']([^"']+)["']/);
+  if (htmlMatch) return htmlMatch[1];
+
+  return null;
 }
