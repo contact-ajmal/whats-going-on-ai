@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useTheme } from 'next-themes';
 
 interface Node {
   x: number;
@@ -14,6 +15,7 @@ export function NeuralBackground() {
   const animationRef = useRef<number>();
   const nodesRef = useRef<Node[]>([]);
   const mouseRef = useRef({ x: 0, y: 0 });
+  const { theme } = useTheme();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -21,6 +23,13 @@ export function NeuralBackground() {
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+
+    // Define colors based on theme
+    const isDark = theme === 'dark' || theme === 'system'; // Basic check, ideally use system pref too
+    const nodeColor = isDark ? { r: 0, g: 180, b: 200 } : { r: 0, g: 120, b: 180 }; // Cyan vs Darker Blue
+
+    // Helper helper for rgba
+    const rgba = (a: number) => `rgba(${nodeColor.r}, ${nodeColor.g}, ${nodeColor.b}, ${a})`;
 
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
@@ -31,7 +40,7 @@ export function NeuralBackground() {
     const initNodes = () => {
       const nodeCount = Math.min(80, Math.floor((canvas.width * canvas.height) / 20000));
       nodesRef.current = [];
-      
+
       for (let i = 0; i < nodeCount; i++) {
         nodesRef.current.push({
           x: Math.random() * canvas.width,
@@ -42,7 +51,7 @@ export function NeuralBackground() {
           pulsePhase: Math.random() * Math.PI * 2
         });
       }
-      
+
       // Create connections
       for (let i = 0; i < nodesRef.current.length; i++) {
         const node = nodesRef.current[i];
@@ -62,104 +71,104 @@ export function NeuralBackground() {
 
     const animate = () => {
       if (!ctx || !canvas) return;
-      
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
+
       const time = Date.now() * 0.001;
       const nodes = nodesRef.current;
-      
+
       // Update and draw nodes
       for (let i = 0; i < nodes.length; i++) {
         const node = nodes[i];
-        
+
         // Mouse influence
         const dx = mouseRef.current.x - node.x;
         const dy = mouseRef.current.y - node.y;
         const mouseDistance = Math.sqrt(dx * dx + dy * dy);
-        
+
         if (mouseDistance < 200) {
           const force = (200 - mouseDistance) / 200 * 0.02;
           node.vx += dx * force * 0.01;
           node.vy += dy * force * 0.01;
         }
-        
+
         // Update position
         node.x += node.vx;
         node.y += node.vy;
-        
+
         // Damping
         node.vx *= 0.99;
         node.vy *= 0.99;
-        
+
         // Boundaries
         if (node.x < 0 || node.x > canvas.width) node.vx *= -1;
         if (node.y < 0 || node.y > canvas.height) node.vy *= -1;
         node.x = Math.max(0, Math.min(canvas.width, node.x));
         node.y = Math.max(0, Math.min(canvas.height, node.y));
-        
+
         // Pulse effect
         const pulse = Math.sin(time * 2 + node.pulsePhase) * 0.5 + 0.5;
-        
+
         // Draw connections
         for (const j of node.connections) {
           const other = nodes[j];
           const distance = Math.sqrt((node.x - other.x) ** 2 + (node.y - other.y) ** 2);
-          
+
           if (distance < 250) {
             const opacity = (1 - distance / 250) * 0.4 * pulse;
-            
+
             // Create gradient for connection
             const gradient = ctx.createLinearGradient(node.x, node.y, other.x, other.y);
-            gradient.addColorStop(0, `rgba(0, 180, 200, ${opacity})`);
-            gradient.addColorStop(0.5, `rgba(150, 80, 200, ${opacity * 0.5})`);
-            gradient.addColorStop(1, `rgba(0, 180, 200, ${opacity})`);
-            
+            gradient.addColorStop(0, rgba(opacity));
+            gradient.addColorStop(0.5, rgba(opacity * 0.5));
+            gradient.addColorStop(1, rgba(opacity));
+
             ctx.beginPath();
             ctx.strokeStyle = gradient;
             ctx.lineWidth = 1;
             ctx.moveTo(node.x, node.y);
             ctx.lineTo(other.x, other.y);
             ctx.stroke();
-            
+
             // Traveling pulse on connection
             const pulsePos = (time * 0.5 + i * 0.1) % 1;
             const pulseX = node.x + (other.x - node.x) * pulsePos;
             const pulseY = node.y + (other.y - node.y) * pulsePos;
-            
+
             ctx.beginPath();
             ctx.arc(pulseX, pulseY, 2, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(0, 180, 200, ${opacity * 2})`;
+            ctx.fillStyle = rgba(opacity * 2);
             ctx.fill();
           }
         }
-        
+
         // Draw node
         const nodeOpacity = 0.4 + pulse * 0.3;
         const nodeSize = 2 + pulse * 2;
-        
+
         // Glow effect
         const glowGradient = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, nodeSize * 4);
-        glowGradient.addColorStop(0, `rgba(0, 180, 200, ${nodeOpacity * 0.4})`);
-        glowGradient.addColorStop(1, 'rgba(0, 180, 200, 0)');
-        
+        glowGradient.addColorStop(0, rgba(nodeOpacity * 0.4));
+        glowGradient.addColorStop(1, rgba(0));
+
         ctx.beginPath();
         ctx.arc(node.x, node.y, nodeSize * 4, 0, Math.PI * 2);
         ctx.fillStyle = glowGradient;
         ctx.fill();
-        
+
         // Core
         ctx.beginPath();
         ctx.arc(node.x, node.y, nodeSize, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0, 180, 200, ${nodeOpacity})`;
+        ctx.fillStyle = rgba(nodeOpacity);
         ctx.fill();
       }
-      
+
       animationRef.current = requestAnimationFrame(animate);
     };
 
     window.addEventListener('resize', resizeCanvas);
     window.addEventListener('mousemove', handleMouseMove);
-    
+
     resizeCanvas();
     animate();
 
@@ -170,7 +179,7 @@ export function NeuralBackground() {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, []);
+  }, [theme]); // Re-run when theme changes
 
   return (
     <canvas
