@@ -5,10 +5,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from 'sonner';
 import { EditorToolbar } from '@/components/EditorToolbar';
 import ReactMarkdown from 'react-markdown';
 import { Textarea } from '@/components/ui/textarea';
+import { Loader2 } from 'lucide-react';
 
 const Admin = () => {
     const [token, setToken] = useState('');
@@ -16,11 +18,16 @@ const Admin = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
+    // Post List State
+    const [existingPosts, setExistingPosts] = useState<string[]>([]);
+    const [selectedPost, setSelectedPost] = useState<string>('new');
+
     // Post Form State
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [tags, setTags] = useState('');
     const [content, setContent] = useState('');
+    const [originalDate, setOriginalDate] = useState('');
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -30,11 +37,11 @@ const Admin = () => {
         if (storedToken && storedRepo) {
             setToken(storedToken);
             setRepo(storedRepo);
-            verifyToken(storedToken, storedRepo);
+            verifyToken(storedToken, storedRepo, true); // initial load
         }
     }, []);
 
-    const verifyToken = async (t: string, r: string) => {
+    const verifyToken = async (t: string, r: string, initial = false) => {
         setIsLoading(true);
         try {
             const client = new GitHubClient(t, r);
@@ -42,11 +49,81 @@ const Admin = () => {
             setIsAuthenticated(true);
             localStorage.setItem('gh_token', t);
             localStorage.setItem('gh_repo', r);
-            toast.success('Connected to GitHub');
+            if (!initial) toast.success('Connected to GitHub');
+
+            // Load list of posts
+            await loadPostList(client);
         } catch (error) {
             console.error(error);
-            toast.error('Connection failed. Check Token and Repo.');
+            if (!initial) toast.error('Connection failed. Check Token and Repo.');
             localStorage.removeItem('gh_token');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const loadPostList = async (client: GitHubClient) => {
+        try {
+            const configFile = await client.getFile('src/lib/config.ts');
+            // Extract the array content: const availablePosts = [ ... ];
+            const match = configFile.content.match(/const availablePosts(?:\s*:\s*[^=]+)?\s*=\s*\[([\s\S]*?)\]/);
+            if (match && match[1]) {
+                const posts = match[1]
+                    .split(',')
+                    .map(p => p.trim().replace(/['"]/g, ''))
+                    .filter(p => p && !p.startsWith('//'));
+                setExistingPosts(posts);
+            }
+        } catch (e) {
+            console.error("Failed to load post list", e);
+        }
+    };
+
+    const loadPost = async (slug: string) => {
+        if (slug === 'new') {
+            setTitle('');
+            setDescription('');
+            setTags('');
+            setContent('');
+            setOriginalDate('');
+            return;
+        }
+
+        setIsLoading(true);
+        try {
+            const client = new GitHubClient(token, repo);
+            const file = await client.getFile(`public/posts/${slug}.md`);
+
+            // Parse Frontmatter
+            const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/;
+            const match = file.content.match(frontmatterRegex);
+
+            if (match) {
+                const frontmatter = match[1];
+                const cleanContent = match[2];
+
+                // Simple parser
+                const getMeta = (key: string) => {
+                    const line = frontmatter.split('\n').find(l => l.startsWith(key + ':'));
+                    return line ? line.split(':').slice(1).join(':').trim() : '';
+                };
+
+                setTitle(getMeta('title').replace(/^['"]|['"]$/g, '')); // remove quotes
+                setDescription(getMeta('description'));
+                setOriginalDate(getMeta('date'));
+
+                // Tags
+                let tagStr = getMeta('tags');
+                if (tagStr.startsWith('[') && tagStr.endsWith(']')) {
+                    tagStr = tagStr.slice(1, -1);
+                }
+                setTags(tagStr);
+
+                setContent(cleanContent);
+            }
+        } catch (e) {
+            console.error(e);
+            toast.error("Failed to load post content");
         } finally {
             setIsLoading(false);
         }
@@ -84,7 +161,7 @@ const Admin = () => {
             const imageMarkdown = `\n![${file.name}](${import.meta.env.BASE_URL}${publicPath})\n`;
             handleInsert(imageMarkdown);
 
-            toast.success('Image uploaded! (Will appear after site rebuild)', { id: loadingToast });
+            toast.success('Image uploaded!', { id: loadingToast });
         } catch (error: any) {
             console.error(error);
             toast.error(`Upload failed: ${error.message}`, { id: loadingToast });
@@ -100,8 +177,12 @@ const Admin = () => {
         setIsLoading(true);
         try {
             const client = new GitHubClient(token, repo);
-            const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-            const date = new Date().toISOString().split('T')[0];
+            // If editing, keep original slug to avoid renaming file (simplification)
+            // If new, generate slug from title
+            const isEditing = selectedPost !== 'new';
+            const slug = isEditing ? selectedPost : title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+            const date = originalDate || new Date().toISOString().split('T')[0];
             const tagsArray = tags.split(',').map(t => t.trim()).filter(Boolean);
 
             const fileContent = `---
@@ -113,42 +194,38 @@ tags: [${tagsArray.join(', ')}]
 
 ${content}`;
 
-            // 1. Create Post File
+            // 1. Create/Update Post File
             await client.createFile(
                 `public/posts/${slug}.md`,
                 fileContent,
-                `feat: add post ${title}`
+                `feat: ${isEditing ? 'update' : 'add'} post ${title}`
             );
 
-            // 2. Update config.ts registry
-            const configPath = 'src/lib/config.ts';
-            const configFile = await client.getFile(configPath);
+            // 2. Update config.ts registry (only if new)
+            if (!isEditing) {
+                const configPath = 'src/lib/config.ts';
+                const configFile = await client.getFile(configPath);
+                const updatedConfigContent = configFile.content.replace(
+                    /(const availablePosts(?:\s*:\s*[^=]+)?\s*=\s*\[)/,
+                    `$1\n  '${slug}',`
+                );
 
-            // Basic regex to insert slug into the array
-            // Looks for: const availablePosts = [ ... ];
-            // We insert the new slug at the beginning
-            const updatedConfigContent = configFile.content.replace(
-                /(const availablePosts(?:\s*:\s*[^=]+)?\s*=\s*\[)/,
-                `$1\n  '${slug}',`
-            );
-
-            if (updatedConfigContent === configFile.content) {
-                throw new Error("Could not find 'availablePosts' array in src/lib/config.ts");
+                if (updatedConfigContent !== configFile.content) {
+                    await client.createFile(
+                        configPath,
+                        updatedConfigContent,
+                        `chore: register post ${slug}`
+                    );
+                }
             }
 
-            await client.createFile(
-                configPath,
-                updatedConfigContent,
-                `chore: register post ${slug}`
-            );
+            toast.success(isEditing ? 'Post Updated!' : 'Post Published!');
 
-            toast.success('Post Published! Site will update closely.');
-
-            // Reset form
-            setTitle('');
-            setDescription('');
-            setTags('');
-            setContent('');
+            // Reload list if new
+            if (!isEditing) {
+                await loadPostList(client);
+                setSelectedPost(slug); // Switch to editing mode for the new post
+            }
 
         } catch (error: any) {
             console.error(error);
@@ -201,18 +278,45 @@ ${content}`;
     return (
         <div className="min-h-screen pt-24 px-4 pb-12 max-w-4xl mx-auto">
             <div className="flex justify-between items-center mb-8">
-                <h1 className="text-3xl font-bold text-primary">New Post</h1>
-                <Button variant="outline" onClick={() => {
-                    localStorage.clear();
-                    setIsAuthenticated(false);
-                    setToken('');
-                }}>Logout</Button>
+                <h1 className="text-3xl font-bold text-primary">
+                    {selectedPost === 'new' ? 'New Post' : 'Edit Post'}
+                </h1>
+                <div className="flex gap-2">
+                    <Select
+                        value={selectedPost}
+                        onValueChange={(val) => {
+                            setSelectedPost(val);
+                            loadPost(val);
+                        }}
+                    >
+                        <SelectTrigger className="w-[200px]">
+                            <SelectValue placeholder="Select Post" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="new">+ Create New</SelectItem>
+                            {existingPosts.map(slug => (
+                                <SelectItem key={slug} value={slug}>{slug}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+
+                    <Button variant="outline" onClick={() => {
+                        localStorage.clear();
+                        setIsAuthenticated(false);
+                        setToken('');
+                    }}>Logout</Button>
+                </div>
             </div>
 
             <div className="grid gap-6">
                 <div className="grid gap-2">
-                    <Label>Title</Label>
-                    <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Enter post title..." />
+                    <Label>Title {selectedPost !== 'new' && <span className="text-xs text-muted-foreground">(Locked while editing)</span>}</Label>
+                    <Input
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        placeholder="Enter post title..."
+                        disabled={selectedPost !== 'new'} // Lock title when editing to prevent slug drift
+                    />
                 </div>
 
                 <div className="grid gap-2">
@@ -259,7 +363,8 @@ ${content}`;
                 </div>
 
                 <Button size="lg" onClick={handlePublish} disabled={isLoading} className="w-full md:w-auto md:self-start">
-                    {isLoading ? 'Publishing...' : 'Publish Post'}
+                    {isLoading ? <Loader2 className="animate-spin mr-2" /> : null}
+                    {isLoading ? 'Processing...' : (selectedPost === 'new' ? 'Publish Post' : 'Update Post')}
                 </Button>
 
                 <p className="text-sm text-muted-foreground text-center">
