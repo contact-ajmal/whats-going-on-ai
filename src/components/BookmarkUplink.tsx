@@ -30,7 +30,7 @@ export function BookmarkUplink() {
                             <Wifi className="w-5 h-5 animate-pulse" />
                             <span className="absolute inset-0 w-5 h-5 bg-cyan-400/20 rounded-full animate-ping" />
                         </div>
-                        <span className="font-mono tracking-wider uppercase text-xs">Establish Uplink</span>
+                        <span className="font-mono tracking-wider uppercase text-xs">Bookmark Site</span>
                     </div>
 
                     {/* Scanning Line Effect */}
@@ -69,10 +69,10 @@ export function BookmarkUplink() {
 
                                 <div className="space-y-1">
                                     <h3 className="text-lg font-bold text-white tracking-widest uppercase font-mono">
-                                        Secure Connection
+                                        Save to Bookmarks
                                     </h3>
                                     <p className="text-sm text-gray-400">
-                                        Initialize neural link to maintain access.
+                                        Press the key combination to save this site.
                                     </p>
                                 </div>
 
@@ -83,8 +83,8 @@ export function BookmarkUplink() {
                                     </span>
                                 </div>
 
-                                <p className="text-xs text-gray-500 font-mono">
-                                    STATUS: AWAITING USER CONFIRMATION...
+                                <p className="text-xs text-muted-foreground font-mono">
+                                    Use this shortcut to add to your browser
                                 </p>
                             </div>
 
