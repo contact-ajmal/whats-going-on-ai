@@ -132,8 +132,7 @@ export const DataManager = {
 
         const { error } = await supabase
             .from('profiles')
-            .update({ interests })
-            .eq('id', userId);
+            .upsert({ id: userId, interests }, { onConflict: 'id' });
 
         return { success: !error, error };
     }
