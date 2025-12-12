@@ -112,14 +112,35 @@ export default function Home() {
           animate="visible"
           className="max-w-5xl mx-auto text-center z-10 relative"
         >
-          {/* Pill Label */}
-          <div className="flex justify-center mb-6">
-            <div className="flex items-center gap-2 text-sm font-medium tracking-[0.3em] text-primary/80 uppercase select-none opacity-80 hover:opacity-100 transition-opacity">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
-              WhatsGoingOnAI
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+          {/* BRAND SIGNAL */}
+          <motion.div variants={itemVariants} className="flex flex-col items-center justify-center mb-10 min-h-[80px]">
+
+            {/* Decorative Signal Lines */}
+            <div className="flex items-center gap-4 mb-4 opacity-50">
+              <div className="h-px w-12 bg-gradient-to-l from-primary to-transparent" />
+              <div className="text-[10px] tracking-[0.3em] font-mono text-primary/80 uppercase">Incoming Signal</div>
+              <div className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
             </div>
-          </div>
+
+            {/* The Brand */}
+            <div className="relative group">
+              <div className="absolute -inset-4 bg-primary/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+              <h2 className="relative text-3xl md:text-5xl font-black tracking-tight text-white select-none">
+                <DecoderText text="WhatsGoingOn" className="text-white" />
+                <span className="text-primary">AI</span>
+              </h2>
+            </div>
+
+            {/* Bottom Status */}
+            <div className="mt-2 flex items-center gap-2">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+              </span>
+              <span className="text-[9px] font-medium text-muted-foreground uppercase tracking-widest">Live Feed Active</span>
+            </div>
+
+          </motion.div>
 
           {/* HEADLINE */}
           <motion.h1 variants={itemVariants} className="text-6xl md:text-8xl font-extrabold tracking-tight mb-8 leading-[0.9]">
