@@ -141,7 +141,6 @@ export function Navigation() {
 
             {/* Right Side Utilities */}
             <div className="hidden md:flex items-center gap-2 shrink-0">
-              <BuyCoffeeButton className="h-9 px-3 text-xs" />
               <VisitorHUD />
               <LibraryDrawer />
               <Button
@@ -159,7 +158,6 @@ export function Navigation() {
 
             {/* Mobile Menu Button */}
             <div className="flex items-center gap-2 md:hidden">
-              <BuyCoffeeButton className="h-8 w-8 p-0 rounded-full" /> {/* Icon only version for mobile header maybe? No, let's keep it in menu or just icon */}
               <Button
                 variant="ghost"
                 size="icon"
@@ -211,10 +209,6 @@ export function Navigation() {
                 <div className="px-4 py-3 flex items-center justify-between border-t border-border/50">
                   <span className="text-sm font-medium text-muted-foreground">Appearance</span>
                   <ThemeToggle />
-                </div>
-
-                <div className="px-4 py-4 border-t border-border/50">
-                  <BuyCoffeeButton className="w-full" />
                 </div>
               </div>
             </motion.div>

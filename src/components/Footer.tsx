@@ -1,70 +1,132 @@
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Github, Twitter, Linkedin, Mail, ArrowUp } from 'lucide-react';
+import { Github, Twitter, Linkedin, Mail, Heart } from 'lucide-react';
 import { NewsletterSignup } from './NewsletterSignup';
 import { BuyCoffeeButton } from './BuyCoffeeButton';
 
 const socialLinks = [
-  { icon: Github, href: 'https://github.com/yourusername', label: 'GitHub' },
-  { icon: Twitter, href: 'https://twitter.com/yourusername', label: 'Twitter' },
-  { icon: Linkedin, href: 'https://linkedin.com/in/yourusername', label: 'LinkedIn' },
-  { icon: Mail, href: 'mailto:your@email.com', label: 'Email' },
+  { icon: Github, href: 'https://github.com/StartLedger', label: 'GitHub' },
+  { icon: Twitter, href: 'https://twitter.com/ajmal_nazir', label: 'Twitter' },
+  { icon: Linkedin, href: 'https://linkedin.com/in/ajmalnazir', label: 'LinkedIn' },
+  { icon: Mail, href: 'mailto:contact@whatsgoingon.ai', label: 'Email' },
 ];
 
+const footerLinks = {
+  explore: [
+    { label: 'AI News', href: '/updates' },
+    { label: 'Research Papers', href: '/research' },
+    { label: 'Video Feeds', href: '/videos' },
+    { label: 'Jobs Board', href: '/jobs' },
+    { label: 'Tools Directory', href: '/tools' },
+  ],
+  company: [
+    { label: 'About Us', href: '/about' },
+    { label: 'Blog', href: '/blog' },
+    { label: 'Timeline', href: '/history' },
+    { label: 'Learning Path', href: '/learning' },
+  ]
+};
+
 export function Footer() {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   return (
-    <footer className="relative mt-24 border-t border-border/50 bg-card/30 backdrop-blur-sm">
-      {/* Grid background */}
-      <div className="absolute inset-0 bg-grid-pattern bg-grid opacity-5" />
+    <footer className="relative mt-24 border-t border-white/5 bg-[#0a0a0a]">
+      {/* Decorative top gradient */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 
-      <div className="container relative mx-auto px-6 py-12">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          {/* Brand */}
-          <div className="text-center md:text-left">
-            <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
-              <div className="w-6 h-6 rounded bg-gradient-to-br from-primary to-secondary" />
-              <span className="font-semibold text-foreground">
+      <div className="container mx-auto px-6 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8">
+
+          {/* Brand Column (4 cols) */}
+          <div className="lg:col-span-4 flex flex-col gap-6">
+            <Link to="/" className="flex items-center gap-2 w-fit">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-primary-foreground font-bold">
+                W
+              </div>
+              <span className="font-bold text-xl tracking-tight">
                 WhatsGoingOn<span className="text-primary">AI</span>
               </span>
-            </div>
-            <p className="mt-4 text-muted-foreground text-sm leading-relaxed">
-              Exploring the frontiers of Artificial Intelligence, Machine Learning, and Software Engineering.
+            </Link>
+            <p className="text-muted-foreground leading-relaxed max-w-sm">
+              Your daily command center for Artificial Intelligence. We curate the latest breakthroughs, research, and tools to keep you ahead of the curve.
             </p>
+            <div className="flex items-center gap-4">
+              {socialLinks.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 rounded-full border border-white/5 bg-white/5 hover:bg-primary/10 hover:border-primary/20 hover:text-primary transition-all duration-300"
+                  aria-label={social.label}
+                >
+                  <social.icon className="w-4 h-4" />
+                </a>
+              ))}
+            </div>
           </div>
 
-          {/* Links */}
-          <div className="flex flex-col gap-4">
-            <h3 className="font-semibold text-foreground">Navigation</h3>
-            <div className="flex flex-col gap-2">
-              <Link to="/" className="text-muted-foreground hover:text-primary transition-colors text-sm">Home</Link>
-              <Link to="/about" className="text-muted-foreground hover:text-primary transition-colors text-sm">About</Link>
-              <Link to="/blog" className="text-muted-foreground hover:text-primary transition-colors text-sm">Blog</Link>
-              <Link to="/updates" className="text-muted-foreground hover:text-primary transition-colors text-sm">AI News</Link>
+          {/* Links Columns (2 cols each -> 4 cols total spacing) */}
+          <div className="lg:col-span-2 space-y-4">
+            <h4 className="font-semibold text-foreground tracking-wide">Explore</h4>
+            <ul className="space-y-2">
+              {footerLinks.explore.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    to={link.href}
+                    className="text-muted-foreground hover:text-primary transition-colors text-sm block py-1"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="lg:col-span-2 space-y-4">
+            <h4 className="font-semibold text-foreground tracking-wide">Resources</h4>
+            <ul className="space-y-2">
+              {footerLinks.company.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    to={link.href}
+                    className="text-muted-foreground hover:text-primary transition-colors text-sm block py-1"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Newsletter & Support (4 cols) */}
+          <div className="lg:col-span-4 space-y-6">
+            <div className="p-6 rounded-2xl border border-white/5 bg-white/[0.02] space-y-4">
+              <h4 className="font-semibold text-foreground">Stay Updated</h4>
+              <p className="text-sm text-muted-foreground">
+                Join our community of engineers and researchers. No spam, just high-signal AI updates.
+              </p>
+              <NewsletterSignup variant="minimal" />
+            </div>
+
+            <div className="flex items-center justify-between gap-4 p-4 rounded-xl border border-dashed border-white/10 bg-white/[0.01]">
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <Heart className="w-4 h-4 text-red-500 fill-red-500/10" />
+                <span>Support the project</span>
+              </div>
+              <BuyCoffeeButton className="h-9 px-4 text-xs" />
             </div>
           </div>
 
-          {/* Socials & Newsletter */}
-          <div className="flex flex-col gap-6 w-full max-w-sm">
-            <h3 className="font-semibold text-foreground">Stay Updated</h3>
-            <NewsletterSignup variant="minimal" />
-            <p className="text-xs text-muted-foreground">
-              Subscribe to get the latest AI research and updates delivered to your inbox.
-            </p>
-            <div className="pt-2">
-              <p className="text-xs font-medium text-muted-foreground mb-2">Support the Project</p>
-              <BuyCoffeeButton className="h-8 text-xs w-full" />
-            </div>
-          </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-primary/10 text-center text-sm text-muted-foreground">
-          <p>
-            &copy; {new Date().getFullYear()} WhatsGoingOnAI.
+        <div className="mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-sm text-muted-foreground">
+            &copy; {new Date().getFullYear()} WhatsGoingOnAI. All rights reserved.
           </p>
+          <div className="flex items-center gap-6 text-sm text-muted-foreground">
+            <Link to="#" className="hover:text-foreground transition-colors">Privacy Policy</Link>
+            <Link to="#" className="hover:text-foreground transition-colors">Terms of Service</Link>
+            <Link to="#" className="hover:text-foreground transition-colors">Cookie Policy</Link>
+          </div>
         </div>
       </div>
     </footer>
