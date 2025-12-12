@@ -20,10 +20,17 @@ export function NewsletterSignup({ variant = 'default' }: { variant?: 'default' 
         // Or for this user: 'https://formspree.io/f/whatsgoingonai@gmail.com' (though usually needs an ID)
 
         try {
-            // Mock delay
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            setStatus('success');
-            setEmail("");
+            const { DataManager } = await import('@/lib/dataManager');
+            const result = await DataManager.subscribeToNewsletter(email);
+
+            if (result.success) {
+                setStatus('success');
+                setEmail("");
+            } else {
+                setStatus('error');
+                // Optional: Show error toast here if you want
+                console.error(result.message);
+            }
         } catch (err) {
             console.error(err);
             setStatus('error');

@@ -93,5 +93,34 @@ export const DataManager = {
         }
 
         return { success: true, message: `Seeded: ${successCount}, Failed: ${failCount}` };
+    },
+    /**
+     * Subscribe to the newsletter
+     */
+    subscribeToNewsletter: async (email: string): Promise<{ success: boolean; message: string }> => {
+        if (!USE_SUPABASE || !supabase) {
+            console.warn("Supabase not enabled, falling back to mock success (Dev mode)");
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            return { success: true, message: "Subscribed (Mock)" };
+        }
+
+        try {
+            const { error } = await supabase
+                .from('subscribers')
+                .insert({ email });
+
+            if (error) {
+                if (error.code === '23505') { // Unique violation
+                    return { success: true, message: "You are already subscribed!" };
+                }
+                console.error("Newsletter error:", error);
+                return { success: false, message: "Failed to subscribe. Please try again." };
+            }
+
+            return { success: true, message: "Successfully subscribed!" };
+        } catch (err) {
+            console.error("Newsletter exception:", err);
+            return { success: false, message: "An unexpected error occurred." };
+        }
     }
 };
