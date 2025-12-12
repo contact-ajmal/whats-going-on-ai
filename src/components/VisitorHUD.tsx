@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Globe, Users, TrendingUp, MapPin, Activity } from 'lucide-react';
+import { Globe, Activity, MapPin, Signal } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
+import { supabase } from '@/lib/supabase';
 
 interface GeoData {
     city?: string;
@@ -10,38 +11,80 @@ interface GeoData {
     country_code?: string;
 }
 
+interface RegionStats {
+    country: string;
+    code: string;
+    count: number;
+}
+
 export function VisitorHUD() {
     const [geo, setGeo] = useState<GeoData | null>(null);
     const [isOpen, setIsOpen] = useState(false);
-    const [visitCount, setVisitCount] = useState<number | null>(null);
+    const [totalVisits, setTotalVisits] = useState<number>(0);
+    const [regions, setRegions] = useState<RegionStats[]>([]);
 
     useEffect(() => {
-        // Fetch location
-        fetch('https://ipapi.co/json/')
-            .then(res => res.json())
-            .then(data => setGeo(data))
-            .catch(err => console.error("Geo fetch failed", err));
+        async function initSession() {
+            try {
+                // 1. Get User Location
+                const res = await fetch('https://ipapi.co/json/');
+                const data = await res.json();
+                setGeo(data);
 
-        // Increment and fetch visit count (Real)
-        // Using namespace 'whatsgoingonai' and key 'visits'
-        fetch('https://api.counterapi.dev/v1/whatsgoingonai/visits/up')
-            .then(res => res.json())
-            .then(data => setVisitCount(data.count))
-            .catch(err => console.error("Count fetch failed", err));
+                if (!supabase) return;
+
+                // 2. Log Visit to Supabase
+                await supabase.from('analytics_visits').insert({
+                    country: data.country_name,
+                    city: data.city,
+                    country_code: data.country_code,
+                    path: window.location.pathname,
+                    user_agent: navigator.userAgent
+                });
+
+                // 3. Fetch Aggregate Stats
+                // Total Count
+                const { count } = await supabase.from('analytics_visits').select('*', { count: 'exact', head: true });
+                setTotalVisits(count || 0);
+
+                // Regions (This would ideally be a clear RPC or view, but for now we fetch recent 100 and aggregate client side for simplicity/speed without custom SQL functions)
+                const { data: recentVisits } = await supabase
+                    .from('analytics_visits')
+                    .select('country, country_code')
+                    .order('created_at', { ascending: false })
+                    .limit(500);
+
+                if (recentVisits) {
+                    const stats: Record<string, { count: number, code: string }> = {};
+                    recentVisits.forEach(v => {
+                        if (!v.country) return;
+                        if (!stats[v.country]) stats[v.country] = { count: 0, code: v.country_code };
+                        stats[v.country].count++;
+                    });
+
+                    const sortedRegions = Object.entries(stats)
+                        .map(([country, data]) => ({ country, code: data.code, count: data.count }))
+                        .sort((a, b) => b.count - a.count)
+                        .slice(0, 5);
+
+                    setRegions(sortedRegions);
+                }
+
+            } catch (err) {
+                console.error("Analytics Error:", err);
+            }
+        }
+
+        initSession();
     }, []);
-
-    const stats = [
-        { label: 'Daily Visits', value: '1.2k', icon: Users, color: 'text-blue-400' },
-        { label: 'Monthly', value: '45.8k', icon: TrendingUp, color: 'text-green-400' },
-        { label: 'Total', value: '540k+', icon: Globe, color: 'text-purple-400' },
-    ];
 
     return (
         <div className="relative z-50">
             <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md cursor-pointer hover:bg-white/10 transition-colors"
+                whileHover={{ scale: 1.05 }}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/40 border border-primary/20 backdrop-blur-md cursor-pointer hover:bg-primary/10 hover:border-primary/40 transition-all shadow-[0_0_15px_rgba(var(--primary),0.1)]"
                 onMouseEnter={() => setIsOpen(true)}
                 onMouseLeave={() => setIsOpen(false)}
                 onClick={() => setIsOpen(!isOpen)}
@@ -49,33 +92,30 @@ export function VisitorHUD() {
                 {/* Status Indicator */}
                 <div className="relative flex items-center justify-center w-2 h-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500 shadow-[0_0_8px_#22c55e]"></span>
                 </div>
 
-                <span className="text-xs font-mono font-medium text-green-400">
-                    Online
+                <span className="text-xs font-mono font-bold text-primary tracking-tight">
+                    LIVE
                 </span>
 
-                {visitCount !== null && (
+                {totalVisits > 0 && (
                     <>
-                        <div className="w-px h-3 bg-white/20 mx-1" />
-                        <span className="text-xs font-mono font-medium text-white">
-                            {visitCount.toLocaleString()} Visits
+                        <div className="w-px h-3 bg-white/10 mx-1" />
+                        <span className="text-xs font-mono font-medium text-white/90">
+                            {totalVisits.toLocaleString()}
                         </span>
                     </>
                 )}
 
                 {geo?.country_code && (
-                    <>
-                        <div className="w-px h-3 bg-white/20 mx-1" />
-                        <span className="text-xs text-muted-foreground flex items-center gap-1">
-                            <img
-                                src={`https://flagcdn.com/w20/${geo.country_code.toLowerCase()}.png`}
-                                alt={geo.country_name}
-                                className="w-4 h-auto rounded-[2px]"
-                            />
-                        </span>
-                    </>
+                    <div className="ml-1 w-4 h-3 rounded-[1px] overflow-hidden opacity-80">
+                        <img
+                            src={`https://flagcdn.com/w20/${geo.country_code.toLowerCase()}.png`}
+                            alt={geo.country_name}
+                            className="w-full h-full object-cover"
+                        />
+                    </div>
                 )}
             </motion.div>
 
@@ -86,48 +126,83 @@ export function VisitorHUD() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full right-0 mt-2 w-64"
+                        className="absolute top-full right-0 mt-3 w-80"
                         onMouseEnter={() => setIsOpen(true)}
                         onMouseLeave={() => setIsOpen(false)}
                     >
-                        <Card className="p-4 bg-black/80 backdrop-blur-xl border-white/10 shadow-2xl">
-                            <div className="space-y-4">
-                                {/* Header */}
-                                <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                                    <div className="flex items-center gap-2 text-sm font-semibold text-white">
-                                        <Activity className="w-4 h-4 text-green-400" />
-                                        Traffic Insights
+                        <Card className="p-0 bg-[#0a0a0a]/95 backdrop-blur-xl border-primary/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] overflow-hidden">
+                            {/* Header */}
+                            <div className="px-4 py-3 border-b border-white/5 bg-white/[0.02] flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <Activity className="w-4 h-4 text-primary" />
+                                    <span className="text-xs font-bold text-white uppercase tracking-widest">Global Intelligence</span>
+                                </div>
+                                <Badge variant="outline" className="text-[10px] h-5 bg-green-500/10 text-green-400 border-green-500/30 font-mono">
+                                    MONITORING
+                                </Badge>
+                            </div>
+
+                            <div className="p-4 space-y-6">
+                                {/* Main Stat */}
+                                <div className="flex items-end justify-between">
+                                    <div>
+                                        <p className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">Total Interceptions</p>
+                                        <h3 className="text-3xl font-black text-white font-mono tracking-tighter">
+                                            {totalVisits.toLocaleString()}
+                                        </h3>
                                     </div>
-                                    <Badge variant="outline" className="text-[10px] h-5 bg-green-500/10 text-green-400 border-green-500/30">
-                                        Online
-                                    </Badge>
+                                    <Globe className="w-8 h-8 text-white/5" />
                                 </div>
 
-                                {/* Location Info */}
+                                {/* Active Regions */}
+                                <div className="space-y-3">
+                                    <div className="flex items-center justify-between text-[10px] text-muted-foreground uppercase tracking-wider">
+                                        <span>Active Zones</span>
+                                        <span>Traffic</span>
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        {regions.map((region, idx) => (
+                                            <div key={region.code} className="group flex items-center gap-3">
+                                                <span className="text-[10px] font-mono text-muted-foreground w-4">0{idx + 1}</span>
+                                                <div className="w-5 h-3.5 rounded-[1px] overflow-hidden grayscale group-hover:grayscale-0 transition-all opacity-70 group-hover:opacity-100">
+                                                    <img
+                                                        src={`https://flagcdn.com/w20/${region.code.toLowerCase()}.png`}
+                                                        alt={region.country}
+                                                        className="w-full h-full object-cover"
+                                                    />
+                                                </div>
+                                                <div className="flex-1">
+                                                    <div className="flex items-center justify-between mb-1">
+                                                        <span className="text-xs font-medium text-white/80">{region.country}</span>
+                                                        {idx === 0 && <Signal className="w-3 h-3 text-primary animate-pulse" />}
+                                                    </div>
+                                                    <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                                                        <motion.div
+                                                            initial={{ width: 0 }}
+                                                            animate={{ width: `${(region.count / (regions[0]?.count || 1)) * 100}%` }}
+                                                            className="h-full bg-primary/60 rounded-full"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+
+                                        {regions.length === 0 && (
+                                            <div className="py-4 text-center text-xs text-muted-foreground">
+                                                Gathering intelligence...
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Current Location */}
                                 {geo && (
-                                    <div className="flex items-center gap-2 text-xs text-muted-foreground bg-white/5 p-2 rounded-lg">
-                                        <MapPin className="w-3 h-3 text-primary" />
-                                        <span>
-                                            Accessing from <span className="text-white font-medium">{geo.city}, {geo.country_name}</span>
-                                        </span>
+                                    <div className="pt-4 border-t border-white/5 flex items-center gap-2 text-xs text-muted-foreground/60">
+                                        <MapPin className="w-3 h-3" />
+                                        <span>Local Uplink: <span className="text-white/40">{geo.city}</span></span>
                                     </div>
                                 )}
-
-                                {/* Grid Stats */}
-                                <div className="grid grid-cols-1 gap-2">
-                                    <div className="flex items-center justify-between p-2 rounded-lg bg-white/5">
-                                        <div className="flex items-center gap-2">
-                                            <Globe className="w-4 h-4 text-purple-400" />
-                                            <span className="text-xs text-muted-foreground">Total Visits</span>
-                                        </div>
-                                        <span className="text-sm font-bold text-white">
-                                            {visitCount ? visitCount.toLocaleString() : '...'}
-                                        </span>
-                                    </div>
-                                    <div className="p-2 text-[10px] text-muted-foreground text-center border-t border-white/5 mt-1">
-                                        Real-time stats via CounterAPI
-                                    </div>
-                                </div>
                             </div>
                         </Card>
                     </motion.div>
