@@ -64,9 +64,14 @@ export function Footer() {
 
             <SignalVisual />
 
-            <p className="text-muted-foreground leading-relaxed max-w-md border-l-2 border-primary/20 pl-4">
-              Decoding the future of intelligence. We sift through the noise to bring you high-signal research, powerful tools, and the critical insights needed to navigate the AI revolution.
-            </p>
+            <div className="max-w-md space-y-4">
+              <h3 className="text-2xl md:text-3xl font-black tracking-tight text-white leading-tight">
+                Decoding the <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-500">future</span> of intelligence.
+              </h3>
+              <p className="text-lg font-medium text-muted-foreground leading-relaxed">
+                We sift through the noise to bring you high-signal research, powerful tools, and the critical insights needed to navigate the AI revolution.
+              </p>
+            </div>
             <div className="flex items-center gap-4">
               {socialLinks.map((social) => (
                 <a
