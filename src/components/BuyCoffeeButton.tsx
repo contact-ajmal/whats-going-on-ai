@@ -9,6 +9,14 @@ interface BuyCoffeeButtonProps {
 
 export function BuyCoffeeButton({ className, username = 'ajmalnazir' }: BuyCoffeeButtonProps) {
     const handleClick = () => {
+        // Try to trigger the floating widget if it exists
+        const widgetBtn = document.querySelector('#bmc-wbtn');
+        if (widgetBtn && widgetBtn instanceof HTMLElement) {
+            widgetBtn.click();
+            return;
+        }
+
+        // Fallback to new tab
         window.open(`https://www.buymeacoffee.com/${username}`, '_blank');
     };
 
