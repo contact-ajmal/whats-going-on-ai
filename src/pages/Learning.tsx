@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { NeuralBackground } from '@/components/NeuralBackground';
 import { LearningFeed } from '@/components/LearningFeed';
@@ -8,15 +8,11 @@ import { Footer } from '@/components/Footer';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { Search, Sparkles } from 'lucide-react';
 import { Input } from "@/components/ui/input";
+import { FALLBACK_LEARNING } from '@/data/fallbackLearning';
+import { Button } from "@/components/ui/button";
 
 // Course Ticker Component
-const CourseTicker = () => {
-    const topics = [
-        "Generative AI", "LLM Fine-tuning", "PyTorch Deep Dive", "Transformer Architecture",
-        "Reinforcement Learning", "Computer Vision", "LangChain Agents", "Prompt Engineering",
-        "Stable Diffusion", "AI Ethics", "MLOps", "RAG Systems"
-    ];
-
+const CourseTicker = ({ topics, onTopicClick }: { topics: string[], onTopicClick: (topic: string) => void }) => {
     return (
         <div className="w-full overflow-hidden bg-white/5 border-y border-white/5 py-3 mb-12 relative group cursor-default">
             <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
@@ -24,10 +20,15 @@ const CourseTicker = () => {
 
             <div className="flex whitespace-nowrap animate-marquee group-hover:[animation-play-state:paused]">
                 {[...topics, ...topics].map((topic, i) => (
-                    <div key={i} className="flex items-center gap-2 mx-6 text-xs md:text-sm font-medium text-muted-foreground/80 tracking-wide">
+                    <Button
+                        key={`${topic}-${i}`}
+                        variant="ghost"
+                        className="flex items-center gap-2 mx-6 text-xs md:text-sm font-medium text-muted-foreground/80 tracking-wide hover:text-primary hover:bg-white/5 transition-all"
+                        onClick={() => onTopicClick(topic)}
+                    >
                         <Sparkles className="w-3 h-3 text-primary/50" />
                         {topic}
-                    </div>
+                    </Button>
                 ))}
             </div>
         </div>
@@ -36,6 +37,12 @@ const CourseTicker = () => {
 
 export default function Learning() {
     const [searchTerm, setSearchTerm] = useState("");
+
+    // Derive unique tags from available data to ensure ticker only shows relevant content
+    const availableTopics = useMemo(() => {
+        const allTags = FALLBACK_LEARNING.flatMap(item => item.tags);
+        return Array.from(new Set(allTags)).sort();
+    }, []);
 
     return (
         <div className="min-h-screen bg-background text-foreground selection:bg-primary/20">
@@ -74,7 +81,7 @@ export default function Learning() {
                     </motion.div>
 
                     {/* Ticker */}
-                    <CourseTicker />
+                    <CourseTicker topics={availableTopics} onTopicClick={setSearchTerm} />
 
                     {/* Learning Feed */}
                     <div className="max-w-7xl mx-auto">
