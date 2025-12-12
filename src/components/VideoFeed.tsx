@@ -248,7 +248,7 @@ export function VideoFeed() {
                             <Button
                                 size="icon"
                                 variant="secondary"
-                                className="absolute top-2 right-2 h-8 w-8 rounded-full bg-black/50 hover:bg-black/80 text-white border-none shadow-sm z-10"
+                                className="absolute top-2 right-2 h-8 w-8 rounded-full bg-black/50 hover:bg-black/80 text-white border-none shadow-sm z-50"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     toggleBookmark({

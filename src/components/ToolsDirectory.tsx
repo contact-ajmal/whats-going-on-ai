@@ -118,7 +118,7 @@ function ToolCard({ tool, isExpanded, onToggle }: { tool: Tool, isExpanded: bool
                 <Button
                     size="icon"
                     variant="ghost"
-                    className="absolute top-4 right-4 h-8 w-8 rounded-full bg-white/5 hover:bg-white/10 text-white z-20"
+                    className="absolute top-4 right-4 h-8 w-8 rounded-full bg-white/5 hover:bg-white/10 text-white z-50"
                     onClick={(e) => {
                         e.stopPropagation();
                         toggleBookmark({
