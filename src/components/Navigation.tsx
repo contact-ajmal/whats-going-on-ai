@@ -1,4 +1,3 @@
-```
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
@@ -128,9 +127,6 @@ export function Navigation() {
                         </ListItem>
                         <ListItem href="/tools" title="Tools Directory" icon={Wrench}>
                           Explore standard tools and MCP servers.
-                        </ListItem>
-                        <ListItem href="/leaderboard" title="Leaderboard" icon={Trophy}>
-                          Live rankings of top AI models.
                         </ListItem>
                         <ListItem href="/history" title="Timeline" icon={Clock}>
                           Interactive history of AI milestones.
