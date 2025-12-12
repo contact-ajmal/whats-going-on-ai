@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Github, Twitter, Linkedin, Mail, ArrowUp } from 'lucide-react';
 import { NewsletterSignup } from './NewsletterSignup';
+import { BuyCoffeeButton } from './BuyCoffeeButton';
 
 const socialLinks = [
   { icon: Github, href: 'https://github.com/yourusername', label: 'GitHub' },
@@ -53,6 +54,10 @@ export function Footer() {
             <p className="text-xs text-muted-foreground">
               Subscribe to get the latest AI research and updates delivered to your inbox.
             </p>
+            <div className="pt-2">
+              <p className="text-xs font-medium text-muted-foreground mb-2">Support the Project</p>
+              <BuyCoffeeButton className="h-8 text-xs w-full" />
+            </div>
           </div>
         </div>
 
