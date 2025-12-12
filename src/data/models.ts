@@ -21,7 +21,7 @@ export const models: Model[] = [
         releaseDate: '2024-05-13',
         tier: 'S',
         scores: {
-            elo: 1287,
+            elo: 88.7, // Average
             coding: 90.2,
             reasoning: 88.7,
             context: '128k'
@@ -35,7 +35,7 @@ export const models: Model[] = [
         releaseDate: '2024-06-20',
         tier: 'S',
         scores: {
-            elo: 1272,
+            elo: 88.2,
             coding: 92.0,
             reasoning: 88.3,
             context: '200k'
@@ -49,7 +49,7 @@ export const models: Model[] = [
         releaseDate: '2024-05-14',
         tier: 'S',
         scores: {
-            elo: 1261,
+            elo: 87.5,
             coding: 87.1,
             reasoning: 85.9,
             context: '2M'
@@ -63,7 +63,7 @@ export const models: Model[] = [
         releaseDate: '2024-04-18',
         tier: 'A',
         scores: {
-            elo: 1208,
+            elo: 82.3,
             coding: 81.7,
             reasoning: 82.0,
             context: '8k'
@@ -77,7 +77,7 @@ export const models: Model[] = [
         releaseDate: '2023-11-06',
         tier: 'A',
         scores: {
-            elo: 1255,
+            elo: 85.4,
             coding: 85.4,
             reasoning: 86.5,
             context: '128k'
@@ -91,7 +91,7 @@ export const models: Model[] = [
         releaseDate: '2024-03-04',
         tier: 'S',
         scores: {
-            elo: 1248,
+            elo: 86.8,
             coding: 84.9,
             reasoning: 86.8,
             context: '200k'
@@ -105,7 +105,7 @@ export const models: Model[] = [
         releaseDate: '2024-07-24',
         tier: 'A',
         scores: {
-            elo: 1230,
+            elo: 84.1,
             coding: 84.4,
             reasoning: 84.0,
             context: '128k'
