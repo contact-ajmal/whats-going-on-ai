@@ -112,7 +112,7 @@ export function Leaderboard() {
                                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                                     <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                                 </span>
-                                <span className="text-[10px] font-bold text-green-500 tracking-wider">LIVE FEED</span>
+                                <span className="text-[10px] font-bold text-green-500 tracking-wider">LIVE (HUGGINGFACE)</span>
                             </div>
                         </div>
                         <p className="text-muted-foreground text-lg max-w-2xl">
@@ -168,8 +168,8 @@ export function Leaderboard() {
                         <div className="col-span-1">Rank</div>
                         <div className="col-span-3">Model</div>
                         <div className="col-span-2">Tier</div>
-                        <div className="col-span-2 text-right">Arena Elo</div>
-                        <div className="col-span-2 text-right">Coding</div>
+                        <div className="col-span-2 text-right">Average Score</div>
+                        <div className="col-span-2 text-right">Math/Code (GSM8K)</div>
                         <div className="col-span-2 text-right">Reasoning</div>
                     </div>
 
@@ -223,18 +223,18 @@ export function Leaderboard() {
 
                                         {/* Stats Grid */}
                                         <div className="w-full md:col-span-6 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-0 md:items-center">
-                                            {/* Elo */}
+                                            {/* Average / Elo */}
                                             <div className="md:px-4 md:text-right">
-                                                <div className="md:hidden text-xs text-muted-foreground mb-1">Arena Elo</div>
-                                                <span className="font-mono font-bold text-white text-lg">{model.scores.elo}</span>
+                                                <div className="md:hidden text-xs text-muted-foreground mb-1">Average</div>
+                                                <span className="font-mono font-bold text-white text-lg">{model.scores.elo.toFixed(2)}</span>
                                             </div>
 
-                                            {/* Coding */}
+                                            {/* Coding / GSM8K */}
                                             <div className="md:px-4">
-                                                <ScoreCell value={model.scores.coding} max={100} label={activeTab === 'overall' ? 'Coding' : undefined} />
+                                                <ScoreCell value={model.scores.coding} max={100} label={activeTab === 'overall' ? 'GSM8K' : undefined} />
                                             </div>
 
-                                            {/* Reasoning */}
+                                            {/* Reasoning / MMLU */}
                                             <div className="md:px-4">
                                                 <ScoreCell value={model.scores.reasoning} max={100} label={activeTab === 'overall' ? 'MMLU' : undefined} />
                                             </div>
