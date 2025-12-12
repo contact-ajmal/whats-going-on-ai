@@ -16,6 +16,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { UserMenu } from "@/components/UserMenu";
 import { cn } from "@/lib/utils";
 
 const ListItem = ({ className, title, children, href, icon: Icon, ...props }: any) => {
@@ -151,6 +152,7 @@ export function Navigation() {
                 <Search className="h-[1.2rem] w-[1.2rem]" />
               </Button>
               <ThemeToggle />
+              <UserMenu />
             </div>
 
             {/* Mobile Menu Button */}

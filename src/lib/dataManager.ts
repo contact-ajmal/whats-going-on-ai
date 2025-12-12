@@ -122,5 +122,19 @@ export const DataManager = {
             console.error("Newsletter exception:", err);
             return { success: false, message: "An unexpected error occurred." };
         }
+    },
+
+    /**
+     * Update user interests
+     */
+    updateInterests: async (userId: string, interests: string[]) => {
+        if (!USE_SUPABASE || !supabase) return { success: false, error: "Supabase disabled" };
+
+        const { error } = await supabase
+            .from('profiles')
+            .update({ interests })
+            .eq('id', userId);
+
+        return { success: !error, error };
     }
 };
