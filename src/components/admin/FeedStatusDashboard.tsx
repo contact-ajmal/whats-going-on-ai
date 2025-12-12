@@ -146,12 +146,14 @@ export function FeedStatusDashboard() {
 
         const start = performance.now();
         try {
-            // Add cache buster for manual retries
-            const cacheBustUrl = baseFeed.url.includes('?')
-                ? `${baseFeed.url}&_t=${Date.now()}`
-                : `${baseFeed.url}?_t=${Date.now()}`;
+            // Only add query-string cache busting for rss2json (which aggressively caches)
+            // Strict APIs like GitHub/Dev.to might reject unknown params with 422
+            let fetchUrl = baseFeed.url;
+            if (fetchUrl.includes('rss2json')) {
+                fetchUrl += fetchUrl.includes('?') ? `&_t=${Date.now()}` : `?_t=${Date.now()}`;
+            }
 
-            const res = await fetch(cacheBustUrl);
+            const res = await fetch(fetchUrl, { cache: 'no-store' });
             const end = performance.now();
             const latency = Math.round(end - start);
 
