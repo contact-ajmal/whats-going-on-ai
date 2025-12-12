@@ -129,6 +129,9 @@ export function Navigation() {
                         <ListItem href="/tools" title="Tools Directory" icon={Wrench}>
                           Explore standard tools and MCP servers.
                         </ListItem>
+                        <ListItem href="/leaderboard" title="Leaderboard" icon={Trophy}>
+                          Live rankings of top AI models.
+                        </ListItem>
                         <ListItem href="/history" title="Timeline" icon={Clock}>
                           Interactive history of AI milestones.
                         </ListItem>
@@ -208,6 +211,7 @@ export function Navigation() {
                 <Link to="/jobs" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><Briefcase className="w-4 h-4" /> Jobs</Link>
                 <Link to="/learning" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><GraduationCap className="w-4 h-4" /> Learning</Link>
                 <Link to="/tools" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><Wrench className="w-4 h-4" /> Tools</Link>
+                <Link to="/leaderboard" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><Trophy className="w-4 h-4" /> Leaderboard</Link>
                 <Link to="/history" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><Clock className="w-4 h-4" /> Timeline</Link>
 
                 <div className="border-t border-border/50 my-2" />
