@@ -14,6 +14,7 @@ const navLinks = [
   { path: '/updates', label: 'Latest Updates' },
   { path: '/research', label: 'Research' },
   { path: '/videos', label: 'Videos' },
+  { path: '/compass', label: 'Compass' },
   { path: '/history', label: 'History' },
   { path: '/about', label: 'About' },
 ];
