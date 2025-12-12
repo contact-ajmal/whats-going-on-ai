@@ -12,6 +12,7 @@ import Admin from "./pages/Admin";
 import { History } from "./pages/History";
 import Videos from "./pages/Videos";
 import CompassPage from "./pages/Compass";
+import ToolsPage from "./pages/Tools";
 import LatestUpdates from "./pages/LatestUpdates";
 import NotFound from "./pages/NotFound";
 
@@ -34,6 +35,7 @@ const App = () => (
           <Route path="/history" element={<History />} />
           <Route path="/videos" element={<Videos />} />
           <Route path="/compass" element={<CompassPage />} />
+          <Route path="/tools" element={<ToolsPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
