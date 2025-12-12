@@ -42,7 +42,7 @@ export function Footer() {
               <Link to="/" className="text-muted-foreground hover:text-primary transition-colors text-sm">Home</Link>
               <Link to="/about" className="text-muted-foreground hover:text-primary transition-colors text-sm">About</Link>
               <Link to="/blog" className="text-muted-foreground hover:text-primary transition-colors text-sm">Blog</Link>
-              <Link to="/updates" className="text-muted-foreground hover:text-primary transition-colors text-sm">Latest Updates</Link>
+              <Link to="/updates" className="text-muted-foreground hover:text-primary transition-colors text-sm">AI News</Link>
             </div>
           </div>
 

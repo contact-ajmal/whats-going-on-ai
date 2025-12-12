@@ -156,7 +156,7 @@ export default function Home() {
         >
           <div className="mb-10">
             <h2 className="text-3xl font-bold border-l-4 border-secondary pl-4 mb-2">
-              Latest Updates
+              AI News
             </h2>
             <p className="text-muted-foreground ml-5">Real-time news from around the AI web.</p>
           </div>

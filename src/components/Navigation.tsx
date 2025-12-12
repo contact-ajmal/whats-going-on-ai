@@ -11,7 +11,7 @@ import { VisitorHUD } from '@/components/VisitorHUD';
 const navLinks = [
   { path: '/', label: 'Home' },
   { path: '/blog', label: 'Blog' },
-  { path: '/updates', label: 'Latest Updates' },
+  { path: '/updates', label: 'AI News' },
   { path: '/research', label: 'Research' },
   { path: '/videos', label: 'Videos' },
   { path: '/tools', label: 'Tools' },

@@ -22,7 +22,7 @@ export default function LatestUpdates() {
             className="max-w-4xl mx-auto text-center mb-16"
           >
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              <span className="text-primary">//</span> Latest Updates
+              <span className="text-primary">//</span> AI News
             </h1>
             <p className="text-xl text-muted-foreground">
               AI news, insights, and commentary.
