@@ -50,6 +50,18 @@ export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
+  const navItems = [
+    { to: '/news', label: 'News', icon: Newspaper },
+    { to: '/research', label: 'Research', icon: BookOpen }, // Assuming Lightbulb was a typo for BookOpen based on original
+    { to: '/learning', label: 'Learning', icon: GraduationCap },
+    { to: '/videos', label: 'Videos', icon: Video }, // Assuming PlaySquare was a typo for Video based on original
+    { to: '/jobs', label: 'Jobs', icon: Briefcase },
+    { to: '/tools', label: 'Tools', icon: Wrench }, // Assuming Calculator was a typo for Wrench based on original
+    { to: '/leaderboard', label: 'Leaderboard', icon: Trophy },
+    // { to: '/glossary', label: 'Glossary', icon: BookOpen }, // Not in original structure
+    // { to: '/archive', label: 'Archive', icon: Archive }, // Not in original structure
+  ];
+
   return (
     <>
       <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
