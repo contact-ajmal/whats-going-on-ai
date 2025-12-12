@@ -44,8 +44,10 @@ export function LearningFeed({ searchTerm }: { searchTerm: string }) {
     // Filter Logic
     const filteredResources = useMemo(() => {
         return resources.filter(r => {
-            const matchesSearch = r.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                r.instructor.toLowerCase().includes(searchTerm.toLowerCase());
+            const lowerSearch = searchTerm.toLowerCase();
+            const matchesSearch = r.title.toLowerCase().includes(lowerSearch) ||
+                r.instructor.toLowerCase().includes(lowerSearch) ||
+                r.tags.some(tag => tag.toLowerCase().includes(lowerSearch));
             const matchesPlatform = selectedPlatforms.length === 0 || selectedPlatforms.includes(r.platform);
             const matchesLevel = selectedLevels.length === 0 || selectedLevels.includes(r.level);
             const matchesType = selectedTypes.length === 0 || selectedTypes.includes(r.type);
