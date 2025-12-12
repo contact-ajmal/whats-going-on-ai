@@ -22,15 +22,10 @@ The application features a distinct "Neural" aesthetic, utilizing WebGL-style pa
 - **Job Board**: Live listings for AI/ML roles from WeWorkRemotely and RemoteOK with advanced filtering.
 - **Video Stream**: Curated YouTube feeds from top educators (Andrej Karpathy, Two Minute Papers).
 
-### 🛡️ Admin System & Dashboards
-- **System Status Board**: A custom-built diagnostic dashboard that monitors the health and latency of all external data streams.
-- **Content Management**: Built-in Markdown editor for publishing blog posts and newsletters directly to the platform.
-- **Supabase Integration**: Real-time analytics, visitor tracking, and newsletter subscriber management.
-
 ### 🎨 Advanced UI/UX
 - **"Neural" Design System**: Custom Tailwind configuration for neon glows, dark mode mastery, and fluid animations.
-- **Anti-Copy Protection**: Implemented custom DRM-like features (Shortcuts disabled, Right-click blocked) to protect intellectual property.
 - **Recursive Navigation**: Unique "Infinite Drawer" navigation pattern for exploring content libraries.
+- **Responsive Design**: Fluid layouts that adapt perfectly from mobile to ultra-wide displays.
 
 ---
 
