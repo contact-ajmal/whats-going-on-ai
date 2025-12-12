@@ -1,7 +1,15 @@
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Users, Newspaper, Hammer } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
+import { GitHubClient } from '@/lib/github';
 
-export function AdminDashboard() {
+interface AdminDashboardProps {
+    token: string;
+    repo: string;
+}
+
+export function AdminDashboard({ token, repo }: AdminDashboardProps) {
     const [stats, setStats] = useState({
         subscribers: '--',
         tools: '--',
