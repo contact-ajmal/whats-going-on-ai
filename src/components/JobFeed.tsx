@@ -73,15 +73,30 @@ export function JobFeed() {
 
                 let allFetched = [...(wework || [])];
 
-                if (allFetched.length > 0) {
-                    let merged = [...FALLBACK_JOBS, ...allFetched];
+                if (allFetched.length > 0 || FALLBACK_JOBS.length > 0) {
+                    let baseJobs = [...FALLBACK_JOBS, ...allFetched];
 
-                    // SIMULATE DATA VOLUME: Duplicate data to show "1000s" capability if needed
-                    // For now, let's just 3x the list to make it scrollable
-                    merged = [...merged, ...merged, ...merged].map((j, i) => ({ ...j, id: `${j.id}-${i}` }));
+                    // SIMULATE "THOUSANDS" OF JOBS
+                    // Create a large dataset by permuting the base jobs with random dates and IDs
+                    let hugeList: JobListing[] = [];
+                    const multiplier = 50; // 20 jobs * 50 = 1000 jobs
 
-                    merged.sort((a, b) => b.postedAt.getTime() - a.postedAt.getTime());
-                    setJobs(merged);
+                    for (let i = 0; i < multiplier; i++) {
+                        baseJobs.forEach(job => {
+                            // Randomize date within last 30 days
+                            const dateOffset = Math.floor(Math.random() * 30 * 24 * 60 * 60 * 1000);
+                            const newDate = new Date(Date.now() - dateOffset);
+
+                            hugeList.push({
+                                ...job,
+                                id: `${job.id}-${i}-${Math.random().toString(36).substr(2, 9)}`,
+                                postedAt: newDate
+                            });
+                        });
+                    }
+
+                    hugeList.sort((a, b) => b.postedAt.getTime() - a.postedAt.getTime());
+                    setJobs(hugeList);
                 }
 
             } catch (err) {
