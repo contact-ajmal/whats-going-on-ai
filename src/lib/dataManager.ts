@@ -148,7 +148,7 @@ export const DataManager = {
             .upsert({ id: userId, interests }, { onConflict: 'id' });
 
         return { success: !error, error };
-    }
+    },
     /**
      * Bookmark Management
      */
