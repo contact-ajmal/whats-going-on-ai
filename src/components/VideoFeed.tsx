@@ -187,7 +187,7 @@ export function VideoFeed() {
                 </div>
 
                 {/* Scrolling Channels */}
-                <div className="flex animate-marquee items-center hover:[animation-play-state:paused] ml-48">
+                <div className="flex animate-marquee items-center hover:[animation-play-state:paused] ml-[140px] md:ml-48">
                     {[...activeChannels, ...activeChannels].map((channel, i) => (
                         <div
                             key={`${channel.name}-${i}`}

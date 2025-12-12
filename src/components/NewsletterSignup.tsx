@@ -91,7 +91,7 @@ export function NewsletterSignup({ variant = 'default' }: { variant?: 'default' 
                     </p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 w-full md:w-auto min-w-[320px]">
+                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
                     <Input
                         type="email"
                         placeholder="email@example.com"
