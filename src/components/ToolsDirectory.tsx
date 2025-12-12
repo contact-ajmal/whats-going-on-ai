@@ -1,12 +1,13 @@
 import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Sparkles, Terminal, Database, Video, Mic, Briefcase, GraduationCap, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
+import { Search, Sparkles, Terminal, Database, Video, Mic, Briefcase, GraduationCap, ExternalLink, ChevronDown, ChevronUp, Bookmark } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Tool } from '@/data/toolsData';
 import { DataManager } from '@/lib/dataManager';
+import { useBookmarks } from '@/hooks/useBookmarks';
 
 const categories = [
     { id: 'All', label: 'All Tools', icon: Sparkles },
@@ -102,6 +103,8 @@ export function ToolsDirectory() {
 }
 
 function ToolCard({ tool, isExpanded, onToggle }: { tool: Tool, isExpanded: boolean, onToggle: () => void }) {
+    const { toggleBookmark, isBookmarked } = useBookmarks();
+
     return (
         <motion.div
             layout
@@ -110,7 +113,27 @@ function ToolCard({ tool, isExpanded, onToggle }: { tool: Tool, isExpanded: bool
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.2 }}
         >
-            <Card className={`h-full border-white/10 bg-black/40 backdrop-blur-md hover:border-white/20 transition-all duration-300 overflow-hidden ${tool.category === 'MCP Server' ? 'shadow-[0_0_15px_rgba(59,130,246,0.1)] border-blue-500/20' : ''}`}>
+            <Card className={`h-full border-white/10 bg-black/40 backdrop-blur-md hover:border-white/20 transition-all duration-300 overflow-hidden relative ${tool.category === 'MCP Server' ? 'shadow-[0_0_15px_rgba(59,130,246,0.1)] border-blue-500/20' : ''}`}>
+                {/* Bookmark Button */}
+                <Button
+                    size="icon"
+                    variant="ghost"
+                    className="absolute top-4 right-4 h-8 w-8 rounded-full bg-white/5 hover:bg-white/10 text-white z-20"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        toggleBookmark({
+                            id: tool.id,
+                            title: tool.name,
+                            url: tool.url,
+                            source: tool.category,
+                            type: 'Tool',
+                            publishedAt: new Date().toISOString()
+                        });
+                    }}
+                >
+                    <Bookmark className={`h-4 w-4 ${isBookmarked(tool.id) ? "fill-primary text-primary" : "text-white"}`} />
+                </Button>
+
                 <div className="p-6">
                     <div className="flex items-start justify-between mb-4">
                         <div className="flex items-center gap-4">

@@ -149,4 +149,61 @@ export const DataManager = {
 
         return { success: !error, error };
     }
+    /**
+     * Bookmark Management
+     */
+    getBookmarks: async (userId: string) => {
+        if (!USE_SUPABASE || !supabase) return { success: false, data: [] };
+
+        const { data, error } = await supabase
+            .from('bookmarks')
+            .select('*')
+            .eq('user_id', userId)
+            .order('created_at', { ascending: false });
+
+        if (error) {
+            console.error("Error fetching bookmarks:", error);
+            return { success: false, error };
+        }
+        return { success: true, data };
+    },
+
+    addBookmark: async (userId: string, item: any) => {
+        if (!USE_SUPABASE || !supabase) return { success: false, error: "Supabase disabled" };
+
+        const { error } = await supabase
+            .from('bookmarks')
+            .insert({
+                user_id: userId,
+                item_id: item.id,
+                title: item.title || item.name, // Handle Tools which use 'name'
+                url: item.url,
+                source: item.source || item.channelTitle || item.platform || 'Unknown',
+                type: item.type || item.category || 'resource',
+                published_at: item.publishedAt || new Date().toISOString()
+            });
+
+        if (error) {
+            // Ignore duplicate inserts silently (optional, but good for UX)
+            if (error.code === '23505') return { success: true };
+            console.error("Error adding bookmark:", error);
+            return { success: false, error };
+        }
+        return { success: true };
+    },
+
+    removeBookmark: async (userId: string, itemId: string) => {
+        if (!USE_SUPABASE || !supabase) return { success: false, error: "Supabase disabled" };
+
+        const { error } = await supabase
+            .from('bookmarks')
+            .delete()
+            .match({ user_id: userId, item_id: itemId });
+
+        if (error) {
+            console.error("Error removing bookmark:", error);
+            return { success: false, error };
+        }
+        return { success: true };
+    }
 };

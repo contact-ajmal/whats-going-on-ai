@@ -4,11 +4,13 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Search, ExternalLink, ArrowRight, Filter, BookOpen, Video, GraduationCap, PlayCircle, Star } from "lucide-react";
+import { Search, ExternalLink, ArrowRight, Filter, BookOpen, Video, GraduationCap, PlayCircle, Star, Bookmark } from "lucide-react";
 import { FALLBACK_LEARNING, LearningResource } from '../data/fallbackLearning';
+import { useBookmarks } from '@/hooks/useBookmarks';
 
 export function LearningFeed({ searchTerm }: { searchTerm: string }) {
     const [resources, setResources] = useState<LearningResource[]>([]);
+    const { toggleBookmark, isBookmarked } = useBookmarks();
     // searchTerm state is now lifted
 
     // Initialize with multiplied data for "infinite" feel
@@ -138,7 +140,27 @@ export function LearningFeed({ searchTerm }: { searchTerm: string }) {
                 {/* List */}
                 <div className="grid gap-4">
                     {filteredResources.map((resource) => (
-                        <Card key={resource.id} className="group overflow-hidden border-white/10 bg-card/30 backdrop-blur-md hover:border-primary/50 hover:shadow-lg transition-all duration-300">
+                        <Card key={resource.id} className="group overflow-hidden border-white/10 bg-card/30 backdrop-blur-md hover:border-primary/50 hover:shadow-lg transition-all duration-300 relative">
+                            {/* Bookmark Button */}
+                            <Button
+                                size="icon"
+                                variant="ghost"
+                                className="absolute top-4 right-4 h-8 w-8 rounded-full bg-black/40 hover:bg-black/60 text-white z-20"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    toggleBookmark({
+                                        id: resource.id,
+                                        title: resource.title,
+                                        url: resource.url,
+                                        source: resource.platform,
+                                        type: resource.type,
+                                        publishedAt: new Date().toISOString() // Fallback as we don't have date
+                                    });
+                                }}
+                            >
+                                <Bookmark className={`h-4 w-4 ${isBookmarked(resource.id) ? "fill-primary text-primary" : "text-white"}`} />
+                            </Button>
+
                             <CardHeader className="pb-3 p-4 sm:p-6">
                                 <div className="flex justify-between items-start gap-4">
                                     <div className="flex gap-4 w-full">

@@ -1,48 +1,106 @@
 import { useState, useEffect } from 'react';
+import { useAuth } from '@/context/AuthContext';
+import { DataManager } from '@/lib/dataManager';
+import { toast } from 'sonner';
 
 export interface BookmarkItem {
     id: string;
     title: string;
     url: string;
     source: string;
-    type: 'news' | 'research' | 'blog';
-    publishedAt: string; // ISO string
+    type: string;
+    publishedAt: string | Date;
+    [key: string]: any; // Allow extra props
 }
 
 export function useBookmarks() {
+    const { user } = useAuth();
     const [bookmarks, setBookmarks] = useState<BookmarkItem[]>([]);
+    const [loading, setLoading] = useState(false);
 
-    // Load from local storage on mount
+    // Load bookmarks on mount or auth change
     useEffect(() => {
-        const stored = localStorage.getItem('onai_bookmarks');
-        if (stored) {
-            try {
-                setBookmarks(JSON.parse(stored));
-            } catch (e) {
-                console.error("Failed to parse bookmarks", e);
+        const loadBookmarks = async () => {
+            if (user) {
+                // Cloud Mode
+                setLoading(true);
+                const { success, data } = await DataManager.getBookmarks(user.id);
+                if (success && data) {
+                    // Normalize data from DB
+                    const normalized = data.map((b: any) => ({
+                        id: b.item_id, // Important: Map item_id back to id for frontend consistency
+                        title: b.title,
+                        url: b.url,
+                        source: b.source,
+                        type: b.type,
+                        publishedAt: b.published_at
+                    }));
+                    setBookmarks(normalized);
+                }
+                setLoading(false);
+            } else {
+                // Local Mode
+                const stored = localStorage.getItem('onai_bookmarks');
+                if (stored) {
+                    try {
+                        setBookmarks(JSON.parse(stored));
+                    } catch (e) {
+                        console.error("Failed to parse local bookmarks", e);
+                    }
+                } else {
+                    setBookmarks([]);
+                }
             }
-        }
-    }, []);
+        };
+
+        loadBookmarks();
+    }, [user]);
 
     const isBookmarked = (id: string) => {
         return bookmarks.some(item => item.id === id);
     };
 
-    const addBookmark = (item: BookmarkItem) => {
-        setBookmarks(prev => {
-            if (prev.some(b => b.id === item.id)) return prev;
-            const newBookmarks = [item, ...prev];
+    const addBookmark = async (item: BookmarkItem) => {
+        // Optimistic UI update
+        const newItem = { ...item, publishedAt: item.publishedAt || new Date().toISOString() };
+        setBookmarks(prev => [newItem, ...prev]);
+
+        if (user) {
+            const { success } = await DataManager.addBookmark(user.id, newItem);
+            if (!success) {
+                // Revert on failure
+                setBookmarks(prev => prev.filter(b => b.id !== item.id));
+                toast.error("Failed to save bookmark");
+            } else {
+                toast.success("Saved to Library");
+            }
+        } else {
+            // Local Storage
+            const newBookmarks = [newItem, ...bookmarks];
             localStorage.setItem('onai_bookmarks', JSON.stringify(newBookmarks));
-            return newBookmarks;
-        });
+            toast.success("Saved to Local Library (Login to sync)");
+        }
     };
 
-    const removeBookmark = (id: string) => {
-        setBookmarks(prev => {
-            const newBookmarks = prev.filter(b => b.id !== id);
+    const removeBookmark = async (id: string) => {
+        // Optimistic UI update
+        const prevBookmarks = [...bookmarks];
+        setBookmarks(prev => prev.filter(b => b.id !== id));
+
+        if (user) {
+            const { success } = await DataManager.removeBookmark(user.id, id);
+            if (!success) {
+                setBookmarks(prevBookmarks); // Revert
+                toast.error("Failed to remove bookmark");
+            } else {
+                toast.success("Removed from Library");
+            }
+        } else {
+            // Local Storage
+            const newBookmarks = prevBookmarks.filter(b => b.id !== id);
             localStorage.setItem('onai_bookmarks', JSON.stringify(newBookmarks));
-            return newBookmarks;
-        });
+            toast.success("Removed");
+        }
     };
 
     const toggleBookmark = (item: BookmarkItem) => {
@@ -55,6 +113,7 @@ export function useBookmarks() {
 
     return {
         bookmarks,
+        loading,
         isBookmarked,
         addBookmark,
         removeBookmark,

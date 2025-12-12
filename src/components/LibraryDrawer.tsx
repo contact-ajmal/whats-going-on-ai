@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Bookmark, ExternalLink, Trash2, BookOpen, FileText } from "lucide-react";
+import { Bookmark, ExternalLink, Trash2, BookOpen, FileText, Video, PenTool } from "lucide-react";
 import { useBookmarks } from "@/hooks/useBookmarks";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
@@ -16,6 +16,14 @@ import { useState } from "react";
 export function LibraryDrawer() {
     const { bookmarks, removeBookmark } = useBookmarks();
     const [open, setOpen] = useState(false);
+
+    const getIcon = (type: string) => {
+        const t = type?.toLowerCase() || '';
+        if (t.includes('video')) return <Video className="w-3 h-3" />;
+        if (t.includes('tool') || t.includes('mcp')) return <PenTool className="w-3 h-3" />;
+        if (t.includes('course') || t.includes('learning')) return <BookOpen className="w-3 h-3" />;
+        return <FileText className="w-3 h-3" />;
+    };
 
     return (
         <Sheet open={open} onOpenChange={setOpen}>
@@ -36,7 +44,7 @@ export function LibraryDrawer() {
                         My Library
                     </SheetTitle>
                     <SheetDescription>
-                        Your saved research papers and articles.
+                        Your saved research papers, videos, and tools.
                     </SheetDescription>
                 </SheetHeader>
 
@@ -55,10 +63,11 @@ export function LibraryDrawer() {
                                     <div className="flex justify-between items-start gap-3">
                                         <div className="space-y-1.5 flex-1">
                                             <div className="flex items-center gap-2 text-[10px] uppercase tracking-wider text-muted-foreground">
-                                                <Badge variant="outline" className="border-primary/20 text-primary h-5 px-1.5 rounded-sm">
+                                                <Badge variant="outline" className="border-primary/20 text-primary h-5 px-1.5 rounded-sm flex items-center gap-1">
+                                                    {getIcon(item.type)}
                                                     {item.type}
                                                 </Badge>
-                                                <span>{item.source}</span>
+                                                <span className="truncate max-w-[120px]">{item.source}</span>
                                                 <span className="text-muted-foreground/50">•</span>
                                                 <span>{new Date(item.publishedAt).toLocaleDateString()}</span>
                                             </div>
@@ -78,7 +87,7 @@ export function LibraryDrawer() {
                                     </div>
                                     <div className="mt-3 flex justify-end">
                                         <a href={item.url} target="_blank" rel="noopener noreferrer" className="text-xs flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors">
-                                            Read now <ExternalLink className="w-3 h-3" />
+                                            Open <ExternalLink className="w-3 h-3" />
                                         </a>
                                     </div>
                                 </div>

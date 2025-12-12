@@ -2,9 +2,10 @@ import { useEffect, useState, useMemo } from 'react';
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Play, Calendar, ExternalLink, Loader2, Youtube, Activity, Search, ChevronDown } from "lucide-react";
+import { Play, Calendar, ExternalLink, Loader2, Youtube, Activity, Search, ChevronDown, Bookmark } from "lucide-react";
 import { extractImageFromContent } from "@/lib/utils";
 import { LinkedinShareButton } from './LinkedinShareButton';
+import { useBookmarks } from '@/hooks/useBookmarks';
 
 interface Video {
     id: string;
@@ -38,6 +39,7 @@ export function VideoFeed() {
     const [activeVideo, setActiveVideo] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [visibleCount, setVisibleCount] = useState(12);
+    const { toggleBookmark, isBookmarked } = useBookmarks();
 
     useEffect(() => {
         const fetchVideos = async () => {
@@ -241,6 +243,26 @@ export function VideoFeed() {
                                     </div>
                                 </div>
                             )}
+
+                            {/* Bookmark Button (Absolute Positioned) */}
+                            <Button
+                                size="icon"
+                                variant="secondary"
+                                className="absolute top-2 right-2 h-8 w-8 rounded-full bg-black/50 hover:bg-black/80 text-white border-none shadow-sm z-10"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    toggleBookmark({
+                                        id: video.id,
+                                        title: video.title,
+                                        url: video.url,
+                                        source: video.channelTitle,
+                                        type: 'video',
+                                        publishedAt: video.publishedAt
+                                    });
+                                }}
+                            >
+                                <Bookmark className={`h-4 w-4 ${isBookmarked(video.id) ? "fill-primary text-primary" : "text-white"}`} />
+                            </Button>
                         </div>
 
                         {/* Content */}
