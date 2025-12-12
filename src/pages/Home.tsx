@@ -7,7 +7,7 @@ import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { NewsFeed } from '@/components/NewsFeed';
 import { FeaturedBlogs } from '@/components/FeaturedBlogs';
-import { ReactNode, MouseEvent } from 'react';
+import { ReactNode, MouseEvent, useState, useEffect } from 'react';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -30,6 +30,38 @@ const itemVariants = {
 };
 
 // --- MARK: Components ---
+
+// Creative Decoder Text Component
+const DecoderText = ({ text, className }: { text: string; className?: string }) => {
+  const [displayText, setDisplayText] = useState('');
+  const [complete, setComplete] = useState(false);
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+
+  useEffect(() => {
+    let iteration = 0;
+    const interval = setInterval(() => {
+      setDisplayText(text.split('').map((char, index) => {
+        if (index < iteration) return text[index];
+        return chars[Math.floor(Math.random() * chars.length)];
+      }).join(''));
+
+      if (iteration >= text.length) {
+        clearInterval(interval);
+        setComplete(true);
+      }
+
+      iteration += 1 / 3;
+    }, 30);
+
+    return () => clearInterval(interval);
+  }, [text]);
+
+  return (
+    <span className={className}>
+      {displayText}
+    </span>
+  );
+};
 
 // Infinite Scrolling Ticker
 const Ticker = () => {
@@ -125,9 +157,9 @@ export default function Home() {
             {/* The Brand */}
             <div className="relative group">
               <div className="absolute -inset-4 bg-primary/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-              <h2 className="relative text-4xl md:text-6xl font-black tracking-tight text-white select-none">
-                <DecoderText text="WhatsGoingOn" className="text-white" />
-                <span className="text-primary">AI</span>
+              <h2 className="relative text-4xl md:text-6xl font-black tracking-tight text-white select-none normal-case">
+                <DecoderText text="WhatsGoingOn" className="text-white normalization-case" />
+                <span className="text-primary normal-case">AI</span>
               </h2>
             </div>
 
