@@ -158,8 +158,7 @@ export default function Home() {
             <div className="relative group">
               <div className="absolute -inset-4 bg-primary/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
               <h2 className="relative text-4xl md:text-6xl font-black tracking-tight text-white select-none normal-case">
-                <DecoderText text="WhatsGoingOn" className="text-white normalization-case" />
-                <span className="text-primary normal-case">AI</span>
+                WhatsGoingOn<span className="text-primary normal-case">AI</span>
               </h2>
             </div>
 
