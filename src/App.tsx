@@ -17,6 +17,7 @@ import LatestUpdates from "./pages/LatestUpdates";
 import NotFound from "./pages/NotFound";
 import Learning from '@/pages/Learning';
 import Profile from '@/pages/Profile';
+import { Leaderboard } from '@/pages/Leaderboard';
 
 const queryClient = new QueryClient();
 
