@@ -171,9 +171,26 @@ export function FeedStatusDashboard() {
             }
 
             const data = await res.json();
+
+            // Check for explicit rss2json error
+            if (data.status === 'error') {
+                setFeeds(prev => {
+                    const next = [...prev];
+                    next[feedIndex] = {
+                        ...next[feedIndex],
+                        status: 'error',
+                        errorMessage: data.message || 'RSS Conversion Failed',
+                        latency,
+                        lastChecked: new Date().toLocaleTimeString()
+                    };
+                    return next;
+                });
+                return;
+            }
+
             const hasItems = Array.isArray(data.items) ? data.items.length > 0 :
-                Array.isArray(data) ? data.length > 0 :
-                    data.items ? true : false;
+                Array.isArray(data) ? data.length > 0 : // dev.to returns array
+                    data.items ? true : false; // GitHub items
 
             setFeeds(prev => {
                 const next = [...prev];
