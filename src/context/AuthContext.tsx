@@ -8,6 +8,9 @@ type Profile = {
     full_name: string;
     avatar_url: string;
     interests: string[];
+    website?: string;
+    country?: string;
+    bio?: string;
 };
 
 type AuthContextType = {

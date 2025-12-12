@@ -125,6 +125,19 @@ export const DataManager = {
     },
 
     /**
+     * Update user profile details
+     */
+    updateProfileDetails: async (userId: string, updates: { full_name?: string; website?: string; country?: string; bio?: string }) => {
+        if (!USE_SUPABASE || !supabase) return { success: false, error: "Supabase disabled" };
+
+        const { error } = await supabase
+            .from('profiles')
+            .upsert({ id: userId, ...updates }, { onConflict: 'id' });
+
+        return { success: !error, error };
+    },
+
+    /**
      * Update user interests
      */
     updateInterests: async (userId: string, interests: string[]) => {
