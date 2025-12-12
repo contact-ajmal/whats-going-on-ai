@@ -30,62 +30,29 @@ interface MCPServer {
 }
 
 interface ApiResponse {
-    results: MCPServer[];
+    servers: MCPServer[];
     metadata: {
         nextCursor?: string;
     };
 }
 
+import localData from '@/data/officialRegistry.json';
+
 export function MCPRegistry() {
     const [servers, setServers] = useState<MCPServer[]>([]);
     const [loading, setLoading] = useState(true);
-    const [loadingMore, setLoadingMore] = useState(false);
-    const [cursor, setCursor] = useState<string | null>(null);
     const [search, setSearch] = useState('');
-    const [error, setError] = useState<string | null>(null);
-
-    const fetchServers = async (nextCursor?: string) => {
-        try {
-            const baseUrl = 'https://registry.modelcontextprotocol.io/v0/servers';
-            const url = new URL(baseUrl);
-            if (nextCursor) {
-                url.searchParams.set('cursor', nextCursor);
-            }
-
-            // Use allorigins to bypass CORS
-            const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url.toString())}`;
-
-            const res = await fetch(proxyUrl);
-            if (!res.ok) throw new Error('Failed to fetch registry');
-
-            const data: ApiResponse = await res.json();
-
-            if (nextCursor) {
-                setServers(prev => [...prev, ...data.results]);
-            } else {
-                setServers(data.results);
-            }
-
-            setCursor(data.metadata?.nextCursor || null);
-        } catch (err) {
-            console.error(err);
-            setError('Failed to load MCP Registry. Please try again later.');
-        } finally {
-            setLoading(false);
-            setLoadingMore(false);
-        }
-    };
 
     useEffect(() => {
-        fetchServers();
+        // Simulate loading for better UX
+        const timer = setTimeout(() => {
+            if (localData && localData.servers) {
+                setServers(localData.servers as MCPServer[]);
+            }
+            setLoading(false);
+        }, 800);
+        return () => clearTimeout(timer);
     }, []);
-
-    const handleLoadMore = () => {
-        if (cursor) {
-            setLoadingMore(true);
-            fetchServers(cursor);
-        }
-    };
 
     const filteredServers = servers.filter(item =>
         item.server.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -100,6 +67,9 @@ export function MCPRegistry() {
                 </h2>
                 <p className="text-muted-foreground">
                     Discover community-submitted Model Context Protocol servers.
+                </p>
+                <p className="text-xs text-muted-foreground mt-2">
+                    (Snapshot from official registry)
                 </p>
             </div>
 
@@ -118,15 +88,6 @@ export function MCPRegistry() {
                 <div className="flex justify-center py-20">
                     <Loader2 className="w-10 h-10 animate-spin text-blue-500" />
                 </div>
-            ) : error ? (
-                <div className="text-center py-20">
-                    <div className="inline-block p-4 rounded-xl bg-red-500/10 border border-red-500/20 mb-4">
-                        <p className="text-red-400 mb-2">{error}</p>
-                        <Button variant="outline" className="border-red-500/30 hover:bg-red-500/10" onClick={() => window.open('https://registry.modelcontextprotocol.io/', '_blank')}>
-                            Open Official Registry <ExternalLink className="w-4 h-4 ml-2" />
-                        </Button>
-                    </div>
-                </div>
             ) : (
                 <div className="space-y-4">
                     <AnimatePresence>
@@ -141,19 +102,15 @@ export function MCPRegistry() {
                         </div>
                     )}
 
-                    {cursor && !search && (
-                        <div className="flex justify-center pt-8">
-                            <Button
-                                onClick={handleLoadMore}
-                                disabled={loadingMore}
-                                variant="outline"
-                                className="min-w-[150px] border-white/10 hover:bg-white/5"
-                            >
-                                {loadingMore ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
-                                Load More
-                            </Button>
-                        </div>
-                    )}
+                    <div className="flex justify-center pt-8">
+                        <Button
+                            variant="outline"
+                            className="border-white/10 hover:bg-white/5"
+                            onClick={() => window.open('https://registry.modelcontextprotocol.io/', '_blank')}
+                        >
+                            View All on Official Registry <ExternalLink className="w-4 h-4 ml-2" />
+                        </Button>
+                    </div>
                 </div>
             )}
         </div>
