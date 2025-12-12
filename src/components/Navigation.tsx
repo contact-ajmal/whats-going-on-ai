@@ -139,6 +139,10 @@ export function Navigation() {
                   );
                 })}
                 <div className="px-4 py-3 flex items-center justify-between border-t border-border/50 mt-2">
+                  <span className="text-sm font-medium text-muted-foreground">My Research Stack</span>
+                  <LibraryDrawer />
+                </div>
+                <div className="px-4 py-3 flex items-center justify-between border-t border-border/50">
                   <span className="text-sm font-medium text-muted-foreground">Appearance</span>
                   <ThemeToggle />
                 </div>

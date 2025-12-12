@@ -49,22 +49,22 @@ export default function ToolsPage() {
 
                 <div className="w-full max-w-7xl mx-auto mb-8">
                     <div className="flex justify-center mb-8">
-                        <div className="inline-flex p-1 bg-white/5 rounded-xl border border-white/10 backdrop-blur-md">
+                        <div className="flex flex-col sm:flex-row p-1 bg-white/5 rounded-xl border border-white/10 backdrop-blur-md w-full sm:w-auto">
                             <button
                                 onClick={() => setActiveTab('directory')}
-                                className={`px-4 md:px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${activeTab === 'directory' ? 'bg-primary text-primary-foreground shadow-lg' : 'text-muted-foreground hover:text-white'}`}
+                                className={`px-4 md:px-6 py-3 sm:py-2 rounded-lg text-sm font-medium transition-all duration-300 w-full sm:w-auto ${activeTab === 'directory' ? 'bg-primary text-primary-foreground shadow-lg' : 'text-muted-foreground hover:text-white'}`}
                             >
                                 Tool Directory
                             </button>
                             <button
                                 onClick={() => setActiveTab('feed')}
-                                className={`px-4 md:px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${activeTab === 'feed' ? 'bg-blue-600 text-white shadow-lg' : 'text-muted-foreground hover:text-white'}`}
+                                className={`px-4 md:px-6 py-3 sm:py-2 rounded-lg text-sm font-medium transition-all duration-300 w-full sm:w-auto ${activeTab === 'feed' ? 'bg-blue-600 text-white shadow-lg' : 'text-muted-foreground hover:text-white'}`}
                             >
                                 MCP News Feed
                             </button>
                             <button
                                 onClick={() => setActiveTab('registry')}
-                                className={`px-4 md:px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${activeTab === 'registry' ? 'bg-cyan-600 text-white shadow-lg' : 'text-muted-foreground hover:text-white'}`}
+                                className={`px-4 md:px-6 py-3 sm:py-2 rounded-lg text-sm font-medium transition-all duration-300 w-full sm:w-auto ${activeTab === 'registry' ? 'bg-cyan-600 text-white shadow-lg' : 'text-muted-foreground hover:text-white'}`}
                             >
                                 Official Registry
                             </button>
