@@ -1,5 +1,7 @@
+```javascript
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Github, Twitter, Linkedin, Mail, Heart } from 'lucide-react';
+import { Github, Twitter, Linkedin, Mail, Heart, Activity } from 'lucide-react';
 import { NewsletterSignup } from './NewsletterSignup';
 import { BuyCoffeeButton } from './BuyCoffeeButton';
 
@@ -10,28 +12,59 @@ const socialLinks = [
   { icon: Mail, href: 'mailto:contact@whatsgoingon.ai', label: 'Email' },
 ];
 
+const SignalVisual = () => (
+    <div className="flex items-center gap-1 h-8 mb-4">
+        {[1, 2, 3, 4, 5].map((i) => (
+            <motion.div
+                key={i}
+                className="w-1 bg-primary/60 rounded-full"
+                animate={{
+                    height: [10, 24, 10],
+                    opacity: [0.5, 1, 0.5]
+                }}
+                transition={{
+                    duration: 1,
+                    repeat: Infinity,
+                    delay: i * 0.1,
+                    ease: "easeInOut"
+                }}
+            />
+        ))}
+         <span className="ml-2 text-xs font-mono text-primary/80 tracking-widest uppercase">
+            System Online
+         </span>
+    </div>
+);
+
 // Removed as per request
 
 export function Footer() {
   return (
-    <footer className="relative mt-24 border-t border-white/5 bg-[#0a0a0a]">
+    <footer className="relative mt-24 border-t border-white/5 bg-[#0a0a0a] overflow-hidden">
       {/* Decorative top gradient */}
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+      
+      {/* Background Grid - faint */}
+      <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.03] pointer-events-none" />
 
-      <div className="container mx-auto px-6 py-16">
+      <div className="container mx-auto px-6 py-16 relative">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
 
           {/* Brand Column (6 cols) */}
           <div className="lg:col-span-6 flex flex-col gap-6">
-            <Link to="/" className="flex items-center gap-2 w-fit">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-primary-foreground font-bold">
-                W
+            <Link to="/" className="flex items-center gap-2 w-fit group">
+              <div className="relative w-8 h-8 flex items-center justify-center">
+                 <div className="absolute inset-0 bg-gradient-to-br from-primary to-secondary rounded-lg opacity-80 group-hover:opacity-100 transition-opacity" />
+                 <span className="relative z-10 text-primary-foreground font-bold font-mono">W</span>
               </div>
               <span className="font-bold text-xl tracking-tight">
                 WhatsGoingOn<span className="text-primary">AI</span>
               </span>
             </Link>
-            <p className="text-muted-foreground leading-relaxed max-w-md">
+            
+            <SignalVisual />
+
+            <p className="text-muted-foreground leading-relaxed max-w-md border-l-2 border-primary/20 pl-4">
               Decoding the future of intelligence. We sift through the noise to bring you high-signal research, powerful tools, and the critical insights needed to navigate the AI revolution.
             </p>
             <div className="flex items-center gap-4">
