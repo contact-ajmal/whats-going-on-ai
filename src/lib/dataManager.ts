@@ -9,7 +9,7 @@ export const DataManager = {
      * Fetch tools from the appropriate source.
      */
     getTools: async (): Promise<Tool[]> => {
-        if (USE_SUPABASE) {
+        if (USE_SUPABASE && supabase) {
             try {
                 const { data, error } = await supabase
                     .from('tools')
@@ -51,8 +51,8 @@ export const DataManager = {
      * WARNING: This should only be run once or when you want to reset/update.
      */
     seedTools: async () => {
-        if (!USE_SUPABASE) {
-            console.error("Supabase is not enabled.");
+        if (!USE_SUPABASE || !supabase) {
+            console.error("Supabase is not enabled or configured.");
             return { success: false, message: "Supabase disabled" };
         }
 
