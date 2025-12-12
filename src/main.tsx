@@ -5,8 +5,11 @@ import "./index.css";
 
 import { AuthProvider } from "./context/AuthContext";
 
+import { CodeProtection } from "./components/CodeProtection";
+
 createRoot(document.getElementById("root")!).render(
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+        <CodeProtection />
         <AuthProvider>
             <App />
         </AuthProvider>
