@@ -28,85 +28,151 @@ export function ResearchFeed() {
     useEffect(() => {
         const fetchResearch = async () => {
             try {
-                const results = await Promise.allSettled([
-                    // 1. ArXiv AI
-                    fetch('https://api.rss2json.com/v1/api.json?rss_url=http://export.arxiv.org/rss/cs.AI').then(res => res.json()),
-                    // 2. ArXiv Machine Learning
-                    fetch('https://api.rss2json.com/v1/api.json?rss_url=http://export.arxiv.org/rss/cs.LG').then(res => res.json()),
-                    // 3. ArXiv CV
-                    fetch('https://api.rss2json.com/v1/api.json?rss_url=http://export.arxiv.org/rss/cs.CV').then(res => res.json()),
-                    // 4. ArXiv CL
-                    fetch('https://api.rss2json.com/v1/api.json?rss_url=http://export.arxiv.org/rss/cs.CL').then(res => res.json()),
-                    // 5. Hugging Face Daily Papers (Community Feed)
-                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://papers.takara.ai/api/feed').then(res => res.json()),
-                    // 6. BAIR Blog
-                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://bair.berkeley.edu/blog/feed.xml').then(res => res.json()),
-                    // 7. Google Research
-                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://blog.research.google/atom.xml').then(res => res.json()),
-                ]);
-
-                const newPapers: ResearchPaper[] = [];
-
-                const processFeed = (result: PromiseSettledResult<any>, category: string, sourceName: string) => {
-                    if (result.status === 'fulfilled' && result.value?.items) {
-                        result.value.items.forEach((item: any) => {
-                            // Abstract cleanup
-                            let abstractClean = item.description?.replace(/<[^>]*>?/gm, '') || '';
-                            // Remove "Abstract: " prefix if present (common in ArXiv)
-                            abstractClean = abstractClean.replace(/^Abstract:\s*/i, '');
-                            // Truncate if too long (for initial view)
-                            if (abstractClean.length > 300) abstractClean = abstractClean.slice(0, 300) + '...';
-
-                            // Author extraction attempt
-                            let authors: string[] = [];
-                            if (item.author && typeof item.author === 'string') {
-                                authors = [item.author];
-                            } else if (item.authors) {
-                                authors = item.authors; // Google often provides this
-                            }
-
-                            // Title cleanup
-                            const titleClean = item.title?.replace(/^\[.*?\]\s*/, '') || 'Untitled'; // Remove [cs.AI] etc
-
-                            newPapers.push({
-                                id: item.guid || item.link || Math.random().toString(),
-                                title: titleClean,
-                                abstract: abstractClean,
-                                url: item.link,
-                                publishedAt: new Date(item.pubDate),
-                                authors: authors,
-                                category: category,
-                                source: sourceName
-                            });
-                        });
-                    }
+                // Helper to fetch via proxy
+                const fetchProxy = async (url: string) => {
+                    const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
+                    const data = await res.json();
+                    return data.contents;
                 };
 
-                // Process ArXiv
-                processFeed(results[0], 'Artificial Intelligence', 'ArXiv');
-                processFeed(results[1], 'Machine Learning', 'ArXiv');
-                processFeed(results[2], 'Computer Vision', 'ArXiv');
-                processFeed(results[3], 'Computation & Language', 'ArXiv');
+                const parseXML = (xmlStr: string) => {
+                    return new DOMParser().parseFromString(xmlStr, "text/xml");
+                };
 
-                // Process Hugging Face
-                processFeed(results[4], 'Daily Papers', 'Hugging Face');
+                // data holders
+                const newPapers: ResearchPaper[] = [];
 
-                // Process BAIR
-                processFeed(results[5], 'AI Research', 'BAIR');
+                // 1. ArXiv Feeds (RSS)
+                const arxivCats = [
+                    { url: 'https://export.arxiv.org/rss/cs.AI', cat: 'Artificial Intelligence' },
+                    { url: 'https://export.arxiv.org/rss/cs.LG', cat: 'Machine Learning' },
+                    { url: 'https://export.arxiv.org/rss/cs.CV', cat: 'Computer Vision' },
+                    { url: 'https://export.arxiv.org/rss/cs.CL', cat: 'Computation & Language' }
+                ];
 
-                // Process Google
-                processFeed(results[6], 'Deep Learning', 'Google Research');
+                await Promise.allSettled(arxivCats.map(async ({ url, cat }) => {
+                    try {
+                        const content = await fetchProxy(url);
+                        const doc = parseXML(content);
+                        const items = doc.querySelectorAll('item');
+                        items.forEach(item => {
+                            const title = item.querySelector('title')?.textContent?.replace(/^\[.*?\]\s*/, '') || 'Untitled';
+                            const link = item.querySelector('link')?.textContent || '';
+                            let desc = item.querySelector('description')?.textContent || '';
+                            desc = desc.replace(/<[^>]*>?/gm, '').replace(/^Abstract:\s*/i, '');
+                            if (desc.length > 300) desc = desc.slice(0, 300) + '...';
+                            const dateStr = item.querySelector('date')?.textContent || item.querySelector('dc\\:date')?.textContent || '';
+                            const author = item.querySelector('creator')?.textContent || item.querySelector('dc\\:creator')?.textContent || 'ArXiv Author';
 
-                // Sort by date (descending)
+                            if (link) {
+                                newPapers.push({
+                                    id: link,
+                                    title,
+                                    abstract: desc,
+                                    url: link,
+                                    publishedAt: new Date(dateStr),
+                                    authors: [author.split(',')[0]], // simple parse
+                                    category: cat,
+                                    source: 'ArXiv'
+                                });
+                            }
+                        });
+                    } catch (e) {
+                        console.error(`Failed ArXiv ${cat}`, e);
+                    }
+                }));
+
+                // 2. Hugging Face Daily Papers (JSON)
+                try {
+                    const hfContent = await fetchProxy('https://huggingface.co/api/daily_papers');
+                    const hfData = JSON.parse(hfContent);
+                    hfData.forEach((item: any) => {
+                        const p = item.paper;
+                        newPapers.push({
+                            id: p.id,
+                            title: p.title,
+                            abstract: p.summary.slice(0, 300) + '...',
+                            url: `https://huggingface.co/papers/${p.id}`,
+                            publishedAt: new Date(item.publishedAt),
+                            authors: p.authors.map((a: any) => a.name),
+                            category: 'Daily Papers',
+                            source: 'Hugging Face'
+                        });
+                    });
+                } catch (e) {
+                    console.error('Failed HF', e);
+                }
+
+                // 3. Google Research (Atom/RSS)
+                try {
+                    const googleContent = await fetchProxy('https://blog.research.google/atom.xml');
+                    const doc = parseXML(googleContent);
+                    const entries = doc.querySelectorAll('entry');
+                    entries.forEach(entry => {
+                        const title = entry.querySelector('title')?.textContent || 'Untitled';
+                        const link = entry.querySelector('link')?.getAttribute('href') || '';
+                        let summary = entry.querySelector('summary')?.textContent || '';
+                        summary = summary.replace(/<[^>]*>?/gm, '');
+                        if (summary.length > 300) summary = summary.slice(0, 300) + '...';
+                        const published = entry.querySelector('published')?.textContent || '';
+                        const author = entry.querySelector('author > name')?.textContent || 'Google Research';
+
+                        if (link) {
+                            newPapers.push({
+                                id: link,
+                                title,
+                                abstract: summary,
+                                url: link,
+                                publishedAt: new Date(published),
+                                authors: [author],
+                                category: 'Deep Learning',
+                                source: 'Google Research'
+                            });
+                        }
+                    });
+                } catch (e) {
+                    console.error('Failed Google', e);
+                }
+
+                // 4. BAIR (RSS)
+                try {
+                    const bairContent = await fetchProxy('https://bair.berkeley.edu/blog/feed.xml');
+                    const doc = parseXML(bairContent);
+                    const items = doc.querySelectorAll('item');
+                    items.forEach(item => {
+                        const title = item.querySelector('title')?.textContent || 'Untitled';
+                        const link = item.querySelector('link')?.textContent || '';
+                        let desc = item.querySelector('description')?.textContent || '';
+                        desc = desc.replace(/<[^>]*>?/gm, '');
+                        if (desc.length > 300) desc = desc.slice(0, 300) + '...';
+                        const pubDate = item.querySelector('pubDate')?.textContent || '';
+
+                        if (link) {
+                            newPapers.push({
+                                id: link,
+                                title,
+                                abstract: desc,
+                                url: link,
+                                publishedAt: new Date(pubDate),
+                                authors: ['BAIR Team'],
+                                category: 'AI Research',
+                                source: 'BAIR'
+                            });
+                        }
+                    });
+                } catch (e) {
+                    console.error('Failed BAIR', e);
+                }
+
+                // Sort and Dedupe
                 newPapers.sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime());
-
-                // Remove duplicates by URL
                 const uniquePapers = Array.from(new Map(newPapers.map(item => [item.url, item])).values());
 
                 setPapers(uniquePapers);
+
             } catch (err) {
                 console.error("Error fetching research:", err);
-                setError("Failed to load research papers.");
+                setError("Failed to load research papers. Please try refreshing.");
             } finally {
                 setLoading(false);
             }
