@@ -7,9 +7,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Search, ExternalLink, ArrowRight, Filter, BookOpen, Video, GraduationCap, PlayCircle, Star } from "lucide-react";
 import { FALLBACK_LEARNING, LearningResource } from '../data/fallbackLearning';
 
-export function LearningFeed() {
+export function LearningFeed({ searchTerm }: { searchTerm: string }) {
     const [resources, setResources] = useState<LearningResource[]>([]);
-    const [searchTerm, setSearchTerm] = useState("");
+    // searchTerm state is now lifted
 
     // Initialize with multiplied data for "infinite" feel
     useEffect(() => {
@@ -64,20 +64,9 @@ export function LearningFeed() {
             {/* LEFT SIDEBAR FILTERS - Sticky on Desktop */}
             <div className="w-full lg:w-64 shrink-0 lg:sticky lg:top-24 space-y-8 h-fit overflow-y-auto max-h-[calc(100vh-120px)] pr-2 custom-scrollbar">
 
-                {/* Search */}
-                <div className="space-y-4">
-                    <h3 className="font-bold text-lg flex items-center gap-2">
-                        <Filter className="w-4 h-4 text-primary" /> Filter
-                    </h3>
-                    <div className="relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input
-                            placeholder="Title, Instructor..."
-                            className="pl-9 bg-background/50 border-primary/20 focus:border-primary"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
+                <div className="flex items-center gap-2 mb-6">
+                    <Filter className="w-4 h-4 text-primary" />
+                    <span className="font-bold text-lg">Filters</span>
                 </div>
 
                 {/* Resource Type */}
