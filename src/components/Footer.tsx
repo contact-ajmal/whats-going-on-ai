@@ -10,21 +10,7 @@ const socialLinks = [
   { icon: Mail, href: 'mailto:contact@whatsgoingon.ai', label: 'Email' },
 ];
 
-const footerLinks = {
-  explore: [
-    { label: 'AI News', href: '/updates' },
-    { label: 'Research Papers', href: '/research' },
-    { label: 'Video Feeds', href: '/videos' },
-    { label: 'Jobs Board', href: '/jobs' },
-    { label: 'Tools Directory', href: '/tools' },
-  ],
-  company: [
-    { label: 'About Us', href: '/about' },
-    { label: 'Blog', href: '/blog' },
-    { label: 'Timeline', href: '/history' },
-    { label: 'Learning Path', href: '/learning' },
-  ]
-};
+// Removed as per request
 
 export function Footer() {
   return (
@@ -33,10 +19,10 @@ export function Footer() {
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 
       <div className="container mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
 
-          {/* Brand Column (4 cols) */}
-          <div className="lg:col-span-4 flex flex-col gap-6">
+          {/* Brand Column (6 cols) */}
+          <div className="lg:col-span-6 flex flex-col gap-6">
             <Link to="/" className="flex items-center gap-2 w-fit">
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-primary-foreground font-bold">
                 W
@@ -45,7 +31,7 @@ export function Footer() {
                 WhatsGoingOn<span className="text-primary">AI</span>
               </span>
             </Link>
-            <p className="text-muted-foreground leading-relaxed max-w-sm">
+            <p className="text-muted-foreground leading-relaxed max-w-md">
               Your daily command center for Artificial Intelligence. We curate the latest breakthroughs, research, and tools to keep you ahead of the curve.
             </p>
             <div className="flex items-center gap-4">
@@ -64,41 +50,8 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Links Columns (2 cols each -> 4 cols total spacing) */}
-          <div className="lg:col-span-2 space-y-4">
-            <h4 className="font-semibold text-foreground tracking-wide">Explore</h4>
-            <ul className="space-y-2">
-              {footerLinks.explore.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    to={link.href}
-                    className="text-muted-foreground hover:text-primary transition-colors text-sm block py-1"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="lg:col-span-2 space-y-4">
-            <h4 className="font-semibold text-foreground tracking-wide">Resources</h4>
-            <ul className="space-y-2">
-              {footerLinks.company.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    to={link.href}
-                    className="text-muted-foreground hover:text-primary transition-colors text-sm block py-1"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Newsletter & Support (4 cols) */}
-          <div className="lg:col-span-4 space-y-6">
+          {/* Newsletter & Support (6 cols) */}
+          <div className="lg:col-span-6 space-y-6 lg:pl-12">
             <div className="p-6 rounded-2xl border border-white/5 bg-white/[0.02] space-y-4">
               <h4 className="font-semibold text-foreground">Stay Updated</h4>
               <p className="text-sm text-muted-foreground">
