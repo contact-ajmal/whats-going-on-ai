@@ -135,7 +135,7 @@ export function VisitorHUD() {
                             <div className="px-4 py-3 border-b border-white/5 bg-white/[0.02] flex items-center justify-between">
                                 <div className="flex items-center gap-2">
                                     <Activity className="w-4 h-4 text-primary" />
-                                    <span className="text-xs font-bold text-white uppercase tracking-widest">Global Intelligence</span>
+                                    <span className="text-xs font-bold text-white uppercase tracking-widest">Site Traffic Intelligence</span>
                                 </div>
                                 <Badge variant="outline" className="text-[10px] h-5 bg-green-500/10 text-green-400 border-green-500/30 font-mono">
                                     MONITORING
@@ -146,7 +146,7 @@ export function VisitorHUD() {
                                 {/* Main Stat */}
                                 <div className="flex items-end justify-between">
                                     <div>
-                                        <p className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">Total Interceptions</p>
+                                        <p className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">Total Visitors</p>
                                         <h3 className="text-3xl font-black text-white font-mono tracking-tighter">
                                             {totalVisits.toLocaleString()}
                                         </h3>
