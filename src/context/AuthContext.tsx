@@ -85,7 +85,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const { error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo: window.location.origin
+                // Ensure we redirect back to the correct path (including /whats-going-on-ai/)
+                redirectTo: `${window.location.origin}${import.meta.env.BASE_URL}`
             }
         });
         if (error) alert(error.message);
