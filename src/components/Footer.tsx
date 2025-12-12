@@ -32,7 +32,7 @@ export function Footer() {
               </span>
             </Link>
             <p className="text-muted-foreground leading-relaxed max-w-md">
-              Your daily command center for Artificial Intelligence. We curate the latest breakthroughs, research, and tools to keep you ahead of the curve.
+              Decoding the future of intelligence. We sift through the noise to bring you high-signal research, powerful tools, and the critical insights needed to navigate the AI revolution.
             </p>
             <div className="flex items-center gap-4">
               {socialLinks.map((social) => (
