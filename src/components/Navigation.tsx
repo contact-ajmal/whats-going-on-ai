@@ -191,6 +191,7 @@ export function Navigation() {
                 <div className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mt-2">Discover</div>
                 <Link to="/research" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><BookOpen className="w-4 h-4" /> Research</Link>
                 <Link to="/jobs" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><Briefcase className="w-4 h-4" /> Jobs</Link>
+                <Link to="/learning" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><GraduationCap className="w-4 h-4" /> Learning</Link>
                 <Link to="/tools" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><Wrench className="w-4 h-4" /> Tools</Link>
                 <Link to="/history" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><Clock className="w-4 h-4" /> Timeline</Link>
 
