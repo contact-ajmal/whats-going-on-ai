@@ -16,7 +16,7 @@ export function BuyCoffeeButton({ className, username = 'ajmalnazir' }: BuyCoffe
         <Button
             onClick={handleClick}
             className={cn(
-                "bg-[#4c4242] text-white hover:bg-[#4c4242]/90 font-bold border rounded-md shadow-sm transition-all",
+                "bg-[#5F7FFF] text-white hover:bg-[#5F7FFF]/90 font-bold border rounded-md shadow-sm transition-all",
                 "font-[Lato]", // Using the requested font stack if available, else fallback
                 className
             )}
