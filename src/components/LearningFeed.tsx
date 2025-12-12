@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -8,8 +8,28 @@ import { Search, ExternalLink, ArrowRight, Filter, BookOpen, Video, GraduationCa
 import { FALLBACK_LEARNING, LearningResource } from '../data/fallbackLearning';
 
 export function LearningFeed() {
-    const [resources] = useState<LearningResource[]>(FALLBACK_LEARNING);
+    const [resources, setResources] = useState<LearningResource[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
+
+    // Initialize with multiplied data for "infinite" feel
+    useEffect(() => {
+        const multiplier = 20; // 7 * 20 = 140 items
+        let hugeList: LearningResource[] = [];
+
+        for (let i = 0; i < multiplier; i++) {
+            FALLBACK_LEARNING.forEach(item => {
+                hugeList.push({
+                    ...item,
+                    id: `${item.id}-dup-${i}`, // Unique ID for React keys
+                });
+            });
+        }
+
+        // Randomize slightly so it doesn't look like a perfect pattern
+        hugeList.sort(() => Math.random() - 0.5);
+
+        setResources(hugeList);
+    }, []);
 
     // Filters
     const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
