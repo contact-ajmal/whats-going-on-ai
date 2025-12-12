@@ -114,11 +114,11 @@ export default function Home() {
         >
           {/* Pill Label */}
           <motion.div variants={itemVariants} className="flex justify-center mb-8">
-            <div className="flex flex-col items-center justify-center mb-6">
-              <span className="text-5xl md:text-7xl font-extrabold tracking-tighter text-foreground mb-[-10px] select-none">
+            <div className="flex flex-col items-center justify-center mb-10">
+              <span className="text-6xl md:text-9xl font-extrabold tracking-tighter text-foreground mb-[-15px] select-none drop-shadow-2xl">
                 WhatsGoingOn<span className="text-primary">AI</span>
               </span>
-              <span className="w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent rounded-full opacity-50"></span>
+              <span className="w-3/4 h-1.5 bg-gradient-to-r from-transparent via-primary to-transparent rounded-full opacity-80 blur-[1px]"></span>
             </div>
           </motion.div>
 
