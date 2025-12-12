@@ -1,9 +1,10 @@
+```typescript
 import { motion } from 'framer-motion';
 import { timelineData } from '@/data/timelineData';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Footer } from '@/components/Footer';
-import { Clock, HelpCircle, Brain, Sparkles, Zap, ExternalLink, Play } from 'lucide-react';
+import { Clock, HelpCircle, Brain, Sparkles, Zap, ExternalLink, Play, History as HistoryIcon } from 'lucide-react';
 
 export function History() {
     return (
@@ -14,20 +15,21 @@ export function History() {
             <main className="container mx-auto px-4 py-24 flex-grow relative z-10">
                 <div className="text-center mb-16 space-y-4">
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium border border-primary/20 mb-4"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium border border-primary/20 mb-6"
                     >
-                        <Clock className="w-4 h-4" />
-                        AI Time Travel
+                        <HistoryIcon className="w-4 h-4" />
+                        AI Timeline
                     </motion.div>
+
                     <motion.h1
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 }}
-                        className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60"
+                        className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-br from-white via-slate-200 to-slate-400 mb-6"
                     >
-                        Evolution of Intelligence
+                        AI Timeline
                     </motion.h1>
                     <motion.p
                         initial={{ opacity: 0, y: 20 }}
@@ -53,7 +55,7 @@ export function History() {
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: true, margin: "-100px" }}
                                     transition={{ duration: 0.5, delay: 0.1 }}
-                                    className={`relative flex flex-col md:flex-row items-center md:items-start md:justify-between ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}
+                                    className={`relative flex flex - col md: flex - row items - center md: items - start md: justify - between ${ isEven ? 'md:flex-row' : 'md:flex-row-reverse' } `}
                                 >
                                     {/* Timeline Dot */}
                                     <div className="absolute left-0 md:left-1/2 top-0 md:top-8 w-10 h-10 -ml-[2px] md:-ml-5 flex items-center justify-center shrink-0 z-10 transform -translate-y-1/2 md:translate-y-0">
