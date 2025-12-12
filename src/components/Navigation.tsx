@@ -1,7 +1,8 @@
+```
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { Menu, X, Search, Newspaper, Video, Globe, Briefcase, Wrench, Clock, BookOpen, Info, GraduationCap, Trophy } from 'lucide-react';
+import { Menu, X, Search, Newspaper, Video, Globe, Briefcase, Wrench, Clock, BookOpen, Info, GraduationCap } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { SearchDialog } from '@/components/SearchDialog';
 import { Button } from '@/components/ui/button';
@@ -57,7 +58,6 @@ export function Navigation() {
     { to: '/videos', label: 'Videos', icon: Video }, // Assuming PlaySquare was a typo for Video based on original
     { to: '/jobs', label: 'Jobs', icon: Briefcase },
     { to: '/tools', label: 'Tools', icon: Wrench }, // Assuming Calculator was a typo for Wrench based on original
-    { to: '/leaderboard', label: 'Leaderboard', icon: Trophy },
     // { to: '/glossary', label: 'Glossary', icon: BookOpen }, // Not in original structure
     // { to: '/archive', label: 'Archive', icon: Archive }, // Not in original structure
   ];
@@ -211,7 +211,6 @@ export function Navigation() {
                 <Link to="/jobs" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><Briefcase className="w-4 h-4" /> Jobs</Link>
                 <Link to="/learning" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><GraduationCap className="w-4 h-4" /> Learning</Link>
                 <Link to="/tools" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><Wrench className="w-4 h-4" /> Tools</Link>
-                <Link to="/leaderboard" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><Trophy className="w-4 h-4" /> Leaderboard</Link>
                 <Link to="/history" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><Clock className="w-4 h-4" /> Timeline</Link>
 
                 <div className="border-t border-border/50 my-2" />
