@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Trophy, Code2, Brain, Zap, Search, ArrowUp, ArrowDown, Cpu } from 'lucide-react';
-import { models, Model } from '@/data/models';
+import { Trophy, Code2, Brain, Zap, Search, ArrowUp, ArrowDown, Cpu, RefreshCw } from 'lucide-react';
+import { models as initialModels, Model } from '@/data/models';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { supabase } from '@/lib/supabase';
 
 type SortField = 'elo' | 'coding' | 'reasoning' | 'context';
 
@@ -12,13 +13,39 @@ export function Leaderboard() {
     const [searchTerm, setSearchTerm] = useState('');
     const [sortField, setSortField] = useState<SortField>('elo');
     const [activeTab, setActiveTab] = useState<'overall' | 'coding' | 'reasoning'>('overall');
+    const [models, setModels] = useState<Model[]>(initialModels);
+    const [lastUpdated, setLastUpdated] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchLiveLeaderboard = async () => {
+            try {
+                setIsLoading(true);
+                const { data, error } = await supabase.functions.invoke('fetch-leaderboard');
+
+                if (error) {
+                    console.error('Error fetching leaderboard:', error);
+                    // Fallback to local data is already set
+                } else if (data && data.models) {
+                    setModels(data.models);
+                    setLastUpdated(data.updated);
+                }
+            } catch (err) {
+                console.error('Failed to fetch live data:', err);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchLiveLeaderboard();
+    }, []);
 
     const filteredModels = models
         .filter(m => m.name.toLowerCase().includes(searchTerm.toLowerCase()) || m.provider.toLowerCase().includes(searchTerm.toLowerCase()))
         .sort((a, b) => {
             // Context is string, convert to approx number for sorting if needed, else ignore
             if (sortField === 'context') return 0; // Simple implementation for now
-            return b.scores[sortField] - a.scores[sortField];
+            return (b.scores[sortField] || 0) - (a.scores[sortField] || 0);
         });
 
     const getTierColor = (tier: string) => {
@@ -36,7 +63,7 @@ export function Leaderboard() {
     const ScoreCell = ({ value, max, label }: { value: number, max: number, label?: string }) => (
         <div className="w-full">
             <div className="flex justify-between text-xs mb-1">
-                <span className="font-mono text-white/90">{value}</span>
+                <span className="font-mono text-white/90">{value ? value.toFixed(1) : '-'}</span>
                 {label && <span className="text-muted-foreground">{label}</span>}
             </div>
             <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
@@ -61,10 +88,24 @@ export function Leaderboard() {
                             <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
                                 AI Leaderboard
                             </h1>
+
+                            {/* Live Badge */}
+                            <div className="flex items-center gap-2 px-2 py-1 bg-green-500/10 border border-green-500/20 rounded-full">
+                                <span className="relative flex h-2 w-2">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                                </span>
+                                <span className="text-[10px] font-bold text-green-500 tracking-wider">LIVE FEED</span>
+                            </div>
                         </div>
                         <p className="text-muted-foreground text-lg max-w-2xl">
-                            Live ranking of the most capable LLMs. Based on Elo ratings, HumanEval, and MMLU benchmarks.
+                            Real-time ranking of the most capable LLMs. Powered by LMSYS Chatbot Arena data.
                         </p>
+                        {lastUpdated && (
+                            <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
+                                <RefreshCw className="w-3 h-3" /> Updated: {new Date(lastUpdated).toLocaleString()}
+                            </p>
+                        )}
                     </div>
 
                     {/* Controls */}
@@ -115,72 +156,78 @@ export function Leaderboard() {
                         <div className="col-span-2 text-right">Reasoning</div>
                     </div>
 
-                    <AnimatePresence mode="popLayout">
-                        {filteredModels.map((model, idx) => (
-                            <motion.div
-                                key={model.id}
-                                layout
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, scale: 0.95 }}
-                                transition={{ duration: 0.2, delay: idx * 0.05 }}
-                            >
-                                <Card className={`group relative overflow-hidden border-white/10 bg-white/[0.02] hover:bg-white/[0.04] transition-all p-4 md:p-0 md:h-20 flex flex-col md:grid md:grid-cols-12 gap-4 items-center ${idx === 0 ? 'shadow-[0_0_30px_rgba(234,179,8,0.1)] border-yellow-500/20' : ''}`}>
-                                    {idx === 0 && <div className="absolute left-0 top-0 bottom-0 w-1 bg-yellow-500" />}
+                    {isLoading ? (
+                        <div className="py-20 text-center text-muted-foreground animate-pulse">
+                            Connecting to Live Feed...
+                        </div>
+                    ) : (
+                        <AnimatePresence mode="popLayout">
+                            {filteredModels.map((model, idx) => (
+                                <motion.div
+                                    key={model.id}
+                                    layout
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, scale: 0.95 }}
+                                    transition={{ duration: 0.2, delay: idx * 0.05 }}
+                                >
+                                    <Card className={`group relative overflow-hidden border-white/10 bg-white/[0.02] hover:bg-white/[0.04] transition-all p-4 md:p-0 md:h-20 flex flex-col md:grid md:grid-cols-12 gap-4 items-center ${idx === 0 ? 'shadow-[0_0_30px_rgba(234,179,8,0.1)] border-yellow-500/20' : ''}`}>
+                                        {idx === 0 && <div className="absolute left-0 top-0 bottom-0 w-1 bg-yellow-500" />}
 
-                                    {/* Rank */}
-                                    <div className="w-full md:w-auto md:col-span-1 flex items-center justify-between md:justify-center md:pl-4">
-                                        <span className={`text-xl font-bold font-mono ${idx < 3 ? 'text-white' : 'text-muted-foreground'}`}>
-                                            #{idx + 1}
-                                        </span>
-                                        {/* Mobile Tier Badge */}
-                                        <div className="md:hidden">
-                                            <Badge variant="outline" className={`${getTierColor(model.tier)}`}>
-                                                {model.tier}-Tier
+                                        {/* Rank */}
+                                        <div className="w-full md:w-auto md:col-span-1 flex items-center justify-between md:justify-center md:pl-4">
+                                            <span className={`text-xl font-bold font-mono ${idx < 3 ? 'text-white' : 'text-muted-foreground'}`}>
+                                                #{idx + 1}
+                                            </span>
+                                            {/* Mobile Tier Badge */}
+                                            <div className="md:hidden">
+                                                <Badge variant="outline" className={`${getTierColor(model.tier)}`}>
+                                                    {model.tier}-Tier
+                                                </Badge>
+                                            </div>
+                                        </div>
+
+                                        {/* Model Info */}
+                                        <div className="w-full md:col-span-3 flex flex-col justify-center">
+                                            <div className="flex items-center gap-2">
+                                                <h3 className="font-bold text-lg text-white group-hover:text-primary transition-colors">
+                                                    {model.name}
+                                                </h3>
+                                            </div>
+                                            <span className="text-sm text-muted-foreground">{model.provider} • {model.scores.context} Context</span>
+                                        </div>
+
+                                        {/* Desktop Tier */}
+                                        <div className="hidden md:flex md:col-span-2 items-center">
+                                            <Badge variant="outline" className={`px-3 py-1 text-sm font-bold ${getTierColor(model.tier)}`}>
+                                                TIER {model.tier}
                                             </Badge>
                                         </div>
-                                    </div>
 
-                                    {/* Model Info */}
-                                    <div className="w-full md:col-span-3 flex flex-col justify-center">
-                                        <div className="flex items-center gap-2">
-                                            <h3 className="font-bold text-lg text-white group-hover:text-primary transition-colors">
-                                                {model.name}
-                                            </h3>
-                                        </div>
-                                        <span className="text-sm text-muted-foreground">{model.provider} • {model.scores.context} Context</span>
-                                    </div>
+                                        {/* Stats Grid */}
+                                        <div className="w-full md:col-span-6 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-0 md:items-center">
+                                            {/* Elo */}
+                                            <div className="md:px-4 md:text-right">
+                                                <div className="md:hidden text-xs text-muted-foreground mb-1">Arena Elo</div>
+                                                <span className="font-mono font-bold text-white text-lg">{model.scores.elo}</span>
+                                            </div>
 
-                                    {/* Desktop Tier */}
-                                    <div className="hidden md:flex md:col-span-2 items-center">
-                                        <Badge variant="outline" className={`px-3 py-1 text-sm font-bold ${getTierColor(model.tier)}`}>
-                                            TIER {model.tier}
-                                        </Badge>
-                                    </div>
+                                            {/* Coding */}
+                                            <div className="md:px-4">
+                                                <ScoreCell value={model.scores.coding} max={100} label={activeTab === 'overall' ? 'Coding' : undefined} />
+                                            </div>
 
-                                    {/* Stats Grid */}
-                                    <div className="w-full md:col-span-6 grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-0 md:items-center">
-                                        {/* Elo */}
-                                        <div className="md:px-4 md:text-right">
-                                            <div className="md:hidden text-xs text-muted-foreground mb-1">Arena Elo</div>
-                                            <span className="font-mono font-bold text-white text-lg">{model.scores.elo}</span>
+                                            {/* Reasoning */}
+                                            <div className="md:px-4">
+                                                <ScoreCell value={model.scores.reasoning} max={100} label={activeTab === 'overall' ? 'MMLU' : undefined} />
+                                            </div>
                                         </div>
 
-                                        {/* Coding */}
-                                        <div className="md:px-4">
-                                            <ScoreCell value={model.scores.coding} max={100} label={activeTab === 'overall' ? 'Coding' : undefined} />
-                                        </div>
-
-                                        {/* Reasoning */}
-                                        <div className="md:px-4">
-                                            <ScoreCell value={model.scores.reasoning} max={100} label={activeTab === 'overall' ? 'MMLU' : undefined} />
-                                        </div>
-                                    </div>
-
-                                </Card>
-                            </motion.div>
-                        ))}
-                    </AnimatePresence>
+                                    </Card>
+                                </motion.div>
+                            ))}
+                        </AnimatePresence>
+                    )}
                 </div>
 
             </div>
