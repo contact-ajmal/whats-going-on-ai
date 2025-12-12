@@ -7,6 +7,7 @@ import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { NewsFeed } from '@/components/NewsFeed';
 import { FeaturedBlogs } from '@/components/FeaturedBlogs';
+import { BookmarkUplink } from '@/components/BookmarkUplink';
 import { ReactNode, MouseEvent, useState, useEffect } from 'react';
 
 const containerVariants = {
@@ -180,6 +181,11 @@ export default function Home() {
               The Noise
             </span>
           </motion.h1>
+
+          {/* SIGNAL UPLINK (BOOKMARK) */}
+          <motion.div variants={itemVariants} className="flex justify-center mb-12">
+            <BookmarkUplink />
+          </motion.div>
 
           {/* TICKER */}
           <motion.div variants={itemVariants} className="w-full max-w-2xl mx-auto mb-16 opacity-80">

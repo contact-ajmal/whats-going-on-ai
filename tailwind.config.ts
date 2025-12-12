@@ -137,6 +137,8 @@ export default {
         "text-shimmer": "text-shimmer 3s ease-in-out infinite",
         "float": "float 3s ease-in-out infinite",
         "particle-float": "particle-float 15s linear infinite",
+        "tilt": "tilt 10s infinite linear",
+        "scan-fast": "scan-fast 1.5s linear infinite",
       },
       backgroundImage: {
         "grid-pattern": "linear-gradient(hsl(var(--border) / 0.3) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--border) / 0.3) 1px, transparent 1px)",
