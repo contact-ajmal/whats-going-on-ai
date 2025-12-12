@@ -108,7 +108,7 @@ export function Footer() {
                     <h4 className="font-mono text-xs tracking-[0.2em] text-primary/80 font-bold uppercase">Incoming_Transmission</h4>
                   </div>
 
-                  <h3 className="text-2xl font-bold text-white mb-3">Join the Neural Network</h3>
+                  <h3 className="text-2xl font-bold text-white mb-3">Join AI Network</h3>
                   <p className="text-muted-foreground mb-8 leading-relaxed max-w-md">
                     Get priority access to breakthrough research, new tools, and intelligence reports. No noise, just signal.
                   </p>
@@ -116,20 +116,7 @@ export function Footer() {
                   <NewsletterSignup variant="minimal" />
 
                   {/* Control Panel Footer */}
-                  <div className="mt-10 pt-6 border-t border-white/5 flex flex-wrap items-center justify-between gap-6">
-                    <div className="flex items-center gap-8">
-                      <div className="space-y-1">
-                        <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">Status</p>
-                        <div className="flex items-center gap-2">
-                          <div className="h-1.5 w-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
-                          <span className="text-sm font-medium text-white/90">Operational</span>
-                        </div>
-                      </div>
-                      <div className="space-y-1 hidden sm:block">
-                        <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">Version</p>
-                        <span className="text-sm font-medium text-white/90 font-mono">v2.4.0-RC</span>
-                      </div>
-                    </div>
+                  <div className="mt-10 pt-6 border-t border-white/5 flex flex-wrap items-center justify-end gap-6">
                     <BuyCoffeeButton className="h-10 px-6 shadow-[0_0_20px_rgba(0,0,0,0.2)]" />
                   </div>
                 </div>
