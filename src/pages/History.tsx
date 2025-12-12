@@ -1,4 +1,4 @@
-```typescript
+
 import { motion } from 'framer-motion';
 import { timelineData } from '@/data/timelineData';
 import { Badge } from '@/components/ui/badge';
@@ -55,7 +55,7 @@ export function History() {
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: true, margin: "-100px" }}
                                     transition={{ duration: 0.5, delay: 0.1 }}
-                                    className={`relative flex flex - col md: flex - row items - center md: items - start md: justify - between ${ isEven ? 'md:flex-row' : 'md:flex-row-reverse' } `}
+                                    className={`relative flex flex-col md:flex-row items-center md:items-start md:justify-between ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}
                                 >
                                     {/* Timeline Dot */}
                                     <div className="absolute left-0 md:left-1/2 top-0 md:top-8 w-10 h-10 -ml-[2px] md:-ml-5 flex items-center justify-center shrink-0 z-10 transform -translate-y-1/2 md:translate-y-0">
