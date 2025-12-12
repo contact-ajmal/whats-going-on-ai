@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { toast } from 'sonner';
 import { AdminSidebar } from '@/components/admin/AdminSidebar';
 import { AdminDashboard } from '@/components/admin/AdminDashboard';
+import { FeedStatusDashboard } from '@/components/admin/FeedStatusDashboard';
 import { AdminBlog } from '@/components/admin/AdminBlog';
 import { AdminNewsletter } from '@/components/admin/AdminNewsletter';
 import { AdminTools } from '@/components/admin/AdminTools';
@@ -17,7 +18,7 @@ const Admin = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const [activeTab, setActiveTab] = useState<'dashboard' | 'blog' | 'newsletter' | 'tools'>('dashboard');
+    const [activeTab, setActiveTab] = useState<'dashboard' | 'status' | 'blog' | 'newsletter' | 'tools'>('dashboard');
 
     useEffect(() => {
         const storedToken = localStorage.getItem('gh_token');
@@ -110,6 +111,7 @@ const Admin = () => {
                 <div className="flex-1 min-w-0">
                     <div className="bg-card/20 backdrop-blur-sm border border-white/5 rounded-xl p-6 min-h-[calc(100vh-140px)] animate-in fade-in slide-in-from-right-4 duration-300">
                         {activeTab === 'dashboard' && <AdminDashboard token={token} repo={repo} />}
+                        {activeTab === 'status' && <FeedStatusDashboard />}
                         {activeTab === 'blog' && <AdminBlog token={token} repo={repo} />}
                         {activeTab === 'newsletter' && <AdminNewsletter />}
                         {activeTab === 'tools' && <AdminTools />}
