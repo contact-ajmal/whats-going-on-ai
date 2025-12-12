@@ -16,6 +16,7 @@ interface FeedStatus {
 }
 
 const FEEDS: Omit<FeedStatus, 'status'>[] = [
+    // --- NEWS ---
     {
         id: 'news-techmeme',
         name: 'Techmeme',
@@ -27,6 +28,12 @@ const FEEDS: Omit<FeedStatus, 'status'>[] = [
         name: 'Google News (AI)',
         displayUrl: 'news.google.com',
         url: 'https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss/search?q=Artificial+Intelligence+when:7d&hl=en-US&gl=US&ceid=US:en'
+    },
+    {
+        id: 'news-hn',
+        name: 'Hacker News (AI)',
+        displayUrl: 'hnrss.org',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://hnrss.org/newest?q=AI'
     },
     {
         id: 'news-openai',
@@ -47,17 +54,61 @@ const FEEDS: Omit<FeedStatus, 'status'>[] = [
         url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.theverge.com/rss/ai-artificial-intelligence/index.xml'
     },
     {
+        id: 'news-deepmind',
+        name: 'Google DeepMind',
+        displayUrl: 'blog.research.google',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://blog.research.google/atom.xml'
+    },
+    {
         id: 'news-google-blog',
         name: 'Google Blog',
         displayUrl: 'blog.google',
         url: 'https://api.rss2json.com/v1/api.json?rss_url=https://blog.google/rss'
     },
+
+    // --- RESEARCH ---
     {
         id: 'research-arxiv',
         name: 'ArXiv (CS.AI)',
         displayUrl: 'arxiv.org',
         url: 'https://api.rss2json.com/v1/api.json?rss_url=http://export.arxiv.org/rss/cs.AI'
     },
+
+    // --- JOBS ---
+    {
+        id: 'jobs-wework',
+        name: 'WeWorkRemotely',
+        displayUrl: 'weworkremotely.com',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://weworkremotely.com/categories/remote-machine-learning-jobs.rss'
+    },
+    {
+        id: 'jobs-remoteok',
+        name: 'RemoteOK',
+        displayUrl: 'remoteok.com',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://remoteok.com/rss'
+    },
+
+    // --- VIDEOS (YouTube) ---
+    {
+        id: 'video-openai',
+        name: 'YouTube: OpenAI',
+        displayUrl: 'youtube.com/OpenAI',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCXPZwW5oxpWkikN8a14gMgg'
+    },
+    {
+        id: 'video-nvidia',
+        name: 'YouTube: NVIDIA',
+        displayUrl: 'youtube.com/NVIDIA',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCOoKqA10yd_1FZ4B5F4qLg'
+    },
+    {
+        id: 'video-wesroth',
+        name: 'YouTube: Wes Roth',
+        displayUrl: 'youtube.com/@WesRoth',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCg_p-Fp_b5Dq_09w6a4YwGA'
+    },
+
+    // --- API ---
     {
         id: 'api-devto',
         name: 'Dev.to API',
@@ -79,51 +130,82 @@ export function FeedStatusDashboard() {
     const [isChecking, setIsChecking] = useState(false);
     const [lastRun, setLastRun] = useState<string | null>(null);
 
-    const checkAllFeeds = async () => {
-        setIsChecking(true);
-        const results = await Promise.all(FEEDS.map(async (feed) => {
-            const start = performance.now();
-            try {
-                const res = await fetch(feed.url);
-                const end = performance.now();
-                const latency = Math.round(end - start);
+    const checkFeed = async (feedId: string) => {
+        const feedIndex = feeds.findIndex(f => f.id === feedId);
+        if (feedIndex === -1) return;
 
-                if (!res.ok) {
-                    return {
-                        ...feed,
+        const baseFeed = FEEDS.find(f => f.id === feedId);
+        if (!baseFeed) return;
+
+        // Set specific feed to checking state
+        setFeeds(prev => {
+            const next = [...prev];
+            next[feedIndex] = { ...next[feedIndex], status: 'pending' };
+            return next;
+        });
+
+        const start = performance.now();
+        try {
+            // Add cache buster for manual retries
+            const cacheBustUrl = baseFeed.url.includes('?')
+                ? `${baseFeed.url}&_t=${Date.now()}`
+                : `${baseFeed.url}?_t=${Date.now()}`;
+
+            const res = await fetch(cacheBustUrl);
+            const end = performance.now();
+            const latency = Math.round(end - start);
+
+            if (!res.ok) {
+                setFeeds(prev => {
+                    const next = [...prev];
+                    next[feedIndex] = {
+                        ...next[feedIndex],
                         status: 'error',
                         errorMessage: `HTTP ${res.status}`,
                         latency,
                         lastChecked: new Date().toLocaleTimeString()
-                    } as FeedStatus;
-                }
+                    };
+                    return next;
+                });
+                return;
+            }
 
-                const data = await res.json();
-                // Basic validation: does it have items?
-                const hasItems = Array.isArray(data.items) ? data.items.length > 0 :
-                    Array.isArray(data) ? data.length > 0 : // dev.to returns array
-                        data.items ? true : false; // GitHub items
+            const data = await res.json();
+            const hasItems = Array.isArray(data.items) ? data.items.length > 0 :
+                Array.isArray(data) ? data.length > 0 :
+                    data.items ? true : false;
 
-                return {
-                    ...feed,
+            setFeeds(prev => {
+                const next = [...prev];
+                next[feedIndex] = {
+                    ...next[feedIndex],
                     status: hasItems ? 'healthy' : 'warning',
                     errorMessage: hasItems ? undefined : 'No items found',
                     latency,
                     lastChecked: new Date().toLocaleTimeString()
-                } as FeedStatus;
+                };
+                return next;
+            });
 
-            } catch (err: any) {
-                return {
-                    ...feed,
+        } catch (err: any) {
+            setFeeds(prev => {
+                const next = [...prev];
+                next[feedIndex] = {
+                    ...next[feedIndex],
                     status: 'error',
                     errorMessage: err.message || 'Fetch failed',
                     latency: 0,
                     lastChecked: new Date().toLocaleTimeString()
-                } as FeedStatus;
-            }
-        }));
+                };
+                return next;
+            });
+        }
+    };
 
-        setFeeds(results);
+    const checkAllFeeds = async () => {
+        setIsChecking(true);
+        // Sequential or parallel? Parallel is faster.
+        await Promise.all(FEEDS.map(f => checkFeed(f.id)));
         setIsChecking(false);
         setLastRun(new Date().toLocaleString());
     };
@@ -143,17 +225,17 @@ export function FeedStatusDashboard() {
                     </CardTitle>
                     <p className="text-xs text-muted-foreground mt-1">
                         Monitoring {feeds.length} external data sources
-                        {lastRun && ` • Last checked: ${lastRun}`}
+                        {lastRun && ` • Last sync: ${lastRun}`}
                     </p>
                 </div>
                 <Button
                     onClick={checkAllFeeds}
                     disabled={isChecking}
-                    variant="outline"
+                    variant="default"
                     size="sm"
-                    className="border-primary/20 hover:bg-primary/10 hover:text-primary"
+                    className="bg-primary/20 hover:bg-primary/30 text-primary border border-primary/20"
                 >
-                    {isChecking ? 'Scanning...' : 'Run Diagnostics'}
+                    {isChecking ? 'Syncing...' : 'Sync All Sources'}
                 </Button>
             </CardHeader>
             <CardContent>
@@ -172,13 +254,13 @@ export function FeedStatusDashboard() {
                             </div>
 
                             {/* Name & URL */}
-                            <div className="col-span-5 md:col-span-4">
+                            <div className="col-span-4 md:col-span-4">
                                 <div className="font-medium text-sm text-white">{feed.name}</div>
                                 <div className="text-xs text-muted-foreground truncate font-mono">{feed.displayUrl}</div>
                             </div>
 
                             {/* Status Badge */}
-                            <div className="col-span-3 md:col-span-2 text-center">
+                            <div className="col-span-2 md:col-span-2 text-center">
                                 <Badge variant="outline" className={`
                                     ${feed.status === 'healthy' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : ''}
                                     ${feed.status === 'warning' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' : ''}
@@ -198,22 +280,34 @@ export function FeedStatusDashboard() {
                                 )}
                             </div>
 
-                            {/* Error / Actions */}
-                            <div className="col-span-3 md:col-span-3 text-right">
-                                {feed.errorMessage ? (
-                                    <span className="text-xs text-red-400 truncate block max-w-[150px] ml-auto" title={feed.errorMessage}>
+                            {/* Actions / Error */}
+                            <div className="col-span-5 md:col-span-3 text-right flex items-center justify-end gap-2">
+                                {feed.errorMessage && (
+                                    <span className="text-xs text-red-400 truncate max-w-[100px]" title={feed.errorMessage}>
                                         {feed.errorMessage}
                                     </span>
-                                ) : (
-                                    <a
-                                        href={feed.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-white transition-colors"
-                                    >
-                                        Raw JSON <ExternalLink className="w-3 h-3" />
-                                    </a>
                                 )}
+
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-6 w-6 text-muted-foreground hover:text-white"
+                                    onClick={() => checkFeed(feed.id)}
+                                    title="Retry Sync"
+                                    disabled={feed.status === 'pending'}
+                                >
+                                    <RefreshCw className={`w-3 h-3 ${feed.status === 'pending' ? 'animate-spin' : ''}`} />
+                                </Button>
+
+                                <a
+                                    href={feed.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center justify-center h-6 w-6 text-muted-foreground hover:text-white transition-colors"
+                                    title="View Raw JSON"
+                                >
+                                    <ExternalLink className="w-3 h-3" />
+                                </a>
                             </div>
                         </div>
                     ))}
