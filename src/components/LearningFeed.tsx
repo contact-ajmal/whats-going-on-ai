@@ -4,13 +4,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Search, ExternalLink, ArrowRight, Filter, BookOpen, Video, GraduationCap, PlayCircle, Star, Bookmark } from "lucide-react";
+import { Search, ExternalLink, ArrowRight, Filter, BookOpen, Video, GraduationCap, PlayCircle, Star, Bookmark, ChevronDown, ChevronUp } from "lucide-react";
 import { FALLBACK_LEARNING, LearningResource } from '../data/fallbackLearning';
 import { useBookmarks } from '@/hooks/useBookmarks';
 
 export function LearningFeed({ searchTerm }: { searchTerm: string }) {
     const [resources, setResources] = useState<LearningResource[]>([]);
     const { toggleBookmark, isBookmarked } = useBookmarks();
+    const [showMobileFilters, setShowMobileFilters] = useState(false);
     // searchTerm state is now lifted
 
     // Initialize with multiplied data for "infinite" feel
@@ -66,64 +67,83 @@ export function LearningFeed({ searchTerm }: { searchTerm: string }) {
         <div className="flex flex-col lg:flex-row gap-8 items-start">
 
             {/* LEFT SIDEBAR FILTERS - Sticky on Desktop */}
-            <div className="w-full lg:w-64 shrink-0 lg:sticky lg:top-24 space-y-8 h-fit overflow-y-auto max-h-[calc(100vh-120px)] pr-2 custom-scrollbar">
+            <div className="w-full lg:w-64 shrink-0 lg:sticky lg:top-24 space-y-4 lg:space-y-8 h-fit lg:max-h-[calc(100vh-120px)] lg:overflow-y-auto lg:pr-2 custom-scrollbar">
 
-                <div className="flex items-center gap-2 mb-6">
-                    <Filter className="w-4 h-4 text-primary" />
-                    <span className="font-bold text-lg">Filters</span>
+                {/* Mobile Filter Toggle */}
+                <div className="lg:hidden">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        className="w-full justify-between"
+                        onClick={() => setShowMobileFilters(!showMobileFilters)}
+                    >
+                        <span className="flex items-center gap-2">
+                            <Filter className="w-4 h-4 text-primary" />
+                            Filters
+                        </span>
+                        {showMobileFilters ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                    </Button>
                 </div>
 
-                {/* Resource Type */}
-                <div className="space-y-3">
-                    <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Format</h4>
-                    {uniqueTypes.map(type => (
-                        <div key={type} className="flex items-center space-x-2">
-                            <Checkbox
-                                id={`type-${type}`}
-                                checked={selectedTypes.includes(type)}
-                                onCheckedChange={() => toggleFilter(selectedTypes, setSelectedTypes, type)}
-                            />
-                            <label htmlFor={`type-${type}`} className="text-sm font-medium leading-none flex items-center gap-2">
-                                {type === 'Course' ? <BookOpen className="w-3 h-3 text-blue-400" /> :
-                                    type === 'Video' ? <Video className="w-3 h-3 text-red-400" /> :
-                                        <GraduationCap className="w-3 h-3 text-purple-400" />}
-                                {type}
-                            </label>
-                        </div>
-                    ))}
-                </div>
+                {/* Filter Content - Hidden on mobile unless toggled */}
+                <div className={`${showMobileFilters ? 'block' : 'hidden'} lg:block space-y-8 animate-in slide-in-from-top-2 duration-200`}>
+                    <div className="hidden lg:flex items-center gap-2 mb-6">
+                        <Filter className="w-4 h-4 text-primary" />
+                        <span className="font-bold text-lg">Filters</span>
+                    </div>
 
-                {/* Difficulty Level */}
-                <div className="space-y-3">
-                    <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Level</h4>
-                    {uniqueLevels.map(level => (
-                        <div key={level} className="flex items-center space-x-2">
-                            <Checkbox
-                                id={`level-${level}`}
-                                checked={selectedLevels.includes(level)}
-                                onCheckedChange={() => toggleFilter(selectedLevels, setSelectedLevels, level)}
-                            />
-                            <label htmlFor={`level-${level}`} className="text-sm font-medium leading-none">{level}</label>
-                        </div>
-                    ))}
-                </div>
-
-                {/* Platforms */}
-                <div className="space-y-3">
-                    <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Platform</h4>
-                    <div className="space-y-2">
-                        {uniquePlatforms.map(platform => (
-                            <div key={platform} className="flex items-center space-x-2">
+                    {/* Resource Type */}
+                    <div className="space-y-3">
+                        <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Format</h4>
+                        {uniqueTypes.map(type => (
+                            <div key={type} className="flex items-center space-x-2">
                                 <Checkbox
-                                    id={`plat-${platform}`}
-                                    checked={selectedPlatforms.includes(platform)}
-                                    onCheckedChange={() => toggleFilter(selectedPlatforms, setSelectedPlatforms, platform)}
+                                    id={`type-${type}`}
+                                    checked={selectedTypes.includes(type)}
+                                    onCheckedChange={() => toggleFilter(selectedTypes, setSelectedTypes, type)}
                                 />
-                                <label htmlFor={`plat-${platform}`} className="text-sm font-medium leading-none truncate max-w-[150px]" title={platform}>
-                                    {platform}
+                                <label htmlFor={`type-${type}`} className="text-sm font-medium leading-none flex items-center gap-2">
+                                    {type === 'Course' ? <BookOpen className="w-3 h-3 text-blue-400" /> :
+                                        type === 'Video' ? <Video className="w-3 h-3 text-red-400" /> :
+                                            <GraduationCap className="w-3 h-3 text-purple-400" />}
+                                    {type}
                                 </label>
                             </div>
                         ))}
+                    </div>
+
+                    {/* Difficulty Level */}
+                    <div className="space-y-3">
+                        <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Level</h4>
+                        {uniqueLevels.map(level => (
+                            <div key={level} className="flex items-center space-x-2">
+                                <Checkbox
+                                    id={`level-${level}`}
+                                    checked={selectedLevels.includes(level)}
+                                    onCheckedChange={() => toggleFilter(selectedLevels, setSelectedLevels, level)}
+                                />
+                                <label htmlFor={`level-${level}`} className="text-sm font-medium leading-none">{level}</label>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Platforms */}
+                    <div className="space-y-3">
+                        <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Platform</h4>
+                        <div className="space-y-2">
+                            {uniquePlatforms.map(platform => (
+                                <div key={platform} className="flex items-center space-x-2">
+                                    <Checkbox
+                                        id={`plat-${platform}`}
+                                        checked={selectedPlatforms.includes(platform)}
+                                        onCheckedChange={() => toggleFilter(selectedPlatforms, setSelectedPlatforms, platform)}
+                                    />
+                                    <label htmlFor={`plat-${platform}`} className="text-sm font-medium leading-none truncate max-w-[150px]" title={platform}>
+                                        {platform}
+                                    </label>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

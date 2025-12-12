@@ -71,7 +71,7 @@ export function Navigation() {
                   W
                 </span>
               </div>
-              <span className="hidden lg:block text-foreground font-bold text-lg group-hover:text-primary transition-colors">
+              <span className="hidden min-[380px]:block text-foreground font-bold text-lg group-hover:text-primary transition-colors">
                 WhatsGoingOn<span className="text-primary">AI</span>
               </span>
             </Link>
