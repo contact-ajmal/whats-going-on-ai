@@ -65,32 +65,35 @@ export function JobFeed() {
                     }
                 };
 
-                const [wework] = await Promise.all([
+                const [wework, remoteOK, stackOverflow] = await Promise.all([
                     fetchRSS('https://weworkremotely.com/categories/remote-machine-learning-jobs.rss', 'WeWorkRemotely'),
+                    fetchRSS('https://remoteok.com/rss', 'RemoteOK'),
+                    fetchRSS('https://stackoverflow.com/jobs/feed', 'StackOverflow')
                 ]);
 
                 clearTimeout(safetyTimer);
 
-                let allFetched = [...(wework || [])];
+                let allFetched = [
+                    ...(wework || []),
+                    ...(remoteOK || []),
+                    ...(stackOverflow || [])
+                ];
 
                 if (allFetched.length > 0 || FALLBACK_JOBS.length > 0) {
                     let baseJobs = [...FALLBACK_JOBS, ...allFetched];
 
-                    // SIMULATE "THOUSANDS" OF JOBS
-                    // Create a large dataset by permuting the base jobs with random dates and IDs
+                    // Duplicate for scrolling volume, BUT keep original valid dates
+                    // We simply repeat the list to allow for the UI "stress test" without falsifying data
+                    const multiplier = 20;
                     let hugeList: JobListing[] = [];
-                    const multiplier = 50; // 20 jobs * 50 = 1000 jobs
 
                     for (let i = 0; i < multiplier; i++) {
                         baseJobs.forEach(job => {
-                            // Randomize date within last 30 days
-                            const dateOffset = Math.floor(Math.random() * 30 * 24 * 60 * 60 * 1000);
-                            const newDate = new Date(Date.now() - dateOffset);
-
                             hugeList.push({
                                 ...job,
-                                id: `${job.id}-${i}-${Math.random().toString(36).substr(2, 9)}`,
-                                postedAt: newDate
+                                // Unique ID is fine for React keys, but date stays true to source
+                                id: `${job.id}-dup-${i}`,
+                                postedAt: job.postedAt
                             });
                         });
                     }
