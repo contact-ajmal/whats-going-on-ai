@@ -127,7 +127,7 @@ export const DataManager = {
     /**
      * Update user profile details
      */
-    updateProfileDetails: async (userId: string, updates: { full_name?: string; website?: string; country?: string; bio?: string }) => {
+    updateProfileDetails: async (userId: string, updates: { full_name?: string; website?: string; country?: string; bio?: string; email?: string }) => {
         if (!USE_SUPABASE || !supabase) return { success: false, error: "Supabase disabled" };
 
         const { error } = await supabase

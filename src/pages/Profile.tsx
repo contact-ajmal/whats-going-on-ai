@@ -58,7 +58,10 @@ export default function Profile() {
         setSaving(true);
 
         // Save Details
-        const detailsResult = await DataManager.updateProfileDetails(user.id, formData);
+        const detailsResult = await DataManager.updateProfileDetails(user.id, {
+            ...formData,
+            email: user.email // Ensure email is always synced
+        });
 
         // Save Interests
         const interestsResult = await DataManager.updateInterests(user.id, selectedInterests);
