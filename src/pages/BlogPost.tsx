@@ -173,8 +173,8 @@ export default function BlogPostPage() {
             <div className="mt-16 flex flex-col items-center gap-8">
               <ShareButtons title={post.title} />
 
-              <div className="p-6 rounded-xl bg-[#FFDD00]/10 border border-[#FFDD00]/20 flex flex-col items-center text-center gap-4 max-w-md">
-                <p className="text-sm font-medium text-[#FFDD00]">Enjoyed the read? Support the creator!</p>
+              <div className="p-6 rounded-xl bg-muted/30 border border-white/10 flex flex-col items-center text-center gap-4 max-w-md">
+                <p className="text-sm font-medium text-foreground">Enjoyed the read? Support the creator!</p>
                 <BuyCoffeeButton />
               </div>
             </div>

@@ -7,7 +7,7 @@ interface BuyCoffeeButtonProps {
     username?: string; // e.g. 'ajmal' for buymeacoffee.com/ajmal
 }
 
-export function BuyCoffeeButton({ className, username = 'zazamik' }: BuyCoffeeButtonProps) {
+export function BuyCoffeeButton({ className, username = 'ajmalnazir' }: BuyCoffeeButtonProps) {
     const handleClick = () => {
         window.open(`https://www.buymeacoffee.com/${username}`, '_blank');
     };
@@ -16,11 +16,12 @@ export function BuyCoffeeButton({ className, username = 'zazamik' }: BuyCoffeeBu
         <Button
             onClick={handleClick}
             className={cn(
-                "bg-[#FFDD00] text-black hover:bg-[#FFDD00]/90 font-bold border-none shadow-[0px_4px_0px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-y-1 transition-all",
+                "bg-[#4c4242] text-white hover:bg-[#4c4242]/90 font-bold border rounded-md shadow-sm transition-all",
+                "font-[Lato]", // Using the requested font stack if available, else fallback
                 className
             )}
         >
-            <Coffee className="mr-2 h-5 w-5" fill="black" />
+            <Coffee className="mr-2 h-5 w-5 text-[#FFDD00]" fill="#FFDD00" />
             Buy me a coffee
         </Button>
     );
