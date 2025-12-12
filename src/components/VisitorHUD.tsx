@@ -13,21 +13,21 @@ interface GeoData {
 export function VisitorHUD() {
     const [geo, setGeo] = useState<GeoData | null>(null);
     const [isOpen, setIsOpen] = useState(false);
-    const [liveCount, setLiveCount] = useState(128); // Initial active users
+    const [visitCount, setVisitCount] = useState<number | null>(null);
 
     useEffect(() => {
-        // Fetch location data
+        // Fetch location
         fetch('https://ipapi.co/json/')
             .then(res => res.json())
             .then(data => setGeo(data))
             .catch(err => console.error("Geo fetch failed", err));
 
-        // Simulate live ticker fluctuation
-        const interval = setInterval(() => {
-            setLiveCount(prev => prev + Math.floor(Math.random() * 5) - 2);
-        }, 3000);
-
-        return () => clearInterval(interval);
+        // Increment and fetch visit count (Real)
+        // Using namespace 'whatsgoingonai' and key 'visits'
+        fetch('https://api.counterapi.dev/v1/whatsgoingonai/visits/up')
+            .then(res => res.json())
+            .then(data => setVisitCount(data.count))
+            .catch(err => console.error("Count fetch failed", err));
     }, []);
 
     const stats = [
@@ -46,15 +46,24 @@ export function VisitorHUD() {
                 onMouseLeave={() => setIsOpen(false)}
                 onClick={() => setIsOpen(!isOpen)}
             >
-                {/* Live Indicator */}
+                {/* Status Indicator */}
                 <div className="relative flex items-center justify-center w-2 h-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                 </div>
 
                 <span className="text-xs font-mono font-medium text-green-400">
-                    {liveCount} Live
+                    Online
                 </span>
+
+                {visitCount !== null && (
+                    <>
+                        <div className="w-px h-3 bg-white/20 mx-1" />
+                        <span className="text-xs font-mono font-medium text-white">
+                            {visitCount.toLocaleString()} Visits
+                        </span>
+                    </>
+                )}
 
                 {geo?.country_code && (
                     <>
@@ -105,14 +114,19 @@ export function VisitorHUD() {
                                 )}
 
                                 {/* Grid Stats */}
-                                <div className="grid grid-cols-3 gap-2">
-                                    {stats.map((stat) => (
-                                        <div key={stat.label} className="flex flex-col items-center gap-1 p-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-center">
-                                            <stat.icon className={`w-4 h-4 ${stat.color} mb-1`} />
-                                            <span className="text-xs font-bold text-white">{stat.value}</span>
-                                            <span className="text-[10px] text-muted-foreground">{stat.label}</span>
+                                <div className="grid grid-cols-1 gap-2">
+                                    <div className="flex items-center justify-between p-2 rounded-lg bg-white/5">
+                                        <div className="flex items-center gap-2">
+                                            <Globe className="w-4 h-4 text-purple-400" />
+                                            <span className="text-xs text-muted-foreground">Total Visits</span>
                                         </div>
-                                    ))}
+                                        <span className="text-sm font-bold text-white">
+                                            {visitCount ? visitCount.toLocaleString() : '...'}
+                                        </span>
+                                    </div>
+                                    <div className="p-2 text-[10px] text-muted-foreground text-center border-t border-white/5 mt-1">
+                                        Real-time stats via CounterAPI
+                                    </div>
                                 </div>
                             </div>
                         </Card>
