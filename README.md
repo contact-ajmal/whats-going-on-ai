@@ -185,7 +185,14 @@ Adjust animation timing in `tailwind.config.ts` under `keyframes` and `animation
 
 ## License
 
-MIT License - Feel free to use this for your own blog!
+## License
+
+**Proprietary & Confidential**
+
+All rights reserved. This project and its contents are the property of Ajmal. 
+Unauthorized copying, modification, distribution, or use of this file, via any medium, is strictly prohibited.
+This repository is for portfolio and demonstration purposes only.
+
 
 ---
 
