@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion';
-import { ArrowRight, ChevronDown, Radio, BookOpen, Briefcase, Wrench, Newspaper } from 'lucide-react';
+import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
+import { ArrowRight, ChevronDown, BookOpen, Briefcase, Wrench, Newspaper } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { NeuralBackground } from '@/components/NeuralBackground';
@@ -7,7 +7,7 @@ import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { NewsFeed } from '@/components/NewsFeed';
 import { FeaturedBlogs } from '@/components/FeaturedBlogs';
-import { useState, useEffect } from 'react';
+import { ReactNode, MouseEvent } from 'react';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -29,48 +29,62 @@ const itemVariants = {
   },
 };
 
-// Typewriter Component
-const Typewriter = ({ words }: { words: string[] }) => {
-  const [index, setIndex] = useState(0);
-  const [subIndex, setSubIndex] = useState(0);
-  const [reverse, setReverse] = useState(false);
+// --- MARK: Components ---
 
-  // Blink cursor
-  const [blink, setBlink] = useState(true);
-
-  useEffect(() => {
-    const timeout2 = setTimeout(() => {
-      setBlink((prev) => !prev);
-    }, 500);
-    return () => clearTimeout(timeout2);
-  }, [blink]);
-
-  useEffect(() => {
-    if (subIndex === words[index].length + 1 && !reverse) {
-      setReverse(true);
-      return;
-    }
-
-    if (subIndex === 0 && reverse) {
-      setReverse(false);
-      setIndex((prev) => (prev + 1) % words.length);
-      return;
-    }
-
-    const timeout = setTimeout(() => {
-      setSubIndex((prev) => prev + (reverse ? -1 : 1));
-    }, reverse ? 75 : 150);
-
-    return () => clearTimeout(timeout);
-  }, [subIndex, index, reverse, words]);
-
+// Infinite Scrolling Ticker
+const Ticker = () => {
   return (
-    <span className="inline-flex items-center text-primary">
-      {words[index].substring(0, subIndex)}
-      <span className={`ml-1 w-2 h-6 bg-primary ${blink ? 'opacity-100' : 'opacity-0'}`} />
-    </span>
+    <div className="w-full overflow-hidden bg-white/5 border-y border-white/5 py-2 mb-12 relative group cursor-default">
+      <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+      <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+
+      <div className="flex whitespace-nowrap animate-marquee group-hover:[animation-play-state:paused]">
+        {[1, 2, 3, 4, 5, 6].map((i) => (
+          <div key={i} className="flex gap-12 mx-6 text-[10px] md:text-xs font-mono text-muted-foreground/70 tracking-[0.2em] uppercase">
+            <span className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-emerald-500/50"></span> Tracking New MCP Servers</span>
+            <span className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-blue-500/50"></span> Scanning ArXiv Papers</span>
+            <span className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-purple-500/50"></span> Indexing Remote Jobs</span>
+            <span className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-orange-500/50"></span> Aggregating Video Feeds</span>
+            <span className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-cyan-500/50"></span> Initializing Agents</span>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
+
+// Spotlight Card Effect
+function SpotlightCard({ children, className = "" }: { children: ReactNode; className?: string }) {
+  let mouseX = useMotionValue(0);
+  let mouseY = useMotionValue(0);
+
+  function handleMouseMove({ currentTarget, clientX, clientY }: MouseEvent) {
+    let { left, top } = currentTarget.getBoundingClientRect();
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
+  }
+
+  return (
+    <div
+      className={`group relative border border-white/10 bg-white/5 overflow-hidden rounded-xl ${className}`}
+      onMouseMove={handleMouseMove}
+    >
+      <motion.div
+        className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-100"
+        style={{
+          background: useMotionTemplate`
+            radial-gradient(
+              650px circle at ${mouseX}px ${mouseY}px,
+              rgba(14, 165, 233, 0.15),
+              transparent 80%
+            )
+          `,
+        }}
+      />
+      <div className="relative h-full">{children}</div>
+    </div>
+  );
+}
 
 export default function Home() {
   const scrollToContent = () => {
@@ -83,7 +97,15 @@ export default function Home() {
       <Navigation />
 
       {/* HERO SECTION */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 container mx-auto px-6 overflow-hidden">
+      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 container mx-auto px-6 overflow-hidden min-h-screen flex flex-col justify-center">
+
+        {/* Radar Scan Effect */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-20 select-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-primary/20 rounded-full animate-ping-slow" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-primary/10 rounded-full" />
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent animate-scan" />
+        </div>
+
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -91,70 +113,78 @@ export default function Home() {
           className="max-w-5xl mx-auto text-center z-10 relative"
         >
           {/* Pill Label */}
-          <motion.div variants={itemVariants} className="flex justify-center mb-6">
-            <div className="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md flex items-center gap-2 text-sm font-medium text-muted-foreground animate-pulse">
+          <motion.div variants={itemVariants} className="flex justify-center mb-8">
+            <div className="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md flex items-center gap-2 text-[10px] md:text-xs font-medium text-muted-foreground shadow-[0_0_15px_rgba(34,197,94,0.1)] uppercase tracking-wider">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
-              Live Intelligence Feed
+              System Online
             </div>
           </motion.div>
 
           {/* HEADLINE */}
-          <motion.h1 variants={itemVariants} className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-tight">
-            Your Signal in the <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/80 to-white/40">
-              AI Noise
+          <motion.h1 variants={itemVariants} className="text-6xl md:text-8xl font-extrabold tracking-tight mb-8 leading-[0.9]">
+            Your Signal in <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-br from-white via-primary/50 to-transparent">
+              The Noise
             </span>
           </motion.h1>
 
-          {/* DYNAMIC TEXT */}
-          <motion.div variants={itemVariants} className="h-8 md:h-12 mb-8 text-xl md:text-2xl font-mono text-muted-foreground">
-            Currently tracking: <Typewriter words={["Latest Research Papers...", "Remote AI Jobs...", "New MCP Servers...", "Video Essays..."]} />
+          {/* TICKER */}
+          <motion.div variants={itemVariants} className="w-full max-w-2xl mx-auto mb-16 opacity-80">
+            <Ticker />
           </motion.div>
 
           {/* BENTO GRID (Mission Visualization) */}
-          <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto mt-12 bg">
+          <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
 
-            <Link to="/research" className="group">
-              <div className="h-full p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/50 transition-all hover:bg-white/10 flex flex-col items-start text-left">
-                <div className="p-3 rounded-lg bg-blue-500/10 text-blue-400 mb-4 group-hover:scale-110 transition-transform">
-                  <BookOpen size={24} />
+            <Link to="/research" className="block h-full">
+              <SpotlightCard className="h-full hover:border-blue-500/50 transition-colors">
+                <div className="p-6 h-full flex flex-col items-start text-left">
+                  <div className="p-3 rounded-lg bg-blue-500/10 text-blue-400 mb-4">
+                    <BookOpen size={24} />
+                  </div>
+                  <h3 className="text-lg font-bold mb-2 text-foreground">Deep Research</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">Daily feed of ArXiv papers selected for impact, not hype. Filter by citation count.</p>
                 </div>
-                <h3 className="text-lg font-bold mb-2 text-foreground">Deep Research</h3>
-                <p className="text-sm text-muted-foreground">Curated daily drops of ArXiv papers that actually matter. No hype, just science.</p>
-              </div>
+              </SpotlightCard>
             </Link>
 
-            <Link to="/jobs" className="group">
-              <div className="h-full p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/50 transition-all hover:bg-white/10 flex flex-col items-start text-left">
-                <div className="p-3 rounded-lg bg-emerald-500/10 text-emerald-400 mb-4 group-hover:scale-110 transition-transform">
-                  <Briefcase size={24} />
+            <Link to="/jobs" className="block h-full">
+              <SpotlightCard className="h-full hover:border-emerald-500/50 transition-colors">
+                <div className="p-6 h-full flex flex-col items-start text-left">
+                  <div className="p-3 rounded-lg bg-emerald-500/10 text-emerald-400 mb-4">
+                    <Briefcase size={24} />
+                  </div>
+                  <h3 className="text-lg font-bold mb-2 text-foreground">Career Signal</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">Live index of AI roles. Filter by remote status, tech stack, and salary ranges.</p>
                 </div>
-                <h3 className="text-lg font-bold mb-2 text-foreground">Career Signal</h3>
-                <p className="text-sm text-muted-foreground">Live feed of remote AI roles. Filter by company, stack, and seniority.</p>
-              </div>
+              </SpotlightCard>
             </Link>
 
-            <Link to="/updates" className="group">
-              <div className="h-full p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/50 transition-all hover:bg-white/10 flex flex-col items-start text-left">
-                <div className="p-3 rounded-lg bg-purple-500/10 text-purple-400 mb-4 group-hover:scale-110 transition-transform">
-                  <Newspaper size={24} />
+            <Link to="/updates" className="block h-full">
+              <SpotlightCard className="h-full hover:border-purple-500/50 transition-colors">
+                <div className="p-6 h-full flex flex-col items-start text-left">
+                  <div className="p-3 rounded-lg bg-purple-500/10 text-purple-400 mb-4">
+                    <Newspaper size={24} />
+                  </div>
+                  <h3 className="text-lg font-bold mb-2 text-foreground">Pulse News</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">Real-time headlines aggregated from top tech sources. No clickbait permitted.</p>
                 </div>
-                <h3 className="text-lg font-bold mb-2 text-foreground">Pulse News</h3>
-                <p className="text-sm text-muted-foreground">Real-time headlines without the clickbait. Stay informed in minutes.</p>
-              </div>
+              </SpotlightCard>
             </Link>
 
-            <Link to="/tools" className="group">
-              <div className="h-full p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/50 transition-all hover:bg-white/10 flex flex-col items-start text-left">
-                <div className="p-3 rounded-lg bg-orange-500/10 text-orange-400 mb-4 group-hover:scale-110 transition-transform">
-                  <Wrench size={24} />
+            <Link to="/tools" className="block h-full">
+              <SpotlightCard className="h-full hover:border-orange-500/50 transition-colors">
+                <div className="p-6 h-full flex flex-col items-start text-left">
+                  <div className="p-3 rounded-lg bg-orange-500/10 text-orange-400 mb-4">
+                    <Wrench size={24} />
+                  </div>
+                  <h3 className="text-lg font-bold mb-2 text-foreground">Toolbox & MCP</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">Directory of agentic tools and Model Context Protocol servers for developers.</p>
                 </div>
-                <h3 className="text-lg font-bold mb-2 text-foreground">Toolbox & MCP</h3>
-                <p className="text-sm text-muted-foreground">Directory of emerging tools and MCP servers to power your agents.</p>
-              </div>
+              </SpotlightCard>
             </Link>
 
           </motion.div>
@@ -163,11 +193,11 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 1.5 }}
-            className="mt-20 flex justify-center"
+            transition={{ delay: 2 }}
+            className="mt-24 flex justify-center"
           >
-            <Button variant="ghost" onClick={scrollToContent} className="text-muted-foreground hover:text-primary animate-bounce gap-2">
-              Start Exploring <ChevronDown size={16} />
+            <Button variant="ghost" onClick={scrollToContent} className="text-muted-foreground/50 hover:text-primary animate-bounce">
+              <ChevronDown size={24} />
             </Button>
           </motion.div>
 

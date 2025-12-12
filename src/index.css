@@ -327,11 +327,39 @@
 }
 
 .animate-marquee {
-  animation: marquee 90s linear infinite;
+  animation: marquee 40s linear infinite;
   display: flex;
   white-space: nowrap;
 }
 
 .animate-marquee:hover {
   animation-play-state: paused;
+}
+
+@keyframes scan {
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 0.5;
+  }
+
+  85% {
+    opacity: 0.5;
+  }
+
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+.animate-scan {
+  animation: scan 4s linear infinite;
+}
+
+.animate-ping-slow {
+  animation: ping 3s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
