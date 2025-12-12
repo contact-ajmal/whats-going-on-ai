@@ -125,7 +125,7 @@ export default function Home() {
             {/* The Brand */}
             <div className="relative group">
               <div className="absolute -inset-4 bg-primary/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-              <h2 className="relative text-3xl md:text-5xl font-black tracking-tight text-white select-none">
+              <h2 className="relative text-4xl md:text-6xl font-black tracking-tight text-white select-none">
                 <DecoderText text="WhatsGoingOn" className="text-white" />
                 <span className="text-primary">AI</span>
               </h2>
