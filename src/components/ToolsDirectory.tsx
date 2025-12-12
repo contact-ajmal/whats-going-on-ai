@@ -1,11 +1,12 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Sparkles, Terminal, Database, Video, Mic, Briefcase, GraduationCap, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { toolsData, Tool } from '@/data/toolsData';
+import { Tool } from '@/data/toolsData';
+import { DataManager } from '@/lib/dataManager';
 
 const categories = [
     { id: 'All', label: 'All Tools', icon: Sparkles },
@@ -23,16 +24,28 @@ export function ToolsDirectory() {
     const [search, setSearch] = useState('');
     const [activeCategory, setActiveCategory] = useState('All');
     const [expandedTool, setExpandedTool] = useState<string | null>(null);
+    const [tools, setTools] = useState<Tool[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const loadTools = async () => {
+            setIsLoading(true);
+            const data = await DataManager.getTools();
+            setTools(data);
+            setIsLoading(false);
+        };
+        loadTools();
+    }, []);
 
     const filteredTools = useMemo(() => {
-        return toolsData.filter(tool => {
+        return tools.filter(tool => {
             const matchesSearch = tool.name.toLowerCase().includes(search.toLowerCase()) ||
                 tool.description.toLowerCase().includes(search.toLowerCase()) ||
                 tool.tags.some(tag => tag.toLowerCase().includes(search.toLowerCase()));
             const matchesCategory = activeCategory === 'All' || tool.category === activeCategory;
             return matchesSearch && matchesCategory;
         });
-    }, [search, activeCategory]);
+    }, [search, activeCategory, tools]);
 
     return (
         <div className="w-full max-w-7xl mx-auto">

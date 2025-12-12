@@ -241,8 +241,10 @@ ${content}`;
             <div className="min-h-screen pt-24 px-4 flex items-center justify-center bg-background">
                 <Card className="w-full max-w-md border-primary/20 bg-black/50 backdrop-blur-xl">
                     <CardHeader>
-                        <CardTitle className="text-2xl text-primary">Admin Access</CardTitle>
-                        <CardDescription>Enter your GitHub credentials to manage posts.</CardDescription>
+                        <div>
+                            <CardTitle className="text-2xl text-primary">Admin Access</CardTitle>
+                            <CardDescription>Enter your GitHub credentials to manage posts.</CardDescription>
+                        </div>
                     </CardHeader>
                     <CardContent>
                         <form onSubmit={handleLogin} className="space-y-4">
@@ -272,7 +274,7 @@ ${content}`;
                         </form>
                     </CardContent>
                 </Card>
-            </div>
+            </div >
         );
     }
 
