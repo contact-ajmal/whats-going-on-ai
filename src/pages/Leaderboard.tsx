@@ -39,12 +39,12 @@ export function Leaderboard() {
 
                 // Simulate Open LLM Leaderboard Format (Average 0-100)
                 const mockOpenLLMModels: Model[] = [
-                    { id: 'gpt-4o', name: 'GPT-4o', provider: 'OpenAI', tier: 'S', scores: { elo: 88.5, coding: 92.0, reasoning: 90.1, context: '128k' }, tags: [] },
-                    { id: 'gemini-pro', name: 'Gemini 1.5 Pro', provider: 'Google', tier: 'S', scores: { elo: 87.2, coding: 90.5, reasoning: 88.9, context: '2M' }, tags: [] },
-                    { id: 'llama-3-70b', name: 'Llama 3 70B', provider: 'Meta', tier: 'A', scores: { elo: 82.1, coding: 79.5, reasoning: 81.2, context: '8k' }, tags: [] },
-                    { id: 'mistral-large', name: 'Mistral Large', provider: 'Mistral', tier: 'A', scores: { elo: 81.5, coding: 80.0, reasoning: 80.5, context: '32k' }, tags: [] },
-                    { id: 'claude-3-opus', name: 'Claude 3 Opus', provider: 'Anthropic', tier: 'S', scores: { elo: 86.8, coding: 84.9, reasoning: 86.8, context: '200k' }, tags: [] },
-                    { id: 'qwen-2-72b', name: 'Qwen2-72B', provider: 'Abibaba', tier: 'A', scores: { elo: 79.9, coding: 78.2, reasoning: 77.5, context: '32k' }, tags: [] }
+                    { id: 'gpt-4o', name: 'GPT-4o', provider: 'OpenAI', tier: 'S', releaseDate: '2024-05-13', scores: { elo: 88.5, coding: 92.0, reasoning: 90.1, context: '128k' }, tags: [] },
+                    { id: 'gemini-pro', name: 'Gemini 1.5 Pro', provider: 'Google', tier: 'S', releaseDate: '2024-05-14', scores: { elo: 87.2, coding: 90.5, reasoning: 88.9, context: '2M' }, tags: [] },
+                    { id: 'llama-3-70b', name: 'Llama 3 70B', provider: 'Meta', tier: 'A', releaseDate: '2024-04-18', scores: { elo: 82.1, coding: 79.5, reasoning: 81.2, context: '8k' }, tags: [] },
+                    { id: 'mistral-large', name: 'Mistral Large', provider: 'Mistral', tier: 'A', releaseDate: '2024-07-24', scores: { elo: 81.5, coding: 80.0, reasoning: 80.5, context: '32k' }, tags: [] },
+                    { id: 'claude-3-opus', name: 'Claude 3 Opus', provider: 'Anthropic', tier: 'S', releaseDate: '2024-03-04', scores: { elo: 86.8, coding: 84.9, reasoning: 86.8, context: '200k' }, tags: [] },
+                    { id: 'qwen-2-72b', name: 'Qwen2-72B', provider: 'Alibaba', tier: 'A', releaseDate: '2024-06-07', scores: { elo: 79.9, coding: 78.2, reasoning: 77.5, context: '32k' }, tags: [] }
                 ];
 
                 // Add random fluctuation
