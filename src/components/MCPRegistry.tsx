@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Loader2, Globe, Github, Package } from 'lucide-react';
+import { Search, Loader2, Globe, Github, Package, ExternalLink } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -46,12 +46,16 @@ export function MCPRegistry() {
 
     const fetchServers = async (nextCursor?: string) => {
         try {
-            const url = new URL('https://registry.modelcontextprotocol.io/v0/servers');
+            const baseUrl = 'https://registry.modelcontextprotocol.io/v0/servers';
+            const url = new URL(baseUrl);
             if (nextCursor) {
                 url.searchParams.set('cursor', nextCursor);
             }
 
-            const res = await fetch(url.toString());
+            // Use allorigins to bypass CORS
+            const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url.toString())}`;
+
+            const res = await fetch(proxyUrl);
             if (!res.ok) throw new Error('Failed to fetch registry');
 
             const data: ApiResponse = await res.json();
@@ -115,8 +119,13 @@ export function MCPRegistry() {
                     <Loader2 className="w-10 h-10 animate-spin text-blue-500" />
                 </div>
             ) : error ? (
-                <div className="text-center py-20 text-red-400 bg-red-500/10 rounded-xl border border-red-500/20">
-                    {error}
+                <div className="text-center py-20">
+                    <div className="inline-block p-4 rounded-xl bg-red-500/10 border border-red-500/20 mb-4">
+                        <p className="text-red-400 mb-2">{error}</p>
+                        <Button variant="outline" className="border-red-500/30 hover:bg-red-500/10" onClick={() => window.open('https://registry.modelcontextprotocol.io/', '_blank')}>
+                            Open Official Registry <ExternalLink className="w-4 h-4 ml-2" />
+                        </Button>
+                    </div>
                 </div>
             ) : (
                 <div className="space-y-4">
