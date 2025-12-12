@@ -174,9 +174,6 @@ export function ResearchFeed() {
         return filtered;
     }, [papers, searchTerm, selectedSource]);
 
-    const displayPapers = filteredPapers.slice(0, visibleCount);
-    const hasMore = visibleCount < filteredPapers.length;
-
     const getSourceColor = (source: string) => {
         switch (source) {
             case 'ArXiv': return 'text-red-400 border-red-500/30';
@@ -258,14 +255,13 @@ export function ResearchFeed() {
                     value={searchTerm}
                     onChange={(e) => {
                         setSearchTerm(e.target.value);
-                        setVisibleCount(9);
                     }}
                 />
             </div>
 
-            {/* Papers List */}
+            {/* Papers List - SCROLLABLE CONTAINER */}
             <div className="grid gap-6">
-                {displayPapers.map((paper) => (
+                {filteredPapers.map((paper) => (
                     <Card key={paper.id} className="group overflow-hidden border-white/10 bg-card/30 backdrop-blur-md hover:border-primary/50 hover:shadow-lg transition-all duration-300">
                         <CardHeader className="pb-3">
                             <div className="flex justify-between items-start gap-4">
@@ -331,20 +327,6 @@ export function ResearchFeed() {
                     </Card>
                 ))}
             </div>
-
-            {/* Load More Button */}
-            {hasMore && (
-                <div className="flex justify-center pt-8">
-                    <Button
-                        variant="secondary"
-                        size="lg"
-                        className="gap-2 min-w-[200px]"
-                        onClick={() => setVisibleCount(prev => prev + 9)}
-                    >
-                        Load More Papers <ChevronDown className="h-4 w-4" />
-                    </Button>
-                </div>
-            )}
         </div>
     );
 }
