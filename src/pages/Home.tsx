@@ -114,9 +114,9 @@ export default function Home() {
         >
           {/* Pill Label */}
           <motion.div variants={itemVariants} className="flex justify-center mb-8">
-            <div className="px-6 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md flex items-center gap-0.5 shadow-[0_0_15px_rgba(6,182,212,0.1)] group hover:bg-white/10 transition-colors cursor-default select-none">
-              <span className="text-foreground font-bold text-sm tracking-wide">WhatsGoingOn</span>
-              <span className="text-primary font-bold text-sm tracking-wide">AI</span>
+            <div className="px-8 py-3 rounded-full bg-white/5 border border-white/10 backdrop-blur-md flex items-center gap-1 shadow-[0_0_15px_rgba(6,182,212,0.1)] group hover:bg-white/10 transition-colors cursor-default select-none">
+              <span className="text-foreground font-bold text-xl tracking-wide">WhatsGoingOn</span>
+              <span className="text-primary font-bold text-xl tracking-wide">AI</span>
             </div>
           </motion.div>
 
