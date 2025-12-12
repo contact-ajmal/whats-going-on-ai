@@ -10,136 +10,79 @@ import { LinkedinShareButton } from './LinkedinShareButton';
 import { FALLBACK_PAPERS, ResearchPaper } from '../data/fallbackResearch';
 
 export function ResearchFeed() {
-    // Start with fallback data immediately so it's never empty
+    // Start with fallback data immediately
     const [papers, setPapers] = useState<ResearchPaper[]>(FALLBACK_PAPERS);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState("");
-    const [visibleCount, setVisibleCount] = useState(9);
+    const [visibleCount, setVisibleCount] = useState(100); // Default to showing many
 
     useEffect(() => {
         const fetchResearch = async () => {
             try {
-                // Safety timeout: Forced stop after 3 seconds
+                // Safety timeout
                 const safetyTimer = setTimeout(() => {
                     if (loading) setLoading(false);
-                }, 3000);
+                }, 4000);
 
-                // Helper to fetch via proxy with SHORT timeout
-                const fetchWithTimeout = async (url: string, timeout = 2500) => {
-                    const controller = new AbortController();
-                    const id = setTimeout(() => controller.abort(), timeout);
+                // Helper to fetch via RSS2JSON (more reliable than raw proxies)
+                // Using the free API key (limit 10k requests/day usually, or fallback to no key)
+                const fetchRSS = async (rssUrl: string, sourceName: string, categoryName: string, isAuthorList = false) => {
                     try {
-                        const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, {
-                            signal: controller.signal
-                        });
-                        clearTimeout(id);
-                        if (!res.ok) throw new Error(`Proxy error: ${res.status}`);
+                        const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
                         const data = await res.json();
-                        return data.contents;
+
+                        if (data.status === 'ok' && Array.isArray(data.items)) {
+                            return data.items.map((item: any) => ({
+                                id: item.guid || item.link,
+                                title: item.title,
+                                abstract: (item.description || '').replace(/<[^>]*>?/gm, '').slice(0, 300) + '...',
+                                url: item.link,
+                                publishedAt: new Date(item.pubDate),
+                                authors: isAuthorList ? [item.author] : [item.author || sourceName],
+                                category: categoryName,
+                                source: sourceName
+                            }));
+                        }
+                        return [];
                     } catch (e) {
-                        clearTimeout(id);
-                        throw e;
+                        console.warn(`Failed to fetch ${sourceName}`, e);
+                        return [];
                     }
                 };
 
-                const parseXML = (xmlStr: string) => {
-                    return new DOMParser().parseFromString(xmlStr, "text/xml");
-                };
+                // Fetch all sources in parallel
+                const [arxivAI, arxivML, hfPapers, googleResearch, bairBlog] = await Promise.all([
+                    fetchRSS('https://export.arxiv.org/rss/cs.AI', 'ArXiv', 'Artificial Intelligence'),
+                    fetchRSS('https://export.arxiv.org/rss/cs.LG', 'ArXiv', 'Machine Learning'),
+                    fetchRSS('https://huggingface.co/papers/feed', 'Hugging Face', 'Daily Papers'),
+                    fetchRSS('https://blog.research.google/atom.xml', 'Google Research', 'Deep Learning'),
+                    fetchRSS('https://bair.berkeley.edu/blog/feed.xml', 'BAIR', 'AI Research')
+                ]);
 
-                let fetchedPapers: ResearchPaper[] = [];
-
-                // We try to fetch. If it fails, we keep the fallback data.
-                const promises = [
-                    // 1. ArXiv AI
-                    (async () => {
-                        try {
-                            const content = await fetchWithTimeout('https://export.arxiv.org/rss/cs.AI');
-                            const doc = parseXML(content);
-                            doc.querySelectorAll('item').forEach(item => {
-                                const title = item.querySelector('title')?.textContent?.replace(/^\[.*?\]\s*/, '') || 'Untitled';
-                                const link = item.querySelector('link')?.textContent || '';
-                                let desc = item.querySelector('description')?.textContent || '';
-                                desc = desc.replace(/<[^>]*>?/gm, '').replace(/^Abstract:\s*/i, '');
-                                if (desc.length > 300) desc = desc.slice(0, 300) + '...';
-                                const dateStr = item.querySelector('date')?.textContent || item.querySelector('dc\\:date')?.textContent || new Date().toISOString();
-                                const author = item.querySelector('creator')?.textContent || item.querySelector('dc\\:creator')?.textContent || 'ArXiv Author';
-                                if (link) fetchedPapers.push({ id: link, title, abstract: desc, url: link, publishedAt: new Date(dateStr), authors: [author.split(',')[0]], category: 'Artificial Intelligence', source: 'ArXiv' });
-                            });
-                        } catch (e) { console.warn('ArXiv AI failed', e); }
-                    })(),
-                    // 2. ArXiv ML
-                    (async () => {
-                        try {
-                            const content = await fetchWithTimeout('https://export.arxiv.org/rss/cs.LG');
-                            const doc = parseXML(content);
-                            doc.querySelectorAll('item').forEach(item => {
-                                const title = item.querySelector('title')?.textContent?.replace(/^\[.*?\]\s*/, '') || 'Untitled';
-                                const link = item.querySelector('link')?.textContent || '';
-                                let desc = item.querySelector('description')?.textContent || '';
-                                desc = desc.replace(/<[^>]*>?/gm, '').replace(/^Abstract:\s*/i, '');
-                                if (desc.length > 300) desc = desc.slice(0, 300) + '...';
-                                const dateStr = item.querySelector('date')?.textContent || item.querySelector('dc\\:date')?.textContent || new Date().toISOString();
-                                const author = item.querySelector('creator')?.textContent || item.querySelector('dc\\:creator')?.textContent || 'ArXiv Author';
-                                if (link) fetchedPapers.push({ id: link, title, abstract: desc, url: link, publishedAt: new Date(dateStr), authors: [author.split(',')[0]], category: 'Machine Learning', source: 'ArXiv' });
-                            });
-                        } catch (e) { console.warn('ArXiv ML failed', e); }
-                    })(),
-                    // 3. Hugging Face (Best Effort)
-                    (async () => {
-                        try {
-                            const content = await fetchWithTimeout('https://huggingface.co/api/daily_papers');
-                            const hfData = JSON.parse(content);
-                            if (Array.isArray(hfData)) {
-                                hfData.forEach((item: any) => {
-                                    const p = item.paper;
-                                    fetchedPapers.push({
-                                        id: p.id,
-                                        title: p.title,
-                                        abstract: p.summary.slice(0, 300) + '...',
-                                        url: `https://huggingface.co/papers/${p.id}`,
-                                        publishedAt: new Date(item.publishedAt),
-                                        authors: p.authors.map((a: any) => a.name),
-                                        category: 'Daily Papers',
-                                        source: 'Hugging Face'
-                                    });
-                                });
-                            }
-                        } catch (e) { console.warn('HF failed', e); }
-                    })(),
-                    // 4. Google + BAIR (Best Effort)
-                    (async () => {
-                        try {
-                            const content = await fetchWithTimeout('https://blog.research.google/atom.xml');
-                            const doc = parseXML(content);
-                            doc.querySelectorAll('entry').forEach(entry => {
-                                const title = entry.querySelector('title')?.textContent || 'Untitled';
-                                const link = entry.querySelector('link')?.getAttribute('href') || '';
-                                let summary = entry.querySelector('summary')?.textContent || '';
-                                summary = summary.replace(/<[^>]*>?/gm, '');
-                                if (summary.length > 300) summary = summary.slice(0, 300) + '...';
-                                const published = entry.querySelector('published')?.textContent || new Date().toISOString();
-                                const author = entry.querySelector('author > name')?.textContent || 'Google Research';
-                                if (link) fetchedPapers.push({ id: link, title, abstract: summary, url: link, publishedAt: new Date(published), authors: [author], category: 'Deep Learning', source: 'Google Research' });
-                            });
-                        } catch (e) { console.warn('Google failed', e); }
-                    })()
-                ];
-
-                await Promise.allSettled(promises);
                 clearTimeout(safetyTimer);
 
-                // Only update if we actually got data
-                if (fetchedPapers.length > 0) {
-                    fetchedPapers.sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime());
-                    // Dedupe
-                    const uniquePapers = Array.from(new Map(fetchedPapers.map(item => [item.url, item])).values());
+                const allFetched = [
+                    ...(arxivAI || []),
+                    ...(arxivML || []),
+                    ...(hfPapers || []),
+                    ...(googleResearch || []),
+                    ...(bairBlog || [])
+                ];
+
+                if (allFetched.length > 0) {
+                    // Sort descending
+                    allFetched.sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime());
+
+                    // Dedupe by URL
+                    const uniquePapers = Array.from(new Map(allFetched.map((item: ResearchPaper) => [item.url, item])).values());
+
                     setPapers(uniquePapers);
                 }
 
             } catch (err) {
                 console.error("Error fetching research:", err);
-                // Keep fallback data on error
+                // Fallback is already set
             } finally {
                 setLoading(false);
             }
