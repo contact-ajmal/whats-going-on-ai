@@ -9,11 +9,8 @@ export const DataManager = {
      * Fetch tools from the appropriate source.
      */
     getTools: async (): Promise<Tool[]> => {
-        console.log(`[DataManager] Initializing. Use Supabase: ${USE_SUPABASE}, Client Exists: ${!!supabase}`);
-
         if (USE_SUPABASE && supabase) {
             try {
-                console.log('[DataManager] Fetching from Supabase...');
                 const { data, error } = await supabase
                     .from('tools')
                     .select('*')
