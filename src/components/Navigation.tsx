@@ -13,6 +13,7 @@ const navLinks = [
   { path: '/blog', label: 'Blog' },
   { path: '/updates', label: 'AI News' },
   { path: '/research', label: 'Research' },
+  { path: '/jobs', label: 'AI Jobs' },
   { path: '/videos', label: 'Videos' },
   { path: '/tools', label: 'Tools' },
   { path: '/history', label: 'AI Timeline' },
