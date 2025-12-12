@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Github, Twitter, Linkedin, Mail, ArrowRight, ChevronDown } from 'lucide-react';
+import { ArrowRight, ChevronDown, Radio, BookOpen, Briefcase, Wrench, Newspaper } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { NeuralBackground } from '@/components/NeuralBackground';
@@ -7,10 +7,7 @@ import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { NewsFeed } from '@/components/NewsFeed';
 import { FeaturedBlogs } from '@/components/FeaturedBlogs';
-
-const socialLinks = [
-  { icon: Linkedin, href: 'https://linkedin.com/in/ajmalnazirbaba', label: 'LinkedIn' },
-];
+import { useState, useEffect } from 'react';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -32,101 +29,152 @@ const itemVariants = {
   },
 };
 
+// Typewriter Component
+const Typewriter = ({ words }: { words: string[] }) => {
+  const [index, setIndex] = useState(0);
+  const [subIndex, setSubIndex] = useState(0);
+  const [reverse, setReverse] = useState(false);
+
+  // Blink cursor
+  const [blink, setBlink] = useState(true);
+
+  useEffect(() => {
+    const timeout2 = setTimeout(() => {
+      setBlink((prev) => !prev);
+    }, 500);
+    return () => clearTimeout(timeout2);
+  }, [blink]);
+
+  useEffect(() => {
+    if (subIndex === words[index].length + 1 && !reverse) {
+      setReverse(true);
+      return;
+    }
+
+    if (subIndex === 0 && reverse) {
+      setReverse(false);
+      setIndex((prev) => (prev + 1) % words.length);
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      setSubIndex((prev) => prev + (reverse ? -1 : 1));
+    }, reverse ? 75 : 150);
+
+    return () => clearTimeout(timeout);
+  }, [subIndex, index, reverse, words]);
+
+  return (
+    <span className="inline-flex items-center text-primary">
+      {words[index].substring(0, subIndex)}
+      <span className={`ml-1 w-2 h-6 bg-primary ${blink ? 'opacity-100' : 'opacity-0'}`} />
+    </span>
+  );
+};
+
 export default function Home() {
   const scrollToContent = () => {
-    window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+    window.scrollTo({ top: window.innerHeight * 0.8, behavior: 'smooth' });
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground">
       <NeuralBackground />
       <Navigation />
 
-      {/* Hero Section */}
-      <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden">
-        {/* Gradient overlays */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background pointer-events-none" />
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-
+      {/* HERO SECTION */}
+      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 container mx-auto px-6 overflow-hidden">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="relative z-10 container mx-auto px-6 text-center"
+          className="max-w-5xl mx-auto text-center z-10 relative"
         >
-          {/* Glowing orb */}
-          <motion.div
-            variants={itemVariants}
-            className="mx-auto mb-8 w-24 h-24 relative"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-primary to-secondary rounded-full blur-xl opacity-50 animate-pulse" />
-            <div className="absolute inset-2 bg-gradient-to-br from-primary to-secondary rounded-full" />
-            <div className="absolute inset-4 bg-background rounded-full flex items-center justify-center overflow-hidden">
-              <span className="text-3xl font-bold text-gradient">AI</span>
+          {/* Pill Label */}
+          <motion.div variants={itemVariants} className="flex justify-center mb-6">
+            <div className="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md flex items-center gap-2 text-sm font-medium text-muted-foreground animate-pulse">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+              </span>
+              Live Intelligence Feed
             </div>
           </motion.div>
 
-          {/* Title */}
-          <motion.h1
-            variants={itemVariants}
-            className="text-4xl sm:text-5xl md:text-7xl font-extrabold font-heading mb-6 tracking-tight"
-          >
-            <span className="text-foreground">WhatsGoingOn</span>
-            <span className="text-gradient">AI</span>
+          {/* HEADLINE */}
+          <motion.h1 variants={itemVariants} className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-tight">
+            Your Signal in the <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white/80 to-white/40">
+              AI Noise
+            </span>
           </motion.h1>
 
-          {/* Subtitle */}
-          <motion.p
-            variants={itemVariants}
-            className="text-xl sm:text-2xl text-muted-foreground font-medium mb-8 max-w-2xl mx-auto"
-          >
-            A curated feed of the latest breakthroughs, and deep dives into the future of technology.
-          </motion.p>
-
-          {/* Author Byline */}
-          <motion.div
-            variants={itemVariants}
-            className="flex items-center justify-center gap-2 mb-10 text-sm font-medium text-primary/80"
-          >
-            <span className="px-3 py-1 rounded-full bg-primary/10 border border-primary/20">
-              Curated by Ajmal Baba
-            </span>
+          {/* DYNAMIC TEXT */}
+          <motion.div variants={itemVariants} className="h-8 md:h-12 mb-8 text-xl md:text-2xl font-mono text-muted-foreground">
+            Currently tracking: <Typewriter words={["Latest Research Papers...", "Remote AI Jobs...", "New MCP Servers...", "Video Essays..."]} />
           </motion.div>
 
-          {/* CTA Buttons */}
+          {/* BENTO GRID (Mission Visualization) */}
+          <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto mt-12 bg">
+
+            <Link to="/research" className="group">
+              <div className="h-full p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/50 transition-all hover:bg-white/10 flex flex-col items-start text-left">
+                <div className="p-3 rounded-lg bg-blue-500/10 text-blue-400 mb-4 group-hover:scale-110 transition-transform">
+                  <BookOpen size={24} />
+                </div>
+                <h3 className="text-lg font-bold mb-2 text-foreground">Deep Research</h3>
+                <p className="text-sm text-muted-foreground">Curated daily drops of ArXiv papers that actually matter. No hype, just science.</p>
+              </div>
+            </Link>
+
+            <Link to="/jobs" className="group">
+              <div className="h-full p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/50 transition-all hover:bg-white/10 flex flex-col items-start text-left">
+                <div className="p-3 rounded-lg bg-emerald-500/10 text-emerald-400 mb-4 group-hover:scale-110 transition-transform">
+                  <Briefcase size={24} />
+                </div>
+                <h3 className="text-lg font-bold mb-2 text-foreground">Career Signal</h3>
+                <p className="text-sm text-muted-foreground">Live feed of remote AI roles. Filter by company, stack, and seniority.</p>
+              </div>
+            </Link>
+
+            <Link to="/updates" className="group">
+              <div className="h-full p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/50 transition-all hover:bg-white/10 flex flex-col items-start text-left">
+                <div className="p-3 rounded-lg bg-purple-500/10 text-purple-400 mb-4 group-hover:scale-110 transition-transform">
+                  <Newspaper size={24} />
+                </div>
+                <h3 className="text-lg font-bold mb-2 text-foreground">Pulse News</h3>
+                <p className="text-sm text-muted-foreground">Real-time headlines without the clickbait. Stay informed in minutes.</p>
+              </div>
+            </Link>
+
+            <Link to="/tools" className="group">
+              <div className="h-full p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/50 transition-all hover:bg-white/10 flex flex-col items-start text-left">
+                <div className="p-3 rounded-lg bg-orange-500/10 text-orange-400 mb-4 group-hover:scale-110 transition-transform">
+                  <Wrench size={24} />
+                </div>
+                <h3 className="text-lg font-bold mb-2 text-foreground">Toolbox & MCP</h3>
+                <p className="text-sm text-muted-foreground">Directory of emerging tools and MCP servers to power your agents.</p>
+              </div>
+            </Link>
+
+          </motion.div>
+
+          {/* Scroll CTA */}
           <motion.div
-            variants={itemVariants}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.5 }}
+            className="mt-20 flex justify-center"
           >
-            <Button asChild variant="hero" size="lg">
-              <Link to="/blog">
-                Read Articles
-                <ArrowRight size={18} />
-              </Link>
-            </Button>
-            <Button asChild variant="outline" size="lg">
-              <Link to="/about">
-                About The Author
-              </Link>
+            <Button variant="ghost" onClick={scrollToContent} className="text-muted-foreground hover:text-primary animate-bounce gap-2">
+              Start Exploring <ChevronDown size={16} />
             </Button>
           </motion.div>
+
         </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.button
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.5, duration: 0.6 }}
-          onClick={scrollToContent}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted-foreground hover:text-primary transition-colors animate-bounce"
-          aria-label="Scroll down"
-        >
-          <ChevronDown size={32} />
-        </motion.button>
       </section>
 
-      {/* Featured Articles Section */}
+      {/* Content Sections */}
       <section className="py-16 px-6 container mx-auto border-t border-white/5">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -136,17 +184,16 @@ export default function Home() {
         >
           <div className="flex items-center justify-between mb-10">
             <h2 className="text-3xl font-bold border-l-4 border-primary pl-4">
-              Featured Articles
+              Featured Analysis
             </h2>
             <Link to="/blog" className="text-primary hover:text-accent flex items-center gap-2 text-sm font-medium">
-              View All <ArrowRight size={16} />
+              Read All <ArrowRight size={16} />
             </Link>
           </div>
           <FeaturedBlogs />
         </motion.div>
       </section>
 
-      {/* News Feed Section */}
       <section className="py-16 px-6 container mx-auto bg-black/20">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -156,9 +203,8 @@ export default function Home() {
         >
           <div className="mb-10">
             <h2 className="text-3xl font-bold border-l-4 border-secondary pl-4 mb-2">
-              AI News
+              Latest Headlines
             </h2>
-            <p className="text-muted-foreground ml-5">Real-time news from around the AI web.</p>
           </div>
           <NewsFeed />
         </motion.div>
