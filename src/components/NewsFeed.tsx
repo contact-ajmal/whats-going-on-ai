@@ -305,10 +305,10 @@ export function NewsFeed() {
             {/* Horizontal List View */}
             <div className="flex flex-col gap-4">
                 {displayArticles.map((article) => (
-                    <Card key={article.id} className="group overflow-hidden border-white/10 bg-card/30 backdrop-blur-md hover:border-primary/50 hover:shadow-lg transition-all duration-300 flex flex-row h-32 rounded-lg items-stretch">
+                    <Card key={article.id} className="group overflow-hidden border-white/10 bg-card/30 backdrop-blur-md hover:border-primary/50 hover:shadow-lg transition-all duration-300 flex flex-col sm:flex-row h-auto sm:h-32 rounded-lg items-stretch">
 
-                        {/* Image Thumbnail (Left, Fixed Width) */}
-                        <div className="w-48 shrink-0 relative overflow-hidden bg-muted/20 border-r border-white/5">
+                        {/* Image Thumbnail (Left on Desktop, Top on Mobile) */}
+                        <div className="w-full sm:w-48 h-40 sm:h-auto shrink-0 relative overflow-hidden bg-muted/20 border-b sm:border-b-0 sm:border-r border-white/5">
                             {article.image ? (
                                 <img
                                     src={article.image}

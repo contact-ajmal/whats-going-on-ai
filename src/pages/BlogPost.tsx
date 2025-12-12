@@ -11,6 +11,7 @@ import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import ShareButtons from '@/components/ShareButtons';
+import { BuyCoffeeButton } from '@/components/BuyCoffeeButton';
 
 export default function BlogPostPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -131,7 +132,7 @@ export default function BlogPostPage() {
 
               {/* Tags */}
               {post.tags.length > 0 && (
-                <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center gap-2 flex-wrap mb-8">
                   {post.tags.map(tag => (
                     <span
                       key={tag}
@@ -142,6 +143,12 @@ export default function BlogPostPage() {
                   ))}
                 </div>
               )}
+
+              {/* Support Button (Top) */}
+              <div className="flex justify-start">
+                <BuyCoffeeButton className="h-9 px-4 text-sm" />
+              </div>
+
             </motion.header>
 
             {/* Share Buttons (Top) */}
@@ -163,8 +170,13 @@ export default function BlogPostPage() {
             </motion.div>
 
             {/* Share Buttons (Bottom) */}
-            <div className="mt-16">
+            <div className="mt-16 flex flex-col items-center gap-8">
               <ShareButtons title={post.title} />
+
+              <div className="p-6 rounded-xl bg-[#FFDD00]/10 border border-[#FFDD00]/20 flex flex-col items-center text-center gap-4 max-w-md">
+                <p className="text-sm font-medium text-[#FFDD00]">Enjoyed the read? Support the creator!</p>
+                <BuyCoffeeButton />
+              </div>
             </div>
 
             {/* Comments */}

@@ -35,15 +35,91 @@ export const DataManager = {
     },
 
     /**
-     * (Future) Add a new tool
+     * Add a new tool to Supabase
      */
     addTool: async (tool: Omit<Tool, 'id'>) => {
-        if (!USE_SUPABASE) {
-            console.warn('Cannot add tool in static mode.');
+        if (!USE_SUPABASE || !supabase) {
+            console.warn('Cannot add tool in static mode check VITE_USE_SUPABASE');
             return null;
         }
-        // Implementation for admin to add tools
-        return null;
+
+        // Generate a slug from name if not present (though UI should probably handle this)
+        const slug = tool.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+        try {
+            const { data, error } = await supabase
+                .from('tools')
+                .insert([{
+                    slug,
+                    name: tool.name,
+                    description: tool.description,
+                    category: tool.category,
+                    url: tool.url,
+                    icon: tool.icon || '🔧',
+                    tags: tool.tags,
+                    is_new: tool.isNew || false,
+                    pricing: tool.pricing || 'Free',
+                    how_to_use: tool.howToUse || []
+                }])
+                .select()
+                .single();
+
+            if (error) throw error;
+            return data;
+        } catch (error) {
+            console.error("Error adding tool:", error);
+            throw error;
+        }
+    },
+
+    /**
+     * Update an existing tool
+     */
+    updateTool: async (id: string, updates: Partial<Tool>) => {
+        if (!USE_SUPABASE || !supabase) return null;
+
+        try {
+            const { data, error } = await supabase
+                .from('tools')
+                .update({
+                    name: updates.name,
+                    description: updates.description,
+                    category: updates.category,
+                    url: updates.url,
+                    icon: updates.icon,
+                    tags: updates.tags,
+                    pricing: updates.pricing,
+                })
+                .eq('id', id)
+                .select()
+                .single();
+
+            if (error) throw error;
+            return data;
+        } catch (error) {
+            console.error("Error updating tool:", error);
+            throw error;
+        }
+    },
+
+    /**
+     * Delete a tool
+     */
+    deleteTool: async (id: string) => {
+        if (!USE_SUPABASE || !supabase) return false;
+
+        try {
+            const { error } = await supabase
+                .from('tools')
+                .delete()
+                .eq('id', id);
+
+            if (error) throw error;
+            return true;
+        } catch (error) {
+            console.error("Error deleting tool:", error);
+            throw error;
+        }
     },
 
     /**

@@ -174,7 +174,7 @@ export default function Home() {
           </motion.div>
 
           {/* HEADLINE */}
-          <motion.h1 variants={itemVariants} className="text-6xl md:text-8xl font-extrabold tracking-tight mb-8 leading-[0.9]">
+          <motion.h1 variants={itemVariants} className="text-5xl md:text-8xl font-extrabold tracking-tight mb-8 leading-[0.9]">
             Your Signal in <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-br from-white via-primary/50 to-transparent">
               The Noise
