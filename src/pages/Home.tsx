@@ -113,19 +113,13 @@ export default function Home() {
           className="max-w-5xl mx-auto text-center z-10 relative"
         >
           {/* Pill Label */}
-          <motion.div variants={itemVariants} className="flex justify-center mb-8">
-            <div className="flex flex-col items-center justify-center mb-8 group cursor-default">
-              <div className="px-6 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm flex items-center gap-2 hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:shadow-[0_0_20px_rgba(45,212,191,0.2)]">
-                <span className="relative flex h-1.5 w-1.5 mr-1">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
-                </span>
-                <span className="text-2xl md:text-3xl font-bold tracking-[0.2em] text-foreground uppercase select-none">
-                  WhatsGoingOn<span className="text-primary">AI</span>
-                </span>
-              </div>
+          <div className="flex justify-center mb-6">
+            <div className="flex items-center gap-2 text-sm font-medium tracking-[0.3em] text-primary/80 uppercase select-none opacity-80 hover:opacity-100 transition-opacity">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+              WhatsGoingOnAI
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
             </div>
-          </motion.div>
+          </div>
 
           {/* HEADLINE */}
           <motion.h1 variants={itemVariants} className="text-6xl md:text-8xl font-extrabold tracking-tight mb-8 leading-[0.9]">
