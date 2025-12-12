@@ -89,21 +89,51 @@ export function Footer() {
           </div>
 
           {/* Newsletter & Support (6 cols) */}
-          <div className="lg:col-span-6 space-y-6 lg:pl-12">
-            <div className="p-6 rounded-2xl border border-white/5 bg-white/[0.02] space-y-4">
-              <h4 className="font-semibold text-foreground">Stay Updated</h4>
-              <p className="text-sm text-muted-foreground">
-                Join our community of engineers and researchers. No spam, just high-signal AI updates.
-              </p>
-              <NewsletterSignup variant="minimal" />
-            </div>
+          <div className="lg:col-span-6 lg:pl-12">
+            <div className="relative group rounded-3xl border border-white/10 bg-gradient-to-b from-white/5 to-transparent p-1">
+              <div className="absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-50 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent via-primary/10 to-transparent" />
 
-            <div className="flex items-center justify-between gap-4 p-4 rounded-xl border border-dashed border-white/10 bg-white/[0.01]">
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Heart className="w-4 h-4 text-red-500 fill-red-500/10" />
-                <span>Support the project</span>
+              <div className="rounded-[22px] bg-black/40 backdrop-blur-xl p-8 h-full relative overflow-hidden">
+                {/* Glow effect */}
+                <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/10 blur-[80px] rounded-full pointer-events-none" />
+
+                {/* Content */}
+                <div className="relative z-10">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="relative flex h-2.5 w-2.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary shadow-[0_0_10px_rgba(var(--primary),0.5)]"></span>
+                    </div>
+                    <h4 className="font-mono text-xs tracking-[0.2em] text-primary/80 font-bold uppercase">Incoming_Transmission</h4>
+                  </div>
+
+                  <h3 className="text-2xl font-bold text-white mb-3">Join the Neural Network</h3>
+                  <p className="text-muted-foreground mb-8 leading-relaxed max-w-md">
+                    Get priority access to breakthrough research, new tools, and intelligence reports. No noise, just signal.
+                  </p>
+
+                  <NewsletterSignup variant="minimal" />
+
+                  {/* Control Panel Footer */}
+                  <div className="mt-10 pt-6 border-t border-white/5 flex flex-wrap items-center justify-between gap-6">
+                    <div className="flex items-center gap-8">
+                      <div className="space-y-1">
+                        <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">Status</p>
+                        <div className="flex items-center gap-2">
+                          <div className="h-1.5 w-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]" />
+                          <span className="text-sm font-medium text-white/90">Operational</span>
+                        </div>
+                      </div>
+                      <div className="space-y-1 hidden sm:block">
+                        <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">Version</p>
+                        <span className="text-sm font-medium text-white/90 font-mono">v2.4.0-RC</span>
+                      </div>
+                    </div>
+                    <BuyCoffeeButton className="h-10 px-6 shadow-[0_0_20px_rgba(0,0,0,0.2)]" />
+                  </div>
+                </div>
               </div>
-              <BuyCoffeeButton className="h-9 px-4 text-xs" />
             </div>
           </div>
 
