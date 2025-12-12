@@ -4,11 +4,12 @@ import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { ToolsDirectory } from '@/components/ToolsDirectory';
 import { MCPFeed } from '@/components/MCPFeed';
+import { MCPRegistry } from '@/components/MCPRegistry';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Hammer } from 'lucide-react';
 
 export default function ToolsPage() {
-    const [activeTab, setActiveTab] = useState<'directory' | 'feed'>('directory');
+    const [activeTab, setActiveTab] = useState<'directory' | 'feed' | 'registry'>('directory');
 
     return (
         <div className="min-h-screen bg-background relative overflow-hidden flex flex-col">
@@ -51,15 +52,21 @@ export default function ToolsPage() {
                         <div className="inline-flex p-1 bg-white/5 rounded-xl border border-white/10 backdrop-blur-md">
                             <button
                                 onClick={() => setActiveTab('directory')}
-                                className={`px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${activeTab === 'directory' ? 'bg-primary text-primary-foreground shadow-lg' : 'text-muted-foreground hover:text-white'}`}
+                                className={`px-4 md:px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${activeTab === 'directory' ? 'bg-primary text-primary-foreground shadow-lg' : 'text-muted-foreground hover:text-white'}`}
                             >
                                 Tool Directory
                             </button>
                             <button
                                 onClick={() => setActiveTab('feed')}
-                                className={`px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${activeTab === 'feed' ? 'bg-blue-600 text-white shadow-lg' : 'text-muted-foreground hover:text-white'}`}
+                                className={`px-4 md:px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${activeTab === 'feed' ? 'bg-blue-600 text-white shadow-lg' : 'text-muted-foreground hover:text-white'}`}
                             >
                                 MCP News Feed
+                            </button>
+                            <button
+                                onClick={() => setActiveTab('registry')}
+                                className={`px-4 md:px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${activeTab === 'registry' ? 'bg-cyan-600 text-white shadow-lg' : 'text-muted-foreground hover:text-white'}`}
+                            >
+                                Official Registry
                             </button>
                         </div>
                     </div>
@@ -75,7 +82,7 @@ export default function ToolsPage() {
                             >
                                 <ToolsDirectory />
                             </motion.div>
-                        ) : (
+                        ) : activeTab === 'feed' ? (
                             <motion.div
                                 key="feed"
                                 initial={{ opacity: 0, x: 20 }}
@@ -84,6 +91,16 @@ export default function ToolsPage() {
                                 transition={{ duration: 0.3 }}
                             >
                                 <MCPFeed />
+                            </motion.div>
+                        ) : (
+                            <motion.div
+                                key="registry"
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -20 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <MCPRegistry />
                             </motion.div>
                         )}
                     </AnimatePresence>
