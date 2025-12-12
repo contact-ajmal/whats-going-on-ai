@@ -90,10 +90,142 @@ export const toolsData: Tool[] = [
         name: 'Sentry MCP',
         description: 'Analyze error logs and stack traces directly with AI.',
         category: 'MCP Server',
-        url: 'https://github.com/modelcontextprotocol/servers',
+        url: 'https://mcp.so/server/sentry/modelcontextprotocol',
         icon: '🚨',
         tags: ['mcp', 'debugging', 'dev'],
         pricing: 'Open Source'
+    },
+    {
+        id: 'mcp-alphavantage',
+        name: 'AlphaVantage',
+        description: 'Bring enterprise-grade stock market data to agents and LLMs.',
+        category: 'MCP Server',
+        url: 'https://mcp.alphavantage.co/',
+        icon: '📈',
+        tags: ['mcp', 'finance', 'stocks'],
+        isNew: true,
+        pricing: 'Freemium'
+    },
+    {
+        id: 'mcp-firecrawl',
+        name: 'Firecrawl',
+        description: 'Powerful web scraping for Cursor, Claude and other LLMs.',
+        category: 'MCP Server',
+        url: 'https://mcp.so/server/firecrawl-mcp-server/mendableai',
+        icon: '🔥',
+        tags: ['mcp', 'scraping', 'data'],
+        isNew: true,
+        pricing: 'Open Source'
+    },
+    {
+        id: 'mcp-redis',
+        name: 'Redis',
+        description: 'Interact with Redis key-value stores from your LLM.',
+        category: 'MCP Server',
+        url: 'https://mcp.so/server/redis/modelcontextprotocol',
+        icon: '🗄️',
+        tags: ['mcp', 'database', 'cache'],
+        pricing: 'Open Source'
+    },
+    {
+        id: 'mcp-time',
+        name: 'Time',
+        description: 'Timezone conversion and current time lookup for LLMs.',
+        category: 'MCP Server',
+        url: 'https://mcp.so/server/time/modelcontextprotocol',
+        icon: '⏰',
+        tags: ['mcp', 'utility', 'time'],
+        pricing: 'Open Source'
+    },
+    {
+        id: 'mcp-zhipu',
+        name: 'Zhipu Web Search',
+        description: 'Search engine specifically designed for large models.',
+        category: 'MCP Server',
+        url: 'https://mcp.so/server/zhipu-web-search/BigModel',
+        icon: '�',
+        tags: ['mcp', 'search', 'chinese'],
+        pricing: 'Open Source'
+    },
+    {
+        id: 'mcp-minimax',
+        name: 'MiniMax',
+        description: 'Interact with powerful Text to Speech, image, and video generation APIs.',
+        category: 'MCP Server',
+        url: 'https://mcp.so/server/MiniMax-MCP/MiniMax-AI',
+        icon: '🦄',
+        tags: ['mcp', 'media', 'generation'],
+        pricing: 'Paid'
+    },
+    {
+        id: 'mcp-puppeteer',
+        name: 'Puppeteer',
+        description: 'Browser automation and web scraping controlled by AI.',
+        category: 'MCP Server',
+        url: 'https://mcp.so/server/puppeteer/modelcontextprotocol',
+        icon: '🎭',
+        tags: ['mcp', 'automation', 'testing'],
+        pricing: 'Open Source'
+    },
+    {
+        id: 'mcp-gitlab',
+        name: 'GitLab',
+        description: 'GitLab API integration for project management.',
+        category: 'MCP Server',
+        url: 'https://mcp.so/server/gitlab/modelcontextprotocol',
+        icon: '🦊',
+        tags: ['mcp', 'coding', 'git'],
+        pricing: 'Open Source'
+    },
+    {
+        id: 'mcp-everart',
+        name: 'EverArt',
+        description: 'AI image generation using various models via MCP.',
+        category: 'MCP Server',
+        url: 'https://mcp.so/server/everart/modelcontextprotocol',
+        icon: '🎨',
+        tags: ['mcp', 'art', 'image'],
+        pricing: 'Paid'
+    },
+    {
+        id: 'mcp-aws-kb',
+        name: 'AWS Knowledge Base',
+        description: 'Retrieve info from AWS KB using Bedrock Agent Runtime.',
+        category: 'MCP Server',
+        url: 'https://mcp.so/server/aws-kb-retrieval-server/modelcontextprotocol',
+        icon: '☁️',
+        tags: ['mcp', 'cloud', 'aws'],
+        pricing: 'Paid'
+    },
+    {
+        id: 'mcp-playwright',
+        name: 'Playwright',
+        description: 'Robust browser automation server by Microsoft.',
+        category: 'MCP Server',
+        url: 'https://mcp.so/server/playwright-mcp/microsoft',
+        icon: '🎭',
+        tags: ['mcp', 'testing', 'automation'],
+        pricing: 'Open Source'
+    },
+    {
+        id: 'mcp-perplexity',
+        name: 'Perplexity Ask',
+        description: 'Search the web using Perplexity API without leaving context.',
+        category: 'MCP Server',
+        url: 'https://mcp.so/server/perplexity/ppl-ai',
+        icon: '🔎',
+        tags: ['mcp', 'search', 'research'],
+        pricing: 'Paid'
+    },
+    {
+        id: 'mcp-search1api',
+        name: 'Search1API',
+        description: 'Unified API for Search, Crawling, and Sitemaps.',
+        category: 'MCP Server',
+        url: 'https://mcp.so/server/search1api',
+        icon: '🕸️',
+        tags: ['mcp', 'search', 'dev'],
+        pricing: 'Paid'
     },
 
     // --- Major LLMs & Chatbots ---
