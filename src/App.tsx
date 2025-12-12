@@ -15,6 +15,7 @@ import Jobs from "./pages/Jobs";
 import ToolsPage from "./pages/Tools";
 import LatestUpdates from "./pages/LatestUpdates";
 import NotFound from "./pages/NotFound";
+import Learning from '@/pages/Learning';
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ const App = () => (
           <Route path="/videos" element={<Videos />} />
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/tools" element={<ToolsPage />} />
+          <Route path="/learning" element={<Learning />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

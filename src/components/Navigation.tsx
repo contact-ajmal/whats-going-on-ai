@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { Menu, X, Search, Newspaper, Video, Globe, Briefcase, Wrench, Clock, BookOpen, Info } from 'lucide-react';
+import { Menu, X, Search, Newspaper, Video, Globe, Briefcase, Wrench, Clock, BookOpen, Info, GraduationCap } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { SearchDialog } from '@/components/SearchDialog';
 import { Button } from '@/components/ui/button';
@@ -108,6 +108,9 @@ export function Navigation() {
                         </ListItem>
                         <ListItem href="/jobs" title="Jobs Board" icon={Briefcase}>
                           Find your next role in AI & ML.
+                        </ListItem>
+                        <ListItem href="/learning" title="Learning" icon={GraduationCap}>
+                          Courses & Videos to master AI.
                         </ListItem>
                         <ListItem href="/tools" title="Tools Directory" icon={Wrench}>
                           Explore standard tools and MCP servers.
