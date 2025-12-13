@@ -76,12 +76,16 @@ export function Navigation() {
           <div className="flex items-center justify-between gap-4">
 
             {/* Logo */}
-            <Link to="/" className="group flex items-center gap-3 shrink-0" aria-label="WhatsGoingOnAI Home">
+            {/* Logo */}
+            <Link to="/" className="group flex flex-col items-center justify-center gap-0.5 shrink-0 hover:opacity-90 transition-opacity" aria-label="WhatsGoingOnAI Home">
               <img
                 src={logo}
                 alt="WhatsGoingOnAI Logo"
-                className="w-14 h-14 md:w-16 md:h-16 object-contain filter drop-shadow-[0_0_8px_rgba(59,130,246,0.5)] group-hover:drop-shadow-[0_0_12px_rgba(59,130,246,0.8)] transition-all duration-300"
+                className="w-10 h-10 object-contain filter drop-shadow-[0_0_8px_rgba(59,130,246,0.3)]"
               />
+              <span className="text-[10px] md:text-[11px] font-black tracking-wider leading-none bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/80 group-hover:from-primary group-hover:to-purple-500 transition-all duration-300">
+                WhatsGoingOnAI
+              </span>
             </Link>
 
             {/* Desktop Navigation */}
