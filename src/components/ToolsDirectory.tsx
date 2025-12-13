@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Sparkles, Terminal, Database, Video, Mic, Briefcase, GraduationCap, ExternalLink, ChevronDown, ChevronUp, Bookmark } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -22,7 +23,8 @@ const categories = [
 ];
 
 export function ToolsDirectory() {
-    const [search, setSearch] = useState('');
+    const [searchParams] = useSearchParams();
+    const [search, setSearch] = useState(searchParams.get('q') || '');
     const [activeCategory, setActiveCategory] = useState('All');
     const [expandedTool, setExpandedTool] = useState<string | null>(null);
     const [tools, setTools] = useState<Tool[]>([]);

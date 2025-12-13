@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { NeuralBackground } from '@/components/NeuralBackground';
 import { LearningFeed } from '@/components/LearningFeed';
@@ -36,7 +37,8 @@ const CourseTicker = ({ topics, onTopicClick }: { topics: string[], onTopicClick
 };
 
 export default function Learning() {
-    const [searchTerm, setSearchTerm] = useState("");
+    const [searchParams] = useSearchParams();
+    const [searchTerm, setSearchTerm] = useState(searchParams.get('q') || "");
 
     // Derive unique tags from available data to ensure ticker only shows relevant content
     const availableTopics = useMemo(() => {

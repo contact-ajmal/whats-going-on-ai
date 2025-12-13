@@ -312,7 +312,7 @@ export default function Home() {
             </Link>
 
             {/* 3. RESEARCH */}
-            <Link to="/research" className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-blue-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
+            <Link to={`/research?q=${encodeURIComponent(FALLBACK_PAPERS[0].title)}`} className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-blue-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="p-6 flex-grow">
                 <div className="flex justify-between items-start mb-4">
@@ -325,7 +325,7 @@ export default function Home() {
             </Link>
 
             {/* 4. TOOLS */}
-            <Link to="/tools" className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-emerald-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
+            <Link to={`/tools?q=${encodeURIComponent(toolsData.find(t => t.isNew)?.name || toolsData[0].name)}`} className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-emerald-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
               <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="p-6 flex-grow">
                 <div className="flex justify-between items-start mb-4">
@@ -338,7 +338,7 @@ export default function Home() {
             </Link>
 
             {/* 5. LEARNING */}
-            <Link to="/learning" className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-pink-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
+            <Link to={`/learning?q=${encodeURIComponent(FALLBACK_LEARNING[0].title)}`} className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-pink-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
               <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="p-6 flex-grow">
                 <div className="flex justify-between items-start mb-4">
@@ -351,7 +351,7 @@ export default function Home() {
             </Link>
 
             {/* 6. VIDEOS */}
-            <Link to="/videos" className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-red-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
+            <Link to="/videos?q=ColdFusion" className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-red-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
               <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="p-6 flex-grow">
                 <div className="flex justify-between items-start mb-4">

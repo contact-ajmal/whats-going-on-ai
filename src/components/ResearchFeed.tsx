@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Card, CardContent, CardTitle, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -11,10 +12,11 @@ import { FALLBACK_PAPERS, ResearchPaper } from '../data/fallbackResearch';
 
 export function ResearchFeed() {
     // Start with fallback data immediately
+    const [searchParams] = useSearchParams();
     const [papers, setPapers] = useState<ResearchPaper[]>(FALLBACK_PAPERS);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [searchTerm, setSearchTerm] = useState("");
+    const [searchTerm, setSearchTerm] = useState(searchParams.get('q') || "");
     const [visibleCount, setVisibleCount] = useState(100); // Default to showing many
 
     useEffect(() => {

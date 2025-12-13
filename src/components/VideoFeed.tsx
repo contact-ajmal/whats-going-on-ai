@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -37,7 +38,8 @@ export function VideoFeed() {
     const [loading, setLoading] = useState(true);
     const [selectedChannel, setSelectedChannel] = useState<string | null>(null);
     const [activeVideo, setActiveVideo] = useState<string | null>(null);
-    const [searchTerm, setSearchTerm] = useState("");
+    const [searchParams] = useSearchParams();
+    const [searchTerm, setSearchTerm] = useState(searchParams.get('q') || "");
     const [visibleCount, setVisibleCount] = useState(12);
     const { toggleBookmark, isBookmarked } = useBookmarks();
 
