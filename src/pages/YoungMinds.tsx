@@ -123,6 +123,199 @@ const BuildABot = () => {
     )
 }
 
+const LegendMission = ({ legend, onClose }: { legend: any, onClose: () => void }) => {
+    const [progress, setProgress] = useState(0);
+    const [complete, setComplete] = useState(false);
+
+    // Simple game logic simulation
+    const interact = () => {
+        const newProgress = progress + 25;
+        setProgress(newProgress);
+        if (newProgress >= 100) setComplete(true);
+    };
+
+    return (
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4"
+        >
+            <div className={`bg-slate-900 w-full max-w-2xl rounded-3xl border border-white/20 overflow-hidden relative ${complete ? 'ring-4 ring-yellow-400' : ''}`}>
+                <div className={`p-6 ${legend.color} text-white flex justify-between items-center`}>
+                    <h3 className="text-2xl font-bold flex items-center gap-3">
+                        <span className="text-4xl">{legend.icon}</span>
+                        Mission: {legend.missionTitle}
+                    </h3>
+                    <Button onClick={onClose} variant="ghost" size="icon" className="text-white hover:bg-white/20">✖️</Button>
+                </div>
+
+                <div className="p-8 text-center">
+                    {!complete ? (
+                        <>
+                            <div className="mb-8">
+                                <p className="text-xl text-slate-300 mb-4">{legend.missionDesc}</p>
+                                <div className="text-6xl mb-6 animate-pulse">{legend.element}</div>
+                                <Button
+                                    onClick={interact}
+                                    className={`text-xl px-8 py-6 rounded-xl transition-all active:scale-95 ${legend.buttonColor || 'bg-blue-600 hover:bg-blue-700'}`}
+                                >
+                                    {legend.actionLabel}
+                                </Button>
+                            </div>
+                            <div className="w-full bg-slate-800 rounded-full h-4 overflow-hidden">
+                                <motion.div
+                                    className={`h-full ${legend.color.replace('bg-', 'bg-')}`}
+                                    initial={{ width: 0 }}
+                                    animate={{ width: `${progress}%` }}
+                                />
+                            </div>
+                            <p className="mt-2 text-sm text-slate-400">Progress: {progress}%</p>
+                        </>
+                    ) : (
+                        <div className="py-8">
+                            <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                className="text-8xl mb-6"
+                            >
+                                🏆
+                            </motion.div>
+                            <h3 className="text-3xl font-bold text-white mb-4">Discovery Made!</h3>
+                            <p className="text-xl text-slate-300 mb-8">
+                                You helped <strong>{legend.name}</strong> with their research!
+                                <br />
+                                <span className="text-yellow-400 text-lg italic mt-2 block">"{legend.quote}"</span>
+                            </p>
+                            <Button onClick={onClose} className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 text-lg rounded-xl">
+                                Return to Lab
+                            </Button>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </motion.div>
+    );
+};
+
+const TimeTravelLab = () => {
+    const [selectedLegend, setSelectedLegend] = useState<any | null>(null);
+
+    const legends = [
+        {
+            id: 'newton',
+            name: 'Isaac Newton',
+            title: 'The Gravity Guy',
+            icon: '🍎',
+            color: 'bg-red-600',
+            missionTitle: 'Gravity Garden',
+            missionDesc: 'Apples are floating away! Click to increase gravity and bring them down.',
+            actionLabel: 'Increase Gravity ⬇️',
+            element: '🍏',
+            quote: 'What goes up must come down!',
+            buttonColor: 'bg-red-500 hover:bg-red-600'
+        },
+        {
+            id: 'ada',
+            name: 'Ada Lovelace',
+            title: 'The First Coder',
+            icon: '💻',
+            color: 'bg-purple-600',
+            missionTitle: 'Logic Loom',
+            missionDesc: 'The Analytical Engine is stuck! Feed it the right logic cards.',
+            actionLabel: 'Insert Card 🎫',
+            element: '⚙️',
+            quote: 'Imagination is the discovering faculty.',
+            buttonColor: 'bg-purple-500 hover:bg-purple-600'
+        },
+        {
+            id: 'turing',
+            name: 'Alan Turing',
+            title: 'The Code Breaker',
+            icon: '🔐',
+            color: 'bg-slate-600',
+            missionTitle: 'Enigma Cracker',
+            missionDesc: 'Intercepting secret message... Decrypt the signal!',
+            actionLabel: 'Decode Signal 📡',
+            element: '📟',
+            quote: 'Machines take me by surprise with great frequency.',
+            buttonColor: 'bg-slate-500 hover:bg-slate-600'
+        },
+        {
+            id: 'curie',
+            name: 'Marie Curie',
+            title: 'Radiant Scientist',
+            icon: '🧪',
+            color: 'bg-emerald-600',
+            missionTitle: 'Glow Hunter',
+            missionDesc: 'The lab is dark. Find the glowing Radium elements!',
+            actionLabel: 'Search Lab 🔦',
+            element: '✨',
+            quote: 'Nothing in life is to be feared, it is only to be understood.',
+            buttonColor: 'bg-emerald-500 hover:bg-emerald-600'
+        },
+        {
+            id: 'darwin',
+            name: 'Charles Darwin',
+            title: 'Nature Detective',
+            icon: '🐢',
+            color: 'bg-amber-600',
+            missionTitle: 'Beak Match',
+            missionDesc: 'The finches are hungry. Match the beak to the right food!',
+            actionLabel: 'Feed Finch 🌾',
+            element: '🐦',
+            quote: 'It is the one that is most adaptable to change.',
+            buttonColor: 'bg-amber-500 hover:bg-amber-600'
+        }
+    ];
+
+    return (
+        <section className="mb-32">
+            {selectedLegend && <LegendMission legend={selectedLegend} onClose={() => setSelectedLegend(null)} />}
+
+            <div className="flex items-center gap-4 mb-12">
+                <div className="p-4 bg-indigo-500 rounded-2xl rotate-3 shadow-lg">
+                    <div className="text-white w-8 h-8 font-mono font-bold text-2xl">⏳</div>
+                </div>
+                <div>
+                    <h2 className="text-4xl md:text-5xl font-black text-white">Time-Travel Lab</h2>
+                    <p className="text-indigo-300 text-xl font-bold mt-2">Partner with Legends</p>
+                </div>
+            </div>
+
+            <p className="text-xl text-slate-300 mb-8 max-w-3xl">
+                Step into the portal and help history's greatest minds with their experiments.
+                They need a lab partner—are you ready?
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {legends.map((legend) => (
+                    <motion.div
+                        key={legend.id}
+                        whileHover={{ scale: 1.03, y: -5 }}
+                        className="bg-slate-800/50 hover:bg-slate-800 border-2 border-white/10 hover:border-indigo-400 rounded-3xl p-6 cursor-pointer group transition-all"
+                        onClick={() => setSelectedLegend(legend)}
+                    >
+                        <div className="flex items-start justify-between mb-4">
+                            <div className={`w-16 h-16 rounded-2xl ${legend.color} flex items-center justify-center text-4xl shadow-lg`}>
+                                {legend.icon}
+                            </div>
+                            <Badge className="bg-white/10 text-white group-hover:bg-white/20">
+                                Mission Ready
+                            </Badge>
+                        </div>
+                        <h3 className="text-2xl font-bold text-white mb-1">{legend.name}</h3>
+                        <p className="text-indigo-300 font-medium mb-4">{legend.title}</p>
+                        <div className="bg-black/30 rounded-xl p-3 text-sm text-slate-400 flex items-center gap-2 group-hover:text-white transition-colors">
+                            <span>🚀</span>
+                            {legend.missionTitle}
+                        </div>
+                    </motion.div>
+                ))}
+            </div>
+        </section>
+    );
+};
+
 const ExternalGameCard = ({ title, icon, desc, url, color, isEmbed, onClick }: { title: string, icon: string, desc: string, url: string, color: string, isEmbed: boolean, onClick: (url: string, title: string, isEmbed: boolean) => void }) => (
     <div
         onClick={() => onClick(url, title, isEmbed)}
@@ -401,7 +594,10 @@ export default function YoungMinds() {
                     </div>
                 </section>
 
-                {/* Section 2: Brain Box */}
+                {/* Section 2: Time-Travel Lab (NEW) */}
+                <TimeTravelLab />
+
+                {/* Section 3: Brain Box */}
                 <section className="mb-32">
                     <div className="flex items-center gap-4 mb-12">
                         <div className="p-4 bg-yellow-400 rounded-2xl -rotate-3 shadow-lg">
