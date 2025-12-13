@@ -90,10 +90,64 @@ const FEEDS: Omit<FeedStatus, 'status'>[] = [
 
     // --- VIDEOS (YouTube) ---
     {
-        id: 'video-openai',
-        name: 'YouTube: OpenAI',
-        displayUrl: 'youtube.com/OpenAI',
-        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCXPZwW5oxpWkikN8a14gMgg'
+        id: 'video-wesroth',
+        name: 'YouTube: Wes Roth',
+        displayUrl: 'youtube.com/@WesRoth',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCg_p-Fp_b5Dq_09w6a4YwGA'
+    },
+    {
+        id: 'video-matthewberman',
+        name: 'YouTube: Matthew Berman',
+        displayUrl: 'youtube.com/@MatthewBerman',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCMi8qg-eB1d7kS_c7F3g_Cg'
+    },
+    {
+        id: 'video-coldfusion',
+        name: 'YouTube: ColdFusion',
+        displayUrl: 'youtube.com/ColdFusion',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UC4QZ_LsYcvcq7qOsOhpAX4A'
+    },
+    {
+        id: 'video-aigrid',
+        name: 'YouTube: The AI Grid',
+        displayUrl: 'youtube.com/@TheAIGrid',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCXy2m-1m4jC-2uFvA5s3bBA'
+    },
+    {
+        id: 'video-microsoft',
+        name: 'YouTube: Microsoft Mechanics',
+        displayUrl: 'youtube.com/MicrosoftMechanics',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCGCz0fBqj2N_Jg7o-T-b99Q'
+    },
+    {
+        id: 'video-twominutepapers',
+        name: 'YouTube: Two Minute Papers',
+        displayUrl: 'youtube.com/TwoMinutePapers',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCbfYPyITQ-7l4upoX8nvctg'
+    },
+    {
+        id: 'video-mattwolfe',
+        name: 'YouTube: Matt Wolfe',
+        displayUrl: 'youtube.com/@mreflow',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCnAtMWn98fQ07kYy6_9v-w'
+    },
+    {
+        id: 'video-aiexplained',
+        name: 'YouTube: AI Explained',
+        displayUrl: 'youtube.com/@AIExplained',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCNJ1Ymd5yFuUPtn21xtRbbw'
+    },
+    {
+        id: 'video-deepmind',
+        name: 'YouTube: Google DeepMind',
+        displayUrl: 'youtube.com/GoogleDeepMind',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCP7jMXSY2xbc3KCAE0MHQ-A'
+    },
+    {
+        id: 'video-bycloud',
+        name: 'YouTube: ByCloud',
+        displayUrl: 'youtube.com/@ByCloud',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UC3X8J1_5Y7M47_7Q573573'
     },
     {
         id: 'video-nvidia',
@@ -102,10 +156,10 @@ const FEEDS: Omit<FeedStatus, 'status'>[] = [
         url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCOoKqA10yd_1FZ4B5F4qLg'
     },
     {
-        id: 'video-wesroth',
-        name: 'YouTube: Wes Roth',
-        displayUrl: 'youtube.com/@WesRoth',
-        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCg_p-Fp_b5Dq_09w6a4YwGA'
+        id: 'video-ibm',
+        name: 'YouTube: IBM Technology',
+        displayUrl: 'youtube.com/IBMTechnology',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UC7c8mE90Kk42C2X4C7k1Pgg'
     },
 
     // --- API ---
