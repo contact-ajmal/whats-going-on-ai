@@ -129,7 +129,6 @@ export function Navigation() {
                   <NavigationMenuItem>
                     <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
                       <Link to="/young-minds" className="group flex items-center gap-2 font-bold hover:bg-yellow-400/10 rounded-md px-3 py-2 transition-colors">
-                        <span className="text-xl">🚀</span>
                         <span className="text-yellow-400 group-hover:text-yellow-300 transition-colors">
                           Young Minds
                         </span>
@@ -232,7 +231,7 @@ export function Navigation() {
                 </Link>
 
                 <Link to="/young-minds" onClick={() => setIsOpen(false)} className="mx-4 mb-2 px-4 py-3 rounded-xl bg-yellow-400/10 border border-yellow-400/20 text-sm font-bold flex items-center gap-3 text-yellow-400">
-                  <span>🚀</span> Young Minds
+                  Young Minds
                 </Link>
 
                 <div className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">News</div>
