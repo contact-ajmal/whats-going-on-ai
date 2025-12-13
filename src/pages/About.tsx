@@ -65,8 +65,8 @@ export default function About() {
             </p>
 
             <div className="flex gap-4 mt-10">
-              <a href="https://github.com/contact-ajmal" target="_blank" rel="noreferrer" className="flex items-center gap-2 px-6 py-3 bg-white/5 rounded-full hover:bg-white/10 hover:translate-y-[-2px] transition-all text-white border border-white/10 group">
-                <Github size={20} /> <span className="text-sm font-bold">GitHub</span>
+              <a href="https://www.hawkeyeinnovations.com/" target="_blank" rel="noreferrer" className="flex items-center gap-2 px-6 py-3 bg-white/5 rounded-full hover:bg-white/10 hover:translate-y-[-2px] transition-all text-white border border-white/10 group">
+                <Globe size={20} /> <span className="text-sm font-bold">Hawk-Eye</span>
               </a>
               <a href="https://www.linkedin.com/in/ajmalnazirbaba/" target="_blank" rel="noreferrer" className="flex items-center gap-2 px-6 py-3 bg-[#0077b5]/20 rounded-full hover:bg-[#0077b5]/30 hover:translate-y-[-2px] transition-all text-[#0077b5] border border-[#0077b5]/30 group">
                 <Linkedin size={20} /> <span className="text-sm font-bold">LinkedIn</span>
