@@ -1,3 +1,6 @@
+import DeepMind from '@/pages/DeepMind';
+
+// ... (other imports)
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -24,7 +27,7 @@ import EmbeddingsDeepDive from '@/pages/decoded/Embeddings';
 import RLHFDeepDive from '@/pages/decoded/RLHF';
 import MoEDeepDive from '@/pages/decoded/MoE';
 import LoRADeepDive from '@/pages/decoded/LoRA';
-
+import DeepMind from '@/pages/DeepMind';
 import YoungMinds from '@/pages/YoungMinds';
 
 const queryClient = new QueryClient();
@@ -54,8 +57,7 @@ const App = () => (
           <Route path="/decoded/diffusion" element={<DiffusionDeepDive />} />
           <Route path="/decoded/embeddings" element={<EmbeddingsDeepDive />} />
           <Route path="/decoded/rlhf" element={<RLHFDeepDive />} />
-          <Route path="/decoded/moe" element={<MoEDeepDive />} />
-          <Route path="/decoded/lora" element={<LoRADeepDive />} />
+          <Route path="/deepmind" element={<DeepMind />} />
           <Route path="/profile" element={<Profile />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

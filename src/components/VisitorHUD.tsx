@@ -32,9 +32,11 @@ export function VisitorHUD() {
                 setGeo(data);
 
                 if (!supabase) {
-                    console.warn("VisitorHUD: Supabase client is missing/null. Check VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.");
+                    console.error("VisitorHUD: Supabase client is NULL. Check VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in .env");
                     return;
                 }
+
+                console.log("VisitorHUD: Attempting to log visit...");
 
                 // 2. Log Visit to Supabase
                 const { error: insertError } = await supabase.from('analytics_visits').insert({
@@ -45,12 +47,22 @@ export function VisitorHUD() {
                     user_agent: navigator.userAgent
                 });
 
-                if (insertError) console.error("Analytics: Failed to log visit", insertError);
+                if (insertError) {
+                    console.error("VisitorHUD: Insert FAILED", insertError);
+                } else {
+                    console.log("VisitorHUD: Insert SUCCESS");
+                }
 
                 // 3. Fetch Aggregate Stats
                 // Total Count
-                const { count } = await supabase.from('analytics_visits').select('*', { count: 'exact', head: true });
-                setTotalVisits(count || 0);
+                const { count, error: countError } = await supabase.from('analytics_visits').select('*', { count: 'exact', head: true });
+
+                if (countError) {
+                    console.error("VisitorHUD: Count Read FAILED", countError);
+                } else {
+                    console.log("VisitorHUD: Count Read SUCCESS. Count:", count);
+                    setTotalVisits(count || 0);
+                }
 
                 // Regions (This would ideally be a clear RPC or view, but for now we fetch recent 100 and aggregate client side for simplicity/speed without custom SQL functions)
                 const { data: recentVisits } = await supabase
