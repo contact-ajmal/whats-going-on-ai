@@ -25,6 +25,8 @@ import RLHFDeepDive from '@/pages/decoded/RLHF';
 import MoEDeepDive from '@/pages/decoded/MoE';
 import LoRADeepDive from '@/pages/decoded/LoRA';
 
+import YoungMinds from '@/pages/YoungMinds';
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -46,6 +48,7 @@ const App = () => (
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/tools" element={<ToolsPage />} />
           <Route path="/learning" element={<Learning />} />
+          <Route path="/young-minds" element={<YoungMinds />} />
           <Route path="/decoded" element={<Decoded />} />
           <Route path="/decoded/transformers" element={<TransformersDeepDive />} />
           <Route path="/decoded/diffusion" element={<DiffusionDeepDive />} />
