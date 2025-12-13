@@ -38,10 +38,19 @@ const Hero = () => (
             </p>
 
             <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-                <Button size="lg" className="bg-purple-600 hover:bg-purple-700 text-white rounded-full px-8 py-6 text-xl shadow-[0_0_30px_rgba(147,51,234,0.5)] border-2 border-white/20">
+                <Button
+                    size="lg"
+                    className="bg-purple-600 hover:bg-purple-700 text-white rounded-full px-8 py-6 text-xl shadow-[0_0_30px_rgba(147,51,234,0.5)] border-2 border-white/20"
+                    onClick={() => document.getElementById('robo-tales')?.scrollIntoView({ behavior: 'smooth' })}
+                >
                     <Rocket className="mr-2" /> Start Exploring
                 </Button>
-                <Button size="lg" variant="outline" className="text-white border-white/30 hover:bg-white/10 rounded-full px-8 py-6 text-xl">
+                <Button
+                    size="lg"
+                    variant="outline"
+                    className="text-white border-white/30 hover:bg-white/10 rounded-full px-8 py-6 text-xl"
+                    onClick={() => document.getElementById('play-zone')?.scrollIntoView({ behavior: 'smooth' })}
+                >
                     🎮 Play Games
                 </Button>
             </div>
@@ -466,7 +475,7 @@ const TimeTravelLab = () => {
     ];
 
     return (
-        <section className="mb-32">
+        <section id="play-zone" className="mb-32 scroll-mt-24">
             {selectedLegend && <LegendMission legend={selectedLegend} onClose={() => setSelectedLegend(null)} />}
 
             <div className="flex items-center gap-4 mb-12">
@@ -769,7 +778,7 @@ export default function YoungMinds() {
             <main className="container mx-auto px-6 pb-32">
 
                 {/* Section 1: Robo-Tales */}
-                <section className="mb-32">
+                <section id="robo-tales" className="mb-32 scroll-mt-24">
                     <div className="flex items-center gap-4 mb-12">
                         <div className="p-4 bg-pink-500 rounded-2xl rotate-3 shadow-lg">
                             <Heart className="text-white w-8 h-8" />
@@ -791,10 +800,7 @@ export default function YoungMinds() {
                     </div>
                 </section>
 
-                {/* Section 2: Time-Travel Lab (NEW) */}
-                <TimeTravelLab />
-
-                {/* Section 3: Brain Box */}
+                {/* Section 2: Brain Box */}
                 <section className="mb-32">
                     <div className="flex items-center gap-4 mb-12">
                         <div className="p-4 bg-yellow-400 rounded-2xl -rotate-3 shadow-lg">
@@ -805,6 +811,9 @@ export default function YoungMinds() {
                     <p className="text-xl text-slate-400 mb-8">Confused by big words? Let's fix that.</p>
                     <BrainBox />
                 </section>
+
+                {/* Section 3: Time-Travel Lab (Moved Here) */}
+                <TimeTravelLab />
 
                 {/* Section 3: Interactive Arcade */}
                 <section>
