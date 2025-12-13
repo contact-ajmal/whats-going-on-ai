@@ -31,16 +31,21 @@ export function VisitorHUD() {
                 const data = await res.json();
                 setGeo(data);
 
-                if (!supabase) return;
+                if (!supabase) {
+                    console.warn("VisitorHUD: Supabase client is missing/null. Check VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.");
+                    return;
+                }
 
                 // 2. Log Visit to Supabase
-                await supabase.from('analytics_visits').insert({
+                const { error: insertError } = await supabase.from('analytics_visits').insert({
                     country: data.country_name,
                     city: data.city,
                     country_code: data.country_code,
                     path: window.location.pathname,
                     user_agent: navigator.userAgent
                 });
+
+                if (insertError) console.error("Analytics: Failed to log visit", insertError);
 
                 // 3. Fetch Aggregate Stats
                 // Total Count
