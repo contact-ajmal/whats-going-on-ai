@@ -1,5 +1,5 @@
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
-import { ChevronDown, BookOpen, Wrench, Newspaper, Zap, Bot, GraduationCap, Video, ArrowRight, Calendar, Sparkles } from 'lucide-react';
+import { ChevronDown, BookOpen, Wrench, Newspaper, Zap, Bot, GraduationCap, Video, ArrowRight, Calendar, Sparkles, Briefcase } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { DECODED_TOPICS } from '@/data/aiDecoded';
 import { toolsData } from '@/data/toolsData';
@@ -275,6 +275,59 @@ export default function Home() {
             <Ticker />
           </motion.div>
 
+          {/* BENTO GRID (Mission Visualization) */}
+          <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
+
+            <Link to="/research" className="block h-full">
+              <SpotlightCard className="h-full hover:border-blue-500/50 transition-colors">
+                <div className="p-6 h-full flex flex-col items-start text-left">
+                  <div className="p-3 rounded-lg bg-blue-500/10 text-blue-400 mb-4">
+                    <BookOpen size={24} />
+                  </div>
+                  <h3 className="text-lg font-bold mb-2 text-foreground">Deep Research</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">Daily feed of ArXiv papers selected for impact, not hype. Filter by citation count.</p>
+                </div>
+              </SpotlightCard>
+            </Link>
+
+            <Link to="/jobs" className="block h-full">
+              <SpotlightCard className="h-full hover:border-emerald-500/50 transition-colors">
+                <div className="p-6 h-full flex flex-col items-start text-left">
+                  <div className="p-3 rounded-lg bg-emerald-500/10 text-emerald-400 mb-4">
+                    <Briefcase size={24} />
+                  </div>
+                  <h3 className="text-lg font-bold mb-2 text-foreground">Career Signal</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">Live index of AI roles. Filter by remote status, tech stack, and salary ranges.</p>
+                </div>
+              </SpotlightCard>
+            </Link>
+
+            <Link to="/updates" className="block h-full">
+              <SpotlightCard className="h-full hover:border-purple-500/50 transition-colors">
+                <div className="p-6 h-full flex flex-col items-start text-left">
+                  <div className="p-3 rounded-lg bg-purple-500/10 text-purple-400 mb-4">
+                    <Newspaper size={24} />
+                  </div>
+                  <h3 className="text-lg font-bold mb-2 text-foreground">Pulse News</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">Real-time headlines aggregated from top tech sources. No clickbait permitted.</p>
+                </div>
+              </SpotlightCard>
+            </Link>
+
+            <Link to="/tools" className="block h-full">
+              <SpotlightCard className="h-full hover:border-orange-500/50 transition-colors">
+                <div className="p-6 h-full flex flex-col items-start text-left">
+                  <div className="p-3 rounded-lg bg-orange-500/10 text-orange-400 mb-4">
+                    <Wrench size={24} />
+                  </div>
+                  <h3 className="text-lg font-bold mb-2 text-foreground">Toolbox & MCP</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">Directory of agentic tools and Model Context Protocol servers for developers.</p>
+                </div>
+              </SpotlightCard>
+            </Link>
+
+          </motion.div>
+
           {/* Scroll CTA */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -301,7 +354,7 @@ export default function Home() {
           {/* Main Header */}
           <div className="flex items-center justify-between mb-10">
             <h2 className="text-3xl font-bold border-l-4 border-primary pl-4">
-              Featured Content 🌟
+              Featured Content
             </h2>
           </div>
 
