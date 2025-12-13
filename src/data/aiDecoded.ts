@@ -21,7 +21,7 @@ export const DECODED_TOPICS: DecodedTopic[] = [
         difficulty: 'Intermediate',
         readTime: '5 min',
         tags: ['NLP', 'Foundation', 'Attention'],
-        link: 'https://jalammar.github.io/illustrated-transformer/',
+        link: '/decoded/transformers',
         color: 'from-blue-500 to-cyan-500'
     },
     {
