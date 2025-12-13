@@ -123,16 +123,175 @@ const BuildABot = () => {
     )
 }
 
+
+// --- Legend Mini-Games ---
+
+const NewtonGame = ({ onComplete }: { onComplete: () => void }) => {
+    const [planet, setPlanet] = useState<'earth' | 'moon' | 'jupiter'>('earth');
+    const [falling, setFalling] = useState(false);
+
+    const speeds = { earth: 1, moon: 3, jupiter: 0.4 };
+
+    const drop = () => {
+        setFalling(true);
+        setTimeout(() => {
+            setFalling(false);
+            onComplete();
+        }, 1000 * speeds[planet]);
+    };
+
+    return (
+        <div className="text-center">
+            <div className="flex justify-center gap-4 mb-8">
+                {(['earth', 'moon', 'jupiter'] as const).map(p => (
+                    <button
+                        key={p}
+                        onClick={() => setPlanet(p)}
+                        className={`px-4 py-2 rounded-full capitalize ${planet === p ? 'bg-red-500 text-white' : 'bg-slate-700 text-slate-300'}`}
+                    >
+                        {p}
+                    </button>
+                ))}
+            </div>
+            <div className="h-64 bg-slate-800 rounded-2xl relative overflow-hidden mb-6 border-2 border-white/10">
+                <motion.div
+                    className="text-6xl absolute left-1/2 -translate-x-1/2"
+                    initial={{ top: 20 }}
+                    animate={falling ? { top: '85%' } : { top: 20 }}
+                    transition={{ duration: speeds[planet], ease: "easeIn" }}
+                >
+                    🍎
+                </motion.div>
+                <div className="absolute bottom-0 w-full h-4 bg-green-500/50" />
+            </div>
+            <Button onClick={drop} disabled={falling} className="bg-red-600 hover:bg-red-700 text-lg px-8 py-4">
+                Drop Apple ⬇️
+            </Button>
+        </div>
+    );
+};
+
+const AdaGame = ({ onComplete }: { onComplete: () => void }) => {
+    const [sequence, setSequence] = useState([0, 1, 0, null]);
+    const answer = 1;
+
+    const check = (val: number) => {
+        if (val === answer) onComplete();
+        else alert("Try again! The engine needs the right pattern.");
+    };
+
+    return (
+        <div className="text-center">
+            <div className="flex justify-center gap-4 mb-12 text-5xl">
+                {sequence.map((n, i) => (
+                    <div key={i} className="w-20 h-20 bg-slate-700 rounded-xl flex items-center justify-center border-4 border-purple-500/30">
+                        {n === null ? '❓' : (n === 1 ? '🔵' : '🔴')}
+                    </div>
+                ))}
+            </div>
+            <div className="flex justify-center gap-8">
+                <button onClick={() => check(0)} className="text-6xl hover:scale-110 transition-transform">🔴</button>
+                <button onClick={() => check(1)} className="text-6xl hover:scale-110 transition-transform">🔵</button>
+            </div>
+            <p className="mt-8 text-slate-400">Complete the binary pattern!</p>
+        </div>
+    );
+};
+
+const TuringGame = ({ onComplete }: { onComplete: () => void }) => {
+    const [input, setInput] = useState("");
+    const secret = "HELLO";
+
+    return (
+        <div className="text-center">
+            <div className="bg-slate-800 p-6 rounded-xl mb-6 font-mono text-2xl tracking-widest text-green-400">
+                SECRET: {secret.split('').map(c => String.fromCharCode(c.charCodeAt(0) + 1)).join('')}
+            </div>
+            <p className="mb-4 text-slate-300">The machine shifts every letter by +1. Decode it!</p>
+            <input
+                type="text"
+                maxLength={5}
+                value={input}
+                onChange={e => setInput(e.target.value.toUpperCase())}
+                className="bg-black/50 border-2 border-green-500/50 rounded-lg px-4 py-2 text-center text-2xl text-white w-48 mb-4 block mx-auto uppercase"
+                placeholder="TYPE HERE"
+            />
+            <Button
+                onClick={() => input === secret ? onComplete() : alert("Wrong code!")}
+                className="bg-green-600 hover:bg-green-700 w-full"
+            >
+                Decrypt Signal 🔓
+            </Button>
+        </div>
+    );
+};
+
+const CurieGame = ({ onComplete }: { onComplete: () => void }) => {
+    const [found, setFound] = useState(0);
+    const total = 3;
+
+    const handleFind = (id: number) => {
+        const next = found + 1;
+        setFound(next);
+        if (next >= total) onComplete();
+    };
+
+    return (
+        <div className="relative h-64 bg-black rounded-2xl overflow-hidden cursor-crosshair border-2 border-emerald-500/30">
+            <p className="absolute top-4 left-4 text-emerald-400 z-10 pointer-events-none">Found: {found}/{total}</p>
+            {[1, 2, 3].map(i => (
+                <motion.div
+                    key={i}
+                    className="absolute text-4xl cursor-pointer hover:opacity-100 opacity-0 transition-opacity duration-300"
+                    style={{ top: `${Math.random() * 80}%`, left: `${Math.random() * 80}%` }}
+                    whileHover={{ scale: 1.5 }}
+                    onClick={(e) => {
+                        e.currentTarget.style.display = 'none';
+                        handleFind(i);
+                    }}
+                >
+                    ✨
+                </motion.div>
+            ))}
+            <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_0%,black_100%)] opacity-80" />
+            <p className="absolute bottom-4 w-full text-center text-slate-500 pointer-events-none">Move your mouse to find the glow!</p>
+        </div>
+    );
+};
+
+const DarwinGame = ({ onComplete }: { onComplete: () => void }) => {
+    const handleChoice = (correct: boolean) => {
+        if (correct) onComplete();
+        else alert("That beak can't crack this nut!");
+    };
+
+    return (
+        <div className="text-center">
+            <div className="flex justify-center items-center gap-8 mb-8">
+                <div className="text-6xl text-center">
+                    🌰
+                    <p className="text-sm text-slate-400 mt-2">Hard Nut</p>
+                </div>
+            </div>
+            <p className="mb-6 text-xl text-white">Which bird can eat this?</p>
+            <div className="flex justify-center gap-4">
+                <button onClick={() => handleChoice(true)} className="bg-slate-800 p-4 rounded-xl hover:bg-slate-700 transition-colors border-2 border-transparent hover:border-amber-500">
+                    <div className="text-4xl mb-2">🦅</div>
+                    <div className="text-sm font-bold text-amber-300">Strong Beak</div>
+                </button>
+                <button onClick={() => handleChoice(false)} className="bg-slate-800 p-4 rounded-xl hover:bg-slate-700 transition-colors border-2 border-transparent hover:border-amber-500">
+                    <div className="text-4xl mb-2">🦆</div>
+                    <div className="text-sm font-bold text-amber-300">Flat Beak</div>
+                </button>
+            </div>
+        </div>
+    );
+};
+
 const LegendMission = ({ legend, onClose }: { legend: any, onClose: () => void }) => {
-    const [progress, setProgress] = useState(0);
     const [complete, setComplete] = useState(false);
 
-    // Simple game logic simulation
-    const interact = () => {
-        const newProgress = progress + 25;
-        setProgress(newProgress);
-        if (newProgress >= 100) setComplete(true);
-    };
+    const handleComplete = () => setComplete(true);
 
     return (
         <motion.div
@@ -149,30 +308,19 @@ const LegendMission = ({ legend, onClose }: { legend: any, onClose: () => void }
                     <Button onClick={onClose} variant="ghost" size="icon" className="text-white hover:bg-white/20">✖️</Button>
                 </div>
 
-                <div className="p-8 text-center">
+                <div className="p-8">
                     {!complete ? (
                         <>
-                            <div className="mb-8">
-                                <p className="text-xl text-slate-300 mb-4">{legend.missionDesc}</p>
-                                <div className="text-6xl mb-6 animate-pulse">{legend.element}</div>
-                                <Button
-                                    onClick={interact}
-                                    className={`text-xl px-8 py-6 rounded-xl transition-all active:scale-95 ${legend.buttonColor || 'bg-blue-600 hover:bg-blue-700'}`}
-                                >
-                                    {legend.actionLabel}
-                                </Button>
-                            </div>
-                            <div className="w-full bg-slate-800 rounded-full h-4 overflow-hidden">
-                                <motion.div
-                                    className={`h-full ${legend.color.replace('bg-', 'bg-')}`}
-                                    initial={{ width: 0 }}
-                                    animate={{ width: `${progress}%` }}
-                                />
-                            </div>
-                            <p className="mt-2 text-sm text-slate-400">Progress: {progress}%</p>
+                            <p className="text-xl text-slate-300 mb-8 text-center">{legend.missionDesc}</p>
+
+                            {legend.id === 'newton' && <NewtonGame onComplete={handleComplete} />}
+                            {legend.id === 'ada' && <AdaGame onComplete={handleComplete} />}
+                            {legend.id === 'turing' && <TuringGame onComplete={handleComplete} />}
+                            {legend.id === 'curie' && <CurieGame onComplete={handleComplete} />}
+                            {legend.id === 'darwin' && <DarwinGame onComplete={handleComplete} />}
                         </>
                     ) : (
-                        <div className="py-8">
+                        <div className="text-center py-8">
                             <motion.div
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
