@@ -27,7 +27,7 @@ const FEEDS: Omit<FeedStatus, 'status'>[] = [
         id: 'news-google',
         name: 'Google News (AI)',
         displayUrl: 'news.google.com',
-        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss/search?q=Artificial+Intelligence+when:7d&hl=en-US&gl=US&ceid=US:en'
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent('https://news.google.com/rss/search?q=Artificial+Intelligence+when:7d&hl=en-US&gl=US&ceid=US:en')
     },
     {
         id: 'news-hn',
@@ -76,12 +76,6 @@ const FEEDS: Omit<FeedStatus, 'status'>[] = [
 
     // --- JOBS ---
     {
-        id: 'jobs-wework',
-        name: 'WeWorkRemotely',
-        displayUrl: 'weworkremotely.com',
-        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://weworkremotely.com/categories/remote-machine-learning-jobs.rss'
-    },
-    {
         id: 'jobs-remoteok',
         name: 'RemoteOK',
         displayUrl: 'remoteok.com',
@@ -89,18 +83,6 @@ const FEEDS: Omit<FeedStatus, 'status'>[] = [
     },
 
     // --- VIDEOS (YouTube) ---
-    {
-        id: 'video-wesroth',
-        name: 'YouTube: Wes Roth',
-        displayUrl: 'youtube.com/@WesRoth',
-        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCg_p-Fp_b5Dq_09w6a4YwGA'
-    },
-    {
-        id: 'video-matthewberman',
-        name: 'YouTube: Matthew Berman',
-        displayUrl: 'youtube.com/@MatthewBerman',
-        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCMi8qg-eB1d7kS_c7F3g_Cg'
-    },
     {
         id: 'video-coldfusion',
         name: 'YouTube: ColdFusion',
@@ -277,10 +259,16 @@ export function FeedStatusDashboard() {
 
     const checkAllFeeds = async () => {
         setIsChecking(true);
-        // Sequential or parallel? Parallel is faster.
-        await Promise.all(FEEDS.map(f => checkFeed(f.id)));
-        setIsChecking(false);
         setLastRun(new Date().toLocaleString());
+
+        // Sequential check with delay to avoid rate limits
+        for (const feed of FEEDS) {
+            await checkFeed(feed.id);
+            // Wait 800ms between requests
+            await new Promise(resolve => setTimeout(resolve, 800));
+        }
+
+        setIsChecking(false);
     };
 
     // Auto-check on mount
