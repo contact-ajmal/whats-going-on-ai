@@ -79,7 +79,15 @@ export function ResearchFeed() {
                     // Dedupe by URL
                     const uniquePapers = Array.from(new Map(allFetched.map((item: ResearchPaper) => [item.url, item])).values());
 
-                    setPapers(uniquePapers);
+                    // Merge with fallback papers to ensure homepage links always work
+                    // We prioritize fetched papers, but ensure fallback papers exist if not present
+                    const fetchedUrls = new Set(uniquePapers.map(p => p.url));
+                    const missingFallbacks = FALLBACK_PAPERS.filter(p => !fetchedUrls.has(p.url));
+
+                    // Combine and resort
+                    const combined = [...uniquePapers, ...missingFallbacks].sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime());
+
+                    setPapers(combined);
                 }
 
             } catch (err) {

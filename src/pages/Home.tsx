@@ -1,5 +1,5 @@
 import { motion, useMotionTemplate, useMotionValue } from 'framer-motion';
-import { ArrowRight, ChevronDown, BookOpen, Briefcase, Wrench, Newspaper, Zap, Bot, GraduationCap, Video } from 'lucide-react';
+import { ChevronDown, BookOpen, Wrench, Newspaper, Zap, Bot, GraduationCap, Video, ArrowRight, Calendar, Sparkles } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { DECODED_TOPICS } from '@/data/aiDecoded';
 import { toolsData } from '@/data/toolsData';
@@ -11,9 +11,11 @@ import { NeuralBackground } from '@/components/NeuralBackground';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { NewsFeed } from '@/components/NewsFeed';
-import { FeaturedBlogs } from '@/components/FeaturedBlogs';
 import { BookmarkUplink } from '@/components/BookmarkUplink';
-import { ReactNode, MouseEvent, useState, useEffect } from 'react';
+import { ReactNode, MouseEvent, useState, useEffect, useMemo } from 'react';
+import { loadBlogPosts, formatDate } from '@/lib/config';
+import { BlogPostMeta } from '@/types/config';
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -124,10 +126,86 @@ function SpotlightCard({ children, className = "" }: { children: ReactNode; clas
   );
 }
 
+// Pseudo-random number generator for daily seeding
+const getDailyIndex = (length: number, seedSuffix: string) => {
+  const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+  const seed = today + seedSuffix;
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = ((hash << 5) - hash) + seed.charCodeAt(i);
+    hash |= 0; // Convert to 32bit integer
+  }
+  return Math.abs(hash) % length;
+};
+
 export default function Home() {
+  const [blogPosts, setBlogPosts] = useState<BlogPostMeta[]>([]);
+
+  useEffect(() => {
+    loadBlogPosts().then(posts => setBlogPosts(posts));
+  }, []);
+
   const scrollToContent = () => {
     window.scrollTo({ top: window.innerHeight * 0.8, behavior: 'smooth' });
   };
+
+  // Construct the 9-item grid
+  const dailyGridContent = useMemo(() => {
+    const items = [];
+
+    // 1. Three Blog Posts (First 3 for now, or random 3?)
+    const blogCount = blogPosts.length;
+    if (blogCount > 0) {
+      // Use daily seed to rotate which blogs are shown if we have many
+      const index1 = getDailyIndex(blogCount, 'blog1');
+      const index2 = (index1 + 1) % blogCount;
+      const index3 = (index1 + 2) % blogCount;
+
+      const post1 = blogPosts[index1];
+      const post2 = blogCount > 1 ? blogPosts[index2] : null;
+      const post3 = blogCount > 2 ? blogPosts[index3] : null;
+
+      if (post1) items.push({ type: 'blog', data: post1 });
+      if (post2) items.push({ type: 'blog', data: post2 });
+      if (post3) items.push({ type: 'blog', data: post3 });
+    }
+
+    // 2. AI Decoded
+    const decodedIdx = getDailyIndex(DECODED_TOPICS.length, 'decoded');
+    items.push({ type: 'decoded', data: DECODED_TOPICS[decodedIdx] });
+
+    // 3. Young Minds (Always included)
+    items.push({ type: 'young-minds', data: null });
+
+    // 4. Research
+    const paperIdx = getDailyIndex(FALLBACK_PAPERS.length, 'research');
+    items.push({ type: 'research', data: FALLBACK_PAPERS[paperIdx] });
+
+    // 5. Tool
+    const toolIdx = getDailyIndex(toolsData.length, 'tool');
+    items.push({ type: 'tool', data: toolsData[toolIdx] });
+
+    // 6. Learning
+    const learnIdx = getDailyIndex(FALLBACK_LEARNING.length, 'learning');
+    items.push({ type: 'learning', data: FALLBACK_LEARNING[learnIdx] });
+
+    // 7. Video (Static for now, but position rotates)
+    items.push({ type: 'video', data: null });
+
+    // Fill to 9 if needed
+    while (items.length < 9) {
+      const extraToolIdx = getDailyIndex(toolsData.length, 'tool' + items.length);
+      items.push({ type: 'tool', data: toolsData[extraToolIdx] });
+    }
+
+    // Shuffle maintain daily order
+    return items.sort((a, b) => {
+      const seedA = a.type + (a.data?.id || '0');
+      const seedB = b.type + (b.data?.id || '0');
+      return getDailyIndex(100, seedA) - getDailyIndex(100, seedB);
+    });
+
+  }, [blogPosts]);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -197,59 +275,6 @@ export default function Home() {
             <Ticker />
           </motion.div>
 
-          {/* BENTO GRID (Mission Visualization) */}
-          <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
-
-            <Link to="/research" className="block h-full">
-              <SpotlightCard className="h-full hover:border-blue-500/50 transition-colors">
-                <div className="p-6 h-full flex flex-col items-start text-left">
-                  <div className="p-3 rounded-lg bg-blue-500/10 text-blue-400 mb-4">
-                    <BookOpen size={24} />
-                  </div>
-                  <h3 className="text-lg font-bold mb-2 text-foreground">Deep Research</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">Daily feed of ArXiv papers selected for impact, not hype. Filter by citation count.</p>
-                </div>
-              </SpotlightCard>
-            </Link>
-
-            <Link to="/jobs" className="block h-full">
-              <SpotlightCard className="h-full hover:border-emerald-500/50 transition-colors">
-                <div className="p-6 h-full flex flex-col items-start text-left">
-                  <div className="p-3 rounded-lg bg-emerald-500/10 text-emerald-400 mb-4">
-                    <Briefcase size={24} />
-                  </div>
-                  <h3 className="text-lg font-bold mb-2 text-foreground">Career Signal</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">Live index of AI roles. Filter by remote status, tech stack, and salary ranges.</p>
-                </div>
-              </SpotlightCard>
-            </Link>
-
-            <Link to="/updates" className="block h-full">
-              <SpotlightCard className="h-full hover:border-purple-500/50 transition-colors">
-                <div className="p-6 h-full flex flex-col items-start text-left">
-                  <div className="p-3 rounded-lg bg-purple-500/10 text-purple-400 mb-4">
-                    <Newspaper size={24} />
-                  </div>
-                  <h3 className="text-lg font-bold mb-2 text-foreground">Pulse News</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">Real-time headlines aggregated from top tech sources. No clickbait permitted.</p>
-                </div>
-              </SpotlightCard>
-            </Link>
-
-            <Link to="/tools" className="block h-full">
-              <SpotlightCard className="h-full hover:border-orange-500/50 transition-colors">
-                <div className="p-6 h-full flex flex-col items-start text-left">
-                  <div className="p-3 rounded-lg bg-orange-500/10 text-orange-400 mb-4">
-                    <Wrench size={24} />
-                  </div>
-                  <h3 className="text-lg font-bold mb-2 text-foreground">Toolbox & MCP</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">Directory of agentic tools and Model Context Protocol servers for developers.</p>
-                </div>
-              </SpotlightCard>
-            </Link>
-
-          </motion.div>
-
           {/* Scroll CTA */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -265,7 +290,7 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* Content Sections */}
+      {/* FEATURED CONTENT (9-Grid Mixed) */}
       <section className="py-16 px-6 container mx-auto border-t border-white/5">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -280,88 +305,153 @@ export default function Home() {
             </h2>
           </div>
 
-          <FeaturedBlogs />
+          {/* Grid Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-          {/* ECOSYSTEM GRID */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+            {dailyGridContent.map((item, index) => {
+              // Render based on type
+              if (item.type === 'blog' && item.data) {
+                const post = item.data as BlogPostMeta;
+                return (
+                  <Card key={`blog-${index}`} className="group overflow-hidden border-white/10 bg-card/30 backdrop-blur-md hover:border-primary/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
+                    <CardHeader className="pb-2">
+                      <div className="flex items-center gap-2 mb-2 text-xs text-muted-foreground">
+                        <Calendar className="w-3 h-3" />
+                        {formatDate(post.date)}
+                      </div>
+                      <CardTitle className="text-lg group-hover:text-primary transition-colors leading-snug">
+                        <Link to={`/blog/${post.slug}`}>
+                          {post.title}
+                        </Link>
+                      </CardTitle>
+                      {post.tags.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          {post.tags.slice(0, 2).map((tag: string) => (
+                            <Badge key={tag} variant="secondary" className="text-[10px] bg-primary/10 text-primary border-primary/20">
+                              {tag}
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
+                    </CardHeader>
+                    <CardContent className="pb-3 flex-grow">
+                      <p className="text-muted-foreground text-sm line-clamp-3">
+                        {post.description}
+                      </p>
+                    </CardContent>
+                    <CardFooter className="pt-3 border-t border-white/5 mt-auto">
+                      <Button variant="ghost" size="sm" className="w-full gap-2 text-primary/80 hover:text-primary group/btn" asChild>
+                        <Link to={`/blog/${post.slug}`}>
+                          Read Article <ArrowRight className="h-3 w-3 transition-transform group-hover/btn:translate-x-1" />
+                        </Link>
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                );
+              }
 
-            {/* 1. AI DECODED */}
-            <Link to={DECODED_TOPICS[0].link} className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-indigo-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
-              <div className={`absolute inset-0 bg-gradient-to-br ${DECODED_TOPICS[0].color} opacity-0 group-hover:opacity-10 transition-opacity`} />
-              <div className="p-6 flex-grow">
-                <div className="flex justify-between items-start mb-4">
-                  <Badge variant="outline" className="border-indigo-500/30 text-indigo-400">AI Decoded</Badge>
-                  <span className="text-2xl">{DECODED_TOPICS[0].icon}</span>
-                </div>
-                <h3 className="text-xl font-bold mb-2 group-hover:text-indigo-400 transition-colors">{DECODED_TOPICS[0].title}</h3>
-                <p className="text-sm text-muted-foreground line-clamp-3">{DECODED_TOPICS[0].shortDescription}</p>
-              </div>
-            </Link>
+              if (item.type === 'decoded' && item.data) {
+                const data = item.data;
+                return (
+                  <Link key={`decoded-${index}`} to={data.link} className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-indigo-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
+                    <div className={`absolute inset-0 bg-gradient-to-br ${data.color} opacity-0 group-hover:opacity-10 transition-opacity`} />
+                    <div className="p-6 flex-grow">
+                      <div className="flex justify-between items-start mb-4">
+                        <Badge variant="outline" className="border-indigo-500/30 text-indigo-400">AI Decoded</Badge>
+                        <span className="text-2xl">{data.icon}</span>
+                      </div>
+                      <h3 className="text-xl font-bold mb-2 group-hover:text-indigo-400 transition-colors">{data.title}</h3>
+                      <p className="text-sm text-muted-foreground line-clamp-3">{data.shortDescription}</p>
+                    </div>
+                  </Link>
+                );
+              }
 
-            {/* 2. YOUNG MINDS */}
-            <Link to="/young-minds" className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-yellow-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
-              <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="p-6 flex-grow">
-                <div className="flex justify-between items-start mb-4">
-                  <Badge variant="outline" className="border-yellow-500/30 text-yellow-400">Young Minds</Badge>
-                  <Bot className="w-6 h-6 text-yellow-400" />
-                </div>
-                <h3 className="text-xl font-bold mb-2 group-hover:text-yellow-400 transition-colors">Start the Adventure! 🚀</h3>
-                <p className="text-sm text-muted-foreground line-clamp-3">Join Newton, Ada, and Turing in the Time-Travel Lab.</p>
-              </div>
-            </Link>
+              if (item.type === 'young-minds') {
+                return (
+                  <Link key={`ym-${index}`} to="/young-minds" className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-yellow-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
+                    <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="p-6 flex-grow">
+                      <div className="flex justify-between items-start mb-4">
+                        <Badge variant="outline" className="border-yellow-500/30 text-yellow-400">Young Minds</Badge>
+                        <Bot className="w-6 h-6 text-yellow-400" />
+                      </div>
+                      <h3 className="text-xl font-bold mb-2 group-hover:text-yellow-400 transition-colors">Start the Adventure! 🚀</h3>
+                      <p className="text-sm text-muted-foreground line-clamp-3">Join Newton, Ada, and Turing in the Time-Travel Lab.</p>
+                    </div>
+                  </Link>
+                );
+              }
 
-            {/* 3. RESEARCH */}
-            <Link to={`/research?q=${encodeURIComponent(FALLBACK_PAPERS[0].title)}`} className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-blue-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="p-6 flex-grow">
-                <div className="flex justify-between items-start mb-4">
-                  <Badge variant="outline" className="border-blue-500/30 text-blue-400">Research</Badge>
-                  <BookOpen className="w-6 h-6 text-blue-400" />
-                </div>
-                <h3 className="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">{FALLBACK_PAPERS[0].title}</h3>
-                <p className="text-sm text-muted-foreground line-clamp-3">{FALLBACK_PAPERS[0].abstract}</p>
-              </div>
-            </Link>
+              if (item.type === 'research' && item.data) {
+                const data = item.data;
+                return (
+                  <Link key={`research-${index}`} to={`/research?q=${encodeURIComponent(data.title)}`} className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-blue-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="p-6 flex-grow">
+                      <div className="flex justify-between items-start mb-4">
+                        <Badge variant="outline" className="border-blue-500/30 text-blue-400">Research</Badge>
+                        <BookOpen className="w-6 h-6 text-blue-400" />
+                      </div>
+                      <h3 className="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">{data.title}</h3>
+                      <p className="text-sm text-muted-foreground line-clamp-3">{data.abstract}</p>
+                    </div>
+                  </Link>
+                );
+              }
 
-            {/* 4. TOOLS */}
-            <Link to={`/tools?q=${encodeURIComponent(toolsData.find(t => t.isNew)?.name || toolsData[0].name)}`} className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-emerald-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
-              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="p-6 flex-grow">
-                <div className="flex justify-between items-start mb-4">
-                  <Badge variant="outline" className="border-emerald-500/30 text-emerald-400">New Tool</Badge>
-                  <Wrench className="w-6 h-6 text-emerald-400" />
-                </div>
-                <h3 className="text-xl font-bold mb-2 group-hover:text-emerald-400 transition-colors">{toolsData.find(t => t.isNew)?.name || toolsData[0].name}</h3>
-                <p className="text-sm text-muted-foreground line-clamp-3">{toolsData.find(t => t.isNew)?.description || toolsData[0].description}</p>
-              </div>
-            </Link>
+              if (item.type === 'tool' && item.data) {
+                const data = item.data;
+                return (
+                  <Link key={`tool-${index}`} to={`/tools?q=${encodeURIComponent(data.name)}`} className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-emerald-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
+                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="p-6 flex-grow">
+                      <div className="flex justify-between items-start mb-4">
+                        <Badge variant="outline" className="border-emerald-500/30 text-emerald-400">New Tool</Badge>
+                        <Wrench className="w-6 h-6 text-emerald-400" />
+                      </div>
+                      <h3 className="text-xl font-bold mb-2 group-hover:text-emerald-400 transition-colors">{data.name}</h3>
+                      <p className="text-sm text-muted-foreground line-clamp-3">{data.description}</p>
+                    </div>
+                  </Link>
+                );
+              }
 
-            {/* 5. LEARNING */}
-            <Link to={`/learning?q=${encodeURIComponent(FALLBACK_LEARNING[0].title)}`} className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-pink-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
-              <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="p-6 flex-grow">
-                <div className="flex justify-between items-start mb-4">
-                  <Badge variant="outline" className="border-pink-500/30 text-pink-400">Learning</Badge>
-                  <GraduationCap className="w-6 h-6 text-pink-400" />
-                </div>
-                <h3 className="text-xl font-bold mb-2 group-hover:text-pink-400 transition-colors">{FALLBACK_LEARNING[0].title}</h3>
-                <p className="text-sm text-muted-foreground line-clamp-3">Master AI with this top-rated course.</p>
-              </div>
-            </Link>
+              if (item.type === 'learning' && item.data) {
+                const data = item.data;
+                return (
+                  <Link key={`learning-${index}`} to={`/learning?q=${encodeURIComponent(data.title)}`} className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-pink-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
+                    <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="p-6 flex-grow">
+                      <div className="flex justify-between items-start mb-4">
+                        <Badge variant="outline" className="border-pink-500/30 text-pink-400">Learning</Badge>
+                        <GraduationCap className="w-6 h-6 text-pink-400" />
+                      </div>
+                      <h3 className="text-xl font-bold mb-2 group-hover:text-pink-400 transition-colors">{data.title}</h3>
+                      <p className="text-sm text-muted-foreground line-clamp-3">Master AI with this top-rated course.</p>
+                    </div>
+                  </Link>
+                );
+              }
 
-            {/* 6. VIDEOS */}
-            <Link to="/videos?q=ColdFusion" className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-red-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
-              <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="p-6 flex-grow">
-                <div className="flex justify-between items-start mb-4">
-                  <Badge variant="outline" className="border-red-500/30 text-red-500">Video</Badge>
-                  <Video className="w-6 h-6 text-red-500" />
-                </div>
-                <h3 className="text-xl font-bold mb-2 group-hover:text-red-500 transition-colors">Latest from ColdFusion</h3>
-                <p className="text-sm text-muted-foreground line-clamp-3">Watch the newest deep dive into technology and AI.</p>
-              </div>
-            </Link>
+              if (item.type === 'video') {
+                return (
+                  <Link key={`video-${index}`} to="/videos?q=ColdFusion" className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-red-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
+                    <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="p-6 flex-grow">
+                      <div className="flex justify-between items-start mb-4">
+                        <Badge variant="outline" className="border-red-500/30 text-red-500">Video</Badge>
+                        <Video className="w-6 h-6 text-red-500" />
+                      </div>
+                      <h3 className="text-xl font-bold mb-2 group-hover:text-red-500 transition-colors">Latest from ColdFusion</h3>
+                      <p className="text-sm text-muted-foreground line-clamp-3">Watch the newest deep dive into technology and AI.</p>
+                    </div>
+                  </Link>
+                );
+              }
+
+              return null;
+            })}
 
           </div>
         </motion.div>
