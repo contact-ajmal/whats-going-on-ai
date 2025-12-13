@@ -45,7 +45,7 @@ export const DECODED_TOPICS: DecodedTopic[] = [
         difficulty: 'Intermediate',
         readTime: '6 min',
         tags: ['Alignment', 'Training', 'Safety'],
-        link: 'https://huggingface.co/blog/rlhf',
+        link: '/decoded/rlhf',
         color: 'from-emerald-500 to-green-500'
     },
     {
@@ -57,7 +57,7 @@ export const DECODED_TOPICS: DecodedTopic[] = [
         difficulty: 'Advanced',
         readTime: '8 min',
         tags: ['Architecture', 'Efficiency', 'Scaling'],
-        link: 'https://huggingface.co/blog/moe',
+        link: '/decoded/moe',
         color: 'from-orange-500 to-red-500'
     },
     {
@@ -81,7 +81,7 @@ export const DECODED_TOPICS: DecodedTopic[] = [
         difficulty: 'Advanced',
         readTime: '7 min',
         tags: ['Fine-Tuning', 'Optimization', 'Local AI'],
-        link: 'https://huggingface.co/docs/peft/conceptual_guides/lora',
+        link: '/decoded/lora',
         color: 'from-blue-600 to-indigo-600'
     }
 ];

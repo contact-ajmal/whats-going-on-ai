@@ -21,6 +21,9 @@ import Decoded from '@/pages/Decoded';
 import TransformersDeepDive from '@/pages/decoded/Transformers';
 import DiffusionDeepDive from '@/pages/decoded/Diffusion';
 import EmbeddingsDeepDive from '@/pages/decoded/Embeddings';
+import RLHFDeepDive from '@/pages/decoded/RLHF';
+import MoEDeepDive from '@/pages/decoded/MoE';
+import LoRADeepDive from '@/pages/decoded/LoRA';
 
 const queryClient = new QueryClient();
 
@@ -47,6 +50,9 @@ const App = () => (
           <Route path="/decoded/transformers" element={<TransformersDeepDive />} />
           <Route path="/decoded/diffusion" element={<DiffusionDeepDive />} />
           <Route path="/decoded/embeddings" element={<EmbeddingsDeepDive />} />
+          <Route path="/decoded/rlhf" element={<RLHFDeepDive />} />
+          <Route path="/decoded/moe" element={<MoEDeepDive />} />
+          <Route path="/decoded/lora" element={<LoRADeepDive />} />
           <Route path="/profile" element={<Profile />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
