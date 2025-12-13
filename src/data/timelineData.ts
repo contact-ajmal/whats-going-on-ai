@@ -125,8 +125,8 @@ export const timelineData: TimelineEvent[] = [
         category: "Generative Age",
         media: {
             type: "image",
-            url: "https://openai.com/content/images/2021/01/dall-e-2.jpg", // Note: Might need a reliable permalink or local asset
-            caption: "DALL-E: Creating images from text"
+            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/DALL-E_2_sample_-_A_Shiba_Inu_dog_wearing_a_beret_and_black_turtleneck.png/640px-DALL-E_2_sample_-_A_Shiba_Inu_dog_wearing_a_beret_and_black_turtleneck.png",
+            caption: "DALL-E: 'A Shiba Inu dog wearing a beret and black turtleneck'"
         },
         links: [
             { label: "DALL-E Blog", url: "https://openai.com/research/dall-e" }

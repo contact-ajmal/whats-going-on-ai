@@ -20,14 +20,14 @@ interface Video {
 const CHANNELS = [
     { id: 'UCg_p-Fp_b5Dq_09w6a4YwGA', name: 'Wes Roth', color: 'bg-orange-600 border-orange-400' },
     { id: 'UCMi8qg-eB1d7kS_c7F3g_Cg', name: 'Matthew Berman', color: 'bg-blue-500 border-blue-300' },
-    { id: 'UCU5CjcEZoQS75t_bL-Q7MhQ', name: 'David Shapiro', color: 'bg-slate-600 border-slate-400' },
+    { id: 'UC4QZ_LsYcvcq7qOsOhpAX4A', name: 'ColdFusion', color: 'bg-slate-600 border-slate-400' },
     { id: 'UCXy2m-1m4jC-2uFvA5s3bBA', name: 'The AI Grid', color: 'bg-yellow-600 border-yellow-400' },
     { id: 'UCGCz0fBqj2N_Jg7o-T-b99Q', name: 'Microsoft Mechanics', color: 'bg-blue-700 border-blue-500' },
     { id: 'UCbfYPyITQ-7l4upoX8nvctg', name: 'Two Minute Papers', color: 'bg-blue-600 border-blue-400' },
     { id: 'UCnAtMWn98fQ07kYy6_9v-w', name: 'Matt Wolfe', color: 'bg-green-600 border-green-400' },
     { id: 'UCNJ1Ymd5yFuUPtn21xtRbbw', name: 'AI Explained', color: 'bg-purple-600 border-purple-400' },
     { id: 'UCP7jMXSY2xbc3KCAE0MHQ-A', name: 'Google DeepMind', color: 'bg-cyan-600 border-cyan-400' },
-    { id: 'UCXPZwW5oxpWkikN8a14gMgg', name: 'OpenAI', color: 'bg-emerald-600 border-emerald-400' },
+    { id: 'UC3X8J1_5Y7M47_7Q573573', name: 'ByCloud', color: 'bg-emerald-600 border-emerald-400' },
     { id: 'UCOoKqA10yd_1FZ4B5F4qLg', name: 'NVIDIA', color: 'bg-green-500 border-green-300' },
     { id: 'UC7c8mE90Kk42C2X4C7k1Pgg', name: 'IBM Technology', color: 'bg-blue-800 border-blue-600' }
 ];
