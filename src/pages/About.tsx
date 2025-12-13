@@ -1,343 +1,210 @@
 import { motion } from 'framer-motion';
-import {
-  Brain, Code, Cloud, Database, Network, Palette, MapPin, Calendar, Briefcase,
-  Cpu, Globe, Award, Zap, Server, Shield, Linkedin
-} from 'lucide-react';
 import { NeuralBackground } from '@/components/NeuralBackground';
 import { Navigation } from '@/components/Navigation';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Footer } from '@/components/Footer';
+import { Badge } from '@/components/ui/badge';
+import { Github, Linkedin, Mail, Twitter, Code, Cpu, Globe, Database, Briefcase, User, Layers, Info, Award, Server, Zap, Shield, Network, Brain } from 'lucide-react';
 
-const skills = [
-  { name: 'Data Architecture', icon: Database, description: 'Conceptual → Logical → Physical Modeling' },
-  { name: 'Real-time Pipelines', icon: Zap, description: 'Sports Tracking, Kafka, Kinesis' },
-  { name: 'Cloud Architecture', icon: Cloud, description: 'AWS, Data Lakes, Distributed Systems' },
-  { name: 'Data Governance', icon: Shield, description: 'Security, IAM, Compliance' },
-  { name: 'AI/ML Enablement', icon: Brain, description: 'Simulation Systems, Platform Engineering' },
-  { name: 'Tech Leadership', icon: Network, description: 'Technology Evaluation & Strategy' },
-];
+const Skills = () => {
+  // Accurate skills data
+  const skills = [
+    { name: 'Data Architecture', icon: Database, color: "text-blue-400" },
+    { name: 'Real-time Pipelines', icon: Zap, color: "text-yellow-400" },
+    { name: 'Cloud Architecture', icon: Cloud, color: "text-cyan-400" },
+    { name: 'Data Governance', icon: Shield, color: "text-green-400" },
+    { name: 'AI/ML Enablement', icon: Brain, color: "text-purple-400" },
+    { name: 'Tech Leadership', icon: Network, color: "text-red-400" },
+  ];
 
-const timeline = [
-  {
-    year: '2024-Present',
-    title: 'Data Architect',
-    company: 'Hawk-Eye Innovations',
-    description: 'Leading real-time sports data architecture for FIFA, NFL, NHL, ICC, ATP systems.',
-  },
-  {
-    year: '2022-2024',
-    title: 'Cloud & Data Architect',
-    company: 'Atos',
-    description: 'Delivered enterprise cloud/AI solutions, AWS data lakes, and DevSecOps implementations.',
-  },
-  {
-    year: '2012-2023',
-    title: 'Systems Engineering Architect',
-    company: 'Qatar Public Sector',
-    description: 'Designed datacenter/cloud infra for national platforms, including FIFA World Cup 2022 support.',
-  },
-];
-
-const projects = [
-  { name: 'NFL & NHL Tracking', desc: 'Ultra-low latency tracking for officiating and analytics' },
-  { name: 'AI Simulation Platform', desc: 'Scalable ML platform for predictive football models' },
-  { name: 'Cricket Data Architecture', desc: 'End-to-end pipelines for ball and player tracking' },
-  { name: 'SkeleTRACK (FIFA)', desc: 'Real-time skeletal tracking at World Cup' },
-  { name: 'Goal-Line Technology', desc: 'Millisecond-accurate decision systems' },
-  { name: 'INSIGHT Platform', desc: 'Unified data management & visualization' },
-];
-
-const certifications = [
-  'AWS Solutions Architect – Professional',
-  'AWS DevOps Engineer – Professional',
-  'AWS Generative AI Essentials',
-  'AWS Global Community Builder (2021)',
-];
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+      {skills.map((skill, index) => (
+        <motion.div
+          key={skill.name}
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ delay: index * 0.1 }}
+          className="bg-white/5 border border-white/10 p-4 rounded-xl flex items-center gap-3 hover:bg-white/10 transition-colors group"
+        >
+          <skill.icon className={`w-5 h-5 ${skill.color} group-hover:scale-110 transition-transform`} />
+          <span className="font-medium text-xs md:text-sm text-slate-200">{skill.name}</span>
+        </motion.div>
+      ))}
+    </div>
+  );
 };
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-};
+import { Cloud } from 'lucide-react';
 
 export default function About() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-black text-foreground selection:bg-purple-500/30 font-sans">
       <NeuralBackground />
       <Navigation />
 
-      <main className="relative pt-24 pb-16">
-        {/* Hero section */}
-        <section className="container mx-auto px-6 py-16">
+      <main className="container mx-auto px-6 pt-32 pb-20 relative z-10 max-w-6xl">
+
+        {/* Header / Intro */}
+        <section className="mb-24">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="max-w-5xl mx-auto bg-card/30 backdrop-blur-md rounded-2xl border border-white/10 p-8 md:p-12 shadow-2xl overflow-hidden relative"
           >
-            {/* Ambient Background Glow inside card */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -z-10 opacity-50 pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -z-10 opacity-50 pointer-events-none" />
+            {/* Avatar Placeholder / Abstract representation */}
+            <div className="w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl mb-10 shadow-[0_0_40px_rgba(99,102,241,0.3)] flex items-center justify-center transform rotate-3 hover:rotate-6 transition-transform duration-500">
+              <User className="text-white w-12 h-12" />
+            </div>
 
-            <div className="flex flex-col md:flex-row gap-12 items-center md:items-start">
-              {/* Avatar */}
-              <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className="relative shrink-0"
-              >
-                <div className="w-48 h-48 rounded-full bg-gradient-to-br from-primary to-secondary p-1 shadow-xl">
-                  <div className="w-full h-full rounded-full bg-card flex items-center justify-center overflow-hidden relative">
-                    <div className="absolute inset-0 bg-primary/5"></div>
-                    <span className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-primary to-secondary">AB</span>
-                  </div>
-                </div>
-                <div className="absolute -inset-4 bg-primary/20 rounded-full blur-2xl -z-10 animate-pulse" />
-              </motion.div>
+            <h1 className="text-6xl md:text-8xl font-black tracking-tighter text-white mb-6">
+              Hello, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Ajmal</span>.
+            </h1>
 
-              {/* Bio */}
-              <div className="text-center md:text-left flex-1">
-                <h1 className="text-4xl md:text-6xl font-extrabold mb-4 font-heading tracking-tight">
-                  About Me
-                </h1>
-                <p className="text-2xl text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-400 font-medium mb-6">
-                  Ajmal Baba
+            <p className="text-2xl md:text-3xl text-slate-400 font-light max-w-4xl leading-relaxed">
+              Principal Architect blending <span className="text-white font-medium">Data Strategy</span> with <span className="text-white font-medium">Artificial Intelligence</span> to build the systems of tomorrow.
+            </p>
+
+            <div className="flex gap-4 mt-10">
+              <a href="https://github.com/contact-ajmal" target="_blank" rel="noreferrer" className="flex items-center gap-2 px-6 py-3 bg-white/5 rounded-full hover:bg-white/10 hover:translate-y-[-2px] transition-all text-white border border-white/10 group">
+                <Github size={20} /> <span className="text-sm font-bold">GitHub</span>
+              </a>
+              <a href="https://www.linkedin.com/in/ajmalnazirbaba/" target="_blank" rel="noreferrer" className="flex items-center gap-2 px-6 py-3 bg-[#0077b5]/20 rounded-full hover:bg-[#0077b5]/30 hover:translate-y-[-2px] transition-all text-[#0077b5] border border-[#0077b5]/30 group">
+                <Linkedin size={20} /> <span className="text-sm font-bold">LinkedIn</span>
+              </a>
+              <a href="mailto:ajmalbhatti71@gmail.com" className="flex items-center gap-2 px-6 py-3 bg-white/5 rounded-full hover:bg-white/10 hover:translate-y-[-2px] transition-all text-white border border-white/10">
+                <Mail size={20} /> <span className="text-sm font-bold">Contact</span>
+              </a>
+            </div>
+          </motion.div>
+        </section>
+
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-24">
+
+          {/* Left Column: Story & Career */}
+          <div className="lg:col-span-7 space-y-20">
+
+            {/* About Section */}
+            <section>
+              <h2 className="text-xs font-mono uppercase tracking-[0.2em] text-slate-500 mb-8 flex items-center gap-4">
+                <div className="w-12 h-px bg-slate-800" /> The Architect
+              </h2>
+              <div className="prose prose-lg prose-invert text-slate-300 leading-relaxed">
+                <p className="mb-6">
+                  I specialize in <strong className="text-white">Data & AI Platforms</strong>. My work bridges the gap between complex AI research and practical, high-impact enterprise solutions.
                 </p>
-                <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-sm font-medium text-muted-foreground mb-8">
-                  <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-background/50 border border-white/10">
-                    <MapPin size={14} className="text-primary" /> London, UK
-                  </span>
-                  <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-background/50 border border-white/10">
-                    <Briefcase size={14} className="text-primary" /> Principal Architect
-                  </span>
-                  <a
-                    href="https://www.hawkeyeinnovations.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-background/50 border border-white/10 hover:border-primary/50 hover:text-primary transition-all cursor-pointer"
-                  >
-                    <Globe size={14} className="text-primary" /> Hawk-Eye Innovations
-                  </a>
-                  <a
-                    href="https://www.linkedin.com/in/ajmalnazirbaba/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-background/50 border border-white/10 hover:border-primary/50 hover:text-primary transition-all cursor-pointer"
-                  >
-                    <Linkedin size={14} className="text-primary" /> LinkedIn
-                  </a>
-                </div>
-                <p className="text-lg text-muted-foreground leading-relaxed">
-                  I am a Principal Architect specializing in Data & AI Platforms. My work focuses on building scalable, intelligent systems that bridge the gap between cutting-edge AI research and practical, high-impact enterprise solutions.
+                <p className="mb-6">
+                  Currently at <strong className="text-white">Hawk-Eye Innovations</strong>, I design the real-time data platforms behind world-leading tracking, officiating, and analytics systems used across 20+ global sports (FIFA, NFL, NHL, ATP).
                 </p>
-
-
-                <p className="text-lg text-muted-foreground leading-relaxed mt-4">
-                  At Hawk-Eye Innovations, I design the data platforms behind world-leading tracking, officiating,
-                  broadcast, and analytics systems used across 20+ global sports.
-                </p>
-                <p className="text-lg text-muted-foreground leading-relaxed mt-4">
-                  From skeletal tracking and ball-flight modelling to AI simulation platforms and video review systems,
-                  I build scalable architectures that turn complex sensor data into instant, reliable insights.
+                <p>
+                  From skeletal tracking and ball-flight modelling to AI simulation platforms, I build scalable architectures that turn complex sensor data into instant, reliable insights.
                 </p>
               </div>
-            </div>
-          </motion.div>
-        </section>
+            </section>
 
-        {/* Long bio */}
-        <section className="container mx-auto px-6 py-12">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="max-w-3xl mx-auto"
-          >
-            <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-              <span className="text-primary">&gt;</span> My Story
-            </h2>
-            <div className="space-y-4 text-muted-foreground leading-relaxed">
-              <p>
-                I’ve always been fascinated by how data can reveal the hidden patterns that define sport.
-                Over the years, that curiosity evolved into a career focused on architecting high-performance
-                systems that support the world’s biggest sporting events and federations.
-              </p>
-              <p>
-                Before joining Hawk-Eye, I designed enterprise cloud, AI, and datacenter architectures across
-                Europe and the Middle East — including platforms used during the FIFA World Cup Qatar 2022.
-                Today, I bring that experience into sports technology, building solutions that capture the game
-                with precision and deliver insights in milliseconds.
-              </p>
-            </div>
-          </motion.div>
-        </section>
+            {/* Career Timeline */}
+            <section>
+              <h2 className="text-xs font-mono uppercase tracking-[0.2em] text-slate-500 mb-8 flex items-center gap-4">
+                <div className="w-12 h-px bg-slate-800" /> Career Trajectory
+              </h2>
 
-        {/* Skills */}
-        <section className="container mx-auto px-6 py-16">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="max-w-5xl mx-auto"
-          >
-            <motion.h2
-              variants={itemVariants}
-              className="text-2xl font-bold mb-8 text-center"
-            >
-              <span className="text-primary">&gt;</span> Skills & Expertise
-            </motion.h2>
+              <div className="space-y-12 border-l border-white/10 ml-3 pl-10 relative">
+                {/* Role 1 */}
+                <div className="relative group">
+                  <div className="absolute -left-[45px] top-1.5 w-3 h-3 bg-indigo-500 rounded-full shadow-[0_0_10px_rgba(99,102,241,0.5)]" />
+                  <div className="mb-1 text-indigo-400 font-mono text-sm tracking-wide">2024 — Present</div>
+                  <h3 className="text-2xl font-bold text-white mb-1 group-hover:text-indigo-300 transition-colors">Data Architect</h3>
+                  <div className="text-lg text-slate-400 mb-3">Hawk-Eye Innovations</div>
+                  <p className="text-sm text-slate-500 leading-relaxed max-w-md">
+                    Leading real-time sports data architecture for FIFA, NFL, NHL, ICC, and ATP systems.
+                  </p>
+                </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {skills.map((skill, index) => (
-                <motion.div
-                  key={skill.name}
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.02, y: -4 }}
-                  className="group p-6 rounded-lg border border-border bg-card/50 backdrop-blur-sm hover:border-primary/50 transition-all"
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                      <skill.icon size={24} />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-1 group-hover:text-primary transition-colors">
-                        {skill.name}
-                      </h3>
-                      <p className="text-sm text-muted-foreground">
-                        {skill.description}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </section>
+                {/* Role 2 */}
+                <div className="relative group">
+                  <div className="absolute -left-[45px] top-1.5 w-3 h-3 bg-slate-800 border-2 border-slate-600 rounded-full group-hover:border-white transition-colors" />
+                  <div className="mb-1 text-slate-500 font-mono text-sm tracking-wide">2022 — 2024</div>
+                  <h3 className="text-2xl font-bold text-white mb-1 group-hover:text-indigo-300 transition-colors">Cloud & Data Architect</h3>
+                  <div className="text-lg text-slate-400 mb-3">Atos</div>
+                  <p className="text-sm text-slate-500 leading-relaxed max-w-md">
+                    Delivered enterprise cloud/AI solutions, AWS data lakes, and DevSecOps implementations.
+                  </p>
+                </div>
 
-        {/* Timeline */}
-        <section className="container mx-auto px-6 py-16">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="max-w-3xl mx-auto"
-          >
-            <h2 className="text-2xl font-bold mb-8 text-center">
-              <span className="text-primary">&gt;</span> Career Timeline
-            </h2>
+                {/* Role 3 */}
+                <div className="relative group">
+                  <div className="absolute -left-[45px] top-1.5 w-3 h-3 bg-slate-800 border-2 border-slate-600 rounded-full group-hover:border-white transition-colors" />
+                  <div className="mb-1 text-slate-500 font-mono text-sm tracking-wide">2012 — 2023</div>
+                  <h3 className="text-2xl font-bold text-white mb-1 group-hover:text-indigo-300 transition-colors">Systems Engineering Architect</h3>
+                  <div className="text-lg text-slate-400 mb-3">Qatar Public Sector</div>
+                  <p className="text-sm text-slate-500 leading-relaxed max-w-md">
+                    Designed datacenter/cloud infra, including support for FIFA World Cup 2022.
+                  </p>
+                </div>
+              </div>
+            </section>
+          </div>
 
-            <div className="relative">
-              {/* Timeline line */}
-              <div className="absolute left-8 top-0 bottom-0 w-px bg-border" />
+          {/* Right Column: Skills & Stack */}
+          <div className="lg:col-span-5 space-y-16">
+            {/* Skills Grid */}
+            <section>
+              <h2 className="text-xs font-mono uppercase tracking-[0.2em] text-slate-500 mb-8 flex items-center gap-4">
+                <div className="w-12 h-px bg-slate-800" /> Capabilities
+              </h2>
+              <Skills />
+            </section>
 
-              <div className="space-y-8">
-                {timeline.map((item, index) => (
-                  <motion.div
-                    key={item.year}
-                    initial={{ opacity: 0, x: -30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    className="relative pl-20"
-                  >
-                    {/* Year marker */}
-                    <div className="absolute left-0 w-16 text-right">
-                      <span className="text-sm font-bold text-primary glow-text">
-                        {item.year}
-                      </span>
-                    </div>
+            {/* Projects Highlight */}
+            <section>
+              <div className="bg-gradient-to-br from-indigo-950/30 to-purple-950/30 border border-indigo-500/20 p-8 rounded-3xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 blur-3xl rounded-full" />
 
-                    {/* Dot */}
-                    <div className="absolute left-[30px] top-1 w-3 h-3 rounded-full bg-primary animate-glow-pulse" />
+                <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                  <Server className="text-indigo-400" /> Key Projects
+                </h3>
 
-                    {/* Content */}
-                    <div className="p-4 rounded-lg border border-border bg-card/50 hover:border-primary/50 transition-colors">
-                      <h3 className="font-semibold text-foreground">{item.title}</h3>
-                      <p className="text-sm text-primary mb-2">{item.company}</p>
-                      <p className="text-sm text-muted-foreground">{item.description}</p>
-                    </div>
-                  </motion.div>
+                <ul className="space-y-4">
+                  {[
+                    { name: 'NFL & NHL Tracking', desc: 'Ultra-low latency officiating & analytics' },
+                    { name: 'SkeleTRACK (FIFA)', desc: 'Real-time skeletal tracking at World Cup' },
+                    { name: 'AI Simulation Platform', desc: 'Predictive football models' },
+                    { name: 'Cricket Data Architecture', desc: 'End-to-end ball/player pipelines' }
+                  ].map((p, i) => (
+                    <li key={i} className="flex gap-3 items-start">
+                      <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-indigo-400 shrink-0" />
+                      <div>
+                        <div className="text-slate-200 font-medium text-sm">{p.name}</div>
+                        <div className="text-slate-500 text-xs">{p.desc}</div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </section>
+
+            {/* Certifications */}
+            <section>
+              <h2 className="text-xs font-mono uppercase tracking-[0.2em] text-slate-500 mb-8 flex items-center gap-4">
+                <div className="w-12 h-px bg-slate-800" /> Certifications
+              </h2>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  'AWS Solutions Architect Pro',
+                  'AWS DevOps Engineer Pro',
+                  'AWS Generative AI Essentials',
+                  'AWS Community Builder (2021)'
+                ].map(cert => (
+                  <Badge key={cert} variant="outline" className="border-white/10 bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white transition-colors cursor-default py-1.5">
+                    {cert}
+                  </Badge>
                 ))}
               </div>
-            </div>
-          </motion.div>
-        </section>
+            </section>
+          </div>
 
-        {/* Interests */}
-        {/* Key Projects */}
-        <section className="container mx-auto px-6 py-16">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="max-w-4xl mx-auto"
-          >
-            <h2 className="text-2xl font-bold mb-8 text-center">
-              <span className="text-primary">&gt;</span> Key Projects
-            </h2>
-            <div className="grid md:grid-cols-2 gap-4">
-              {projects.map((project, index) => (
-                <div key={index} className="p-5 rounded-lg border border-border bg-card/50 hover:bg-card/80 transition-colors flex flex-col justify-center">
-                  <h3 className="font-bold text-foreground mb-2 flex items-center gap-2">
-                    <Server size={16} className="text-primary" /> {project.name}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">{project.desc}</p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </section>
+        </div>
 
-        {/* Certifications */}
-        <section className="container mx-auto px-6 py-12">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="max-w-3xl mx-auto"
-          >
-            <h2 className="text-2xl font-bold mb-8 text-center">
-              <span className="text-primary">&gt;</span> Certifications & Recognition
-            </h2>
-            <div className="grid sm:grid-cols-2 gap-4">
-              {certifications.map((cert, index) => (
-                <div key={index} className="flex items-center gap-3 p-4 rounded-lg bg-primary/5 border border-primary/20">
-                  <Award className="text-primary shrink-0" size={20} />
-                  <span className="font-medium text-sm">{cert}</span>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </section>
-
-        {/* Passion */}
-        <section className="container mx-auto px-6 py-16">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="max-w-3xl mx-auto text-center bg-card/30 backdrop-blur-sm rounded-xl p-8 md:p-12 border border-white/10"
-          >
-            <h2 className="text-3xl font-bold mb-6 font-heading">
-              <span className="text-primary">&gt;</span> Passion
-            </h2>
-            <p className="text-xl text-muted-foreground leading-relaxed italic">
-              "I’m driven by the challenge of shaping the future of sports technology. By blending cloud, AI, and real-time data, I help build systems that don’t just record the game — they transform how it’s played, officiated, and experienced."
-            </p>
-          </motion.div>
-        </section>
       </main>
-
       <Footer />
     </div>
   );
