@@ -123,6 +123,178 @@ const BuildABot = () => {
     )
 }
 
+const EmojiAlchemist = () => {
+    const [selected, setSelected] = useState<string[]>([]);
+    const [result, setResult] = useState<string | null>(null);
+
+    const emojis = ["🔥", "💧", "🌍", "💨", "🦁", "🦅"];
+    const combinations: Record<string, string> = {
+        "🔥💧": "☁️ Steam",
+        "💧🔥": "☁️ Steam",
+        "🔥🌍": "🌋 Lava",
+        "🌍🔥": "🌋 Lava",
+        "🔥💨": "⚡ Energy",
+        "💨🔥": "⚡ Energy",
+        "💧🌍": "🌱 Plant",
+        "🌍💧": "🌱 Plant",
+        "💧💨": "🌪️ Storm",
+        "💨💧": "🌪️ Storm",
+        "🌍💨": "🌫️ Dust",
+        "💨🌍": "🌫️ Dust",
+        "🦁🦅": "🦅 Griffin",
+        "🦅🦁": "🦅 Griffin",
+    };
+
+    const handleSelect = (emoji: string) => {
+        if (selected.length < 2) {
+            const newSelected = [...selected, emoji];
+            setSelected(newSelected);
+
+            if (newSelected.length === 2) {
+                const key = newSelected.join("");
+                setTimeout(() => {
+                    setResult(combinations[key] || "❓ Mystery Blob");
+                }, 500);
+            }
+        } else {
+            setSelected([emoji]);
+            setResult(null);
+        }
+    };
+
+    return (
+        <div className="bg-slate-900/50 p-8 rounded-3xl border-4 border-dashed border-purple-500/30 text-center">
+            <h3 className="text-2xl font-bold text-purple-300 mb-6">🔮 The Alchemist's Lab</h3>
+
+            <div className="min-h-[100px] flex items-center justify-center gap-4 mb-8 bg-black/20 rounded-2xl p-4">
+                {selected.map((e, i) => (
+                    <motion.div
+                        initial={{ scale: 0 }} animate={{ scale: 1 }}
+                        key={i} className="text-6xl"
+                    >{e}</motion.div>
+                ))}
+                {selected.length === 2 && <span className="text-4xl text-white">=</span>}
+                {result && (
+                    <motion.div
+                        initial={{ scale: 0, rotate: -180 }}
+                        animate={{ scale: 1.5, rotate: 0 }}
+                        className="text-6xl font-black bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
+                    >
+                        {result}
+                    </motion.div>
+                )}
+            </div>
+
+            <div className="grid grid-cols-3 gap-4">
+                {emojis.map((e) => (
+                    <button
+                        key={e}
+                        onClick={() => handleSelect(e)}
+                        className="text-4xl p-4 bg-white/5 hover:bg-white/20 rounded-xl transition-all hover:scale-110 active:scale-95"
+                    >
+                        {e}
+                    </button>
+                ))}
+            </div>
+            <p className="mt-4 text-sm text-slate-400">Click 2 emojis to mix!</p>
+        </div>
+    );
+};
+
+const TrainTheDragon = () => {
+    const [score, setScore] = useState(0);
+    const [learned, setLearned] = useState(false);
+    const [currentItem, setCurrentItem] = useState(0);
+    const [feedback, setFeedback] = useState<string | null>(null);
+
+    const items = [
+        { emoji: "🥦", type: "yuck" },
+        { emoji: "🍪", type: "yum" },
+        { emoji: "🥕", type: "yuck" },
+        { emoji: "🍰", type: "yum" },
+        { emoji: "🍋", type: "yuck" },
+        { emoji: "🍩", type: "yum" },
+    ];
+
+    const current = items[currentItem];
+
+    const handleGuess = (guess: "yuck" | "yum") => {
+        if (guess === current.type) {
+            setScore(s => s + 1);
+            setFeedback("✅ Correct!");
+            if (currentItem >= 4) {
+                setLearned(true);
+            }
+        } else {
+            setFeedback("❌ Dragon is confused!");
+        }
+
+        setTimeout(() => {
+            setFeedback(null);
+            if (currentItem < items.length - 1) {
+                setCurrentItem(c => c + 1);
+            } else {
+                // Keep showing the learned state
+            }
+        }, 1000);
+    };
+
+    const reset = () => {
+        setScore(0);
+        setLearned(false);
+        setCurrentItem(0);
+        setFeedback(null);
+    }
+
+    return (
+        <div className="bg-slate-900/50 p-8 rounded-3xl border-4 border-dashed border-red-500/30 text-center relative overflow-hidden">
+            {learned && (
+                <div className="absolute inset-0 bg-black/80 flex flex-col items-center justify-center z-10 p-6">
+                    <h3 className="text-4xl font-black text-yellow-400 mb-4 animate-bounce">🎓 Dragon Graduated!</h3>
+                    <p className="text-white text-lg mb-6">Found <strong>{score}</strong> correct items. The Dragon now knows that sweets are Yum!</p>
+                    <Button onClick={reset} className="bg-green-500 hover:bg-green-600 text-black font-bold text-lg px-8 py-4 rounded-full">
+                        Play Again
+                    </Button>
+                </div>
+            )}
+
+            <h3 className="text-2xl font-bold text-red-300 mb-6">🐉 Feeding Time</h3>
+
+            <div className="mb-8">
+                <motion.div
+                    key={currentItem}
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    className="text-9xl mb-4"
+                >
+                    {current.emoji}
+                </motion.div>
+                {feedback && <div className="text-xl font-bold text-white mb-2">{feedback}</div>}
+                <div className="flex justify-center gap-2">
+                    {[...Array(items.length)].map((_, i) => (
+                        <div key={i} className={`h-2 w-2 rounded-full ${i <= currentItem ? 'bg-red-500' : 'bg-slate-700'}`} />
+                    ))}
+                </div>
+            </div>
+
+            <div className="flex gap-4 justify-center">
+                <Button
+                    onClick={() => handleGuess('yuck')}
+                    className="bg-green-600 hover:bg-green-700 text-white text-xl px-8 py-6 rounded-2xl"
+                >
+                    🤢 Yuck
+                </Button>
+                <Button
+                    onClick={() => handleGuess('yum')}
+                    className="bg-pink-600 hover:bg-pink-700 text-white text-xl px-8 py-6 rounded-2xl"
+                >
+                    😋 Yum
+                </Button>
+            </div>
+        </div>
+    );
+};
+
 // --- Main Page ---
 
 export default function YoungMinds() {
@@ -169,36 +341,75 @@ export default function YoungMinds() {
                     <BrainBox />
                 </section>
 
-                {/* Section 3: Interactive */}
+                {/* Section 3: Interactive Arcade */}
                 <section>
                     <div className="flex items-center gap-4 mb-12">
                         <div className="p-4 bg-emerald-500 rounded-2xl rotate-6 shadow-lg">
                             <Palette className="text-white w-8 h-8" />
                         </div>
-                        <h2 className="text-4xl md:text-5xl font-black text-white">Play Zone</h2>
+                        <h2 className="text-4xl md:text-5xl font-black text-white">The Arcade</h2>
                     </div>
-                    <div className="grid md:grid-cols-2 gap-12 items-center">
-                        <div>
-                            <h3 className="text-3xl font-bold text-white mb-6">Create Your Buddy</h3>
-                            <p className="text-xl text-slate-400 mb-6">
-                                Robots come in all shapes and sizes. Use the workshop to design your very own AI companion!
-                            </p>
-                            <ul className="space-y-4">
-                                <li className="flex items-center gap-4 text-slate-300 bg-white/5 p-4 rounded-xl">
-                                    <span className="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">1</span>
-                                    Pick a Head (Alien? Cow?)
-                                </li>
-                                <li className="flex items-center gap-4 text-slate-300 bg-white/5 p-4 rounded-xl">
-                                    <span className="bg-purple-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">2</span>
-                                    Choose an Outfit
-                                </li>
-                                <li className="flex items-center gap-4 text-slate-300 bg-white/5 p-4 rounded-xl">
-                                    <span className="bg-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">3</span>
-                                    Paint it!
-                                </li>
-                            </ul>
+
+                    <div className="space-y-24">
+                        {/* Game 1: Build A Bot */}
+                        <div className="grid md:grid-cols-2 gap-12 items-center">
+                            <div>
+                                <h3 className="text-3xl font-bold text-white mb-6">1. Create Your Buddy</h3>
+                                <p className="text-xl text-slate-400 mb-6">
+                                    Robots come in all shapes and sizes. Use the workshop to design your very own AI companion!
+                                </p>
+                                <ul className="space-y-4">
+                                    <li className="flex items-center gap-4 text-slate-300 bg-white/5 p-4 rounded-xl">
+                                        <span className="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">1</span>
+                                        Pick a Head (Alien? Cow?)
+                                    </li>
+                                    <li className="flex items-center gap-4 text-slate-300 bg-white/5 p-4 rounded-xl">
+                                        <span className="bg-purple-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">2</span>
+                                        Choose an Outfit
+                                    </li>
+                                    <li className="flex items-center gap-4 text-slate-300 bg-white/5 p-4 rounded-xl">
+                                        <span className="bg-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">3</span>
+                                        Paint it!
+                                    </li>
+                                </ul>
+                            </div>
+                            <BuildABot />
                         </div>
-                        <BuildABot />
+
+                        {/* Game 2: Emoji Alchemist */}
+                        <div className="grid md:grid-cols-2 gap-12 items-center">
+                            <div className="order-2 md:order-1">
+                                <EmojiAlchemist />
+                            </div>
+                            <div className="order-1 md:order-2">
+                                <h3 className="text-3xl font-bold text-white mb-6">2. Emoji Alchemist</h3>
+                                <div className="inline-block bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full text-sm font-bold mb-4">
+                                    Topic: Generative AI
+                                </div>
+                                <p className="text-xl text-slate-400 mb-6">
+                                    How does AI make new things? It takes concepts it knows and mixes them together!
+                                    <br /><br />
+                                    Pick two emojis to act as your "Prompt", and watch the AI generate something new.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Game 3: Train The Dragon */}
+                        <div className="grid md:grid-cols-2 gap-12 items-center">
+                            <div>
+                                <h3 className="text-3xl font-bold text-white mb-6">3. Train Your Dragon</h3>
+                                <div className="inline-block bg-red-500/20 text-red-300 px-3 py-1 rounded-full text-sm font-bold mb-4">
+                                    Topic: Machine Learning
+                                </div>
+                                <p className="text-xl text-slate-400 mb-6">
+                                    This baby dragon doesn't know what food is safe!
+                                    <br /><br />
+                                    <strong>You are the Trainer.</strong> Click "Yum" for food and "Yuck" for non-food.
+                                    After a few tries, the dragon will learn the pattern!
+                                </p>
+                            </div>
+                            <TrainTheDragon />
+                        </div>
                     </div>
                 </section>
 
