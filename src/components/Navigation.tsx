@@ -19,6 +19,7 @@ import {
 import { UserMenu } from "@/components/UserMenu";
 import { cn } from "@/lib/utils";
 import { BuyCoffeeButton } from './BuyCoffeeButton';
+import logo from '@/assets/logo.png';
 
 const ListItem = ({ className, title, children, href, icon: Icon, ...props }: any) => {
   return (
@@ -75,15 +76,12 @@ export function Navigation() {
           <div className="flex items-center justify-between gap-4">
 
             {/* Logo */}
-            <Link to="/" className="group flex items-center gap-3 shrink-0">
+            <Link to="/" className="group flex items-center gap-3 shrink-0" aria-label="WhatsGoingOnAI Home">
               <img
-                src="/logo.png"
+                src={logo}
                 alt="WhatsGoingOnAI Logo"
-                className="w-10 h-10 md:w-12 md:h-12 object-contain filter drop-shadow-[0_0_8px_rgba(59,130,246,0.5)] group-hover:drop-shadow-[0_0_12px_rgba(59,130,246,0.8)] transition-all duration-300"
+                className="w-12 h-12 md:w-14 md:h-14 object-contain filter drop-shadow-[0_0_8px_rgba(59,130,246,0.5)] group-hover:drop-shadow-[0_0_12px_rgba(59,130,246,0.8)] transition-all duration-300"
               />
-              <span className="hidden min-[380px]:block text-foreground font-black text-xl tracking-tight group-hover:text-primary transition-colors bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-white">
-                WhatsGoingOn<span className="text-primary">AI</span>
-              </span>
             </Link>
 
             {/* Desktop Navigation */}
