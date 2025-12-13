@@ -4,9 +4,9 @@ import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { DEEPMIND_CONTENT, DeepMindItem } from '@/data/deepMindData';
 import { Badge } from '@/components/ui/badge';
-import { MouseEvent, ReactNode, useRef } from 'react';
+import { MouseEvent, ReactNode } from 'react';
 import { useMotionTemplate, useMotionValue } from 'framer-motion';
-import { ArrowRight, ExternalLink, Sparkles, Brain, FlaskConical, Wrench, Code } from 'lucide-react';
+import { ArrowRight, ExternalLink, Sparkles, Brain, FlaskConical, Wrench, Code, Star } from 'lucide-react';
 
 // --- Components ---
 
@@ -22,110 +22,124 @@ function SpotlightCard({ children, className = "" }: { children: ReactNode; clas
 
     return (
         <div
-            className={`group relative border border - white / 10 bg - black / 40 overflow - hidden rounded - xl ${className} `}
+            className={`group relative border border-white/10 bg-black/40 overflow-hidden rounded-xl h-full flex flex-col ${className}`}
             onMouseMove={handleMouseMove}
         >
             <motion.div
                 className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-100"
                 style={{
                     background: useMotionTemplate`
-radial - gradient(
-    650px circle at ${mouseX}px ${mouseY}px,
-    rgba(66, 133, 244, 0.1),
-    transparent 80 %
+            radial-gradient(
+              650px circle at ${mouseX}px ${mouseY}px,
+              rgba(66, 133, 244, 0.1),
+              transparent 80%
             )
-    `,
+          `,
                 }}
             />
-            <div className="relative h-full">{children}</div>
+            <div className="relative h-full flex flex-col flex-grow">{children}</div>
         </div>
     );
 }
 
 const SectionHeader = ({ title, subtitle, icon: Icon }: { title: string; subtitle: string, icon?: any }) => (
-    <div className="mb-16 text-center md:text-left">
-        <div className="flex items-center justify-center md:justify-start gap-4 mb-4">
-            {Icon && <div className="p-3 rounded-2xl bg-primary/10 text-primary"><Icon size={32} /></div>}
-            <h2 className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60">
+    <div className="mb-12">
+        <div className="flex items-center gap-3 mb-4">
+            {Icon && <div className="p-2 rounded-lg bg-white/5 text-blue-400"><Icon size={24} /></div>}
+            <h2 className="text-3xl md:text-4xl font-bold text-white">
                 {title}
             </h2>
         </div>
-        <p className="text-muted-foreground text-xl max-w-2xl mx-auto md:mx-0">
+        <p className="text-muted-foreground text-lg max-w-2xl">
             {subtitle}
         </p>
     </div>
 );
 
-// New Feature Block for "Visual Document" feel
-const FeatureBlock = ({ item, index }: { item: DeepMindItem; index: number }) => {
-    const isEven = index % 2 === 0;
-
+// Large Featured Card (Bento Style)
+const FeaturedCard = ({ item }: { item: DeepMindItem }) => {
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, delay: index * 0.1 }}
-            className={`flex flex - col md: flex - row gap - 8 md: gap - 16 items - center py - 12 md: py - 24 border - b border - white / 5 last: border - 0 ${isEven ? '' : 'md:flex-row-reverse'} `}
-        >
-            {/* Visual Side */}
-            <div className="w-full md:w-1/2">
-                <div className="relative aspect-video md:aspect-square rounded-3xl overflow-hidden border border-white/10 bg-gradient-to-br from-gray-900 to-black group">
-                    <div className="absolute inset-0 bg-[url('https://transparenttextures.com/patterns/cubes.png')] opacity-20" />
+        <SpotlightCard className="col-span-1 md:col-span-2 lg:col-span-2 row-span-2 !bg-gradient-to-br from-blue-950/30 to-black border-blue-500/20">
+            <div className="p-8 md:p-12 flex flex-col h-full bg-[url('https://transparenttextures.com/patterns/cubes.png')] bg-blend-overlay">
+                <div className="flex justify-between items-start mb-8">
+                    <span className="text-6xl md:text-8xl drop-shadow-[0_0_30px_rgba(66,133,244,0.3)] filter text-white">
+                        {item.icon}
+                    </span>
+                    {item.year && (
+                        <Badge variant="outline" className="text-blue-200 border-blue-500/30 bg-blue-500/10 px-3 py-1">
+                            {item.year}
+                        </Badge>
+                    )}
+                </div>
 
-                    {/* Abstract Visual Representation based on Icon/Title */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="text-[120px] md:text-[180px] drop-shadow-[0_0_60px_rgba(255,255,255,0.1)] group-hover:scale-110 transition-transform duration-700 ease-in-out">
-                            {item.icon}
-                        </span>
-                    </div>
+                <div className="mt-auto">
+                    <h3 className="text-3xl md:text-5xl font-black text-white mb-4 leading-tight">
+                        {item.title}
+                    </h3>
+                    <p className="text-lg md:text-xl text-blue-100/80 leading-relaxed mb-8 max-w-xl">
+                        {item.fullDescription || item.description}
+                    </p>
 
-                    <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
-                        <div className="flex gap-2 flex-wrap">
+                    <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6">
+                        <div className="flex gap-2">
                             {item.tags.map(tag => (
-                                <Badge key={tag} variant="secondary" className="bg-white/10 hover:bg-white/20 text-white/80 backdrop-blur-md border-0">
+                                <Badge key={tag} className="bg-white/10 hover:bg-white/20 text-white/90 border-0">
                                     {tag}
                                 </Badge>
                             ))}
                         </div>
+                        {item.link && (
+                            <a
+                                href={item.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 text-white font-bold hover:text-blue-300 transition-colors"
+                            >
+                                Learn more <ArrowRight size={16} />
+                            </a>
+                        )}
                     </div>
                 </div>
             </div>
+        </SpotlightCard>
+    );
+};
 
-            {/* Content Side */}
-            <div className="w-full md:w-1/2 space-y-6">
-                <div className="flex items-center gap-4">
+// Compact Grid Card
+const CompactCard = ({ item }: { item: DeepMindItem }) => {
+    return (
+        <SpotlightCard className="hover:border-white/20 transition-colors">
+            <div className="p-6 h-full flex flex-col">
+                <div className="flex justify-between items-start mb-4">
+                    <span className="text-4xl">{item.icon}</span>
                     {item.year && (
-                        <span className="px-3 py-1 rounded-full border border-primary/30 text-primary text-xs font-mono tracking-widest bg-primary/5">
+                        <span className="text-xs font-mono text-muted-foreground border border-white/10 px-2 py-0.5 rounded-full">
                             {item.year}
                         </span>
                     )}
-                    <div className="h-px bg-white/10 flex-grow" />
                 </div>
 
-                <h3 className="text-4xl md:text-5xl font-black text-white leading-tight">
-                    {item.title}
-                </h3>
-
-                <p className="text-xl text-muted-foreground leading-relaxed">
-                    {item.fullDescription || item.description}
+                <h3 className="text-xl font-bold mb-2 text-white">{item.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-grow">
+                    {item.description}
                 </p>
 
-                <div className="pt-4">
+                <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between">
+                    <div className="flex gap-1 flex-wrap">
+                        {item.tags.slice(0, 2).map(tag => (
+                            <span key={tag} className="text-[10px] text-white/40 uppercase tracking-wider">
+                                #{tag}
+                            </span>
+                        ))}
+                    </div>
                     {item.link && (
-                        <a
-                            href={item.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 text-white font-bold bg-white/10 hover:bg-white/20 px-6 py-3 rounded-full transition-all group"
-                        >
-                            Explore {item.title}
-                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        <a href={item.link} target="_blank" className="text-white/60 hover:text-white transition-colors">
+                            <ExternalLink size={14} />
                         </a>
                     )}
                 </div>
             </div>
-        </motion.div>
+        </SpotlightCard>
     );
 };
 
@@ -135,6 +149,15 @@ export default function DeepMind() {
     const breakthroughs = DEEPMIND_CONTENT.filter(i => i.category === 'breakthrough');
     const tools = DEEPMIND_CONTENT.filter(i => i.category === 'tool');
     const algorithms = DEEPMIND_CONTENT.filter(i => i.category === 'algorithm');
+
+    // Define "Featured" items manually or by ID
+    const featuredModelIds = ['gemini', 'alphago'];
+    const featuredModels = models.filter(m => featuredModelIds.includes(m.id));
+    const standardModels = models.filter(m => !featuredModelIds.includes(m.id));
+
+    const featuredBreakthroughIds = ['alphafold'];
+    const featuredBreakthroughs = breakthroughs.filter(b => featuredBreakthroughIds.includes(b.id));
+    const standardBreakthroughs = breakthroughs.filter(b => !featuredBreakthroughIds.includes(b.id));
 
     // Timeline items
     const timelineItems = DEEPMIND_CONTENT
@@ -199,86 +222,89 @@ export default function DeepMind() {
             </section>
 
             {/* Main Content Areas */}
-            <div className="container mx-auto px-6 py-32 space-y-40">
+            <div className="container mx-auto px-6 py-24 space-y-32">
 
-                {/* Major Models (Visual Document Style) */}
+                {/* Major Models */}
                 <section id="models">
                     <SectionHeader
                         icon={Brain}
                         title="Major Models & Systems"
                         subtitle="From mastering Go to generating video, these systems represent the cutting edge of AI capabilities."
                     />
-                    <div className="md:px-8">
-                        {models.map((item, idx) => (
-                            <FeatureBlock key={item.id} item={item} index={idx} />
+                    {/* Featured Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-6">
+                        {featuredModels.map(item => (
+                            <FeaturedCard key={item.id} item={item} />
+                        ))}
+                    </div>
+                    {/* Standard Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {standardModels.map(item => (
+                            <CompactCard key={item.id} item={item} />
                         ))}
                     </div>
                 </section>
 
-                {/* Breakthroughs (Visual Document Style) */}
+                {/* Breakthroughs */}
                 <section id="science">
                     <SectionHeader
                         icon={FlaskConical}
                         title="Scientific Breakthroughs"
                         subtitle="Using AI to solve fundamental challenges in biology, mathematics, weather, and physics."
                     />
-                    <div className="md:px-8">
-                        {breakthroughs.map((item, idx) => (
-                            <FeatureBlock key={item.id} item={item} index={idx} />
+                    {/* Featured Grid */}
+                    <div className="grid grid-cols-1 gap-6 mb-6">
+                        {featuredBreakthroughs.map(item => (
+                            <FeaturedCard key={item.id} item={item} />
+                        ))}
+                    </div>
+                    {/* Standard Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {standardBreakthroughs.map(item => (
+                            <CompactCard key={item.id} item={item} />
                         ))}
                     </div>
                 </section>
 
-                {/* Tools (Grid Style) */}
-                <section id="tools" className="relative">
-                    <div className="absolute inset-0 bg-blue-500/5 blur-3xl rounded-full -z-10" />
-                    <SectionHeader
-                        icon={Wrench}
-                        title="Open Source & Tools"
-                        subtitle="Empowering the global research community with powerful libraries and environments."
-                    />
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {tools.map((item) => (
-                            <SpotlightCard key={item.id} className="h-full hover:border-blue-500/30 transition-colors bg-black/60">
-                                <div className="p-8 h-full flex flex-col items-start">
-                                    <div className="bg-white/5 p-3 rounded-xl mb-6">
-                                        <span className="text-3xl">{item.icon}</span>
+                {/* Tools & Algorithms (Mixed Grid) */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                    <section id="tools">
+                        <SectionHeader
+                            icon={Wrench}
+                            title="Open Source & Tools"
+                            subtitle="Empowering the global research community."
+                        />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {tools.map((item) => (
+                                <CompactCard key={item.id} item={item} />
+                            ))}
+                        </div>
+                    </section>
+
+                    <section id="algorithms">
+                        <SectionHeader
+                            icon={Code}
+                            title="Core Algorithms"
+                            subtitle="Propelling the field forward."
+                        />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {algorithms.map((item) => (
+                                <div key={item.id} className="border border-white/10 rounded-2xl p-6 bg-white/[0.02] hover:bg-white/[0.05] transition-colors flex flex-col">
+                                    <div className="text-3xl mb-4 opacity-80">{item.icon}</div>
+                                    <h3 className="font-bold text-white mb-2">{item.title}</h3>
+                                    <p className="text-xs text-muted-foreground/80 mb-4 flex-grow">{item.description}</p>
+                                    <div className="flex flex-wrap gap-1 mt-auto">
+                                        {item.tags.map(tag => (
+                                            <span key={tag} className="text-[10px] text-white/40 border border-white/10 px-2 py-0.5 rounded-full">
+                                                {tag}
+                                            </span>
+                                        ))}
                                     </div>
-                                    <h3 className="text-xl font-bold mb-3 text-white">{item.title}</h3>
-                                    <p className="text-muted-foreground text-sm leading-relaxed mb-6 flex-grow">{item.description}</p>
-                                    <a href={item.link} target="_blank" className="text-blue-400 hover:text-blue-300 text-sm font-bold flex items-center gap-1">
-                                        View Repository <ExternalLink size={12} />
-                                    </a>
                                 </div>
-                            </SpotlightCard>
-                        ))}
-                    </div>
-                </section>
-
-                {/* Algorithms (Grid Style) */}
-                <section id="algorithms">
-                    <SectionHeader
-                        icon={Code}
-                        title="Core Algorithms"
-                        subtitle="The fundamental mechanisms and theories that drive intelligent agents."
-                    />
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {algorithms.map((item) => (
-                            <div key={item.id} className="border border-white/10 rounded-2xl p-6 bg-white/[0.02] hover:bg-white/[0.05] transition-colors">
-                                <div className="text-4xl mb-4 opacity-80">{item.icon}</div>
-                                <h3 className="font-bold text-white mb-2">{item.title}</h3>
-                                <p className="text-xs text-muted-foreground/80 mb-4">{item.description}</p>
-                                <div className="flex flex-wrap gap-1">
-                                    {item.tags.map(tag => (
-                                        <span key={tag} className="text-[10px] text-white/40 border border-white/10 px-2 py-0.5 rounded-full">
-                                            {tag}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </section>
+                            ))}
+                        </div>
+                    </section>
+                </div>
 
             </div>
 
