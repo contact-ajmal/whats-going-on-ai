@@ -80,7 +80,7 @@ export function Navigation() {
               <img
                 src={logo}
                 alt="WhatsGoingOnAI Logo"
-                className="w-12 h-12 md:w-14 md:h-14 object-contain filter drop-shadow-[0_0_8px_rgba(59,130,246,0.5)] group-hover:drop-shadow-[0_0_12px_rgba(59,130,246,0.8)] transition-all duration-300"
+                className="w-14 h-14 md:w-16 md:h-16 object-contain filter drop-shadow-[0_0_8px_rgba(59,130,246,0.5)] group-hover:drop-shadow-[0_0_12px_rgba(59,130,246,0.8)] transition-all duration-300"
               />
             </Link>
 
