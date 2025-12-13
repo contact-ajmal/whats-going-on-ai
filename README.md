@@ -62,4 +62,4 @@ This project includes a fully automated CI/CD workflow via GitHub Actions:
 
 ---
 
-*Built with ♥ and Neural Networks by Ajmal.*
+*Built with ♥ by Ajmal Baba*
