@@ -138,8 +138,55 @@ export default function LoRADeepDive() {
                     <MatrixViz />
                 </Section>
 
-                {/* Section 2: Why it matters */}
-                <Section title="2. The Ecosystem Revolution">
+                {/* Section 2: Why it works (Math) */}
+                <Section title="2. Why does this even work? (Rank Deficiency)">
+                    <div className="space-y-6 text-lg text-slate-400">
+                        <p>
+                            It turns out that when a model learns a new task, it doesn't actually need to change <em>all</em> of its parameters.
+                            The changes required are what mathematicians call <strong>"Low Rank"</strong>.
+                        </p>
+                        <div className="bg-slate-900 border border-white/10 p-6 rounded-xl">
+                            <h4 className="font-bold text-slate-200 mb-2">The Intuition</h4>
+                            <p className="text-sm">
+                                Think of it like learning to drive a new car. You don't need to re-learn what "steering" or "braking" <em>is</em> (The Frozen Weights).
+                                You just need to learn the slight adjustment for how sensitive <em>this specific pedal</em> is (The Low-Rank Adapter).
+                            </p>
+                        </div>
+                    </div>
+                </Section>
+
+                {/* Section 3: QLoRA */}
+                <Section title="3. Going Deeper: QLoRA">
+                    <div className="flex flex-col md:flex-row gap-8 items-center">
+                        <div className="flex-1">
+                            <h3 className="text-2xl font-bold text-white mb-4">QLoRA = Quantized LoRA</h3>
+                            <p className="text-slate-400 mb-4">
+                                If LoRA wasn't efficient enough, QLoRA takes it a step further.
+                                It loads the giant Base Model in <strong>4-bit precision</strong> (crunching numbers down to tiny integers), and then attaches the LoRA adapter.
+                            </p>
+                            <Badge className="bg-green-500/20 text-green-400 py-1 px-3">
+                                Result: Run a 65B Model on a single GPU
+                            </Badge>
+                        </div>
+                        <div className="flex-1 bg-slate-900 p-6 rounded-xl border border-white/10 w-full">
+                            <div className="flex justify-between items-center mb-4 border-b border-white/10 pb-4">
+                                <span className="text-slate-500">Standard Fine-tuning</span>
+                                <span className="font-mono text-red-400">16-bit Float</span>
+                            </div>
+                            <div className="flex justify-between items-center mb-2">
+                                <span className="text-slate-500">QLoRA Base</span>
+                                <span className="font-mono text-green-400">4-bit NormalFloat</span>
+                            </div>
+                            <div className="flex justify-between items-center">
+                                <span className="text-slate-500">QLoRA Adapter</span>
+                                <span className="font-mono text-blue-400">16-bit Float</span>
+                            </div>
+                        </div>
+                    </div>
+                </Section>
+
+                {/* Section 4: Ecosystem */}
+                <Section title="4. The Ecosystem Revolution">
                     <p className="mb-6 text-lg text-slate-400">
                         Before LoRA, only Big Tech could fine-tune models. LoRA democratized AI, allowing anyone with a gaming GPU to create custom models.
                     </p>
@@ -155,6 +202,18 @@ export default function LoRADeepDive() {
                             <h4 className="text-xl font-bold text-blue-400 mb-2">Local LLMs</h4>
                             <p className="text-slate-400 text-sm">
                                 Developers create "Adapter" LoRAs to teach Llama 3 to speak French, code in Rust, or roleplay as characters, without redistributing the base model.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="mt-8 bg-amber-900/10 border border-amber-500/30 p-4 rounded-xl flex items-start gap-4">
+                        <div className="p-2 bg-amber-500/20 rounded-lg">
+                            <Download className="w-6 h-6 text-amber-500" />
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-amber-200 text-sm">A Note on Catastrophic Forgetting</h4>
+                            <p className="text-xs text-amber-100/70 mt-1">
+                                One major benefit of LoRA is that it helps prevent "Catastrophic Forgetting". Since the original brain (weights) stays frozen, the model doesn't lose its basic knowledge while learning the new task. You can even mix-and-match multiple LoRAs at once!
                             </p>
                         </div>
                     </div>

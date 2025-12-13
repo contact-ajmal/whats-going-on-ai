@@ -182,25 +182,30 @@ export default function DiffusionDeepDive() {
                 {/* Section 1: The Process */}
                 <Section title="1. From Noise to Art">
                     <p className="mb-6 text-lg text-slate-400">
-                        Diffusion is technically "Denoising Diffusion Probabilistic Models".
-                        That's a mouthful for <strong>"Reverse Engineering Static"</strong>.
+                        Diffusion models (like DALL-E, Stable Diffusion) are based on non-equilibrium thermodynamics.
+                        Essentially, they learn to reverse the natural flow of entropy.
+                        <br /><br />
+                        Imagine a drop of ink falling into a glass of water. It slowly diffuses until the water is uniformly blue.
+                        <strong className="text-purple-400"> Reverse Diffusion</strong> is the impossible magic of watching that blue water gather back into a single drop of ink.
                     </p>
                     <DiffusionViz />
                 </Section>
 
                 {/* Section 2: How It Works */}
-                <Section title="2. The Magic Trick">
+                <Section title="2. The Magic Trick (Denoising)">
                     <div className="grid md:grid-cols-2 gap-12 items-center">
                         <div>
                             <p className="text-lg text-slate-400 mb-6">
-                                Imagine I show you a photo of a clear sky, and I add a little bit of fog.
-                                You can still see the sky. I add more fog. And more. Until it's just grey soup.
+                                We train the model by playing a game.
+                                <br />
+                                <span className="text-white font-bold">Step 1:</span> Take a photo of a cat.
+                                <br />
+                                <span className="text-white font-bold">Step 2:</span> Add a tiny bit of Gaussian noise (grain).
+                                <br />
+                                <span className="text-white font-bold">Step 3:</span> Ask the AI: "Exactly what noise did I just add?"
                             </p>
                             <p className="text-lg text-slate-400">
-                                <strong>Forward Diffusion</strong> (Training) is easy: We ruin millions of images by adding noise.
-                            </p>
-                            <p className="text-lg text-slate-400 mt-6">
-                                <strong>Reverse Diffusion</strong> (Generation) is the magic: We teach a Neural Network to <em>guess</em> what the image looked like <em>one step before</em>.
+                                If the AI guesses correctly, we subtract that noise. If we do this 50 times in a row, starting from <strong>Pure Randomness</strong>, we eventually hallucinate a cat shaped out of the static.
                             </p>
                         </div>
                         <div className="space-y-4">
@@ -208,24 +213,69 @@ export default function DiffusionDeepDive() {
                                 <span className="font-bold text-slate-300">Clean Image</span>
                                 <ArrowRight className="text-slate-600" />
                                 <span className="font-bold text-slate-500">Noise</span>
-                                <Badge className="bg-green-500/20 text-green-400">Easy math</Badge>
+                                <Badge className="bg-green-500/20 text-green-400">Easy (Math)</Badge>
                             </div>
                             <div className="p-4 bg-slate-900 border border-purple-500/30 rounded-lg flex items-center justify-between shadow-[0_0_15px_rgba(168,85,247,0.1)]">
                                 <span className="font-bold text-slate-500">Noise</span>
                                 <ArrowRight className="text-purple-400" />
                                 <span className="font-bold text-purple-300">Clean Image</span>
-                                <Badge className="bg-purple-500/20 text-purple-400">AI Needed</Badge>
+                                <Badge className="bg-purple-500/20 text-purple-400">Hard (AI)</Badge>
                             </div>
                         </div>
                     </div>
                 </Section>
 
                 {/* Section 3: The Architecture */}
-                <Section title="3. The Engine (U-Net)">
+                <Section title="3. The Engine: U-Net & Latents">
                     <p className="mb-6 text-lg text-slate-400">
-                        The actual brain doing the work is usually a <strong>U-Net</strong>. It compresses the image down to understand the "concept" (like "It's a cat"), then blows it back up to fix the pixels.
+                        Stable Diffusion was a breakthrough because it introduced <strong>Latent Diffusion</strong>.
+                        Instead of trying to generate 1080p pixels directly (which is slow and expensive), it compresses the image into a tiny "Latent Space" (e.g., 64x64 blocks).
+                    </p>
+                    <p className="mb-8 text-lg text-slate-400">
+                        It does the noisy diffusion work in this compressed space, and then uses a <strong>VAE Decoder</strong> to blow it back up to full resolution at the very end.
+                        This is why it can run on your home PC instead of a supercomputer.
                     </p>
                     <UNetViz />
+                </Section>
+
+                {/* Section 4: Conditioning */}
+                <Section title="4. Conditioning (Text-to-Image)">
+                    <div className="bg-slate-900 p-8 rounded-2xl border border-white/10">
+                        <h3 className="text-2xl font-bold text-slate-200 mb-4">How does it know what to draw?</h3>
+                        <p className="text-lg text-slate-400 mb-6">
+                            When you type "A cyberpunk cat", the model doesn't just guess.
+                            A separate AI called <strong>CLIP</strong> (Contrastive Language-Image Pre-training) translates your text into vectors.
+                        </p>
+
+                        <div className="grid md:grid-cols-3 gap-4 text-center">
+                            <div className="p-4 border border-white/10 rounded-lg bg-black/40">
+                                <div className="font-mono text-purple-400 text-sm mb-2">Prompt</div>
+                                <div className="font-bold text-white">"Cyberpunk Cat"</div>
+                            </div>
+                            <div className="flex items-center justify-center text-slate-500">
+                                <ArrowRight />
+                                <span className="mx-2 text-xs">Cross Attention</span>
+                                <ArrowRight />
+                            </div>
+                            <div className="p-4 border border-purple-500/30 rounded-lg bg-purple-900/20">
+                                <div className="font-mono text-purple-400 text-sm mb-2">U-Net</div>
+                                <div className="text-xs text-slate-300">
+                                    "Okay, while removing noise, I will bias the pixels towards 'Cat' and 'Neon' shapes."
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="mt-8 p-4 bg-slate-800 rounded-lg">
+                            <h4 className="font-bold text-white mb-2">Classifier-Free Guidance (CFG Scale)</h4>
+                            <p className="text-sm text-slate-400">
+                                This is the "Creativity vs Fidelity" slider.
+                                <br />
+                                <strong className="text-white">Low CFG (1-5):</strong> The AI ignores your prompt a bit and dreams freely. Creative but chaotic.
+                                <br />
+                                <strong className="text-white">High CFG (7-15):</strong> The AI force-fits your prompt. "I MUST DRAW A CAT." Can cause burning/artifacts if too high.
+                            </p>
+                        </div>
+                    </div>
                 </Section>
 
             </main>

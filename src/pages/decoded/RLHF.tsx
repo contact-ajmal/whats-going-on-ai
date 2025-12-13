@@ -188,18 +188,23 @@ export default function RLHFDeepDive() {
                 </Section>
 
                 {/* Section 2: Reward Modeling */}
-                <Section title="2. Teaching Preferences">
+                <Section title="2. The Human Element: Reward Modeling">
                     <p className="mb-6 text-lg text-slate-400">
                         It's too expensive to have humans grade every single answer the AI generates forever.
                         So, we train a <strong>Reward Model</strong> to mimic the human judge.
+                    </p>
+                    <p className="mb-6 text-lg text-slate-400">
+                        This is also known as "The Alignment Problem". If we align the AI to be "helpful", will it help a user build a bomb?
+                        We need to balance <strong>Helpful, Honest, and Harmless (HHH)</strong>.
                     </p>
                     <HumanFeedbackSim />
                 </Section>
 
                 {/* Section 3: The Math */}
-                <Section title="3. The Math (PPO)">
+                <Section title="3. Policy Optimization (PPO)">
                     <p className="mb-6 text-lg text-slate-400">
                         Once we have a Reward Model, we use Reinforcement Learning to update the main AI (The Policy).
+                        This is where the magic happens. The model plays millions of games against the Reward Model, constantly tweaking its neurons to get a higher score.
                     </p>
 
                     <div className="bg-slate-900 border border-white/10 rounded-xl p-6">

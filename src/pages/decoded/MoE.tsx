@@ -157,8 +157,8 @@ export default function MoEDeepDive() {
                 </Section>
 
                 {/* Section 2: Architecture Details */}
-                <Section title="2. Dense vs Sparse">
-                    <div className="grid md:grid-cols-2 gap-8">
+                <Section title="2. Dense vs Sparse: The Efficiency Hack">
+                    <div className="grid md:grid-cols-2 gap-8 mb-12">
                         <div className="bg-slate-900 border border-white/10 p-6 rounded-xl">
                             <h4 className="flex items-center gap-2 font-bold mb-4 text-slate-300">
                                 <div className="w-3 h-3 bg-slate-500 rounded-full" /> Dense Model (Standard)
@@ -183,9 +183,49 @@ export default function MoEDeepDive() {
                             <p className="text-sm text-slate-500">Only pertinent neurons fire. <span className="text-orange-400">4x faster</span> inference for same quality.</p>
                         </div>
                     </div>
+
+                    <div className="space-y-6">
+                        <h3 className="text-xl font-bold text-slate-300">The "Top-K" Routing Strategy</h3>
+                        <p className="text-lg text-slate-400">
+                            It works like this: For every token, the Router calculates a probability score for all experts.
+                            <br />
+                            It then blindly picks the <strong>Top-K</strong> (usually Top-2) experts with the highest score.
+                        </p>
+                        <div className="bg-black/40 p-4 rounded border border-white/5 font-mono text-sm text-green-400">
+                            experts_to_use = top_k(softmax(input * router_weights), k=2)
+                        </div>
+                    </div>
                 </Section>
 
-                <Section title="3. Real World Examples">
+                {/* Section 3: The Challenges */}
+                <Section title="3. The Catch: Load Balancing & VRAM">
+                    <p className="mb-6 text-lg text-slate-400">
+                        If MoE is so great, why isn't everyone using it? Two reasons: <strong>VRAM</strong> and <strong>Running a Business</strong>.
+                    </p>
+
+                    <div className="grid md:grid-cols-2 gap-8">
+                        <div className="bg-slate-900 border border-red-500/20 p-6 rounded-xl">
+                            <h4 className="font-bold text-red-400 mb-2">Challenge 1: Load Balancing</h4>
+                            <p className="text-sm text-slate-400 mb-4">
+                                What if the router sends 90% of the work to the "Grammar Expert" and the other 7 experts sit idle?
+                                One expert becomes a bottleneck.
+                            </p>
+                            <div className="bg-black/50 p-3 rounded text-xs font-mono text-red-300">
+                                Solution: Aux Loss. We mathematically punish the router during training if it plays favorites.
+                            </div>
+                        </div>
+
+                        <div className="bg-slate-900 border border-blue-500/20 p-6 rounded-xl">
+                            <h4 className="font-bold text-blue-400 mb-2">Challenge 2: Memory Bandwidth</h4>
+                            <p className="text-sm text-slate-400 mb-4">
+                                Even though we only <em>calculate</em> with 2 experts, we must store <em>all 8 experts</em> in VRAM.
+                                MoE models are huge. Mixtral needs ~48GB VRAM (usually 2x A100s or high-end Macs) just to run, even if it runs fast.
+                            </p>
+                        </div>
+                    </div>
+                </Section>
+
+                <Section title="4. Real World Examples">
                     <p className="mb-4 text-lg text-slate-400">MoE models have taken over the open-source leaderboard.</p>
                     <div className="space-y-4">
                         <div className="flex items-center gap-4 p-4 bg-slate-900/50 border border-white/5 rounded-lg hover:bg-slate-900 transition-colors">
