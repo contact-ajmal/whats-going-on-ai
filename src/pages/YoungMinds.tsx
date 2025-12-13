@@ -289,9 +289,9 @@ const DarwinGame = ({ onComplete }: { onComplete: () => void }) => {
 };
 
 const LegendMission = ({ legend, onClose }: { legend: any, onClose: () => void }) => {
-    const [complete, setComplete] = useState(false);
+    const [missionState, setMissionState] = useState<'briefing' | 'playing' | 'complete'>('briefing');
 
-    const handleComplete = () => setComplete(true);
+    const handleComplete = () => setMissionState('complete');
 
     return (
         <motion.div
@@ -299,7 +299,7 @@ const LegendMission = ({ legend, onClose }: { legend: any, onClose: () => void }
             animate={{ opacity: 1 }}
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4"
         >
-            <div className={`bg-slate-900 w-full max-w-2xl rounded-3xl border border-white/20 overflow-hidden relative ${complete ? 'ring-4 ring-yellow-400' : ''}`}>
+            <div className={`bg-slate-900 w-full max-w-2xl rounded-3xl border border-white/20 overflow-hidden relative ${missionState === 'complete' ? 'ring-4 ring-yellow-400' : ''}`}>
                 <div className={`p-6 ${legend.color} text-white flex justify-between items-center`}>
                     <h3 className="text-2xl font-bold flex items-center gap-3">
                         <span className="text-4xl">{legend.icon}</span>
@@ -309,7 +309,34 @@ const LegendMission = ({ legend, onClose }: { legend: any, onClose: () => void }
                 </div>
 
                 <div className="p-8">
-                    {!complete ? (
+                    {missionState === 'briefing' && (
+                        <div className="space-y-6">
+                            <div>
+                                <h4 className="text-indigo-400 font-bold uppercase tracking-wider text-sm mb-2">The Research 📜</h4>
+                                <p className="text-slate-300 text-lg leading-relaxed">{legend.research}</p>
+                            </div>
+
+                            <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                                <h4 className="text-yellow-400 font-bold uppercase tracking-wider text-sm mb-1">Key Concept 💡</h4>
+                                <p className="text-white text-xl font-bold mb-1">{legend.definition}</p>
+                                <p className="text-slate-400 italic">{legend.definitionText}</p>
+                            </div>
+
+                            <div>
+                                <h4 className="text-green-400 font-bold uppercase tracking-wider text-sm mb-2">How It Was Done 🛠️</h4>
+                                <p className="text-slate-300">{legend.method}</p>
+                            </div>
+
+                            <Button
+                                onClick={() => setMissionState('playing')}
+                                className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white text-xl py-6 rounded-xl shadow-lg mt-4"
+                            >
+                                Start Experiment 🧪
+                            </Button>
+                        </div>
+                    )}
+
+                    {missionState === 'playing' && (
                         <>
                             <p className="text-xl text-slate-300 mb-8 text-center">{legend.missionDesc}</p>
 
@@ -319,7 +346,9 @@ const LegendMission = ({ legend, onClose }: { legend: any, onClose: () => void }
                             {legend.id === 'curie' && <CurieGame onComplete={handleComplete} />}
                             {legend.id === 'darwin' && <DarwinGame onComplete={handleComplete} />}
                         </>
-                    ) : (
+                    )}
+
+                    {missionState === 'complete' && (
                         <div className="text-center py-8">
                             <motion.div
                                 initial={{ scale: 0 }}
@@ -360,7 +389,11 @@ const TimeTravelLab = () => {
             actionLabel: 'Increase Gravity ⬇️',
             element: '🍏',
             quote: 'What goes up must come down!',
-            buttonColor: 'bg-red-500 hover:bg-red-600'
+            buttonColor: 'bg-red-500 hover:bg-red-600',
+            research: "In 1687, Newton published the Principia. He realized the same force that pulls an apple to the ground is the invisible rope keeping the Moon in orbit.",
+            definition: "Universal Gravitation",
+            definitionText: "Every object in the universe pulls on every other object. Heavier things pull harder!",
+            method: "Mathematics (Calculus). He used math he invented to calculate the precise speed of the Moon.",
         },
         {
             id: 'ada',
@@ -373,7 +406,11 @@ const TimeTravelLab = () => {
             actionLabel: 'Insert Card 🎫',
             element: '⚙️',
             quote: 'Imagination is the discovering faculty.',
-            buttonColor: 'bg-purple-500 hover:bg-purple-600'
+            buttonColor: 'bg-purple-500 hover:bg-purple-600',
+            research: "In 1843, Ada translated notes on the 'Analytical Engine'. She added her own notes, which became three times longer than the original paper!",
+            definition: "Algorithm",
+            definitionText: "A step-by-step set of list of instructions to complete a task. Like a recipe for a computer.",
+            method: "Analytical Logic. She wrote the very first 'code' to calculate Bernoulli Numbers using punch cards.",
         },
         {
             id: 'turing',
@@ -386,7 +423,11 @@ const TimeTravelLab = () => {
             actionLabel: 'Decode Signal 📡',
             element: '📟',
             quote: 'Machines take me by surprise with great frequency.',
-            buttonColor: 'bg-slate-500 hover:bg-slate-600'
+            buttonColor: 'bg-slate-500 hover:bg-slate-600',
+            research: "During WWII, hidden messages were sent using the Enigma machine. The code changed every single day, making it impossible to read.",
+            definition: "Cryptography",
+            definitionText: "The art of writing and solving codes to keep secrets safe.",
+            method: "The Bombe Machine. Turing built a giant computer that checked thousands of codes every second to find the key.",
         },
         {
             id: 'curie',
@@ -399,7 +440,11 @@ const TimeTravelLab = () => {
             actionLabel: 'Search Lab 🔦',
             element: '✨',
             quote: 'Nothing in life is to be feared, it is only to be understood.',
-            buttonColor: 'bg-emerald-500 hover:bg-emerald-600'
+            buttonColor: 'bg-emerald-500 hover:bg-emerald-600',
+            research: "Marie noticed that pitchblende ore was more radioactive than uranium itself. She knew a new, powerful element was hiding inside.",
+            definition: "Radioactivity",
+            definitionText: "The powerful energy rays emitted by breaking atoms. It can glow in the dark!",
+            method: "Fractional Crystallization. She boiled and filtered tons of rocks to find just a few grains of Ra - Radium.",
         },
         {
             id: 'darwin',
@@ -412,7 +457,11 @@ const TimeTravelLab = () => {
             actionLabel: 'Feed Finch 🌾',
             element: '🐦',
             quote: 'It is the one that is most adaptable to change.',
-            buttonColor: 'bg-amber-500 hover:bg-amber-600'
+            buttonColor: 'bg-amber-500 hover:bg-amber-600',
+            research: "Darwin sailed on the HMS Beagle to the Galápagos Islands. He saw that finches on neighboring islands looked totally different.",
+            definition: "Natural Selection",
+            definitionText: "Animals that fit their environment best are the ones who survive and have babies.",
+            method: "Observation. He drew pictures of beak shapes and compared them to the food available (seeds vs insects).",
         }
     ];
 
