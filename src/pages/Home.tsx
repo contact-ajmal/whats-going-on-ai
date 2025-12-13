@@ -273,33 +273,27 @@ export default function Home() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
+          {/* Main Header */}
           <div className="flex items-center justify-between mb-10">
             <h2 className="text-3xl font-bold border-l-4 border-primary pl-4">
-              Featured Analysis
+              Featured Content 🌟
             </h2>
-            <Link to="/blog" className="text-primary hover:text-accent flex items-center gap-2 text-sm font-medium">
-              Read All <ArrowRight size={16} />
-            </Link>
+          </div>
+
+          {/* Subheader: Analysis */}
+          <div className="mb-6 flex items-center gap-2">
+            <Newspaper className="w-5 h-5 text-muted-foreground" />
+            <span className="text-sm font-medium text-muted-foreground uppercase tracking-widest">Latest Analysis</span>
           </div>
           <FeaturedBlogs />
-        </motion.div>
-      </section>
 
-      {/* FRESH OFF THE PRESS */}
-      <section className="py-16 px-6 container mx-auto border-t border-white/5 bg-gradient-to-b from-background to-white/5">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="mb-10 flex items-center gap-3">
-            <div className="p-2 bg-orange-500/10 rounded-lg">
-              <Zap className="text-orange-500 w-6 h-6" />
-            </div>
-            <h2 className="text-3xl font-bold">Fresh off the Press</h2>
+          {/* Subheader: Explore */}
+          <div className="mt-16 mb-6 flex items-center gap-2">
+            <Zap className="w-5 h-5 text-muted-foreground" />
+            <span className="text-sm font-medium text-muted-foreground uppercase tracking-widest">Explore Ecosystem</span>
           </div>
 
+          {/* ECOSYSTEM GRID */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
             {/* 1. AI DECODED */}
@@ -328,8 +322,8 @@ export default function Home() {
               </div>
             </Link>
 
-            {/* 3. RESEARCH */}
-            <Link to="/research" className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/5 hover:border-blue-500/50 transition-all duration-300">
+            {/* 3. RESEARCH (External) */}
+            <a href={FALLBACK_PAPERS[0].url} target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/5 hover:border-blue-500/50 transition-all duration-300">
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="p-6">
                 <div className="flex justify-between items-start mb-4">
@@ -337,12 +331,14 @@ export default function Home() {
                   <BookOpen className="w-6 h-6 text-blue-400" />
                 </div>
                 <h3 className="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">{FALLBACK_PAPERS[0].title}</h3>
-                <p className="text-sm text-muted-foreground line-clamp-2">{FALLBACK_PAPERS[0].abstract}</p>
+                <div className="flex items-center gap-2 mt-2 text-xs text-blue-400/80">
+                  <span>Read Paper</span> <ArrowRight size={12} />
+                </div>
               </div>
-            </Link>
+            </a>
 
-            {/* 4. TOOLS */}
-            <Link to="/tools" className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/5 hover:border-emerald-500/50 transition-all duration-300">
+            {/* 4. TOOLS (External) */}
+            <a href={toolsData.find(t => t.isNew)?.url || toolsData[0].url} target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/5 hover:border-emerald-500/50 transition-all duration-300">
               <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="p-6">
                 <div className="flex justify-between items-start mb-4">
@@ -350,12 +346,14 @@ export default function Home() {
                   <Wrench className="w-6 h-6 text-emerald-400" />
                 </div>
                 <h3 className="text-xl font-bold mb-2 group-hover:text-emerald-400 transition-colors">{toolsData.find(t => t.isNew)?.name || toolsData[0].name}</h3>
-                <p className="text-sm text-muted-foreground line-clamp-2">{toolsData.find(t => t.isNew)?.description || toolsData[0].description}</p>
+                <div className="flex items-center gap-2 mt-2 text-xs text-emerald-400/80">
+                  <span>Try It Out</span> <ArrowRight size={12} />
+                </div>
               </div>
-            </Link>
+            </a>
 
-            {/* 5. LEARNING */}
-            <Link to="/learning" className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/5 hover:border-pink-500/50 transition-all duration-300">
+            {/* 5. LEARNING (External) */}
+            <a href={FALLBACK_LEARNING[0].url} target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/5 hover:border-pink-500/50 transition-all duration-300">
               <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="p-6">
                 <div className="flex justify-between items-start mb-4">
@@ -363,12 +361,14 @@ export default function Home() {
                   <GraduationCap className="w-6 h-6 text-pink-400" />
                 </div>
                 <h3 className="text-xl font-bold mb-2 group-hover:text-pink-400 transition-colors">{FALLBACK_LEARNING[0].title}</h3>
-                <p className="text-sm text-muted-foreground line-clamp-2">Master AI with this top-rated course.</p>
+                <div className="flex items-center gap-2 mt-2 text-xs text-pink-400/80">
+                  <span>Start Learning</span> <ArrowRight size={12} />
+                </div>
               </div>
-            </Link>
+            </a>
 
-            {/* 6. VIDEOS */}
-            <Link to="/videos" className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/5 hover:border-red-500/50 transition-all duration-300">
+            {/* 6. VIDEOS (External Channel) */}
+            <a href="https://www.youtube.com/@ColdFusion" target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/5 hover:border-red-500/50 transition-all duration-300">
               <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="p-6">
                 <div className="flex justify-between items-start mb-4">
@@ -376,9 +376,11 @@ export default function Home() {
                   <Video className="w-6 h-6 text-red-500" />
                 </div>
                 <h3 className="text-xl font-bold mb-2 group-hover:text-red-500 transition-colors">Latest from ColdFusion</h3>
-                <p className="text-sm text-muted-foreground line-clamp-2">Watch the newest deep dive into technology and AI.</p>
+                <div className="flex items-center gap-2 mt-2 text-xs text-red-500/80">
+                  <span>Watch Now</span> <ArrowRight size={12} />
+                </div>
               </div>
-            </Link>
+            </a>
 
           </div>
         </motion.div>
