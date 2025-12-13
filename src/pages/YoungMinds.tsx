@@ -123,6 +123,60 @@ const BuildABot = () => {
     )
 }
 
+const ExternalGameCard = ({ title, icon, desc, url, color, isEmbed, onClick }: { title: string, icon: string, desc: string, url: string, color: string, isEmbed: boolean, onClick: (url: string, title: string, isEmbed: boolean) => void }) => (
+    <div
+        onClick={() => onClick(url, title, isEmbed)}
+        className={`group cursor-pointer bg-slate-900/50 hover:bg-slate-800/80 p-8 rounded-3xl border-4 border-white/10 ${color} transition-all`}
+    >
+        <div className="flex items-center gap-4 mb-4">
+            <span className="text-4xl">{icon}</span>
+            <h3 className="text-2xl font-bold text-white transition-colors">{title}</h3>
+            {isEmbed && <Badge className="bg-green-500/20 text-green-300 border-none ml-auto">Play Here</Badge>}
+            {!isEmbed && <Badge className="bg-blue-500/20 text-blue-300 border-none ml-auto">External</Badge>}
+        </div>
+        <p className="text-slate-400 text-lg mb-6">
+            {desc}
+        </p>
+        <div className="font-bold text-white/50 group-hover:text-white flex items-center gap-2">
+            {isEmbed ? '🎮 Play Now' : '🔗 Visit Site'} <Rocket className="w-4 h-4" />
+        </div>
+    </div>
+);
+
+const GameModal = ({ url, title, onClose }: { url: string, title: string, onClose: () => void }) => (
+    <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+    >
+        <motion.div
+            initial={{ scale: 0.9, y: 20 }}
+            animate={{ scale: 1, y: 0 }}
+            className="bg-slate-900 w-full max-w-6xl h-[80vh] rounded-3xl border border-white/10 flex flex-col overflow-hidden relative"
+        >
+            <div className="p-4 border-b border-white/10 flex items-center justify-between bg-slate-950">
+                <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                    🎮 Playing: <span className="text-purple-400">{title}</span>
+                </h3>
+                <Button onClick={onClose} variant="ghost" size="icon" className="text-slate-400 hover:text-white">
+                    <span className="sr-only">Close</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                </Button>
+            </div>
+            <div className="flex-1 bg-white">
+                <iframe
+                    src={url}
+                    className="w-full h-full border-none"
+                    title={title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                />
+            </div>
+        </motion.div>
+    </motion.div>
+);
+
 const EmojiAlchemist = () => {
     const [selected, setSelected] = useState<string[]>([]);
     const [result, setResult] = useState<string | null>(null);
@@ -298,9 +352,27 @@ const TrainTheDragon = () => {
 // --- Main Page ---
 
 export default function YoungMinds() {
+    const [activeGame, setActiveGame] = useState<{ url: string, title: string } | null>(null);
+
+    const handleGameCardClick = (url: string, title: string, isEmbed: boolean) => {
+        if (isEmbed) {
+            setActiveGame({ url, title });
+        } else {
+            window.open(url, '_blank');
+        }
+    };
+
     return (
         <div className="min-h-screen bg-[#0f0a1e] font-sans selection:bg-pink-500 selection:text-white">
             <Navigation />
+
+            {activeGame && (
+                <GameModal
+                    url={activeGame.url}
+                    title={activeGame.title}
+                    onClose={() => setActiveGame(null)}
+                />
+            )}
 
             <Hero />
 
@@ -410,6 +482,54 @@ export default function YoungMinds() {
                             </div>
                             <TrainTheDragon />
                         </div>
+                    </div>
+                </section>
+
+                {/* Section 4: External Arcade */}
+                <section className="mt-32">
+                    <div className="flex items-center gap-4 mb-12">
+                        <div className="p-4 bg-blue-500 rounded-2xl -rotate-3 shadow-lg">
+                            <Rocket className="text-white w-8 h-8" />
+                        </div>
+                        <h2 className="text-4xl md:text-5xl font-black text-white">Explore More Adventures</h2>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-6">
+                        <ExternalGameCard
+                            title="Quick, Draw!"
+                            icon="🖌️"
+                            desc="A silly game where you draw, and a neural network tries to guess what you're seeing. Can you stump the AI?"
+                            url="https://quickdraw.withgoogle.com/"
+                            color="hover:border-blue-400 group-hover:text-blue-300"
+                            isEmbed={false}
+                            onClick={handleGameCardClick}
+                        />
+                        <ExternalGameCard
+                            title="Infinite Craft"
+                            icon="🌍"
+                            desc="Mix elements to create the universe! Fire + Water = Steam, and it goes on forever. How many things can you discover?"
+                            url="https://neal.fun/infinite-craft/"
+                            color="hover:border-green-400 group-hover:text-green-300"
+                            isEmbed={true}
+                            onClick={handleGameCardClick}
+                        />
+                        <ExternalGameCard
+                            title="Google Labs"
+                            icon="⚗️"
+                            desc="A playground of safe, creative AI experiments. From music to art, see what the smartest computers at Google are building."
+                            url="https://labs.google/"
+                            color="hover:border-yellow-400 group-hover:text-yellow-300"
+                            isEmbed={false}
+                            onClick={handleGameCardClick}
+                        />
+                        <ExternalGameCard
+                            title="AI Puzzlers"
+                            icon="🧩"
+                            desc="Challenge your brain to find hidden patterns that even AI struggles to see. Can you beat the machine?"
+                            url="https://ai-puzzlers.com/"
+                            color="hover:border-pink-400 group-hover:text-pink-300"
+                            isEmbed={true}
+                            onClick={handleGameCardClick}
+                        />
                     </div>
                 </section>
 
