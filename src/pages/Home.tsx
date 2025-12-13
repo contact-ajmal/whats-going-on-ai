@@ -280,107 +280,88 @@ export default function Home() {
             </h2>
           </div>
 
-          {/* Subheader: Analysis */}
-          <div className="mb-6 flex items-center gap-2">
-            <Newspaper className="w-5 h-5 text-muted-foreground" />
-            <span className="text-sm font-medium text-muted-foreground uppercase tracking-widest">Latest Analysis</span>
-          </div>
           <FeaturedBlogs />
 
-          {/* Subheader: Explore */}
-          <div className="mt-16 mb-6 flex items-center gap-2">
-            <Zap className="w-5 h-5 text-muted-foreground" />
-            <span className="text-sm font-medium text-muted-foreground uppercase tracking-widest">Explore Ecosystem</span>
-          </div>
-
           {/* ECOSYSTEM GRID */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
 
             {/* 1. AI DECODED */}
-            <Link to={DECODED_TOPICS[0].link} className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/5 hover:border-indigo-500/50 transition-all duration-300">
+            <Link to={DECODED_TOPICS[0].link} className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-indigo-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
               <div className={`absolute inset-0 bg-gradient-to-br ${DECODED_TOPICS[0].color} opacity-0 group-hover:opacity-10 transition-opacity`} />
-              <div className="p-6">
+              <div className="p-6 flex-grow">
                 <div className="flex justify-between items-start mb-4">
                   <Badge variant="outline" className="border-indigo-500/30 text-indigo-400">AI Decoded</Badge>
                   <span className="text-2xl">{DECODED_TOPICS[0].icon}</span>
                 </div>
                 <h3 className="text-xl font-bold mb-2 group-hover:text-indigo-400 transition-colors">{DECODED_TOPICS[0].title}</h3>
-                <p className="text-sm text-muted-foreground line-clamp-2">{DECODED_TOPICS[0].shortDescription}</p>
+                <p className="text-sm text-muted-foreground line-clamp-3">{DECODED_TOPICS[0].shortDescription}</p>
               </div>
             </Link>
 
             {/* 2. YOUNG MINDS */}
-            <Link to="/young-minds" className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/5 hover:border-yellow-500/50 transition-all duration-300">
+            <Link to="/young-minds" className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-yellow-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
               <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="p-6">
+              <div className="p-6 flex-grow">
                 <div className="flex justify-between items-start mb-4">
                   <Badge variant="outline" className="border-yellow-500/30 text-yellow-400">Young Minds</Badge>
                   <Bot className="w-6 h-6 text-yellow-400" />
                 </div>
                 <h3 className="text-xl font-bold mb-2 group-hover:text-yellow-400 transition-colors">Start the Adventure! 🚀</h3>
-                <p className="text-sm text-muted-foreground line-clamp-2">Join Newton, Ada, and Turing in the Time-Travel Lab.</p>
+                <p className="text-sm text-muted-foreground line-clamp-3">Join Newton, Ada, and Turing in the Time-Travel Lab.</p>
               </div>
             </Link>
 
-            {/* 3. RESEARCH (External) */}
-            <a href={FALLBACK_PAPERS[0].url} target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/5 hover:border-blue-500/50 transition-all duration-300">
+            {/* 3. RESEARCH */}
+            <Link to="/research" className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-blue-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="p-6">
+              <div className="p-6 flex-grow">
                 <div className="flex justify-between items-start mb-4">
                   <Badge variant="outline" className="border-blue-500/30 text-blue-400">Research</Badge>
                   <BookOpen className="w-6 h-6 text-blue-400" />
                 </div>
                 <h3 className="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">{FALLBACK_PAPERS[0].title}</h3>
-                <div className="flex items-center gap-2 mt-2 text-xs text-blue-400/80">
-                  <span>Read Paper</span> <ArrowRight size={12} />
-                </div>
+                <p className="text-sm text-muted-foreground line-clamp-3">{FALLBACK_PAPERS[0].abstract}</p>
               </div>
-            </a>
+            </Link>
 
-            {/* 4. TOOLS (External) */}
-            <a href={toolsData.find(t => t.isNew)?.url || toolsData[0].url} target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/5 hover:border-emerald-500/50 transition-all duration-300">
+            {/* 4. TOOLS */}
+            <Link to="/tools" className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-emerald-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
               <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="p-6">
+              <div className="p-6 flex-grow">
                 <div className="flex justify-between items-start mb-4">
                   <Badge variant="outline" className="border-emerald-500/30 text-emerald-400">New Tool</Badge>
                   <Wrench className="w-6 h-6 text-emerald-400" />
                 </div>
                 <h3 className="text-xl font-bold mb-2 group-hover:text-emerald-400 transition-colors">{toolsData.find(t => t.isNew)?.name || toolsData[0].name}</h3>
-                <div className="flex items-center gap-2 mt-2 text-xs text-emerald-400/80">
-                  <span>Try It Out</span> <ArrowRight size={12} />
-                </div>
+                <p className="text-sm text-muted-foreground line-clamp-3">{toolsData.find(t => t.isNew)?.description || toolsData[0].description}</p>
               </div>
-            </a>
+            </Link>
 
-            {/* 5. LEARNING (External) */}
-            <a href={FALLBACK_LEARNING[0].url} target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/5 hover:border-pink-500/50 transition-all duration-300">
+            {/* 5. LEARNING */}
+            <Link to="/learning" className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-pink-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
               <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="p-6">
+              <div className="p-6 flex-grow">
                 <div className="flex justify-between items-start mb-4">
                   <Badge variant="outline" className="border-pink-500/30 text-pink-400">Learning</Badge>
                   <GraduationCap className="w-6 h-6 text-pink-400" />
                 </div>
                 <h3 className="text-xl font-bold mb-2 group-hover:text-pink-400 transition-colors">{FALLBACK_LEARNING[0].title}</h3>
-                <div className="flex items-center gap-2 mt-2 text-xs text-pink-400/80">
-                  <span>Start Learning</span> <ArrowRight size={12} />
-                </div>
+                <p className="text-sm text-muted-foreground line-clamp-3">Master AI with this top-rated course.</p>
               </div>
-            </a>
+            </Link>
 
-            {/* 6. VIDEOS (External Channel) */}
-            <a href="https://www.youtube.com/@ColdFusion" target="_blank" rel="noopener noreferrer" className="group relative overflow-hidden rounded-xl border border-white/10 bg-white/5 hover:border-red-500/50 transition-all duration-300">
+            {/* 6. VIDEOS */}
+            <Link to="/videos" className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-red-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
               <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="p-6">
+              <div className="p-6 flex-grow">
                 <div className="flex justify-between items-start mb-4">
                   <Badge variant="outline" className="border-red-500/30 text-red-500">Video</Badge>
                   <Video className="w-6 h-6 text-red-500" />
                 </div>
                 <h3 className="text-xl font-bold mb-2 group-hover:text-red-500 transition-colors">Latest from ColdFusion</h3>
-                <div className="flex items-center gap-2 mt-2 text-xs text-red-500/80">
-                  <span>Watch Now</span> <ArrowRight size={12} />
-                </div>
+                <p className="text-sm text-muted-foreground line-clamp-3">Watch the newest deep dive into technology and AI.</p>
               </div>
-            </a>
+            </Link>
 
           </div>
         </motion.div>
