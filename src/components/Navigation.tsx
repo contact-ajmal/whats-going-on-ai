@@ -128,6 +128,9 @@ export function Navigation() {
                         <ListItem href="/tools" title="Tools Directory" icon={Wrench}>
                           Explore standard tools and MCP servers.
                         </ListItem>
+                        <ListItem href="/decoded" title="AI Decoded" icon={GraduationCap}>
+                          Demystifying complex technologies.
+                        </ListItem>
                         <ListItem href="/history" title="Timeline" icon={Clock}>
                           Interactive history of AI milestones.
                         </ListItem>
