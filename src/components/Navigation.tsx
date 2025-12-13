@@ -113,6 +113,20 @@ export function Navigation() {
                   </NavigationMenuItem>
 
                   <NavigationMenuItem>
+                    <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                      <Link to="/decoded" className="group flex items-center gap-2 font-bold">
+                        <span className="relative flex h-2 w-2 mr-1">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                        </span>
+                        <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-gradient bg-300% group-hover:from-indigo-300 group-hover:via-purple-300 group-hover:to-pink-300 transition-all duration-300">
+                          AI Decoded
+                        </span>
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+
+                  <NavigationMenuItem>
                     <NavigationMenuTrigger>Discover</NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
@@ -127,9 +141,6 @@ export function Navigation() {
                         </ListItem>
                         <ListItem href="/tools" title="Tools Directory" icon={Wrench}>
                           Explore standard tools and MCP servers.
-                        </ListItem>
-                        <ListItem href="/decoded" title="AI Decoded" icon={GraduationCap}>
-                          Demystifying complex technologies.
                         </ListItem>
                         <ListItem href="/history" title="Timeline" icon={Clock}>
                           Interactive history of AI milestones.
@@ -200,6 +211,14 @@ export function Navigation() {
             >
               <div className="flex flex-col gap-2 pt-4">
                 <Link to="/" onClick={() => setIsOpen(false)} className="px-4 py-3 rounded-lg text-sm font-medium hover:bg-muted">Home</Link>
+
+                <Link to="/decoded" onClick={() => setIsOpen(false)} className="mx-4 my-2 px-4 py-3 rounded-xl bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-pink-500/10 border border-indigo-500/20 text-sm font-bold flex items-center gap-3 group">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                  </span>
+                  <span className="bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text text-transparent">AI Decoded</span>
+                </Link>
 
                 <div className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">News</div>
                 <Link to="/updates" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><Newspaper className="w-4 h-4" /> AI News</Link>
