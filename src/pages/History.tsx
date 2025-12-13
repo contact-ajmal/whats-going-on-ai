@@ -4,11 +4,13 @@ import { timelineData } from '@/data/timelineData';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Footer } from '@/components/Footer';
+import { Navigation } from '@/components/Navigation';
 import { Clock, HelpCircle, Brain, Sparkles, Zap, ExternalLink, Play, History as HistoryIcon } from 'lucide-react';
 
 export function History() {
     return (
         <div className="min-h-screen bg-background relative overflow-hidden flex flex-col">
+            <Navigation />
             {/* Background elements */}
             <div className="absolute top-0 left-0 w-full h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 pointer-events-none" />
 

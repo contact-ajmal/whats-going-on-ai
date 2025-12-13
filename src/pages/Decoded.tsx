@@ -5,6 +5,8 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { DECODED_TOPICS } from '@/data/aiDecoded';
 import { NeuralBackground } from '@/components/NeuralBackground';
+import { Navigation } from '@/components/Navigation';
+import { Footer } from '@/components/Footer';
 
 // Animation variants
 const container = {
@@ -25,6 +27,7 @@ const item = {
 const Decoded = () => {
     return (
         <div className="min-h-screen bg-background relative overflow-hidden">
+            <Navigation />
             <NeuralBackground />
 
             <div className="container mx-auto px-4 pt-24 pb-12 relative z-10">
@@ -160,6 +163,7 @@ const Decoded = () => {
                     ))}
                 </motion.div>
             </div>
+            <Footer />
         </div>
     );
 };
