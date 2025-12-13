@@ -509,7 +509,7 @@ export default function YoungMinds() {
                             desc="Mix elements to create the universe! Fire + Water = Steam, and it goes on forever. How many things can you discover?"
                             url="https://neal.fun/infinite-craft/"
                             color="hover:border-green-400 group-hover:text-green-300"
-                            isEmbed={true}
+                            isEmbed={false}
                             onClick={handleGameCardClick}
                         />
                         <ExternalGameCard
@@ -527,7 +527,7 @@ export default function YoungMinds() {
                             desc="Challenge your brain to find hidden patterns that even AI struggles to see. Can you beat the machine?"
                             url="https://ai-puzzlers.com/"
                             color="hover:border-pink-400 group-hover:text-pink-300"
-                            isEmbed={true}
+                            isEmbed={false}
                             onClick={handleGameCardClick}
                         />
                     </div>
