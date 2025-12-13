@@ -1,7 +1,8 @@
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { Menu, X, Search, Newspaper, Video, Globe, Briefcase, Wrench, Clock, BookOpen, Info, GraduationCap, Brain } from 'lucide-react';
+import { BroadcastModal } from '@/components/BroadcastModal';
+import { Menu, X, Search, Newspaper, Video, Globe, Briefcase, Wrench, Clock, BookOpen, Info, GraduationCap, Brain, Radio } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { SearchDialog } from '@/components/SearchDialog';
 import { Button } from '@/components/ui/button';
@@ -50,6 +51,7 @@ export function Navigation() {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [broadcastOpen, setBroadcastOpen] = useState(false);
 
   const navItems = [
     { to: '/news', label: 'News', icon: Newspaper },
@@ -188,6 +190,18 @@ export function Navigation() {
             <div className="hidden md:flex items-center gap-2 shrink-0">
               <VisitorHUD />
               <LibraryDrawer />
+
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setBroadcastOpen(true)}
+                className="w-9 h-9 relative group"
+                title="Broadcast Signal"
+              >
+                <div className="absolute inset-0 bg-indigo-500/20 rounded-full blur-md opacity-0 group-hover:opacity-100 transition-opacity" />
+                <Radio className="h-[1.2rem] w-[1.2rem] text-muted-foreground group-hover:text-indigo-400 transition-colors" />
+              </Button>
+
               <Button
                 variant="ghost"
                 size="icon"
@@ -272,6 +286,7 @@ export function Navigation() {
             </motion.div>
           )}
         </div>
+        <BroadcastModal isOpen={broadcastOpen} onClose={() => setBroadcastOpen(false)} />
       </motion.nav>
     </>
   );
