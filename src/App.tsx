@@ -19,6 +19,8 @@ import Learning from '@/pages/Learning';
 import Profile from '@/pages/Profile';
 import Decoded from '@/pages/Decoded';
 import TransformersDeepDive from '@/pages/decoded/Transformers';
+import DiffusionDeepDive from '@/pages/decoded/Diffusion';
+import EmbeddingsDeepDive from '@/pages/decoded/Embeddings';
 
 const queryClient = new QueryClient();
 
@@ -43,6 +45,8 @@ const App = () => (
           <Route path="/learning" element={<Learning />} />
           <Route path="/decoded" element={<Decoded />} />
           <Route path="/decoded/transformers" element={<TransformersDeepDive />} />
+          <Route path="/decoded/diffusion" element={<DiffusionDeepDive />} />
+          <Route path="/decoded/embeddings" element={<EmbeddingsDeepDive />} />
           <Route path="/profile" element={<Profile />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

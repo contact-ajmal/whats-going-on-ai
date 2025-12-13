@@ -33,7 +33,7 @@ export const DECODED_TOPICS: DecodedTopic[] = [
         difficulty: 'Beginner',
         readTime: '4 min',
         tags: ['Generative Art', 'Computer Vision'],
-        link: 'https://poloclub.github.io/diffusion-explainer/',
+        link: '/decoded/diffusion',
         color: 'from-purple-500 to-pink-500'
     },
     {
@@ -69,7 +69,7 @@ export const DECODED_TOPICS: DecodedTopic[] = [
         difficulty: 'Beginner',
         readTime: '5 min',
         tags: ['Fundamentals', 'Math', 'Search'],
-        link: 'https://vickiboykis.com/what_are_embeddings/',
+        link: '/decoded/embeddings',
         color: 'from-yellow-400 to-orange-400'
     },
     {
