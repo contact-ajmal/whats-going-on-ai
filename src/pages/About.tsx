@@ -36,17 +36,46 @@ export default function About() {
             </motion.div>
 
             <h1 className="text-6xl md:text-9xl font-black tracking-tighter text-white mb-8">
-              I am <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Ajmal</span>.
+              Hello, I am <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">AJMAL</span>.
+              <span className="block text-3xl md:text-5xl text-slate-400 mt-4 font-bold">Data & AI Architect.</span>
             </h1>
 
-            <p className="text-xl md:text-3xl font-light text-slate-300 leading-relaxed max-w-3xl mx-auto mb-12">
-              I build digital nervous systems. My work bridges the gap between <span className="text-white font-medium">abstract AI research</span> and <span className="text-white font-medium">tangible human impact</span>.
-            </p>
-
-            <div className="flex justify-center gap-6">
+            <div className="flex justify-center gap-6 mb-20">
               <SocialLink href="https://www.hawkeyeinnovations.com/" icon={Globe} label="Work" />
               <SocialLink href="https://www.linkedin.com/in/ajmalnazirbaba/" icon={Linkedin} label="Connect" />
               <SocialLink href="mailto:ajmalbhatti71@gmail.com" icon={Mail} label="Contact" />
+            </div>
+
+            {/* Why I Built This - Moved Up */}
+            <div className="text-left max-w-5xl mx-auto">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-2 rounded-full bg-indigo-500/10 border border-indigo-500/20">
+                  <Compass className="w-6 h-6 text-indigo-400" />
+                </div>
+                <h2 className="text-3xl font-bold text-white">Why I Built This</h2>
+              </div>
+
+              <p className="text-xl text-slate-400 leading-relaxed mb-12">
+                <strong>WhatsGoingOnAI</strong> is my attempt to map the chaos. It is a curated signal in a noisy world.
+              </p>
+
+              <div className="grid md:grid-cols-3 gap-6">
+                <FeatureCard
+                  icon={Lightbulb}
+                  title="Clarity"
+                  desc="Start here. No jargon. No hype. Just clear, decoded explanations of complex Transformers and Diffusion models."
+                />
+                <FeatureCard
+                  icon={Network}
+                  title="Connection"
+                  desc="A hub to connect research papers, tools, and news. See how Agential Workflows connect to LLMs."
+                />
+                <FeatureCard
+                  icon={Compass}
+                  title="Direction"
+                  desc="Don't just watch the future happen. Understand where it's going. Navigate the shift with confidence."
+                />
+              </div>
             </div>
           </motion.div>
         </section>
@@ -90,45 +119,7 @@ export default function About() {
         </section>
 
 
-        {/* Section 3: The Mission (Why This Site?) */}
-        <section className="min-h-screen flex items-center justify-center p-6 relative">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="max-w-5xl mx-auto text-center"
-          >
-            <div className="inline-block mb-6 p-4 rounded-full bg-indigo-500/10 border border-indigo-500/20">
-              <Compass className="w-10 h-10 text-indigo-400" />
-            </div>
 
-            <h2 className="text-4xl md:text-6xl font-bold text-white mb-8">Why I Built This</h2>
-
-            <p className="text-xl text-slate-400 max-w-3xl mx-auto mb-16 leading-relaxed">
-              <strong>WhatsGoingOnAI</strong> is my attempt to map the chaos. It is a curated signal in a noisy world.
-            </p>
-
-            <div className="grid md:grid-cols-3 gap-6 text-left">
-              <FeatureCard
-                icon={Lightbulb}
-                title="Clarity"
-                desc="Start here. No jargon. No hype. Just clear, decoded explanations of complex Transformers and Diffusion models."
-              />
-              <FeatureCard
-                icon={Network}
-                title="Connection"
-                desc="A hub to connect research papers, tools, and news. See how Agential Workflows connect to LLMs."
-              />
-              <FeatureCard
-                icon={Compass}
-                title="Direction"
-                desc="Don't just watch the future happen. Understand where it's going. Navigate the shift with confidence."
-              />
-            </div>
-
-          </motion.div>
-        </section>
 
       </main>
 
