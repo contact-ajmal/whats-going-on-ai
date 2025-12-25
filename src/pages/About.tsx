@@ -5,6 +5,8 @@ import { Footer } from '@/components/Footer';
 import { Globe, Linkedin, Mail, Brain, Zap, Compass, Cpu, Network, Lightbulb } from 'lucide-react';
 import { Magnetic } from '@/components/ui/magnetic';
 import { Spotlight } from '@/components/ui/spotlight';
+import { TextReveal } from '@/components/ui/text-reveal';
+import { BorderBeam } from '@/components/ui/border-beam';
 
 export default function About() {
   return (
@@ -37,7 +39,7 @@ export default function About() {
             </motion.div>
 
             <h1 className="text-6xl md:text-9xl font-black tracking-tighter text-white mb-8">
-              Hello, I am <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">AJMAL</span>.
+              Hello, I am <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400"><TextReveal text="AJMAL" /></span>.
               <span className="block text-3xl md:text-5xl text-slate-400 mt-4 font-bold">Data & AI Architect.</span>
             </h1>
 
@@ -159,6 +161,7 @@ function FeatureCard({ icon: Icon, title, desc }: { icon: any, title: string, de
           {desc}
         </p>
       </div>
+      <BorderBeam size={250} duration={12} delay={9} borderWidth={1.5} />
     </Spotlight>
   )
 }
