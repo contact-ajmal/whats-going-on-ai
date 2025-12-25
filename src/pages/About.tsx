@@ -4,6 +4,8 @@ import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { Globe, Linkedin, Mail, Brain, Zap, Compass, Cpu, Network, Lightbulb } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { Magnetic } from '@/components/ui/magnetic';
+import { Spotlight } from '@/components/ui/spotlight';
 
 export default function About() {
   return (
@@ -119,8 +121,6 @@ export default function About() {
         </section>
 
 
-
-
       </main>
 
       <Footer />
@@ -130,30 +130,34 @@ export default function About() {
 
 function SocialLink({ href, icon: Icon, label }: { href: string, icon: any, label: string }) {
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noreferrer"
-      className="group flex flex-col items-center gap-3"
-    >
-      <div className="p-4 rounded-full bg-white/5 border border-white/10 text-slate-400 group-hover:text-white group-hover:bg-indigo-500/20 group-hover:border-indigo-500/50 transition-all duration-300">
-        <Icon size={24} />
-      </div>
-      <span className="text-xs font-mono uppercase tracking-widest text-slate-500 group-hover:text-indigo-300 transition-colors">
-        {label}
-      </span>
-    </a>
+    <Magnetic strength={0.3}>
+      <a
+        href={href}
+        target="_blank"
+        rel="noreferrer"
+        className="group flex flex-col items-center gap-3"
+      >
+        <div className="p-5 rounded-full bg-white/5 border border-white/10 text-slate-400 group-hover:text-white group-hover:bg-indigo-500/20 group-hover:border-indigo-500/50 transition-all duration-300">
+          <Icon size={24} />
+        </div>
+        <span className="text-xs font-mono uppercase tracking-widest text-slate-500 group-hover:text-indigo-300 transition-colors">
+          {label}
+        </span>
+      </a>
+    </Magnetic>
   )
 }
 
 function FeatureCard({ icon: Icon, title, desc }: { icon: any, title: string, desc: string }) {
   return (
-    <div className="p-8 rounded-3xl bg-white/5 border border-white/5 hover:border-indigo-500/30 hover:bg-white/10 transition-all duration-300 group">
-      <Icon className="w-10 h-10 text-indigo-400 mb-6 group-hover:scale-110 transition-transform" />
-      <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
-      <p className="text-slate-400 leading-relaxed text-sm">
-        {desc}
-      </p>
-    </div>
+    <Spotlight className="p-8">
+      <div className="relative z-10">
+        <Icon className="w-10 h-10 text-indigo-400 mb-6 group-hover:scale-110 transition-transform" />
+        <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
+        <p className="text-slate-400 leading-relaxed text-sm">
+          {desc}
+        </p>
+      </div>
+    </Spotlight>
   )
 }
