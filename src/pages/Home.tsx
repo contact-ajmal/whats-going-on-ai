@@ -16,6 +16,7 @@ import { ReactNode, MouseEvent, useState, useEffect, useMemo } from 'react';
 import { loadBlogPosts, formatDate } from '@/lib/config';
 import { BlogPostMeta } from '@/types/config';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
+import { Spotlight } from '@/components/ui/spotlight';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -92,39 +93,6 @@ const Ticker = () => {
     </div>
   );
 };
-
-// Spotlight Card Effect
-function SpotlightCard({ children, className = "" }: { children: ReactNode; className?: string }) {
-  let mouseX = useMotionValue(0);
-  let mouseY = useMotionValue(0);
-
-  function handleMouseMove({ currentTarget, clientX, clientY }: MouseEvent) {
-    let { left, top } = currentTarget.getBoundingClientRect();
-    mouseX.set(clientX - left);
-    mouseY.set(clientY - top);
-  }
-
-  return (
-    <div
-      className={`group relative border border-white/10 bg-white/5 overflow-hidden rounded-xl ${className}`}
-      onMouseMove={handleMouseMove}
-    >
-      <motion.div
-        className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-100"
-        style={{
-          background: useMotionTemplate`
-            radial-gradient(
-              650px circle at ${mouseX}px ${mouseY}px,
-              rgba(14, 165, 233, 0.15),
-              transparent 80%
-            )
-          `,
-        }}
-      />
-      <div className="relative h-full">{children}</div>
-    </div>
-  );
-}
 
 // Pseudo-random number generator for daily seeding
 const getDailyIndex = (length: number, seedSuffix: string) => {
@@ -278,8 +246,8 @@ export default function Home() {
           {/* BENTO GRID (Mission Visualization) */}
           <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
 
-            <Link to="/research" className="block h-full">
-              <SpotlightCard className="h-full hover:border-blue-500/50 transition-colors">
+            <Link to="/research" className="block h-full group">
+              <Spotlight className="h-full hover:border-blue-500/50 transition-colors">
                 <div className="p-6 h-full flex flex-col items-start text-left">
                   <div className="p-3 rounded-lg bg-blue-500/10 text-blue-400 mb-4">
                     <BookOpen size={24} />
@@ -287,11 +255,11 @@ export default function Home() {
                   <h3 className="text-lg font-bold mb-2 text-foreground">Deep Research</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">Daily feed of ArXiv papers selected for impact, not hype. Filter by citation count.</p>
                 </div>
-              </SpotlightCard>
+              </Spotlight>
             </Link>
 
-            <Link to="/jobs" className="block h-full">
-              <SpotlightCard className="h-full hover:border-emerald-500/50 transition-colors">
+            <Link to="/jobs" className="block h-full group">
+              <Spotlight className="h-full hover:border-emerald-500/50 transition-colors">
                 <div className="p-6 h-full flex flex-col items-start text-left">
                   <div className="p-3 rounded-lg bg-emerald-500/10 text-emerald-400 mb-4">
                     <Briefcase size={24} />
@@ -299,11 +267,11 @@ export default function Home() {
                   <h3 className="text-lg font-bold mb-2 text-foreground">Career Signal</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">Live index of AI roles. Filter by remote status, tech stack, and salary ranges.</p>
                 </div>
-              </SpotlightCard>
+              </Spotlight>
             </Link>
 
-            <Link to="/updates" className="block h-full">
-              <SpotlightCard className="h-full hover:border-purple-500/50 transition-colors">
+            <Link to="/updates" className="block h-full group">
+              <Spotlight className="h-full hover:border-purple-500/50 transition-colors">
                 <div className="p-6 h-full flex flex-col items-start text-left">
                   <div className="p-3 rounded-lg bg-purple-500/10 text-purple-400 mb-4">
                     <Newspaper size={24} />
@@ -311,11 +279,11 @@ export default function Home() {
                   <h3 className="text-lg font-bold mb-2 text-foreground">Pulse News</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">Real-time headlines aggregated from top tech sources. No clickbait permitted.</p>
                 </div>
-              </SpotlightCard>
+              </Spotlight>
             </Link>
 
-            <Link to="/tools" className="block h-full">
-              <SpotlightCard className="h-full hover:border-orange-500/50 transition-colors">
+            <Link to="/tools" className="block h-full group">
+              <Spotlight className="h-full hover:border-orange-500/50 transition-colors">
                 <div className="p-6 h-full flex flex-col items-start text-left">
                   <div className="p-3 rounded-lg bg-orange-500/10 text-orange-400 mb-4">
                     <Wrench size={24} />
@@ -323,7 +291,7 @@ export default function Home() {
                   <h3 className="text-lg font-bold mb-2 text-foreground">Toolbox & MCP</h3>
                   <p className="text-xs text-muted-foreground leading-relaxed">Directory of agentic tools and Model Context Protocol servers for developers.</p>
                 </div>
-              </SpotlightCard>
+              </Spotlight>
             </Link>
 
           </motion.div>
@@ -366,72 +334,78 @@ export default function Home() {
               if (item.type === 'blog' && item.data) {
                 const post = item.data as BlogPostMeta;
                 return (
-                  <Card key={`blog-${index}`} className="group overflow-hidden border-white/10 bg-card/30 backdrop-blur-md hover:border-primary/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
-                    <CardHeader className="pb-2">
-                      <div className="flex items-center gap-2 mb-2 text-xs text-muted-foreground">
-                        <Calendar className="w-3 h-3" />
-                        {formatDate(post.date)}
-                      </div>
-                      <CardTitle className="text-lg group-hover:text-primary transition-colors leading-snug">
-                        <Link to={`/blog/${post.slug}`}>
-                          {post.title}
-                        </Link>
-                      </CardTitle>
-                      {post.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-2 mt-2">
-                          {post.tags.slice(0, 2).map((tag: string) => (
-                            <Badge key={tag} variant="secondary" className="text-[10px] bg-primary/10 text-primary border-primary/20">
-                              {tag}
-                            </Badge>
-                          ))}
+                  <Spotlight key={`blog-${index}`} className="flex flex-col border-white/10 bg-card/30 backdrop-blur-md hover:border-primary/50 transition-all duration-300">
+                    <Card className="bg-transparent border-none flex-grow flex flex-col shadow-none">
+                      <CardHeader className="pb-2">
+                        <div className="flex items-center gap-2 mb-2 text-xs text-muted-foreground">
+                          <Calendar className="w-3 h-3" />
+                          {formatDate(post.date)}
                         </div>
-                      )}
-                    </CardHeader>
-                    <CardContent className="pb-3 flex-grow">
-                      <p className="text-muted-foreground text-sm line-clamp-3">
-                        {post.description}
-                      </p>
-                    </CardContent>
-                    <CardFooter className="pt-3 border-t border-white/5 mt-auto">
-                      <Button variant="ghost" size="sm" className="w-full gap-2 text-primary/80 hover:text-primary group/btn" asChild>
-                        <Link to={`/blog/${post.slug}`}>
-                          Read Article <ArrowRight className="h-3 w-3 transition-transform group-hover/btn:translate-x-1" />
-                        </Link>
-                      </Button>
-                    </CardFooter>
-                  </Card>
+                        <CardTitle className="text-lg group-hover:text-primary transition-colors leading-snug">
+                          <Link to={`/blog/${post.slug}`} className="hover:underline decoration-primary">
+                            {post.title}
+                          </Link>
+                        </CardTitle>
+                        {post.tags.length > 0 && (
+                          <div className="flex flex-wrap gap-2 mt-2">
+                            {post.tags.slice(0, 2).map((tag: string) => (
+                              <Badge key={tag} variant="secondary" className="text-[10px] bg-primary/10 text-primary border-primary/20">
+                                {tag}
+                              </Badge>
+                            ))}
+                          </div>
+                        )}
+                      </CardHeader>
+                      <CardContent className="pb-3 flex-grow">
+                        <p className="text-muted-foreground text-sm line-clamp-3">
+                          {post.description}
+                        </p>
+                      </CardContent>
+                      <CardFooter className="pt-3 border-t border-white/5 mt-auto">
+                        <Button variant="ghost" size="sm" className="w-full gap-2 text-primary/80 hover:text-primary group/btn" asChild>
+                          <Link to={`/blog/${post.slug}`}>
+                            Read Article <ArrowRight className="h-3 w-3 transition-transform group-hover/btn:translate-x-1" />
+                          </Link>
+                        </Button>
+                      </CardFooter>
+                    </Card>
+                  </Spotlight>
                 );
               }
 
               if (item.type === 'decoded' && item.data) {
                 const data = item.data;
                 return (
-                  <Link key={`decoded-${index}`} to={data.link} className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-indigo-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
-                    <div className={`absolute inset-0 bg-gradient-to-br ${data.color} opacity-0 group-hover:opacity-10 transition-opacity`} />
-                    <div className="p-6 flex-grow">
-                      <div className="flex justify-between items-start mb-4">
-                        <Badge variant="outline" className="border-indigo-500/30 text-indigo-400">AI Decoded</Badge>
-                        <span className="text-2xl">{data.icon}</span>
+                  <Link key={`decoded-${index}`} to={data.link} className="block h-full group">
+                    <Spotlight className="h-full border-white/10 bg-card/30 backdrop-blur-md hover:border-indigo-500/50 transition-all duration-300">
+                      <div className={`absolute inset-0 bg-gradient-to-br ${data.color} opacity-0 group-hover:opacity-10 transition-opacity`} />
+                      <div className="p-6 flex-grow relative z-10">
+                        <div className="flex justify-between items-start mb-4">
+                          <Badge variant="outline" className="border-indigo-500/30 text-indigo-400">AI Decoded</Badge>
+                          <span className="text-2xl">{data.icon}</span>
+                        </div>
+                        <h3 className="text-xl font-bold mb-2 group-hover:text-indigo-400 transition-colors">{data.title}</h3>
+                        <p className="text-sm text-muted-foreground line-clamp-3">{data.shortDescription}</p>
                       </div>
-                      <h3 className="text-xl font-bold mb-2 group-hover:text-indigo-400 transition-colors">{data.title}</h3>
-                      <p className="text-sm text-muted-foreground line-clamp-3">{data.shortDescription}</p>
-                    </div>
+                    </Spotlight>
                   </Link>
                 );
               }
 
               if (item.type === 'young-minds') {
                 return (
-                  <Link key={`ym-${index}`} to="/young-minds" className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-yellow-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
-                    <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div className="p-6 flex-grow">
-                      <div className="flex justify-between items-start mb-4">
-                        <Badge variant="outline" className="border-yellow-500/30 text-yellow-400">Young Minds</Badge>
-                        <Bot className="w-6 h-6 text-yellow-400" />
+                  <Link key={`ym-${index}`} to="/young-minds" className="block h-full group">
+                    <Spotlight className="h-full border-white/10 bg-card/30 backdrop-blur-md hover:border-yellow-500/50 transition-all duration-300">
+                      <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <div className="p-6 flex-grow relative z-10">
+                        <div className="flex justify-between items-start mb-4">
+                          <Badge variant="outline" className="border-yellow-500/30 text-yellow-400">Young Minds</Badge>
+                          <Bot className="w-6 h-6 text-yellow-400" />
+                        </div>
+                        <h3 className="text-xl font-bold mb-2 group-hover:text-yellow-400 transition-colors">Start the Adventure! 🚀</h3>
+                        <p className="text-sm text-muted-foreground line-clamp-3">Join Newton, Ada, and Turing in the Time-Travel Lab.</p>
                       </div>
-                      <h3 className="text-xl font-bold mb-2 group-hover:text-yellow-400 transition-colors">Start the Adventure! 🚀</h3>
-                      <p className="text-sm text-muted-foreground line-clamp-3">Join Newton, Ada, and Turing in the Time-Travel Lab.</p>
-                    </div>
+                    </Spotlight>
                   </Link>
                 );
               }
@@ -439,16 +413,18 @@ export default function Home() {
               if (item.type === 'research' && item.data) {
                 const data = item.data;
                 return (
-                  <Link key={`research-${index}`} to={`/research?q=${encodeURIComponent(data.title)}`} className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-blue-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div className="p-6 flex-grow">
-                      <div className="flex justify-between items-start mb-4">
-                        <Badge variant="outline" className="border-blue-500/30 text-blue-400">Research</Badge>
-                        <BookOpen className="w-6 h-6 text-blue-400" />
+                  <Link key={`research-${index}`} to={`/research?q=${encodeURIComponent(data.title)}`} className="block h-full group">
+                    <Spotlight className="h-full border-white/10 bg-card/30 backdrop-blur-md hover:border-blue-500/50 transition-all duration-300">
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <div className="p-6 flex-grow relative z-10">
+                        <div className="flex justify-between items-start mb-4">
+                          <Badge variant="outline" className="border-blue-500/30 text-blue-400">Research</Badge>
+                          <BookOpen className="w-6 h-6 text-blue-400" />
+                        </div>
+                        <h3 className="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">{data.title}</h3>
+                        <p className="text-sm text-muted-foreground line-clamp-3">{data.abstract}</p>
                       </div>
-                      <h3 className="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">{data.title}</h3>
-                      <p className="text-sm text-muted-foreground line-clamp-3">{data.abstract}</p>
-                    </div>
+                    </Spotlight>
                   </Link>
                 );
               }
@@ -456,16 +432,18 @@ export default function Home() {
               if (item.type === 'tool' && item.data) {
                 const data = item.data;
                 return (
-                  <Link key={`tool-${index}`} to={`/tools?q=${encodeURIComponent(data.name)}`} className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-emerald-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
-                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div className="p-6 flex-grow">
-                      <div className="flex justify-between items-start mb-4">
-                        <Badge variant="outline" className="border-emerald-500/30 text-emerald-400">New Tool</Badge>
-                        <Wrench className="w-6 h-6 text-emerald-400" />
+                  <Link key={`tool-${index}`} to={`/tools?q=${encodeURIComponent(data.name)}`} className="block h-full group">
+                    <Spotlight className="h-full border-white/10 bg-card/30 backdrop-blur-md hover:border-emerald-500/50 transition-all duration-300">
+                      <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <div className="p-6 flex-grow relative z-10">
+                        <div className="flex justify-between items-start mb-4">
+                          <Badge variant="outline" className="border-emerald-500/30 text-emerald-400">New Tool</Badge>
+                          <Wrench className="w-6 h-6 text-emerald-400" />
+                        </div>
+                        <h3 className="text-xl font-bold mb-2 group-hover:text-emerald-400 transition-colors">{data.name}</h3>
+                        <p className="text-sm text-muted-foreground line-clamp-3">{data.description}</p>
                       </div>
-                      <h3 className="text-xl font-bold mb-2 group-hover:text-emerald-400 transition-colors">{data.name}</h3>
-                      <p className="text-sm text-muted-foreground line-clamp-3">{data.description}</p>
-                    </div>
+                    </Spotlight>
                   </Link>
                 );
               }
@@ -473,32 +451,36 @@ export default function Home() {
               if (item.type === 'learning' && item.data) {
                 const data = item.data;
                 return (
-                  <Link key={`learning-${index}`} to={`/learning?q=${encodeURIComponent(data.title)}`} className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-pink-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
-                    <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div className="p-6 flex-grow">
-                      <div className="flex justify-between items-start mb-4">
-                        <Badge variant="outline" className="border-pink-500/30 text-pink-400">Learning</Badge>
-                        <GraduationCap className="w-6 h-6 text-pink-400" />
+                  <Link key={`learning-${index}`} to={`/learning?q=${encodeURIComponent(data.title)}`} className="block h-full group">
+                    <Spotlight className="h-full border-white/10 bg-card/30 backdrop-blur-md hover:border-pink-500/50 transition-all duration-300">
+                      <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <div className="p-6 flex-grow relative z-10">
+                        <div className="flex justify-between items-start mb-4">
+                          <Badge variant="outline" className="border-pink-500/30 text-pink-400">Learning</Badge>
+                          <GraduationCap className="w-6 h-6 text-pink-400" />
+                        </div>
+                        <h3 className="text-xl font-bold mb-2 group-hover:text-pink-400 transition-colors">{data.title}</h3>
+                        <p className="text-sm text-muted-foreground line-clamp-3">Master AI with this top-rated course.</p>
                       </div>
-                      <h3 className="text-xl font-bold mb-2 group-hover:text-pink-400 transition-colors">{data.title}</h3>
-                      <p className="text-sm text-muted-foreground line-clamp-3">Master AI with this top-rated course.</p>
-                    </div>
+                    </Spotlight>
                   </Link>
                 );
               }
 
               if (item.type === 'video') {
                 return (
-                  <Link key={`video-${index}`} to="/videos?q=ColdFusion" className="group relative overflow-hidden rounded-xl border border-white/10 bg-card/30 backdrop-blur-md hover:border-red-500/50 hover:shadow-2xl transition-all duration-300 flex flex-col">
-                    <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div className="p-6 flex-grow">
-                      <div className="flex justify-between items-start mb-4">
-                        <Badge variant="outline" className="border-red-500/30 text-red-500">Video</Badge>
-                        <Video className="w-6 h-6 text-red-500" />
+                  <Link key={`video-${index}`} to="/videos?q=ColdFusion" className="block h-full group">
+                    <Spotlight className="h-full border-white/10 bg-card/30 backdrop-blur-md hover:border-red-500/50 transition-all duration-300">
+                      <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <div className="p-6 flex-grow relative z-10">
+                        <div className="flex justify-between items-start mb-4">
+                          <Badge variant="outline" className="border-red-500/30 text-red-500">Video</Badge>
+                          <Video className="w-6 h-6 text-red-500" />
+                        </div>
+                        <h3 className="text-xl font-bold mb-2 group-hover:text-red-500 transition-colors">Latest from ColdFusion</h3>
+                        <p className="text-sm text-muted-foreground line-clamp-3">Watch the newest deep dive into technology and AI.</p>
                       </div>
-                      <h3 className="text-xl font-bold mb-2 group-hover:text-red-500 transition-colors">Latest from ColdFusion</h3>
-                      <p className="text-sm text-muted-foreground line-clamp-3">Watch the newest deep dive into technology and AI.</p>
-                    </div>
+                    </Spotlight>
                   </Link>
                 );
               }
