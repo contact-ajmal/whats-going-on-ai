@@ -3,7 +3,6 @@ import { NeuralBackground } from '@/components/NeuralBackground';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { Globe, Linkedin, Mail, Brain, Zap, Compass, Cpu, Network, Lightbulb } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import { Magnetic } from '@/components/ui/magnetic';
 import { Spotlight } from '@/components/ui/spotlight';
 
@@ -130,14 +129,16 @@ export default function About() {
 
 function SocialLink({ href, icon: Icon, label }: { href: string, icon: any, label: string }) {
   return (
-    <Magnetic strength={0.3}>
+    // MAXIMIZED STRENGTH FOR VISIBILITY
+    <Magnetic strength={1.5}>
       <a
         href={href}
         target="_blank"
         rel="noreferrer"
-        className="group flex flex-col items-center gap-3"
+        className="group flex flex-col items-center gap-3 cursor-pointer"
       >
-        <div className="p-5 rounded-full bg-white/5 border border-white/10 text-slate-400 group-hover:text-white group-hover:bg-indigo-500/20 group-hover:border-indigo-500/50 transition-all duration-300">
+        {/* Added z-index to ensure it sits above background */}
+        <div className="relative z-20 p-5 rounded-full bg-white/10 border border-white/20 text-slate-300 group-hover:text-white group-hover:bg-indigo-500/40 group-hover:border-indigo-500/50 transition-all duration-300 backdrop-blur-sm">
           <Icon size={24} />
         </div>
         <span className="text-xs font-mono uppercase tracking-widest text-slate-500 group-hover:text-indigo-300 transition-colors">
@@ -151,7 +152,7 @@ function SocialLink({ href, icon: Icon, label }: { href: string, icon: any, labe
 function FeatureCard({ icon: Icon, title, desc }: { icon: any, title: string, desc: string }) {
   return (
     <Spotlight className="p-8">
-      <div className="relative z-10">
+      <div className="relative z-20 pointer-events-none">
         <Icon className="w-10 h-10 text-indigo-400 mb-6 group-hover:scale-110 transition-transform" />
         <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
         <p className="text-slate-400 leading-relaxed text-sm">

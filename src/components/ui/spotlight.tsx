@@ -17,12 +17,12 @@ export const Spotlight = ({ children, className = "" }: { children: React.ReactN
             onMouseMove={handleMouseMove}
         >
             <motion.div
-                className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-100"
+                className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-100 z-10"
                 style={{
                     background: useMotionTemplate`
             radial-gradient(
               650px circle at ${mouseX}px ${mouseY}px,
-              rgba(99, 102, 241, 0.15),
+              rgba(99, 102, 241, 0.45),
               transparent 80%
             )
           `,
