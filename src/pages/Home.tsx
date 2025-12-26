@@ -19,6 +19,8 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/componen
 import { Spotlight } from '@/components/ui/spotlight';
 import { TextReveal } from '@/components/ui/text-reveal';
 import { BorderBeam } from '@/components/ui/border-beam';
+import { TiltCard } from '@/components/ui/tilt-card';
+import { Meteors } from '@/components/ui/meteors';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -42,7 +44,7 @@ const itemVariants = {
 
 // --- MARK: Components ---
 
-// Creative Decoder Text Component
+// Creative Decoder Text Component (Legacy - kept if needed, but using new TextReveal)
 const DecoderText = ({ text, className }: { text: string; className?: string }) => {
   const [displayText, setDisplayText] = useState('');
   const [complete, setComplete] = useState(false);
@@ -192,6 +194,9 @@ export default function Home() {
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent animate-scan" />
         </div>
 
+        {/* PHASE 3: Meteors */}
+        <Meteors number={20} />
+
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -249,55 +254,63 @@ export default function Home() {
           <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
 
             <Link to="/research" className="block h-full group">
-              <Spotlight className="h-full hover:border-blue-500/50 transition-colors">
-                <div className="p-6 h-full flex flex-col items-start text-left relative z-20">
-                  <div className="p-3 rounded-lg bg-blue-500/10 text-blue-400 mb-4">
-                    <BookOpen size={24} />
+              <TiltCard className="h-full" rotationFactor={20}>
+                <Spotlight className="h-full hover:border-blue-500/50 transition-colors">
+                  <div className="p-6 h-full flex flex-col items-start text-left relative z-20">
+                    <div className="p-3 rounded-lg bg-blue-500/10 text-blue-400 mb-4">
+                      <BookOpen size={24} />
+                    </div>
+                    <h3 className="text-lg font-bold mb-2 text-foreground">Deep Research</h3>
+                    <p className="text-xs text-muted-foreground leading-relaxed">Daily feed of ArXiv papers selected for impact, not hype. Filter by citation count.</p>
                   </div>
-                  <h3 className="text-lg font-bold mb-2 text-foreground">Deep Research</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">Daily feed of ArXiv papers selected for impact, not hype. Filter by citation count.</p>
-                </div>
-                <BorderBeam size={150} duration={10} delay={0} borderWidth={1.5} colorFrom="#3b82f6" colorTo="#6366f1" />
-              </Spotlight>
+                  <BorderBeam size={150} duration={10} delay={0} borderWidth={1.5} colorFrom="#3b82f6" colorTo="#6366f1" />
+                </Spotlight>
+              </TiltCard>
             </Link>
 
             <Link to="/jobs" className="block h-full group">
-              <Spotlight className="h-full hover:border-emerald-500/50 transition-colors">
-                <div className="p-6 h-full flex flex-col items-start text-left relative z-20">
-                  <div className="p-3 rounded-lg bg-emerald-500/10 text-emerald-400 mb-4">
-                    <Briefcase size={24} />
+              <TiltCard className="h-full" rotationFactor={20}>
+                <Spotlight className="h-full hover:border-emerald-500/50 transition-colors">
+                  <div className="p-6 h-full flex flex-col items-start text-left relative z-20">
+                    <div className="p-3 rounded-lg bg-emerald-500/10 text-emerald-400 mb-4">
+                      <Briefcase size={24} />
+                    </div>
+                    <h3 className="text-lg font-bold mb-2 text-foreground">Career Signal</h3>
+                    <p className="text-xs text-muted-foreground leading-relaxed">Live index of AI roles. Filter by remote status, tech stack, and salary ranges.</p>
                   </div>
-                  <h3 className="text-lg font-bold mb-2 text-foreground">Career Signal</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">Live index of AI roles. Filter by remote status, tech stack, and salary ranges.</p>
-                </div>
-                <BorderBeam size={150} duration={10} delay={3} borderWidth={1.5} colorFrom="#10b981" colorTo="#34d399" />
-              </Spotlight>
+                  <BorderBeam size={150} duration={10} delay={3} borderWidth={1.5} colorFrom="#10b981" colorTo="#34d399" />
+                </Spotlight>
+              </TiltCard>
             </Link>
 
             <Link to="/updates" className="block h-full group">
-              <Spotlight className="h-full hover:border-purple-500/50 transition-colors">
-                <div className="p-6 h-full flex flex-col items-start text-left relative z-20">
-                  <div className="p-3 rounded-lg bg-purple-500/10 text-purple-400 mb-4">
-                    <Newspaper size={24} />
+              <TiltCard className="h-full" rotationFactor={20}>
+                <Spotlight className="h-full hover:border-purple-500/50 transition-colors">
+                  <div className="p-6 h-full flex flex-col items-start text-left relative z-20">
+                    <div className="p-3 rounded-lg bg-purple-500/10 text-purple-400 mb-4">
+                      <Newspaper size={24} />
+                    </div>
+                    <h3 className="text-lg font-bold mb-2 text-foreground">Pulse News</h3>
+                    <p className="text-xs text-muted-foreground leading-relaxed">Real-time headlines aggregated from top tech sources. No clickbait permitted.</p>
                   </div>
-                  <h3 className="text-lg font-bold mb-2 text-foreground">Pulse News</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">Real-time headlines aggregated from top tech sources. No clickbait permitted.</p>
-                </div>
-                <BorderBeam size={150} duration={10} delay={6} borderWidth={1.5} colorFrom="#a855f7" colorTo="#d946ef" />
-              </Spotlight>
+                  <BorderBeam size={150} duration={10} delay={6} borderWidth={1.5} colorFrom="#a855f7" colorTo="#d946ef" />
+                </Spotlight>
+              </TiltCard>
             </Link>
 
             <Link to="/tools" className="block h-full group">
-              <Spotlight className="h-full hover:border-orange-500/50 transition-colors">
-                <div className="p-6 h-full flex flex-col items-start text-left relative z-20">
-                  <div className="p-3 rounded-lg bg-orange-500/10 text-orange-400 mb-4">
-                    <Wrench size={24} />
+              <TiltCard className="h-full" rotationFactor={20}>
+                <Spotlight className="h-full hover:border-orange-500/50 transition-colors">
+                  <div className="p-6 h-full flex flex-col items-start text-left relative z-20">
+                    <div className="p-3 rounded-lg bg-orange-500/10 text-orange-400 mb-4">
+                      <Wrench size={24} />
+                    </div>
+                    <h3 className="text-lg font-bold mb-2 text-foreground">Toolbox & MCP</h3>
+                    <p className="text-xs text-muted-foreground leading-relaxed">Directory of agentic tools and Model Context Protocol servers for developers.</p>
                   </div>
-                  <h3 className="text-lg font-bold mb-2 text-foreground">Toolbox & MCP</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">Directory of agentic tools and Model Context Protocol servers for developers.</p>
-                </div>
-                <BorderBeam size={150} duration={10} delay={9} borderWidth={1.5} colorFrom="#f97316" colorTo="#fbbf24" />
-              </Spotlight>
+                  <BorderBeam size={150} duration={10} delay={9} borderWidth={1.5} colorFrom="#f97316" colorTo="#fbbf24" />
+                </Spotlight>
+              </TiltCard>
             </Link>
 
           </motion.div>
