@@ -42,26 +42,20 @@ export function NewsFeed() {
                     // 2. Techmeme (via rss2json)
                     fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.techmeme.com/feed.xml').then(res => res.json()),
 
-                    // 3. Google News AI
-                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://news.google.com/rss/search?q=Artificial+Intelligence+when:7d&hl=en-US&gl=US&ceid=US:en').then(res => res.json()),
+                    // 3. Hacker News AI
+                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://hnrss.org/newest?q=AI').then(res => res.json()),
 
                     // 4. OpenAI
                     fetch('https://api.rss2json.com/v1/api.json?rss_url=https://openai.com/news/rss.xml').then(res => res.json()),
 
-                    // 5. MIT Technology Review
-                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.technologyreview.com/topic/artificial-intelligence/feed/').then(res => res.json()),
-
-                    // 6. Hacker News AI
-                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://hnrss.org/newest?q=AI').then(res => res.json()),
-
-                    // 7. Google DeepMind
+                    // 5. Google DeepMind / Research Blog
                     fetch('https://api.rss2json.com/v1/api.json?rss_url=https://blog.research.google/atom.xml').then(res => res.json()),
 
-                    // 8. The Verge AI
+                    // 6. The Verge AI
                     fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.theverge.com/rss/ai-artificial-intelligence/index.xml').then(res => res.json()),
 
-                    // 9. Google Blog (Official)
-                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://blog.google/rss').then(res => res.json())
+                    // 7. Anthropic News
+                    fetch('https://api.rss2json.com/v1/api.json?rss_url=https://www.anthropic.com/news/rss.xml').then(res => res.json())
                 ]);
 
                 const newArticles: UnifiedArticle[] = [];
@@ -103,13 +97,11 @@ export function NewsFeed() {
                 // Process others
                 // Note: Index matches the order in Promise.allSettled
                 processRSS(results[1], 'Techmeme', 'bg-blue-900/40 border-blue-500/30');
-                processRSS(results[2], 'Google News', 'bg-red-900/40 border-red-500/30');
+                processRSS(results[2], 'Hacker News', 'bg-orange-900/40 border-orange-500/30');
                 processRSS(results[3], 'OpenAI', 'bg-emerald-900/40 border-emerald-500/30');
-                processRSS(results[4], 'MIT Tech', 'bg-black border-white/20');
-                processRSS(results[5], 'Hacker News', 'bg-orange-900/40 border-orange-500/30');
-                processRSS(results[6], 'Google DeepMind', 'bg-cyan-600 border-cyan-400');
-                processRSS(results[7], 'The Verge', 'bg-violet-600 border-violet-400');
-                processRSS(results[8], 'Google Blog', 'bg-blue-500 border-blue-300');
+                processRSS(results[4], 'Google Research', 'bg-cyan-600 border-cyan-400');
+                processRSS(results[5], 'The Verge', 'bg-violet-600 border-violet-400');
+                processRSS(results[6], 'Anthropic', 'bg-amber-900/40 border-amber-500/30');
 
                 // Sort by date (descending)
                 newArticles.sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime());

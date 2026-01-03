@@ -24,12 +24,6 @@ const FEEDS: Omit<FeedStatus, 'status'>[] = [
         url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.techmeme.com/feed.xml'
     },
     {
-        id: 'news-google',
-        name: 'Google News (AI)',
-        displayUrl: 'news.google.com',
-        url: 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent('https://news.google.com/rss/search?q=Artificial+Intelligence+when:7d&hl=en-US&gl=US&ceid=US:en')
-    },
-    {
         id: 'news-hn',
         name: 'Hacker News (AI)',
         displayUrl: 'hnrss.org',
@@ -42,12 +36,6 @@ const FEEDS: Omit<FeedStatus, 'status'>[] = [
         url: 'https://api.rss2json.com/v1/api.json?rss_url=https://openai.com/news/rss.xml'
     },
     {
-        id: 'news-mit',
-        name: 'MIT Tech Review',
-        displayUrl: 'technologyreview.com',
-        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.technologyreview.com/topic/artificial-intelligence/feed/'
-    },
-    {
         id: 'news-verge',
         name: 'The Verge (AI)',
         displayUrl: 'theverge.com',
@@ -55,23 +43,35 @@ const FEEDS: Omit<FeedStatus, 'status'>[] = [
     },
     {
         id: 'news-deepmind',
-        name: 'Google DeepMind',
+        name: 'Google Research Blog',
         displayUrl: 'blog.research.google',
         url: 'https://api.rss2json.com/v1/api.json?rss_url=https://blog.research.google/atom.xml'
     },
     {
-        id: 'news-google-blog',
-        name: 'Google Blog',
-        displayUrl: 'blog.google',
-        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://blog.google/rss'
+        id: 'news-anthropic',
+        name: 'Anthropic News',
+        displayUrl: 'anthropic.com',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.anthropic.com/news/rss.xml'
     },
 
     // --- RESEARCH ---
     {
-        id: 'research-arxiv',
+        id: 'research-arxiv-ai',
         name: 'ArXiv (CS.AI)',
-        displayUrl: 'arxiv.org',
-        url: 'https://api.rss2json.com/v1/api.json?rss_url=http://export.arxiv.org/rss/cs.AI'
+        displayUrl: 'arxiv.org/cs.AI',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=http://arxiv.org/rss/cs.AI'
+    },
+    {
+        id: 'research-arxiv-ml',
+        name: 'ArXiv (CS.LG)',
+        displayUrl: 'arxiv.org/cs.LG',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=http://arxiv.org/rss/cs.LG'
+    },
+    {
+        id: 'research-pwc',
+        name: 'Papers With Code',
+        displayUrl: 'paperswithcode.com',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://paperswithcode.com/latest.rss'
     },
 
     // --- JOBS ---
@@ -79,7 +79,7 @@ const FEEDS: Omit<FeedStatus, 'status'>[] = [
         id: 'jobs-remoteok',
         name: 'RemoteOK',
         displayUrl: 'remoteok.com',
-        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://remoteok.com/rss'
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://remoteok.com/remote-ai-jobs.rss'
     },
 
     // --- VIDEOS (YouTube) ---
@@ -93,25 +93,13 @@ const FEEDS: Omit<FeedStatus, 'status'>[] = [
         id: 'video-aigrid',
         name: 'YouTube: The AI Grid',
         displayUrl: 'youtube.com/@TheAIGrid',
-        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCXy2m-1m4jC-2uFvA5s3bBA'
-    },
-    {
-        id: 'video-microsoft',
-        name: 'YouTube: Microsoft Mechanics',
-        displayUrl: 'youtube.com/MicrosoftMechanics',
-        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCGCz0fBqj2N_Jg7o-T-b99Q'
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCVy2-bXW_RVo7X8tIV6Nh1A'
     },
     {
         id: 'video-twominutepapers',
         name: 'YouTube: Two Minute Papers',
         displayUrl: 'youtube.com/TwoMinutePapers',
         url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCbfYPyITQ-7l4upoX8nvctg'
-    },
-    {
-        id: 'video-mattwolfe',
-        name: 'YouTube: Matt Wolfe',
-        displayUrl: 'youtube.com/@mreflow',
-        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCnAtMWn98fQ07kYy6_9v-w'
     },
     {
         id: 'video-aiexplained',
@@ -126,22 +114,10 @@ const FEEDS: Omit<FeedStatus, 'status'>[] = [
         url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCP7jMXSY2xbc3KCAE0MHQ-A'
     },
     {
-        id: 'video-bycloud',
-        name: 'YouTube: ByCloud',
-        displayUrl: 'youtube.com/@ByCloud',
-        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UC3X8J1_5Y7M47_7Q573573'
-    },
-    {
-        id: 'video-nvidia',
-        name: 'YouTube: NVIDIA',
-        displayUrl: 'youtube.com/NVIDIA',
-        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCOoKqA10yd_1FZ4B5F4qLg'
-    },
-    {
-        id: 'video-ibm',
-        name: 'YouTube: IBM Technology',
-        displayUrl: 'youtube.com/IBMTechnology',
-        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UC7c8mE90Kk42C2X4C7k1Pgg'
+        id: 'video-fireship',
+        name: 'YouTube: Fireship',
+        displayUrl: 'youtube.com/@Fireship',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=UCsBjURrPoezykLs9EqgamOA'
     },
 
     // --- API ---
