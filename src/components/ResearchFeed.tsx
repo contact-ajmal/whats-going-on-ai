@@ -101,13 +101,36 @@ export function ResearchFeed() {
                     return [];
                 };
 
+                // Fetch Hugging Face directly via their JSON API
+                const fetchHuggingFace = async (): Promise<ResearchPaper[]> => {
+                    try {
+                        const res = await fetch('https://huggingface.co/api/daily_papers');
+                        const data = await res.json();
+                        if (Array.isArray(data)) {
+                            return data.slice(0, 20).map((item: any) => ({
+                                id: item.paper?.id || item.id,
+                                title: item.paper?.title || item.title || 'Untitled',
+                                abstract: (item.paper?.summary || '').slice(0, 300) + '...',
+                                url: `https://huggingface.co/papers/${item.paper?.id || item.id}`,
+                                publishedAt: new Date(item.publishedAt || Date.now()),
+                                authors: item.paper?.authors?.map((a: any) => a.name || 'Unknown') || ['Hugging Face'],
+                                category: 'Daily Papers',
+                                source: 'Hugging Face'
+                            }));
+                        }
+                        return [];
+                    } catch (e) {
+                        console.warn('Failed to fetch Hugging Face papers:', e);
+                        return [];
+                    }
+                };
+
                 // Fetch all sources in parallel
-                const [arxivAI, arxivML, arxivCL, huggingFace, pwcTrending] = await Promise.all([
+                const [arxivAI, arxivML, arxivCL, huggingFacePapers] = await Promise.all([
                     fetchRSS('http://arxiv.org/rss/cs.AI', 'ArXiv', 'Artificial Intelligence'),
                     fetchRSS('http://arxiv.org/rss/cs.LG', 'ArXiv', 'Machine Learning'),
                     fetchRSS('http://arxiv.org/rss/cs.CL', 'ArXiv', 'Computation & Language'),
-                    fetchRSS('https://huggingface.co/papers/rss', 'Hugging Face', 'Daily Papers'),
-                    fetchRSS('https://paperswithcode.com/latest.rss', 'Papers With Code', 'Trending')
+                    fetchHuggingFace()
                 ]);
 
                 clearTimeout(safetyTimer);
@@ -116,8 +139,7 @@ export function ResearchFeed() {
                     ...(arxivAI || []),
                     ...(arxivML || []),
                     ...(arxivCL || []),
-                    ...(huggingFace || []),
-                    ...(pwcTrending || [])
+                    ...(huggingFacePapers || [])
                 ];
 
                 if (allFetched.length > 0) {

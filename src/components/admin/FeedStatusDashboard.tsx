@@ -97,14 +97,8 @@ const FEEDS: Omit<FeedStatus, 'status'>[] = [
     {
         id: 'research-huggingface',
         name: 'Hugging Face Papers',
-        displayUrl: 'huggingface.co/papers',
-        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://huggingface.co/papers/rss'
-    },
-    {
-        id: 'research-pwc',
-        name: 'Papers With Code',
-        displayUrl: 'paperswithcode.com',
-        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://paperswithcode.com/latest.rss'
+        displayUrl: 'huggingface.co/api/daily_papers',
+        url: 'https://huggingface.co/api/daily_papers'
     },
 
     // --- JOBS ---
