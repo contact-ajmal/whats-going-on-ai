@@ -1,5 +1,5 @@
 // Claude Code Agent Skills Directory
-// Curated from https://github.com/BehiSecc/awesome-claude-skills, https://github.com/anthropics/skills, and https://github.com/abubakarsiddik31/claude-skills-collection
+// Curated from https://github.com/BehiSecc/awesome-claude-skills, https://github.com/anthropics/skills, https://github.com/abubakarsiddik31/claude-skills-collection, and https://github.com/VoltAgent/awesome-claude-skills
 
 export interface ClaudeSkill {
     name: string;
@@ -13,6 +13,7 @@ export const SKILL_CATEGORIES = [
     { id: 'documents', name: 'Document Skills', icon: '📄', color: 'text-blue-400' },
     { id: 'creative', name: 'Creative & Design', icon: '🎨', color: 'text-rose-400' },
     { id: 'development', name: 'Development & Code', icon: '🛠️', color: 'text-green-400' },
+    { id: 'context', name: 'Context Engineering', icon: '🧠', color: 'text-violet-400' },
     { id: 'data', name: 'Data & Analysis', icon: '📊', color: 'text-purple-400' },
     { id: 'scientific', name: 'Scientific & Research', icon: '🔬', color: 'text-cyan-400' },
     { id: 'writing', name: 'Writing & Research', icon: '✍️', color: 'text-yellow-400' },
@@ -510,6 +511,172 @@ export const CLAUDE_SKILLS: ClaudeSkill[] = [
         name: 'notion-skills',
         description: 'Official Notion Skills for Claude - enhance Claude\'s ability to work with Notion.',
         repo: 'https://www.notion.so/notiondevs/Notion-Skills-for-Claude-28da4445d27180c7af1df7d8615723d0',
+        category: 'utility',
+        isOfficial: false,
+    },
+
+    // New from VoltAgent - Document Skills
+    {
+        name: 'doc-coauthoring',
+        description: 'Collaborative document editing and co-authoring.',
+        repo: 'https://github.com/anthropics/skills/tree/main/skills/doc-coauthoring',
+        category: 'documents',
+        isOfficial: true,
+    },
+
+    // New from VoltAgent - Creative & Design
+    {
+        name: 'frontend-design',
+        description: 'Frontend design and UI/UX development tools.',
+        repo: 'https://github.com/anthropics/skills/tree/main/skills/frontend-design',
+        category: 'creative',
+        isOfficial: true,
+    },
+
+    // New from VoltAgent - Development
+    {
+        name: 'ios-simulator-skill',
+        description: 'Control iOS Simulator for app testing and development.',
+        repo: 'https://github.com/conorluddy/ios-simulator-skill',
+        category: 'development',
+        isOfficial: false,
+    },
+    {
+        name: 'playwright-skill',
+        description: 'Browser automation with Playwright for testing and scraping.',
+        repo: 'https://github.com/lackeyjb/playwright-skill',
+        category: 'development',
+        isOfficial: false,
+    },
+    {
+        name: 'vexor',
+        description: 'Vector-powered CLI for semantic file search with a Claude/Codex skill.',
+        repo: 'https://github.com/scarletkc/vexor',
+        category: 'development',
+        isOfficial: false,
+    },
+    {
+        name: 'dev-agent-skills',
+        description: 'Git and GitHub workflow skills: git-commit (Conventional Commits), github-pr-creation, github-pr-merge, github-pr-review.',
+        repo: 'https://github.com/fvadicamo/dev-agent-skills',
+        category: 'development',
+        isOfficial: false,
+    },
+    {
+        name: 'claude-bootstrap',
+        description: 'Opinionated project initialization with security-first guardrails, spec-driven atomic todos, LLM testing patterns.',
+        repo: 'https://github.com/alinaqi/claude-bootstrap',
+        category: 'development',
+        isOfficial: false,
+    },
+
+    // Context Engineering (New Category)
+    {
+        name: 'context-fundamentals',
+        description: 'Understand what context is, why it matters, and the anatomy of context in agent systems.',
+        repo: 'https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering/tree/main/skills/context-fundamentals',
+        category: 'context',
+        isOfficial: false,
+    },
+    {
+        name: 'context-degradation',
+        description: 'Recognize patterns of context failure: lost-in-middle, poisoning, distraction, and clash.',
+        repo: 'https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering/tree/main/skills/context-degradation',
+        category: 'context',
+        isOfficial: false,
+    },
+    {
+        name: 'context-compression',
+        description: 'Design and evaluate compression strategies for long-running sessions.',
+        repo: 'https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering/tree/main/skills/context-compression',
+        category: 'context',
+        isOfficial: false,
+    },
+    {
+        name: 'context-optimization',
+        description: 'Apply compaction, masking, and caching strategies.',
+        repo: 'https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering/tree/main/skills/context-optimization',
+        category: 'context',
+        isOfficial: false,
+    },
+    {
+        name: 'multi-agent-patterns',
+        description: 'Master orchestrator, peer-to-peer, and hierarchical multi-agent architectures.',
+        repo: 'https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering/tree/main/skills/multi-agent-patterns',
+        category: 'context',
+        isOfficial: false,
+    },
+    {
+        name: 'memory-systems',
+        description: 'Design short-term, long-term, and graph-based memory architectures.',
+        repo: 'https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering/tree/main/skills/memory-systems',
+        category: 'context',
+        isOfficial: false,
+    },
+    {
+        name: 'tool-design',
+        description: 'Build tools that agents can use effectively, including architectural reduction patterns.',
+        repo: 'https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering/tree/main/skills/tool-design',
+        category: 'context',
+        isOfficial: false,
+    },
+    {
+        name: 'evaluation',
+        description: 'Build evaluation frameworks for agent systems.',
+        repo: 'https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering/tree/main/skills/evaluation',
+        category: 'context',
+        isOfficial: false,
+    },
+
+    // Productivity & Collaboration
+    {
+        name: 'notebooklm-skill',
+        description: 'Interact with NotebookLM for document-based conversations.',
+        repo: 'https://github.com/PleasePrompto/notebooklm-skill',
+        category: 'collaboration',
+        isOfficial: false,
+    },
+    {
+        name: 'superpowers-lab',
+        description: 'Lab environment for Claude superpowers experimentation.',
+        repo: 'https://github.com/obra/superpowers-lab',
+        category: 'learning',
+        isOfficial: false,
+    },
+    {
+        name: 'competitive-ads-extractor',
+        description: 'Analyze competitor advertising strategies.',
+        repo: 'https://github.com/ComposioHQ/awesome-claude-skills/tree/master/competitive-ads-extractor',
+        category: 'data',
+        isOfficial: false,
+    },
+
+    // Specialized Domains
+    {
+        name: 'claude-win11-speckit-update-skill',
+        description: 'Windows 11 system management and SpecKit updates.',
+        repo: 'https://github.com/NotMyself/claude-win11-speckit-update-skill',
+        category: 'utility',
+        isOfficial: false,
+    },
+    {
+        name: 'claudisms',
+        description: 'SMS messaging integration for Claude.',
+        repo: 'https://github.com/jeffersonwarrior/claudisms',
+        category: 'utility',
+        isOfficial: false,
+    },
+    {
+        name: 'security-bluebook-builder',
+        description: 'Build a concise, normative security Blue Book for sensitive apps (threat model, data classes, auth, logging).',
+        repo: 'https://github.com/SHADOWPR0/security-bluebook-builder',
+        category: 'security',
+        isOfficial: false,
+    },
+    {
+        name: 'n8n-skill',
+        description: 'Enables AI assistants to understand and operate n8n workflows with 542 nodes and 20 templates.',
+        repo: 'https://github.com/haunchen/n8n-skills',
         category: 'utility',
         isOfficial: false,
     },
