@@ -8,6 +8,7 @@ import { MouseEvent, ReactNode } from 'react';
 import { useMotionTemplate, useMotionValue } from 'framer-motion';
 import { ArrowRight, ExternalLink, Sparkles, Brain, FlaskConical, Wrench, Code, Star } from 'lucide-react';
 import ShareButtons from '@/components/ShareButtons';
+import { SEO } from '@/components/SEO';
 
 // --- Components ---
 
@@ -173,6 +174,11 @@ export default function DeepMind() {
 
     return (
         <div className="min-h-screen bg-black text-foreground selection:bg-blue-500/30">
+            <SEO
+                title="DeepMind Archive | WhatsGoingOnAI"
+                description="Explore Google DeepMind's groundbreaking AI research, models, and breakthroughs from AlphaGo to Gemini."
+                url="/deepmind"
+            />
             <NeuralBackground />
             <Navigation />
 

@@ -11,6 +11,7 @@ import { Search, Sparkles } from 'lucide-react';
 import { Input } from "@/components/ui/input";
 import { FALLBACK_LEARNING } from '@/data/fallbackLearning';
 import { Button } from "@/components/ui/button";
+import { SEO } from '@/components/SEO';
 
 // Course Ticker Component
 const CourseTicker = ({ topics, onTopicClick }: { topics: string[], onTopicClick: (topic: string) => void }) => {
@@ -48,6 +49,11 @@ export default function Learning() {
 
     return (
         <div className="min-h-screen bg-background text-foreground selection:bg-primary/20">
+            <SEO
+                title="AI Learning Hub | WhatsGoingOnAI"
+                description="Master Artificial Intelligence with curated courses, tutorials, and deep-dive videos from the world's best instructors."
+                url="/learning"
+            />
             <NeuralBackground />
             <Navigation />
 

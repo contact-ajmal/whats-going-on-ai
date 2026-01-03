@@ -8,6 +8,7 @@ import { NeuralBackground } from '@/components/NeuralBackground';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import ShareButtons from '@/components/ShareButtons';
+import { SEO } from '@/components/SEO';
 
 const container = {
     hidden: { opacity: 0 },
@@ -27,6 +28,11 @@ const item = {
 const Trending = () => {
     return (
         <div className="min-h-screen bg-background relative overflow-hidden">
+            <SEO
+                title="Trending AI Tech | WhatsGoingOnAI"
+                description="Breaking developments in AI. New capabilities, features, and tools explained as they emerge."
+                url="/trending"
+            />
             <Navigation />
             <NeuralBackground />
 

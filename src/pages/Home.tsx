@@ -21,6 +21,7 @@ import { TextReveal } from '@/components/ui/text-reveal';
 import { BorderBeam } from '@/components/ui/border-beam';
 import { TiltCard } from '@/components/ui/tilt-card';
 import { Meteors } from '@/components/ui/meteors';
+import { SEO } from '@/components/SEO';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -181,6 +182,11 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <SEO
+        title="WhatsGoingOnAI - Your Daily AI Hub"
+        description="Stay ahead with curated AI research papers, discover the latest AI tools & MCP servers, catch breaking news, and level up with hand-picked learning resources."
+        url="/"
+      />
       <NeuralBackground />
       <Navigation />
 
