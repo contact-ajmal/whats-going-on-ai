@@ -101,13 +101,13 @@ export function ResearchFeed() {
                     return [];
                 };
 
-                // Fetch ArXiv via local self-hosted CORS proxy
+                // Fetch ArXiv via self-hosted CORS proxy
                 const fetchArxiv = async (category: string, categoryName: string): Promise<ResearchPaper[]> => {
-                    // Use local Docker CORS proxy (running on port 1200)
-                    // This is the most reliable "unlimited" option
+                    // Use configured proxy URL or fallback to localhost for dev
+                    // In production, set VITE_ARXIV_PROXY_URL to your deployed proxy URL
+                    const proxyBase = import.meta.env.VITE_ARXIV_PROXY_URL || 'http://localhost:1200';
                     const arxivUrl = `https://export.arxiv.org/api/query?search_query=cat:${category}&sortBy=submittedDate&sortOrder=descending&max_results=15`;
-                    // Note: localhost:1200 is the CORS proxy container
-                    const proxyUrl = `http://localhost:1200/${arxivUrl}`;
+                    const proxyUrl = `${proxyBase}/${arxivUrl}`;
 
                     try {
                         const res = await fetch(proxyUrl);
