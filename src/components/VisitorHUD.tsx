@@ -21,6 +21,7 @@ export function VisitorHUD() {
     const [geo, setGeo] = useState<GeoData | null>(null);
     const [isOpen, setIsOpen] = useState(false);
     const [totalVisits, setTotalVisits] = useState<number>(0);
+    const [dailyVisits, setDailyVisits] = useState<number>(0);
     const [regions, setRegions] = useState<RegionStats[]>([]);
 
     useEffect(() => {
@@ -62,6 +63,23 @@ export function VisitorHUD() {
                 } else {
                     console.log("VisitorHUD: Count Read SUCCESS. Count:", count);
                     setTotalVisits(count || 0);
+                }
+
+                // Daily Count (Today's visits)
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const todayISO = today.toISOString();
+
+                const { count: dailyCount, error: dailyError } = await supabase
+                    .from('analytics_visits')
+                    .select('*', { count: 'exact', head: true })
+                    .gte('created_at', todayISO);
+
+                if (dailyError) {
+                    console.error("VisitorHUD: Daily Count FAILED", dailyError);
+                } else {
+                    console.log("VisitorHUD: Daily Count SUCCESS. Count:", dailyCount);
+                    setDailyVisits(dailyCount || 0);
                 }
 
                 // Regions (This would ideally be a clear RPC or view, but for now we fetch recent 100 and aggregate client side for simplicity/speed without custom SQL functions)
@@ -160,15 +178,26 @@ export function VisitorHUD() {
                             </div>
 
                             <div className="p-4 space-y-6">
-                                {/* Main Stat */}
-                                <div className="flex items-end justify-between">
+                                {/* Stats Grid */}
+                                <div className="grid grid-cols-2 gap-4">
+                                    {/* Total Visitors */}
                                     <div>
                                         <p className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">Total Visitors</p>
-                                        <h3 className="text-3xl font-black text-white font-mono tracking-tighter">
+                                        <h3 className="text-2xl font-black text-white font-mono tracking-tighter">
                                             {totalVisits.toLocaleString()}
                                         </h3>
                                     </div>
-                                    <Globe className="w-8 h-8 text-white/5" />
+                                    {/* Daily Visitors */}
+                                    <div>
+                                        <p className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">Daily Visitors</p>
+                                        <h3 className="text-2xl font-black text-primary font-mono tracking-tighter flex items-center gap-2">
+                                            {dailyVisits.toLocaleString()}
+                                            <span className="relative flex h-2 w-2">
+                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                                                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                                            </span>
+                                        </h3>
+                                    </div>
                                 </div>
 
                                 {/* Active Regions */}
