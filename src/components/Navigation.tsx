@@ -91,7 +91,7 @@ export function Navigation() {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center justify-center flex-1 min-w-0 overflow-hidden">
+            <div className="hidden xl:flex items-center justify-center flex-1">
               <NavigationMenu>
                 <NavigationMenuList>
                   <NavigationMenuItem>
@@ -143,29 +143,15 @@ export function Navigation() {
                   </NavigationMenuItem>
 
                   <NavigationMenuItem>
-                    <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                      <Link to="/young-minds" className="group flex items-center gap-2 font-bold hover:bg-yellow-400/10 rounded-md px-3 py-2 transition-colors">
-                        <span className="text-yellow-400 group-hover:text-yellow-300 transition-colors">
-                          Young Minds
-                        </span>
-                      </Link>
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
-
-                  <NavigationMenuItem>
-                    <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                      <Link to="/deepmind" className="group flex items-center gap-2 font-bold hover:bg-blue-500/10 rounded-md px-3 py-2 transition-colors">
-                        <span className="text-blue-500 group-hover:text-blue-400 transition-colors">
-                          Google DeepMind
-                        </span>
-                      </Link>
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
-
-                  <NavigationMenuItem>
                     <NavigationMenuTrigger>Discover</NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                        <ListItem href="/young-minds" title="Young Minds" icon={GraduationCap}>
+                          AI education for the next generation.
+                        </ListItem>
+                        <ListItem href="/deepmind" title="Google DeepMind" icon={Brain}>
+                          Latest from Google's AI research lab.
+                        </ListItem>
                         <ListItem href="/research" title="Research" icon={BookOpen}>
                           Deep dive into the latest ArXiv papers.
                         </ListItem>
@@ -181,6 +167,9 @@ export function Navigation() {
                         <ListItem href="/history" title="Timeline" icon={Clock}>
                           Interactive history of AI milestones.
                         </ListItem>
+                        <ListItem href="/about" title="About" icon={Info}>
+                          Learn about this platform.
+                        </ListItem>
                       </ul>
                     </NavigationMenuContent>
                   </NavigationMenuItem>
@@ -190,18 +179,12 @@ export function Navigation() {
                       <Link to="/blog" className={location.pathname === '/blog' ? 'text-primary' : ''}>Blog</Link>
                     </NavigationMenuLink>
                   </NavigationMenuItem>
-
-                  <NavigationMenuItem>
-                    <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                      <Link to="/about" className={location.pathname === '/about' ? 'text-primary' : ''}>About</Link>
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
                 </NavigationMenuList>
               </NavigationMenu>
             </div>
 
             {/* Right Side Utilities */}
-            <div className="hidden lg:flex items-center gap-1 md:gap-2 shrink-0">
+            <div className="hidden xl:flex items-center gap-1 shrink-0">
               <VisitorHUD />
               <LibraryDrawer />
 
@@ -230,7 +213,7 @@ export function Navigation() {
             </div>
 
             {/* Mobile Menu Button */}
-            <div className="flex items-center gap-1 lg:hidden shrink-0">
+            <div className="flex items-center gap-1 xl:hidden shrink-0">
               <Button
                 variant="ghost"
                 size="icon"
@@ -255,7 +238,7 @@ export function Navigation() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="lg:hidden mt-4 pb-4 border-t border-border/50"
+              className="xl:hidden mt-4 pb-4 border-t border-border/50"
             >
               <div className="flex flex-col gap-2 pt-4">
                 <Link to="/" onClick={() => setIsOpen(false)} className="px-4 py-3 rounded-lg text-sm font-medium hover:bg-muted">Home</Link>
