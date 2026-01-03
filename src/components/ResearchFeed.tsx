@@ -31,20 +31,40 @@ export function ResearchFeed() {
                 // Using the free API key (limit 10k requests/day usually, or fallback to no key)
                 const fetchRSS = async (rssUrl: string, sourceName: string, categoryName: string, isAuthorList = false) => {
                     try {
-                        const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`);
+                        // Cache buster: Update every 30 minutes to bypass 1-hour server cache but prevent varying every second
+                        const cacheBuster = Math.floor(Date.now() / 1000 / 60 / 30);
+                        const urlWithCache = `${rssUrl}${rssUrl.includes('?') ? '&' : '?'}t=${cacheBuster}`;
+
+                        const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(urlWithCache)}`);
                         const data = await res.json();
 
                         if (data.status === 'ok' && Array.isArray(data.items)) {
-                            return data.items.map((item: any) => ({
-                                id: item.guid || item.link,
-                                title: item.title,
-                                abstract: (item.description || '').replace(/<[^>]*>?/gm, '').slice(0, 300) + '...',
-                                url: item.link,
-                                publishedAt: new Date(item.pubDate),
-                                authors: isAuthorList ? [item.author] : [item.author || sourceName],
-                                category: categoryName,
-                                source: sourceName
-                            }));
+                            return data.items
+                                .filter((item: any) => {
+                                    // Validate link exists and is a deep link (not homepage)
+                                    if (!item.link || item.link.length < 20) return false;
+
+                                    // Filter out root/homepage URLs
+                                    const url = item.link.toLowerCase();
+                                    const invalidPatterns = [
+                                        /^https?:\/\/[^\/]+\/?$/,  // Just domain
+                                        /^https?:\/\/[^\/]+\/blog\/?$/,  // Just /blog
+                                        /^https?:\/\/[^\/]+\/papers?\/?$/,  // Just /papers
+                                        /^https?:\/\/[^\/]+\/research\/?$/,  // Just /research
+                                    ];
+
+                                    return !invalidPatterns.some(pattern => pattern.test(url));
+                                })
+                                .map((item: any) => ({
+                                    id: item.guid || item.link,
+                                    title: item.title,
+                                    abstract: (item.description || '').replace(/<[^>]*>?/gm, '').slice(0, 300) + '...',
+                                    url: item.link,
+                                    publishedAt: new Date(item.pubDate),
+                                    authors: isAuthorList ? [item.author] : [item.author || sourceName],
+                                    category: categoryName,
+                                    source: sourceName
+                                }));
                         }
                         return [];
                     } catch (e) {
@@ -53,13 +73,12 @@ export function ResearchFeed() {
                     }
                 };
 
-                // Fetch all sources in parallel
-                const [arxivAI, arxivML, hfPapers, googleResearch, bairBlog] = await Promise.all([
-                    fetchRSS('https://export.arxiv.org/rss/cs.AI', 'ArXiv', 'Artificial Intelligence'),
-                    fetchRSS('https://export.arxiv.org/rss/cs.LG', 'ArXiv', 'Machine Learning'),
-                    fetchRSS('https://huggingface.co/papers/feed', 'Hugging Face', 'Daily Papers'),
-                    fetchRSS('https://blog.research.google/atom.xml', 'Google Research', 'Deep Learning'),
-                    fetchRSS('https://bair.berkeley.edu/blog/feed.xml', 'BAIR', 'AI Research')
+                // Fetch all sources in parallel - using reliable RSS feeds
+                const [arxivAI, arxivML, semanticScholar, pwcTrending] = await Promise.all([
+                    fetchRSS('http://arxiv.org/rss/cs.AI', 'ArXiv', 'Artificial Intelligence'),
+                    fetchRSS('http://arxiv.org/rss/cs.LG', 'ArXiv', 'Machine Learning'),
+                    fetchRSS('https://www.semanticscholar.org/feed/recent-publications/computer-science', 'Semantic Scholar', 'Computer Science'),
+                    fetchRSS('https://paperswithcode.com/latest.rss', 'Papers With Code', 'Trending')
                 ]);
 
                 clearTimeout(safetyTimer);
@@ -67,9 +86,8 @@ export function ResearchFeed() {
                 const allFetched = [
                     ...(arxivAI || []),
                     ...(arxivML || []),
-                    ...(hfPapers || []),
-                    ...(googleResearch || []),
-                    ...(bairBlog || [])
+                    ...(semanticScholar || []),
+                    ...(pwcTrending || [])
                 ];
 
                 if (allFetched.length > 0) {
@@ -130,8 +148,10 @@ export function ResearchFeed() {
     const getSourceColor = (source: string) => {
         switch (source) {
             case 'ArXiv': return 'text-red-400 border-red-500/30';
+            case 'Semantic Scholar': return 'text-blue-400 border-blue-500/30';
+            case 'Papers With Code': return 'text-purple-400 border-purple-500/30';
             case 'Hugging Face': return 'text-yellow-400 border-yellow-500/30';
-            case 'BAIR': return 'text-blue-400 border-blue-500/30';
+            case 'BAIR': return 'text-cyan-400 border-cyan-500/30';
             case 'Google Research': return 'text-green-400 border-green-500/30';
             default: return 'text-primary border-primary/30';
         }
