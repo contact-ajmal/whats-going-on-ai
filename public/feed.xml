@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>What's Going On AI</title>
+    <link>https://whatsgoingonai.com</link>
+    <description>Your daily dose of AI research, news, tools, and insights. Stay updated with the latest in artificial intelligence.</description>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 03 Jan 2026 00:00:00 GMT</lastBuildDate>
+    <atom:link href="https://whatsgoingonai.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <image>
+      <url>https://whatsgoingonai.com/images/logo.jpg</url>
+      <title>What's Going On AI</title>
+      <link>https://whatsgoingonai.com</link>
+    </image>
+    
+    <!-- Featured Content -->
+    <item>
+      <title>AI Decoded: Understanding Transformers</title>
+      <link>https://whatsgoingonai.com/decoded/transformers</link>
+      <description>A deep dive into the Transformer architecture that powers modern AI systems like GPT, Claude, and Gemini.</description>
+      <pubDate>Fri, 03 Jan 2026 00:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://whatsgoingonai.com/decoded/transformers</guid>
+      <category>AI Decoded</category>
+    </item>
+    
+    <item>
+      <title>AI Decoded: Diffusion Models Explained</title>
+      <link>https://whatsgoingonai.com/decoded/diffusion</link>
+      <description>Learn how diffusion models power image generation tools like Stable Diffusion, DALL-E, and Midjourney.</description>
+      <pubDate>Thu, 02 Jan 2026 00:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://whatsgoingonai.com/decoded/diffusion</guid>
+      <category>AI Decoded</category>
+    </item>
+    
+    <item>
+      <title>Trending: Agentic Crafting with ROLL and ROCK</title>
+      <link>https://whatsgoingonai.com/trending/agentic-crafting</link>
+      <description>Exploring the Let It Flow paper on building AI agents with the Agentic Learning Ecosystem.</description>
+      <pubDate>Thu, 02 Jan 2026 00:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://whatsgoingonai.com/trending/agentic-crafting</guid>
+      <category>Trending</category>
+    </item>
+    
+    <item>
+      <title>Trending: Anthropic's Model Context Protocol</title>
+      <link>https://whatsgoingonai.com/trending/anthropic-skills</link>
+      <description>Understanding Anthropic's approach to giving AI models skills and tool-use capabilities.</description>
+      <pubDate>Wed, 01 Jan 2026 00:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://whatsgoingonai.com/trending/anthropic-skills</guid>
+      <category>Trending</category>
+    </item>
+    
+    <item>
+      <title>Trending: Context Graphs for LLMs</title>
+      <link>https://whatsgoingonai.com/trending/context-graphs</link>
+      <description>How graph-based context management improves LLM reasoning and memory.</description>
+      <pubDate>Tue, 31 Dec 2025 00:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://whatsgoingonai.com/trending/context-graphs</guid>
+      <category>Trending</category>
+    </item>
+    
+    <item>
+      <title>AI Decoded: Embeddings Deep Dive</title>
+      <link>https://whatsgoingonai.com/decoded/embeddings</link>
+      <description>Understanding vector embeddings - the foundation of modern AI search and retrieval systems.</description>
+      <pubDate>Mon, 30 Dec 2025 00:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://whatsgoingonai.com/decoded/embeddings</guid>
+      <category>AI Decoded</category>
+    </item>
+    
+    <item>
+      <title>AI Decoded: RLHF Explained</title>
+      <link>https://whatsgoingonai.com/decoded/rlhf</link>
+      <description>Reinforcement Learning from Human Feedback - how AI models learn to be helpful, harmless, and honest.</description>
+      <pubDate>Sun, 29 Dec 2025 00:00:00 GMT</pubDate>
+      <guid isPermaLink="true">https://whatsgoingonai.com/decoded/rlhf</guid>
+      <category>AI Decoded</category>
+    </item>
+  </channel>
+</rss>

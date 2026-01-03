@@ -1,7 +1,7 @@
 
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Github, Twitter, Linkedin, Mail, Heart, Activity } from 'lucide-react';
+import { Github, Twitter, Linkedin, Mail, Heart, Activity, Rss } from 'lucide-react';
 import { NewsletterSignup } from './NewsletterSignup';
 import { BuyCoffeeButton } from './BuyCoffeeButton';
 
@@ -10,6 +10,7 @@ const socialLinks = [
   { icon: Twitter, href: 'https://twitter.com/ajmal_nazir', label: 'Twitter' },
   { icon: Linkedin, href: 'https://linkedin.com/in/ajmalnazir', label: 'LinkedIn' },
   { icon: Mail, href: 'mailto:contact@whatsgoingon.ai', label: 'Email' },
+  { icon: Rss, href: '/feed.xml', label: 'RSS Feed' },
 ];
 
 const SignalVisual = () => (
