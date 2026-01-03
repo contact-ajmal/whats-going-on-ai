@@ -185,25 +185,28 @@ export default function Home() {
       <Navigation />
 
       {/* 🔥 TRENDING STICKER BANNER - Animated Ticker */}
-      <div className="fixed top-20 left-0 right-0 z-40 bg-gradient-to-r from-orange-500/90 via-red-500/90 to-orange-500/90 backdrop-blur-sm overflow-hidden py-2 border-b border-orange-400/30">
+      <div className="fixed top-14 md:top-16 lg:top-16 left-0 right-0 z-40 bg-gradient-to-r from-orange-500/90 via-red-500/90 to-orange-500/90 backdrop-blur-sm overflow-hidden py-1.5 md:py-2 border-b border-orange-400/30">
         <div className="animate-marquee whitespace-nowrap flex items-center">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="flex items-center gap-8 mx-8">
-              <Link to="/trending" className="flex items-center gap-2 text-white font-bold text-sm hover:text-yellow-200 transition-colors">
-                <span className="text-lg">🔥</span>
-                TRENDING AI TECH
-                <span className="text-lg">🔥</span>
+            <div key={i} className="flex items-center gap-4 md:gap-8 mx-4 md:mx-8">
+              <Link to="/trending" className="flex items-center gap-1 md:gap-2 text-white font-bold text-xs md:text-sm hover:text-yellow-200 transition-colors">
+                <span className="text-base md:text-lg">🔥</span>
+                <span className="hidden sm:inline">TRENDING AI TECH</span>
+                <span className="sm:hidden">TRENDING</span>
+                <span className="text-base md:text-lg">🔥</span>
               </Link>
-              <Link to="/trending/anthropic-skills" className="text-white/80 text-sm hover:text-white hover:underline transition-colors">
-                🧩 Claude Code Agent Skills — Extend Claude with SKILL.md
+              <Link to="/trending/anthropic-skills" className="text-white/80 text-xs md:text-sm hover:text-white hover:underline transition-colors">
+                <span className="hidden md:inline">🧩 Claude Code Agent Skills — Extend Claude with SKILL.md</span>
+                <span className="md:hidden">🧩 Agent Skills</span>
               </Link>
-              <span className="text-white/60">•</span>
-              <Link to="/trending/context-graphs" className="text-white/80 text-sm hover:text-white hover:underline transition-colors">
-                🕸️ Decision Traces — Why Decisions Were Made, Not Just What Happened
+              <span className="text-white/60 hidden sm:inline">•</span>
+              <Link to="/trending/context-graphs" className="text-white/80 text-xs md:text-sm hover:text-white hover:underline transition-colors hidden sm:inline">
+                <span className="hidden md:inline">🕸️ Decision Traces — Why Decisions Were Made</span>
+                <span className="md:hidden">🕸️ Decision Traces</span>
               </Link>
-              <span className="text-white/60">•</span>
-              <Link to="/trending" className="flex items-center gap-1 text-yellow-200 font-semibold text-sm hover:text-white transition-colors group">
-                Explore All <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <span className="text-white/60 hidden sm:inline">•</span>
+              <Link to="/trending" className="flex items-center gap-1 text-yellow-200 font-semibold text-xs md:text-sm hover:text-white transition-colors group">
+                Explore <ArrowRight className="w-3 h-3 md:w-4 md:h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           ))}
@@ -211,7 +214,7 @@ export default function Home() {
       </div>
 
       {/* HERO SECTION */}
-      <section className="relative pt-44 pb-20 lg:pt-56 lg:pb-32 container mx-auto px-6 overflow-hidden min-h-screen flex flex-col justify-center">
+      <section className="relative pt-36 md:pt-44 pb-20 lg:pt-56 lg:pb-32 container mx-auto px-4 md:px-6 overflow-hidden min-h-screen flex flex-col justify-center">
 
         {/* Radar Scan Effect */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-20 select-none">
