@@ -101,14 +101,35 @@ export function ResearchFeed() {
                     return [];
                 };
 
-                // Fetch ArXiv via RSS (more reliable than API proxy)
+                // Fetch ArXiv via RSSHub (public instance with CORS support)
                 const fetchArxiv = async (category: string, categoryName: string): Promise<ResearchPaper[]> => {
-                    const rssUrl = `http://arxiv.org/rss/${category}`;
+                    // RSSHub provides ArXiv feeds with proper CORS headers
+                    // Format: https://rsshub.app/arxiv/list/{category}
+                    const rsshubUrl = `https://rsshub.app/arxiv/list/${category}`;
 
-                    // Try rss2json first (free tier), then allorigins as backup
                     const fetchMethods = [
+                        // Primary: RSSHub JSON format
                         async () => {
-                            const url = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+                            const res = await fetch(`${rsshubUrl}?format=json`);
+                            const data = await res.json();
+
+                            if (data.items?.length > 0) {
+                                return data.items.slice(0, 15).map((item: any) => ({
+                                    id: item.url || item.id,
+                                    title: (item.title || 'Untitled').replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim(),
+                                    abstract: (item.content_text || item.summary || '').replace(/<[^>]*>/g, '').slice(0, 300) + '...',
+                                    url: item.url || item.id,
+                                    publishedAt: new Date(item.date_published || Date.now()),
+                                    authors: item.authors?.map((a: any) => a.name) || ['ArXiv'],
+                                    category: categoryName,
+                                    source: 'ArXiv'
+                                }));
+                            }
+                            throw new Error('RSSHub JSON failed');
+                        },
+                        // Fallback: RSSHub RSS format via rss2json
+                        async () => {
+                            const url = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rsshubUrl)}`;
                             const res = await fetch(url);
                             const data = await res.json();
                             if (data.status === 'ok' && data.items?.length > 0) {
@@ -124,35 +145,6 @@ export function ResearchFeed() {
                                 }));
                             }
                             throw new Error('rss2json failed');
-                        },
-                        async () => {
-                            // Fallback: Use allorigins to get raw RSS and parse
-                            const url = `https://api.allorigins.win/raw?url=${encodeURIComponent(rssUrl)}`;
-                            const res = await fetch(url);
-                            const text = await res.text();
-                            const parser = new DOMParser();
-                            const xml = parser.parseFromString(text, 'text/xml');
-                            const items = xml.querySelectorAll('item');
-
-                            if (items.length === 0) throw new Error('No items');
-
-                            return Array.from(items).slice(0, 15).map((item) => {
-                                const title = item.querySelector('title')?.textContent || 'Untitled';
-                                const link = item.querySelector('link')?.textContent || '';
-                                const description = item.querySelector('description')?.textContent || '';
-                                const pubDate = item.querySelector('pubDate')?.textContent || '';
-
-                                return {
-                                    id: link,
-                                    title: title.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim(),
-                                    abstract: description.replace(/<[^>]*>/g, '').slice(0, 300) + '...',
-                                    url: link,
-                                    publishedAt: new Date(pubDate || Date.now()),
-                                    authors: ['ArXiv'],
-                                    category: categoryName,
-                                    source: 'ArXiv'
-                                };
-                            });
                         }
                     ];
 
@@ -160,7 +152,7 @@ export function ResearchFeed() {
                         try {
                             const papers = await fetchMethod();
                             if (papers.length > 0) {
-                                console.log(`ArXiv ${category}: fetched ${papers.length} papers`);
+                                console.log(`ArXiv ${category}: fetched ${papers.length} papers via RSSHub`);
                                 return papers;
                             }
                         } catch (e) {
