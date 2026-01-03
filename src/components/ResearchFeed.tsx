@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ExternalLink, Loader2, BookOpen, Calendar, Search, ChevronDown, FileText, User } from "lucide-react";
 import { BookmarkButton } from './BookmarkButton';
-import { LinkedinShareButton } from './LinkedinShareButton';
+import ShareButtons from './ShareButtons';
 
 import { FALLBACK_PAPERS, ResearchPaper } from '../data/fallbackResearch';
 
@@ -245,7 +245,7 @@ export function ResearchFeed() {
                                     )}
                                 </div>
                                 <div className="flex gap-1 shrink-0">
-                                    <LinkedinShareButton url={paper.url} />
+                                    <ShareButtons title={paper.title} />
                                     <BookmarkButton
                                         item={{
                                             id: paper.id,
@@ -254,6 +254,17 @@ export function ResearchFeed() {
                                             source: paper.source,
                                             type: 'research',
                                             publishedAt: paper.publishedAt.toISOString()
+                                        }}
+                                        onBookmark={() => {
+                                            // Simple gamification hook (dirty but works for now)
+                                            const stored = localStorage.getItem('ai_gamification');
+                                            if (stored) {
+                                                const state = JSON.parse(stored);
+                                                state.resourcesConsumed += 1;
+                                                localStorage.setItem('ai_gamification', JSON.stringify(state));
+                                                // Dispatch event to update HUD
+                                                window.dispatchEvent(new Event('storage'));
+                                            }
                                         }}
                                     />
                                     <Button variant="ghost" size="icon" asChild className="text-muted-foreground hover:text-primary">

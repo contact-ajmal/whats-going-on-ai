@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { MouseEvent, ReactNode } from 'react';
 import { useMotionTemplate, useMotionValue } from 'framer-motion';
 import { ArrowRight, ExternalLink, Sparkles, Brain, FlaskConical, Wrench, Code, Star } from 'lucide-react';
+import ShareButtons from '@/components/ShareButtons';
 
 // --- Components ---
 
@@ -88,16 +89,19 @@ const FeaturedCard = ({ item }: { item: DeepMindItem }) => {
                                 </Badge>
                             ))}
                         </div>
-                        {item.link && (
-                            <a
-                                href={item.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center gap-2 text-white font-bold hover:text-blue-300 transition-colors"
-                            >
-                                Learn more <ArrowRight size={16} />
-                            </a>
-                        )}
+                        <div className="flex items-center gap-4">
+                            <ShareButtons title={item.title} />
+                            {item.link && (
+                                <a
+                                    href={item.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-2 text-white font-bold hover:text-blue-300 transition-colors"
+                                >
+                                    Learn more <ArrowRight size={16} />
+                                </a>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -132,11 +136,14 @@ const CompactCard = ({ item }: { item: DeepMindItem }) => {
                             </span>
                         ))}
                     </div>
-                    {item.link && (
-                        <a href={item.link} target="_blank" className="text-white/60 hover:text-white transition-colors">
-                            <ExternalLink size={14} />
-                        </a>
-                    )}
+                    <div className="flex items-center gap-2">
+                        <ShareButtons title={item.title} />
+                        {item.link && (
+                            <a href={item.link} target="_blank" className="text-white/60 hover:text-white transition-colors">
+                                <ExternalLink size={14} />
+                            </a>
+                        )}
+                    </div>
                 </div>
             </div>
         </SpotlightCard>

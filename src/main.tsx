@@ -1,5 +1,6 @@
 import { createRoot } from "react-dom/client";
 import { ThemeProvider } from "next-themes";
+import { HelmetProvider } from 'react-helmet-async';
 import App from "./App.tsx";
 import "./index.css";
 
@@ -9,9 +10,11 @@ import { CodeProtection } from "./components/CodeProtection";
 
 createRoot(document.getElementById("root")!).render(
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-        <CodeProtection />
-        <AuthProvider>
-            <App />
-        </AuthProvider>
+        <HelmetProvider>
+            <CodeProtection />
+            <AuthProvider>
+                <App />
+            </AuthProvider>
+        </HelmetProvider>
     </ThemeProvider>
 );

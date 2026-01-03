@@ -15,6 +15,7 @@ import { Footer } from '@/components/Footer';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import ShareButtons from '@/components/ShareButtons';
 
 // --- Reusable Components ---
 
@@ -227,9 +228,12 @@ export default function AgenticCrafting() {
                                 Agentic Crafting
                             </span>
                         </h1>
-                        <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                        <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed mb-8">
                             A deep dive into <strong className="text-white">ROCK, ROLL, and ROME</strong>—the new open ecosystem for building autonomous agents that actually work.
                         </p>
+                        <div className="flex justify-center">
+                            <ShareButtons title="Agentic Crafting: ROCK, ROLL, and ROME" />
+                        </div>
                     </div>
                 </div>
             </header>

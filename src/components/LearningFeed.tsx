@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Search, ExternalLink, ArrowRight, Filter, BookOpen, Video, GraduationCap, PlayCircle, Star, Bookmark, ChevronDown, ChevronUp } from "lucide-react";
+import ShareButtons from './ShareButtons';
 import { FALLBACK_LEARNING, LearningResource } from '../data/fallbackLearning';
 import { useBookmarks } from '@/hooks/useBookmarks';
 
@@ -253,7 +254,8 @@ export function LearningFeed({ searchTerm }: { searchTerm: string }) {
                                     </Badge>
                                 </div>
                             </CardContent>
-                            <CardFooter className="pt-0 pb-4 px-4 sm:px-6 flex justify-end">
+                            <CardFooter className="pt-0 pb-4 px-4 sm:px-6 flex justify-between items-center gap-2">
+                                <ShareButtons title={resource.title} />
                                 <Button className="w-full sm:w-auto h-9 gap-2 group-hover:bg-primary group-hover:text-primary-foreground transition-all" size="sm" asChild>
                                     <a href={resource.url} target="_blank" rel="noopener noreferrer">
                                         Start Learning <ArrowRight className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" />

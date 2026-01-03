@@ -1,3 +1,4 @@
+import { SEO } from '@/components/SEO';
 import { motion } from 'framer-motion';
 import { NeuralBackground } from '@/components/NeuralBackground';
 import { JobFeed } from '@/components/JobFeed';
@@ -9,6 +10,11 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 export default function Jobs() {
     return (
         <div className="min-h-screen bg-background">
+            <SEO
+                title="AI Jobs Board"
+                description="Find your next role in Artificial Intelligence. Curated AI, ML, and Data Science jobs from top labs and remote-first companies."
+                url="/jobs"
+            />
             <NeuralBackground />
             <Navigation />
 

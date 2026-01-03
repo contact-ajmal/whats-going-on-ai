@@ -105,10 +105,13 @@ export function BroadcastModal({ isOpen, onClose }: BroadcastModalProps) {
                             <div className="grid gap-3">
                                 <Button
                                     onClick={() => { window.open(twitterUrl, '_blank'); incrementSignal(); }}
-                                    className="w-full bg-[#1DA1F2]/10 hover:bg-[#1DA1F2]/20 text-[#1DA1F2] border border-[#1DA1F2]/20 h-12 text-base font-medium justify-between group"
+                                    className="w-full bg-black/40 hover:bg-black/60 text-white border border-white/10 h-12 text-base font-medium justify-between group transition-all"
                                 >
                                     <span className="flex items-center gap-3">
-                                        <Twitter className="w-5 h-5" /> Share on X
+                                        <svg className="w-5 h-5 fill-white" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                                        </svg>
+                                        Share on X
                                     </span>
                                     <Share2 className="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
                                 </Button>

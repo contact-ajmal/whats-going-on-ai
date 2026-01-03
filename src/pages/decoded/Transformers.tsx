@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ArrowRight, Box, Brain, Database, Layers, Lightbulb, MessageSquare, Repeat, Settings, Zap, ChevronDown, ChevronUp, Eye } from 'lucide-react';
 import { NeuralBackground } from '@/components/NeuralBackground';
 import { Badge } from '@/components/ui/badge';
+import ShareButtons from '@/components/ShareButtons';
 
 // --- Components ---
 
@@ -225,10 +226,13 @@ export default function TransformerDeepDive() {
                     <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-tight">
                         Unpacking the <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">Transformer</span>
                     </h1>
-                    <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                    <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed mb-8">
                         The 2017 paper "Attention Is All You Need" changed everything.
                         Here is a visual guide to how it actually works, without drowning in math.
                     </p>
+                    <div className="flex justify-center">
+                        <ShareButtons title="Unpacking the Transformer: A Visual Guide" />
+                    </div>
                 </div>
             </header>
 

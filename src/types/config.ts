@@ -34,6 +34,8 @@ export interface BlogPost {
   description: string;
   tags: string[];
   content: string;
+  coverImage?: string;
+  excerpt?: string;
 }
 
 export interface BlogPostMeta {

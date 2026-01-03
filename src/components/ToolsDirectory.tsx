@@ -9,6 +9,7 @@ import { Card } from '@/components/ui/card';
 import { Tool } from '@/data/toolsData';
 import { DataManager } from '@/lib/dataManager';
 import { useBookmarks } from '@/hooks/useBookmarks';
+import ShareButtons from '@/components/ShareButtons';
 
 const categories = [
     { id: 'All', label: 'All Tools', icon: Sparkles },
@@ -171,6 +172,7 @@ function ToolCard({ tool, isExpanded, onToggle }: { tool: Tool, isExpanded: bool
                                 Visit <ExternalLink className="w-3 h-3 ml-2" />
                             </a>
                         </Button>
+                        <ShareButtons title={tool.name} />
                         {tool.howToUse && (
                             <Button variant="outline" size="icon" onClick={onToggle} className={isExpanded ? 'bg-white/10' : ''}>
                                 {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}

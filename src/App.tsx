@@ -32,6 +32,8 @@ import AnthropicSkillsDeepDive from '@/pages/trending/AnthropicSkills';
 import ContextGraphsDeepDive from '@/pages/trending/ContextGraphs';
 import ClaudeSkills from '@/pages/ClaudeSkills';
 import AgenticCrafting from '@/pages/trending/AgenticCrafting';
+import { SharePlatformFab } from '@/components/SharePlatformFab';
+import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
 
@@ -70,6 +72,7 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <SharePlatformFab />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

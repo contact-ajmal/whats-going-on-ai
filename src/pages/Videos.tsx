@@ -1,3 +1,4 @@
+import { SEO } from '@/components/SEO';
 import { NeuralBackground } from '@/components/NeuralBackground';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
@@ -7,6 +8,11 @@ import { motion } from 'framer-motion';
 export default function Videos() {
     return (
         <div className="min-h-screen bg-background relative overflow-hidden flex flex-col">
+            <SEO
+                title="AI Video Feed"
+                description="Watch curated research summaries, demos, and discussions from the top AI YouTube channels."
+                url="/videos"
+            />
             <NeuralBackground />
             <Navigation />
 

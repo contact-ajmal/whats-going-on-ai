@@ -7,6 +7,7 @@ import { TRENDING_TOPICS } from '@/data/trendingTech';
 import { NeuralBackground } from '@/components/NeuralBackground';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
+import ShareButtons from '@/components/ShareButtons';
 
 const container = {
     hidden: { opacity: 0 },
@@ -107,6 +108,7 @@ const Trending = () => {
                                                 <Clock className="w-3 h-3" />
                                                 {topic.readTime} read
                                             </div>
+                                            <ShareButtons title={topic.title} />
                                             <div className="flex items-center gap-1 group-hover:text-orange-400 transition-colors">
                                                 Explore <ExternalLink className="w-3 h-3" />
                                             </div>

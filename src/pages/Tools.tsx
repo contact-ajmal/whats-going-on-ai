@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { SEO } from '@/components/SEO';
 import { NeuralBackground } from '@/components/NeuralBackground';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
@@ -13,6 +14,11 @@ export default function ToolsPage() {
 
     return (
         <div className="min-h-screen bg-background relative overflow-hidden flex flex-col">
+            <SEO
+                title="AI Tools & MCP Directory"
+                description="The ultimate library of AI applications, developer tools, and Model Context Protocol (MCP) servers. Discover, learn, and build faster."
+                url="/tools"
+            />
             <NeuralBackground />
             <Navigation />
 

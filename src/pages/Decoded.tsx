@@ -1,3 +1,4 @@
+import { SEO } from '@/components/SEO';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ExternalLink, Clock, BarChart, Tag } from 'lucide-react';
@@ -7,6 +8,7 @@ import { DECODED_TOPICS } from '@/data/aiDecoded';
 import { NeuralBackground } from '@/components/NeuralBackground';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
+import ShareButtons from '@/components/ShareButtons';
 
 // Animation variants
 const container = {
@@ -27,6 +29,11 @@ const item = {
 const Decoded = () => {
     return (
         <div className="min-h-screen bg-background relative overflow-hidden">
+            <SEO
+                title="AI Decoded | The Latent Space"
+                description="Demystifying complex AI technologies. Simple guides to Transformers, Diffusion Models, Embeddings, RLHF, and more."
+                url="/decoded"
+            />
             <Navigation />
             <NeuralBackground />
 
@@ -98,6 +105,7 @@ const Decoded = () => {
                                                     <Clock className="w-3 h-3" />
                                                     {topic.readTime} read
                                                 </div>
+                                                <ShareButtons title={topic.title} />
                                                 <div className="flex items-center gap-1 group-hover:text-primary transition-colors">
                                                     Read Guide <ExternalLink className="w-3 h-3" />
                                                 </div>
@@ -151,6 +159,7 @@ const Decoded = () => {
                                                     <Clock className="w-3 h-3" />
                                                     {topic.readTime} read
                                                 </div>
+                                                <ShareButtons title={topic.title} />
                                                 <div className="flex items-center gap-1 group-hover:text-primary transition-colors">
                                                     Read Guide <ExternalLink className="w-3 h-3" />
                                                 </div>

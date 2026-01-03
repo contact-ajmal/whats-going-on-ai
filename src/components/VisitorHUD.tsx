@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Globe, Activity, MapPin, Signal } from 'lucide-react';
+import { Globe, Activity, MapPin, Signal, Flame, BookOpen } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { supabase } from '@/lib/supabase';
@@ -17,14 +17,46 @@ interface RegionStats {
     count: number;
 }
 
+interface GamificationState {
+    streak: number;
+    lastVisit: string;
+    resourcesConsumed: number;
+}
+
 export function VisitorHUD() {
     const [geo, setGeo] = useState<GeoData | null>(null);
     const [isOpen, setIsOpen] = useState(false);
     const [totalVisits, setTotalVisits] = useState<number>(0);
     const [dailyVisits, setDailyVisits] = useState<number>(0);
     const [regions, setRegions] = useState<RegionStats[]>([]);
+    const [gameState, setGameState] = useState<GamificationState>({ streak: 0, lastVisit: '', resourcesConsumed: 0 });
 
     useEffect(() => {
+        // GAMIFICATION LOGIC
+        const stored = localStorage.getItem('ai_gamification');
+        const now = new Date();
+        const todayStr = now.toDateString();
+
+        let newState: GamificationState = stored ? JSON.parse(stored) : { streak: 1, lastVisit: todayStr, resourcesConsumed: 0 };
+
+        if (newState.lastVisit !== todayStr) {
+            const lastDate = new Date(newState.lastVisit);
+            const diffTime = Math.abs(now.getTime() - lastDate.getTime());
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            if (diffDays <= 2) {
+                // Continued streak
+                newState.streak += 1;
+            } else {
+                // Streak broken
+                newState.streak = 1;
+            }
+            newState.lastVisit = todayStr;
+            localStorage.setItem('ai_gamification', JSON.stringify(newState));
+        }
+
+        setGameState(newState);
+
         async function initSession() {
             try {
                 // 1. Get User Location
@@ -140,6 +172,11 @@ export function VisitorHUD() {
                         <span className="text-xs font-mono font-medium text-white/90">
                             {totalVisits.toLocaleString()}
                         </span>
+                        <div className="w-px h-3 bg-white/10 mx-1" />
+                        <div className="flex items-center gap-1 text-orange-400">
+                            <Flame className="w-3 h-3 fill-orange-400" />
+                            <span className="text-xs font-mono font-bold">{gameState.streak}</span>
+                        </div>
                     </>
                 )}
 

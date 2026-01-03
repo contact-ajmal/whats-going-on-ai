@@ -12,6 +12,7 @@ import { Footer } from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import ShareButtons from '@/components/ShareButtons';
 import { BuyCoffeeButton } from '@/components/BuyCoffeeButton';
+import { SEO } from '@/components/SEO';
 
 export default function BlogPostPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -81,6 +82,13 @@ export default function BlogPostPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title={post.title}
+        description={post.excerpt || post.content.slice(0, 160).replace(/[#*]/g, '') + '...'}
+        image={post.coverImage}
+        url={`/blog/${post.slug}`}
+        type="article"
+      />
       <NeuralBackground />
       <Navigation />
 

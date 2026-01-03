@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Loader2, Search, MapPin, Globe, ExternalLink, ArrowRight, Filter, Building2 } from "lucide-react";
+import ShareButtons from './ShareButtons';
 import { FALLBACK_JOBS, JobListing } from '../data/fallbackJobs';
 
 export function JobFeed() {
@@ -304,8 +305,11 @@ export function JobFeed() {
                                         ))}
                                     </div>
                                 </CardContent>
-                                <CardFooter className="pt-0 pb-4 px-4 sm:px-6 flex justify-between items-center text-xs text-muted-foreground">
-                                    <span>Posted {job.postedAt.toLocaleDateString()}</span>
+                                <CardFooter className="pt-0 pb-4 px-4 sm:px-6 flex justify-between items-center text-xs text-muted-foreground gap-2">
+                                    <div className="flex items-center gap-2">
+                                        <span>Posted {job.postedAt.toLocaleDateString()}</span>
+                                        <ShareButtons title={`By ${job.company}: ${job.title}`} />
+                                    </div>
                                     <Button className="h-8 gap-2 group-hover:bg-primary group-hover:text-primary-foreground transition-all" size="sm" asChild>
                                         <a href={job.url} target="_blank" rel="noopener noreferrer">
                                             Apply <ArrowRight className="w-3 h-3 ml-1 group-hover:translate-x-1 transition-transform" />

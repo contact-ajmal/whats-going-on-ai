@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Play, Calendar, ExternalLink, Loader2, Youtube, Activity, Search, ChevronDown, Bookmark } from "lucide-react";
 import { extractImageFromContent } from "@/lib/utils";
-import { LinkedinShareButton } from './LinkedinShareButton';
+import ShareButtons from './ShareButtons';
 import { useBookmarks } from '@/hooks/useBookmarks';
 
 interface Video {
@@ -292,7 +292,7 @@ export function VideoFeed() {
                                         Open on YouTube <ExternalLink className="w-3 h-3 ml-2" />
                                     </a>
                                 </Button>
-                                <LinkedinShareButton url={video.url} />
+                                <ShareButtons title={video.title} />
                             </div>
                         </div>
                     </Card>
@@ -300,19 +300,21 @@ export function VideoFeed() {
             </div>
 
             {/* Load More Button */}
-            {hasMore && (
-                <div className="flex justify-center pt-8">
-                    <Button
-                        variant="ghost"
-                        size="lg"
-                        className="group text-muted-foreground hover:text-foreground border border-white/5 hover:border-white/20 bg-black/20 hover:bg-black/40"
-                        onClick={() => setVisibleCount(prev => prev + 12)}
-                    >
-                        Load More Videos
-                        <ChevronDown className="ml-2 h-4 w-4 group-hover:translate-y-1 transition-transform" />
-                    </Button>
-                </div>
-            )}
-        </div>
+            {
+                hasMore && (
+                    <div className="flex justify-center pt-8">
+                        <Button
+                            variant="ghost"
+                            size="lg"
+                            className="group text-muted-foreground hover:text-foreground border border-white/5 hover:border-white/20 bg-black/20 hover:bg-black/40"
+                            onClick={() => setVisibleCount(prev => prev + 12)}
+                        >
+                            Load More Videos
+                            <ChevronDown className="ml-2 h-4 w-4 group-hover:translate-y-1 transition-transform" />
+                        </Button>
+                    </div>
+                )
+            }
+        </div >
     );
 }

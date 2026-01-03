@@ -1,7 +1,8 @@
+import { SEO } from '@/components/SEO';
 import { motion } from 'framer-motion';
 import { NeuralBackground } from '@/components/NeuralBackground';
 import { ResearchFeed } from '@/components/ResearchFeed';
-import { NewsletterSignup } from '@/components/NewsletterSignup';
+import { DailyBriefingWidget } from '@/components/DailyBriefingWidget';
 import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
@@ -9,6 +10,11 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 export default function Research() {
     return (
         <div className="min-h-screen bg-background">
+            <SEO
+                title="AI Research Papers & Feeds"
+                description="Real-time feed of the latest AI research papers from ArXiv, Hugging Face, Google Research, and BAIR. Filter, search, and track the bleeding edge of AI."
+                url="/research"
+            />
             <NeuralBackground />
             <Navigation />
 
@@ -39,7 +45,7 @@ export default function Research() {
 
                 {/* Newsletter Section */}
                 <div className="container mx-auto px-6 mt-24">
-                    <NewsletterSignup variant="default" />
+                    <DailyBriefingWidget />
                 </div>
             </main >
 

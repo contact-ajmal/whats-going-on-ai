@@ -5,6 +5,7 @@ import { Footer } from '@/components/Footer';
 import { Star, Zap, Bot, Heart, Sparkles, Rocket, Brain, Palette } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import ShareButtons from '@/components/ShareButtons';
 
 // --- Components ---
 
@@ -45,6 +46,7 @@ const Hero = () => (
                 >
                     <Rocket className="mr-2" /> Start Exploring
                 </Button>
+                <ShareButtons title="Check out this AI Playground for Kids!" />
                 <Button
                     size="lg"
                     variant="outline"

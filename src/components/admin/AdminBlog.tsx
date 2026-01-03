@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { GitHubClient } from '@/lib/github';
 import { Button } from '@/components/ui/button';
+import ShareButtons from '@/components/ShareButtons';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -68,7 +69,7 @@ export function AdminBlog({ token, repo }: AdminBlogProps) {
         setIsLoading(true);
         try {
             const client = new GitHubClient(token, repo);
-            const file = await client.getFile(`public/posts/${slug}.md`);
+            const file = await client.getFile(`public / posts / ${slug}.md`);
 
             const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/;
             const match = file.content.match(frontmatterRegex);
@@ -119,13 +120,13 @@ export function AdminBlog({ token, repo }: AdminBlogProps) {
         try {
             const client = new GitHubClient(token, repo);
             const publicPath = await client.uploadImage(file);
-            const url = publicPath.startsWith('http') ? publicPath : `${import.meta.env.BASE_URL}${publicPath}`;
-            const imageMarkdown = `\n![${file.name}](${url})\n`;
+            const url = publicPath.startsWith('http') ? publicPath : `${import.meta.env.BASE_URL}${publicPath} `;
+            const imageMarkdown = `\n![${file.name}](${url}) \n`;
             handleInsert(imageMarkdown);
             toast.success('Image uploaded!', { id: loadingToast });
         } catch (error: any) {
             console.error(error);
-            toast.error(`Upload failed: ${error.message}`, { id: loadingToast });
+            toast.error(`Upload failed: ${error.message} `, { id: loadingToast });
         }
     };
 
@@ -143,19 +144,19 @@ export function AdminBlog({ token, repo }: AdminBlogProps) {
             const date = originalDate || new Date().toISOString().split('T')[0];
             const tagsArray = tags.split(',').map(t => t.trim()).filter(Boolean);
 
-            const fileContent = `---
-title: ${title}
+            const fileContent = `-- -
+    title: ${title}
 date: ${date}
 description: ${description}
 tags: [${tagsArray.join(', ')}]
 ---
 
-${content}`;
+    ${content} `;
 
             await client.createFile(
-                `public/posts/${slug}.md`,
+                `public / posts / ${slug}.md`,
                 fileContent,
-                `feat: ${isEditing ? 'update' : 'add'} post ${title}`
+                `feat: ${isEditing ? 'update' : 'add'} post ${title} `
             );
 
             if (!isEditing) {
@@ -163,10 +164,10 @@ ${content}`;
                 const configFile = await client.getFile(configPath);
                 const updatedConfigContent = configFile.content.replace(
                     /(const availablePosts(?:\s*:\s*[^=]+)?\s*=\s*\[)/,
-                    `$1\n  '${slug}',`
+                    `$1\n  '${slug}', `
                 );
                 if (updatedConfigContent !== configFile.content) {
-                    await client.createFile(configPath, updatedConfigContent, `chore: register post ${slug}`);
+                    await client.createFile(configPath, updatedConfigContent, `chore: register post ${slug} `);
                 }
             }
 
@@ -177,7 +178,7 @@ ${content}`;
             }
         } catch (error: any) {
             console.error(error);
-            toast.error(`Publish Failed: ${error.message}`);
+            toast.error(`Publish Failed: ${error.message} `);
         } finally {
             setIsLoading(false);
         }
@@ -249,6 +250,10 @@ ${content}`;
                             </TabsContent>
                             <TabsContent value="preview" className="p-0 m-0">
                                 <div className="min-h-[400px] p-4 bg-background/50 rounded-b-md">
+                                    <div className="mb-6 pb-6 border-b border-white/10">
+                                        <h1 className="text-3xl font-bold mb-4">{title || 'Post Title'}</h1>
+                                        <ShareButtons title={title || 'Post Title'} />
+                                    </div>
                                     <MarkdownRenderer content={content || '*Nothing to preview*'} />
                                 </div>
                             </TabsContent>

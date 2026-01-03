@@ -7,9 +7,10 @@ import { toast } from "sonner";
 interface BookmarkButtonProps {
     item: BookmarkItem;
     className?: string;
+    onBookmark?: () => void;
 }
 
-export function BookmarkButton({ item, className }: BookmarkButtonProps) {
+export function BookmarkButton({ item, className, onBookmark }: BookmarkButtonProps) {
     const { isBookmarked, toggleBookmark } = useBookmarks();
     const active = isBookmarked(item.id);
 
@@ -17,6 +18,7 @@ export function BookmarkButton({ item, className }: BookmarkButtonProps) {
         e.preventDefault();
         e.stopPropagation();
         toggleBookmark(item);
+        if (onBookmark) onBookmark();
         if (!active) {
             toast.success("Added to your library");
         } else {

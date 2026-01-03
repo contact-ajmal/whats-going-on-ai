@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { ExternalLink, Loader2, Link as LinkIcon, Rss, Calendar, Search, ChevronDown, Activity } from "lucide-react";
 import { extractImageFromContent } from "@/lib/utils";
 import { BookmarkButton } from "@/components/BookmarkButton";
-import { LinkedinShareButton } from './LinkedinShareButton';
+import ShareButtons from './ShareButtons';
 
 interface UnifiedArticle {
     id: string;
@@ -354,7 +354,7 @@ export function NewsFeed() {
                                         <ExternalLink className="h-4 w-4" />
                                     </a>
                                 </Button>
-                                <LinkedinShareButton url={article.url} />
+                                <ShareButtons title={article.title} />
                                 <BookmarkButton
                                     item={{
                                         id: article.id,

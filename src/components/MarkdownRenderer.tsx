@@ -7,6 +7,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import 'katex/dist/katex.min.css';
 import { GlossaryText } from '@/components/GlossaryText';
+import { ClickToTweet } from '@/components/ClickToTweet';
 
 interface MarkdownRendererProps {
     content: string;
@@ -21,10 +22,22 @@ export function MarkdownRenderer({ content }: MarkdownRendererProps) {
                 components={{
                     code({ node, inline, className, children, ...props }: any) {
                         const match = /language-(\w+)/.exec(className || '');
+                        const lang = match ? match[1] : '';
+
+                        if (!inline && lang === 'tweet') {
+                            const content = String(children).replace(/\n$/, '');
+                            // Parse optional author if provided as "Quote -- Author"
+                            const parts = content.split(' -- ');
+                            const quote = parts[0];
+                            const author = parts.length > 1 ? parts[1] : undefined;
+
+                            return <ClickToTweet quote={quote} author={author} />;
+                        }
+
                         return !inline && match ? (
                             <SyntaxHighlighter
                                 style={atomDark}
-                                language={match[1]}
+                                language={lang}
                                 PreTag="div"
                                 className="rounded-lg border border-white/10 !bg-black/50 !p-4 !my-4 shadow-lg text-sm"
                                 {...props}

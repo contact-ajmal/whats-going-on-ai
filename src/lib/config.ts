@@ -96,7 +96,9 @@ export async function loadBlogPost(slug: string): Promise<BlogPost | null> {
       date: meta.date || '',
       description: meta.description || '',
       tags: meta.tags || [],
-      content: content // Return raw markdown now
+      content: content,
+      coverImage: meta.coverImage,
+      excerpt: meta.excerpt
     };
   } catch (error) {
     console.error(`Error loading post ${slug}:`, error);
