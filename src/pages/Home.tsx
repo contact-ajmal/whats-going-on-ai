@@ -184,8 +184,34 @@ export default function Home() {
       <NeuralBackground />
       <Navigation />
 
+      {/* 🔥 TRENDING STICKER BANNER - Animated Ticker */}
+      <div className="fixed top-20 left-0 right-0 z-40 bg-gradient-to-r from-orange-500/90 via-red-500/90 to-orange-500/90 backdrop-blur-sm overflow-hidden py-2 border-b border-orange-400/30">
+        <div className="animate-marquee whitespace-nowrap flex items-center">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="flex items-center gap-8 mx-8">
+              <Link to="/trending" className="flex items-center gap-2 text-white font-bold text-sm hover:text-yellow-200 transition-colors">
+                <span className="text-lg">🔥</span>
+                TRENDING AI TECH
+                <span className="text-lg">🔥</span>
+              </Link>
+              <Link to="/trending/anthropic-skills" className="text-white/80 text-sm hover:text-white hover:underline transition-colors">
+                🧩 Claude Code Agent Skills — Extend Claude with SKILL.md
+              </Link>
+              <span className="text-white/60">•</span>
+              <Link to="/trending/context-graphs" className="text-white/80 text-sm hover:text-white hover:underline transition-colors">
+                🕸️ Decision Traces — Why Decisions Were Made, Not Just What Happened
+              </Link>
+              <span className="text-white/60">•</span>
+              <Link to="/trending" className="flex items-center gap-1 text-yellow-200 font-semibold text-sm hover:text-white transition-colors group">
+                Explore All <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* HERO SECTION */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 container mx-auto px-6 overflow-hidden min-h-screen flex flex-col justify-center">
+      <section className="relative pt-44 pb-20 lg:pt-56 lg:pb-32 container mx-auto px-6 overflow-hidden min-h-screen flex flex-col justify-center">
 
         {/* Radar Scan Effect */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-20 select-none">
@@ -235,7 +261,7 @@ export default function Home() {
           {/* HEADLINE */}
           <motion.h1 variants={itemVariants} className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1]">
             <span className="text-transparent bg-clip-text bg-gradient-to-br from-white via-primary/50 to-transparent">
-              <TextReveal text="Your Daily AI Command Center" delay={0.5} />
+              <TextReveal text="Your Daily AI HUB" delay={0.5} />
             </span>
           </motion.h1>
 

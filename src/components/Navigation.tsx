@@ -130,6 +130,20 @@ export function Navigation() {
 
                   <NavigationMenuItem>
                     <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                      <Link to="/trending" className="group flex items-center gap-2 font-bold">
+                        <span className="relative flex h-2 w-2 mr-1">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+                        </span>
+                        <span className="bg-gradient-to-r from-orange-400 via-red-400 to-orange-500 bg-clip-text text-transparent animate-gradient bg-300% group-hover:from-orange-300 group-hover:via-red-300 group-hover:to-orange-400 transition-all duration-300">
+                          Trending AI Tech
+                        </span>
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+
+                  <NavigationMenuItem>
+                    <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
                       <Link to="/young-minds" className="group flex items-center gap-2 font-bold hover:bg-yellow-400/10 rounded-md px-3 py-2 transition-colors">
                         <span className="text-yellow-400 group-hover:text-yellow-300 transition-colors">
                           Young Minds
@@ -252,6 +266,14 @@ export function Navigation() {
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
                   </span>
                   <span className="bg-gradient-to-r from-indigo-400 to-pink-400 bg-clip-text text-transparent">AI Decoded</span>
+                </Link>
+
+                <Link to="/trending" onClick={() => setIsOpen(false)} className="mx-4 mb-2 px-4 py-3 rounded-xl bg-gradient-to-r from-orange-500/10 via-red-500/10 to-orange-500/10 border border-orange-500/20 text-sm font-bold flex items-center gap-3 group">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+                  </span>
+                  <span className="bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Trending AI Tech</span>
                 </Link>
 
                 <Link to="/young-minds" onClick={() => setIsOpen(false)} className="mx-4 mb-2 px-4 py-3 rounded-xl bg-yellow-400/10 border border-yellow-400/20 text-sm font-bold flex items-center gap-3 text-yellow-400">

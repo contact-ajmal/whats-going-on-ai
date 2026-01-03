@@ -16,8 +16,6 @@ import { Loader2, Plus, Search, Edit, Trash2, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { DataManager } from '@/lib/dataManager';
 import { Tool } from '@/data/toolsData';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Textarea } from '@/components/ui/textarea';
 
 export function AdminTools() {
     const [tools, setTools] = useState<Tool[]>([]);
