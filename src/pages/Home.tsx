@@ -298,7 +298,7 @@ export default function Home() {
           </motion.div>
 
           {/* BENTO GRID (Mission Visualization) */}
-          <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
+          <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 max-w-7xl mx-auto">
 
             <Link to="/research" className="block h-full group">
               <TiltCard className="h-full" rotationFactor={20}>
@@ -356,6 +356,21 @@ export default function Home() {
                     <p className="text-xs text-muted-foreground leading-relaxed">Directory of agentic tools and Model Context Protocol servers for developers.</p>
                   </div>
                   <BorderBeam size={150} duration={10} delay={9} borderWidth={1.5} colorFrom="#f97316" colorTo="#fbbf24" />
+                </Spotlight>
+              </TiltCard>
+            </Link>
+
+            <Link to="/skills" className="block h-full group">
+              <TiltCard className="h-full" rotationFactor={20}>
+                <Spotlight className="h-full hover:border-cyan-500/50 transition-colors">
+                  <div className="p-6 h-full flex flex-col items-start text-left relative z-20">
+                    <div className="p-3 rounded-lg bg-cyan-500/10 text-cyan-400 mb-4">
+                      <Sparkles size={24} />
+                    </div>
+                    <h3 className="text-lg font-bold mb-2 text-foreground">Claude Skills</h3>
+                    <p className="text-xs text-muted-foreground leading-relaxed">90+ agent skills across 12 categories to extend Claude's capabilities.</p>
+                  </div>
+                  <BorderBeam size={150} duration={10} delay={12} borderWidth={1.5} colorFrom="#06b6d4" colorTo="#22d3ee" />
                 </Spotlight>
               </TiltCard>
             </Link>
