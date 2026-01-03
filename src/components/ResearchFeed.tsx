@@ -101,15 +101,23 @@ export function ResearchFeed() {
                     return [];
                 };
 
-                // Fetch ArXiv directly via their Atom API (no proxy needed!)
+                // Fetch ArXiv via CORS proxy (ArXiv API doesn't support CORS)
                 const fetchArxiv = async (category: string, categoryName: string): Promise<ResearchPaper[]> => {
                     try {
-                        const url = `https://export.arxiv.org/api/query?search_query=cat:${category}&sortBy=submittedDate&sortOrder=descending&max_results=15`;
-                        const res = await fetch(url);
-                        const text = await res.text();
+                        const arxivUrl = `https://export.arxiv.org/api/query?search_query=cat:${category}&sortBy=submittedDate&sortOrder=descending&max_results=15`;
+                        // Use allorigins as CORS proxy
+                        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(arxivUrl)}`;
+
+                        const res = await fetch(proxyUrl);
+                        const data = await res.json();
+
+                        if (!data.contents) {
+                            console.warn(`ArXiv ${category}: No contents returned`);
+                            return [];
+                        }
 
                         const parser = new DOMParser();
-                        const xml = parser.parseFromString(text, 'text/xml');
+                        const xml = parser.parseFromString(data.contents, 'text/xml');
                         const entries = xml.querySelectorAll('entry');
 
                         return Array.from(entries).map((entry) => {
@@ -121,9 +129,9 @@ export function ResearchFeed() {
 
                             return {
                                 id,
-                                title: title.replace(/\s+/g, ' '), // Clean up whitespace
+                                title: title.replace(/\s+/g, ' '),
                                 abstract: summary.replace(/\s+/g, ' ').slice(0, 300) + '...',
-                                url: id, // ArXiv ID is the URL
+                                url: id,
                                 publishedAt: new Date(published),
                                 authors: authors.length > 0 ? authors : ['ArXiv'],
                                 category: categoryName,
