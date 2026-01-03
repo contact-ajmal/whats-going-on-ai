@@ -233,12 +233,23 @@ export default function Home() {
           </motion.div>
 
           {/* HEADLINE */}
-          <motion.h1 variants={itemVariants} className="text-5xl md:text-8xl font-extrabold tracking-tight mb-8 leading-[0.9]">
-            Your Signal in <br />
+          <motion.h1 variants={itemVariants} className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1]">
             <span className="text-transparent bg-clip-text bg-gradient-to-br from-white via-primary/50 to-transparent">
-              <TextReveal text="The Noise" delay={0.5} />
+              <TextReveal text="Your Daily AI Command Center" delay={0.5} />
             </span>
           </motion.h1>
+
+          {/* VALUE PROPOSITION */}
+          <motion.p variants={itemVariants} className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-4 leading-relaxed">
+            Stay ahead with <span className="text-primary font-semibold">curated research papers</span>,
+            discover the <span className="text-emerald-400 font-semibold">latest AI tools & MCP servers</span>,
+            catch the <span className="text-purple-400 font-semibold">latest news</span>, and
+            level up with <span className="text-pink-400 font-semibold">hand-picked learning resources</span>.
+          </motion.p>
+
+          <motion.p variants={itemVariants} className="text-sm md:text-base text-muted-foreground/70 max-w-2xl mx-auto mb-8">
+            Everything you need to navigate the AI landscape — aggregated, filtered, and updated daily.
+          </motion.p>
 
           {/* SIGNAL UPLINK (BOOKMARK) */}
           <motion.div variants={itemVariants} className="flex justify-center mb-12">
