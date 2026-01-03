@@ -101,66 +101,74 @@ export function ResearchFeed() {
                     return [];
                 };
 
-                // Fetch ArXiv via multiple CORS proxies with fallback
+                // Fetch ArXiv via RSS (more reliable than API proxy)
                 const fetchArxiv = async (category: string, categoryName: string): Promise<ResearchPaper[]> => {
-                    const arxivUrl = `https://export.arxiv.org/api/query?search_query=cat:${category}&sortBy=submittedDate&sortOrder=descending&max_results=15`;
+                    const rssUrl = `http://arxiv.org/rss/${category}`;
 
-                    // Try multiple proxies in order
-                    const proxies = [
-                        (url: string) => `https://corsproxy.io/?${encodeURIComponent(url)}`,
-                        (url: string) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-                        (url: string) => `https://thingproxy.freeboard.io/fetch/${url}`
-                    ];
-
-                    for (const makeProxyUrl of proxies) {
-                        try {
-                            const proxyUrl = makeProxyUrl(arxivUrl);
-                            const controller = new AbortController();
-                            const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
-
-                            const res = await fetch(proxyUrl, { signal: controller.signal });
-                            clearTimeout(timeoutId);
-
-                            const text = await res.text();
-
-                            if (!text || text.includes('error') || text.includes('timeout')) {
-                                continue; // Try next proxy
+                    // Try rss2json first (free tier), then allorigins as backup
+                    const fetchMethods = [
+                        async () => {
+                            const url = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+                            const res = await fetch(url);
+                            const data = await res.json();
+                            if (data.status === 'ok' && data.items?.length > 0) {
+                                return data.items.slice(0, 15).map((item: any) => ({
+                                    id: item.link || item.guid,
+                                    title: (item.title || 'Untitled').replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim(),
+                                    abstract: (item.description || item.content || '').replace(/<[^>]*>/g, '').slice(0, 300) + '...',
+                                    url: item.link,
+                                    publishedAt: new Date(item.pubDate || Date.now()),
+                                    authors: ['ArXiv'],
+                                    category: categoryName,
+                                    source: 'ArXiv'
+                                }));
                             }
-
+                            throw new Error('rss2json failed');
+                        },
+                        async () => {
+                            // Fallback: Use allorigins to get raw RSS and parse
+                            const url = `https://api.allorigins.win/raw?url=${encodeURIComponent(rssUrl)}`;
+                            const res = await fetch(url);
+                            const text = await res.text();
                             const parser = new DOMParser();
                             const xml = parser.parseFromString(text, 'text/xml');
-                            const entries = xml.querySelectorAll('entry');
+                            const items = xml.querySelectorAll('item');
 
-                            if (entries.length === 0) continue; // No entries, try next
+                            if (items.length === 0) throw new Error('No items');
 
-                            const papers = Array.from(entries).map((entry) => {
-                                const title = entry.querySelector('title')?.textContent?.trim() || 'Untitled';
-                                const summary = entry.querySelector('summary')?.textContent?.trim() || '';
-                                const id = entry.querySelector('id')?.textContent || '';
-                                const published = entry.querySelector('published')?.textContent || '';
-                                const authors = Array.from(entry.querySelectorAll('author name')).map(a => a.textContent || 'Unknown');
+                            return Array.from(items).slice(0, 15).map((item) => {
+                                const title = item.querySelector('title')?.textContent || 'Untitled';
+                                const link = item.querySelector('link')?.textContent || '';
+                                const description = item.querySelector('description')?.textContent || '';
+                                const pubDate = item.querySelector('pubDate')?.textContent || '';
 
                                 return {
-                                    id,
-                                    title: title.replace(/\s+/g, ' '),
-                                    abstract: summary.replace(/\s+/g, ' ').slice(0, 300) + '...',
-                                    url: id,
-                                    publishedAt: new Date(published),
-                                    authors: authors.length > 0 ? authors : ['ArXiv'],
+                                    id: link,
+                                    title: title.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim(),
+                                    abstract: description.replace(/<[^>]*>/g, '').slice(0, 300) + '...',
+                                    url: link,
+                                    publishedAt: new Date(pubDate || Date.now()),
+                                    authors: ['ArXiv'],
                                     category: categoryName,
                                     source: 'ArXiv'
                                 };
                             });
+                        }
+                    ];
 
-                            console.log(`ArXiv ${category}: fetched ${papers.length} papers`);
-                            return papers;
+                    for (const fetchMethod of fetchMethods) {
+                        try {
+                            const papers = await fetchMethod();
+                            if (papers.length > 0) {
+                                console.log(`ArXiv ${category}: fetched ${papers.length} papers`);
+                                return papers;
+                            }
                         } catch (e) {
-                            console.warn(`ArXiv proxy failed for ${category}, trying next...`);
-                            continue;
+                            console.warn(`ArXiv fetch method failed for ${category}, trying next...`);
                         }
                     }
 
-                    console.warn(`All ArXiv proxies failed for ${category}`);
+                    console.warn(`All ArXiv fetch methods failed for ${category}`);
                     return [];
                 };
 
