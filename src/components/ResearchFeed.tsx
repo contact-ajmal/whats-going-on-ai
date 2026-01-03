@@ -101,47 +101,67 @@ export function ResearchFeed() {
                     return [];
                 };
 
-                // Fetch ArXiv via CORS proxy (ArXiv API doesn't support CORS)
+                // Fetch ArXiv via multiple CORS proxies with fallback
                 const fetchArxiv = async (category: string, categoryName: string): Promise<ResearchPaper[]> => {
-                    try {
-                        const arxivUrl = `https://export.arxiv.org/api/query?search_query=cat:${category}&sortBy=submittedDate&sortOrder=descending&max_results=15`;
-                        // Use allorigins as CORS proxy
-                        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(arxivUrl)}`;
+                    const arxivUrl = `https://export.arxiv.org/api/query?search_query=cat:${category}&sortBy=submittedDate&sortOrder=descending&max_results=15`;
 
-                        const res = await fetch(proxyUrl);
-                        const data = await res.json();
+                    // Try multiple proxies in order
+                    const proxies = [
+                        (url: string) => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+                        (url: string) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+                        (url: string) => `https://thingproxy.freeboard.io/fetch/${url}`
+                    ];
 
-                        if (!data.contents) {
-                            console.warn(`ArXiv ${category}: No contents returned`);
-                            return [];
+                    for (const makeProxyUrl of proxies) {
+                        try {
+                            const proxyUrl = makeProxyUrl(arxivUrl);
+                            const controller = new AbortController();
+                            const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
+
+                            const res = await fetch(proxyUrl, { signal: controller.signal });
+                            clearTimeout(timeoutId);
+
+                            const text = await res.text();
+
+                            if (!text || text.includes('error') || text.includes('timeout')) {
+                                continue; // Try next proxy
+                            }
+
+                            const parser = new DOMParser();
+                            const xml = parser.parseFromString(text, 'text/xml');
+                            const entries = xml.querySelectorAll('entry');
+
+                            if (entries.length === 0) continue; // No entries, try next
+
+                            const papers = Array.from(entries).map((entry) => {
+                                const title = entry.querySelector('title')?.textContent?.trim() || 'Untitled';
+                                const summary = entry.querySelector('summary')?.textContent?.trim() || '';
+                                const id = entry.querySelector('id')?.textContent || '';
+                                const published = entry.querySelector('published')?.textContent || '';
+                                const authors = Array.from(entry.querySelectorAll('author name')).map(a => a.textContent || 'Unknown');
+
+                                return {
+                                    id,
+                                    title: title.replace(/\s+/g, ' '),
+                                    abstract: summary.replace(/\s+/g, ' ').slice(0, 300) + '...',
+                                    url: id,
+                                    publishedAt: new Date(published),
+                                    authors: authors.length > 0 ? authors : ['ArXiv'],
+                                    category: categoryName,
+                                    source: 'ArXiv'
+                                };
+                            });
+
+                            console.log(`ArXiv ${category}: fetched ${papers.length} papers`);
+                            return papers;
+                        } catch (e) {
+                            console.warn(`ArXiv proxy failed for ${category}, trying next...`);
+                            continue;
                         }
-
-                        const parser = new DOMParser();
-                        const xml = parser.parseFromString(data.contents, 'text/xml');
-                        const entries = xml.querySelectorAll('entry');
-
-                        return Array.from(entries).map((entry) => {
-                            const title = entry.querySelector('title')?.textContent?.trim() || 'Untitled';
-                            const summary = entry.querySelector('summary')?.textContent?.trim() || '';
-                            const id = entry.querySelector('id')?.textContent || '';
-                            const published = entry.querySelector('published')?.textContent || '';
-                            const authors = Array.from(entry.querySelectorAll('author name')).map(a => a.textContent || 'Unknown');
-
-                            return {
-                                id,
-                                title: title.replace(/\s+/g, ' '),
-                                abstract: summary.replace(/\s+/g, ' ').slice(0, 300) + '...',
-                                url: id,
-                                publishedAt: new Date(published),
-                                authors: authors.length > 0 ? authors : ['ArXiv'],
-                                category: categoryName,
-                                source: 'ArXiv'
-                            };
-                        });
-                    } catch (e) {
-                        console.warn(`Failed to fetch ArXiv ${category}:`, e);
-                        return [];
                     }
+
+                    console.warn(`All ArXiv proxies failed for ${category}`);
+                    return [];
                 };
 
                 // Fetch Hugging Face directly via their JSON API
