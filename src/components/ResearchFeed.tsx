@@ -27,53 +27,81 @@ export function ResearchFeed() {
                     if (loading) setLoading(false);
                 }, 4000);
 
-                // Helper to fetch via RSS2JSON (more reliable than raw proxies)
-                // Using the free API key (limit 10k requests/day usually, or fallback to no key)
+                // Helper to fetch via multiple RSS proxies (with fallback)
                 const fetchRSS = async (rssUrl: string, sourceName: string, categoryName: string, isAuthorList = false) => {
-                    try {
-                        // Cache buster: Update every 30 minutes to bypass 1-hour server cache but prevent varying every second
-                        const cacheBuster = Math.floor(Date.now() / 1000 / 60 / 30);
-                        const urlWithCache = `${rssUrl}${rssUrl.includes('?') ? '&' : '?'}t=${cacheBuster}`;
+                    // Try multiple proxies in order
+                    const proxies = [
+                        (url: string) => `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`,
+                        (url: string) => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`
+                    ];
 
-                        const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(urlWithCache)}`);
-                        const data = await res.json();
+                    for (const getProxyUrl of proxies) {
+                        try {
+                            const proxyUrl = getProxyUrl(rssUrl);
+                            const res = await fetch(proxyUrl);
+                            const data = await res.json();
 
-                        if (data.status === 'ok' && Array.isArray(data.items)) {
-                            return data.items
-                                .filter((item: any) => {
-                                    // Validate link exists and is a deep link (not homepage)
-                                    if (!item.link || item.link.length < 20) return false;
+                            // Handle rss2json format
+                            if (data.status === 'ok' && Array.isArray(data.items)) {
+                                return data.items
+                                    .filter((item: any) => {
+                                        if (!item.link || item.link.length < 20) return false;
+                                        const url = item.link.toLowerCase();
+                                        const invalidPatterns = [
+                                            /^https?:\/\/[^\/]+\/?$/,
+                                            /^https?:\/\/[^\/]+\/blog\/?$/,
+                                            /^https?:\/\/[^\/]+\/papers?\/?$/,
+                                            /^https?:\/\/[^\/]+\/research\/?$/,
+                                        ];
+                                        return !invalidPatterns.some(pattern => pattern.test(url));
+                                    })
+                                    .map((item: any) => ({
+                                        id: item.guid || item.link,
+                                        title: item.title,
+                                        abstract: (item.description || '').replace(/<[^>]*>?/gm, '').slice(0, 300) + '...',
+                                        url: item.link,
+                                        publishedAt: new Date(item.pubDate),
+                                        authors: isAuthorList ? [item.author] : [item.author || sourceName],
+                                        category: categoryName,
+                                        source: sourceName
+                                    }));
+                            }
 
-                                    // Filter out root/homepage URLs
-                                    const url = item.link.toLowerCase();
-                                    const invalidPatterns = [
-                                        /^https?:\/\/[^\/]+\/?$/,  // Just domain
-                                        /^https?:\/\/[^\/]+\/blog\/?$/,  // Just /blog
-                                        /^https?:\/\/[^\/]+\/papers?\/?$/,  // Just /papers
-                                        /^https?:\/\/[^\/]+\/research\/?$/,  // Just /research
-                                    ];
+                            // Handle allorigins format (returns raw content)
+                            if (data.contents) {
+                                const parser = new DOMParser();
+                                const xml = parser.parseFromString(data.contents, 'text/xml');
+                                const items = xml.querySelectorAll('item, entry');
 
-                                    return !invalidPatterns.some(pattern => pattern.test(url));
-                                })
-                                .map((item: any) => ({
-                                    id: item.guid || item.link,
-                                    title: item.title,
-                                    abstract: (item.description || '').replace(/<[^>]*>?/gm, '').slice(0, 300) + '...',
-                                    url: item.link,
-                                    publishedAt: new Date(item.pubDate),
-                                    authors: isAuthorList ? [item.author] : [item.author || sourceName],
-                                    category: categoryName,
-                                    source: sourceName
-                                }));
+                                return Array.from(items).slice(0, 20).map((item: Element) => {
+                                    const title = item.querySelector('title')?.textContent || '';
+                                    const link = item.querySelector('link')?.textContent ||
+                                        item.querySelector('link')?.getAttribute('href') || '';
+                                    const description = item.querySelector('description, summary, content')?.textContent || '';
+                                    const pubDate = item.querySelector('pubDate, published, updated')?.textContent || '';
+                                    const author = item.querySelector('author, dc\\:creator')?.textContent || sourceName;
+
+                                    return {
+                                        id: link,
+                                        title,
+                                        abstract: description.replace(/<[^>]*>?/gm, '').slice(0, 300) + '...',
+                                        url: link,
+                                        publishedAt: pubDate ? new Date(pubDate) : new Date(),
+                                        authors: [author],
+                                        category: categoryName,
+                                        source: sourceName
+                                    };
+                                }).filter((item: any) => item.url && item.url.length > 20);
+                            }
+                        } catch (e) {
+                            console.warn(`Proxy failed for ${sourceName}:`, e);
+                            continue; // Try next proxy
                         }
-                        return [];
-                    } catch (e) {
-                        console.warn(`Failed to fetch ${sourceName}`, e);
-                        return [];
                     }
+                    return [];
                 };
 
-                // Fetch all sources in parallel - using reliable RSS feeds
+                // Fetch all sources in parallel
                 const [arxivAI, arxivML, arxivCL, huggingFace, pwcTrending] = await Promise.all([
                     fetchRSS('http://arxiv.org/rss/cs.AI', 'ArXiv', 'Artificial Intelligence'),
                     fetchRSS('http://arxiv.org/rss/cs.LG', 'ArXiv', 'Machine Learning'),
