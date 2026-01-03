@@ -41,5 +41,19 @@ export const TRENDING_TOPICS: TrendingTopic[] = [
         color: 'from-purple-500 to-indigo-500',
         isBreaking: false,
         date: '2025-01'
+    },
+    {
+        id: 'agentic-crafting',
+        title: 'Agentic Crafting (ROME)',
+        shortDescription: 'The new "Rock and Roll" ecosystem for agent training.',
+        fullDescription: 'Based on the paper "Let It Flow", this emerging ecosystem (ALE) introduces a principled pipeline for agentic LLMs: ROLL for post-training, ROCK for sandboxed environments, and ROME as the SOTA open model.',
+        icon: '🎸',
+        difficulty: 'Advanced',
+        readTime: '15 min',
+        tags: ['ALE Ecosystem', 'Model Training', 'Open Source', 'arXiv:2512.24873'],
+        link: '/trending/agentic-crafting',
+        color: 'from-rose-500 to-orange-500',
+        isBreaking: true,
+        date: '2025-12'
     }
 ];

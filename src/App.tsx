@@ -31,6 +31,7 @@ import Trending from '@/pages/Trending';
 import AnthropicSkillsDeepDive from '@/pages/trending/AnthropicSkills';
 import ContextGraphsDeepDive from '@/pages/trending/ContextGraphs';
 import ClaudeSkills from '@/pages/ClaudeSkills';
+import AgenticCrafting from '@/pages/trending/AgenticCrafting';
 
 const queryClient = new QueryClient();
 
@@ -63,6 +64,7 @@ const App = () => (
           <Route path="/trending" element={<Trending />} />
           <Route path="/trending/anthropic-skills" element={<AnthropicSkillsDeepDive />} />
           <Route path="/trending/context-graphs" element={<ContextGraphsDeepDive />} />
+          <Route path="/trending/agentic-crafting" element={<AgenticCrafting />} />
           <Route path="/skills" element={<ClaudeSkills />} />
           <Route path="/profile" element={<Profile />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
