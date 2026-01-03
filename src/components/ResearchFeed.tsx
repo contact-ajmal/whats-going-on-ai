@@ -101,67 +101,49 @@ export function ResearchFeed() {
                     return [];
                 };
 
-                // Fetch ArXiv via RSSHub (public instance with CORS support)
+                // Fetch ArXiv via local self-hosted CORS proxy
                 const fetchArxiv = async (category: string, categoryName: string): Promise<ResearchPaper[]> => {
-                    // RSSHub provides ArXiv feeds with proper CORS headers
-                    // Format: https://rsshub.app/arxiv/list/{category}
-                    const rsshubUrl = `https://rsshub.app/arxiv/list/${category}`;
+                    // Use local Docker CORS proxy (running on port 1200)
+                    // This is the most reliable "unlimited" option
+                    const arxivUrl = `https://export.arxiv.org/api/query?search_query=cat:${category}&sortBy=submittedDate&sortOrder=descending&max_results=15`;
+                    // Note: localhost:1200 is the CORS proxy container
+                    const proxyUrl = `http://localhost:1200/${arxivUrl}`;
 
-                    const fetchMethods = [
-                        // Primary: RSSHub JSON format
-                        async () => {
-                            const res = await fetch(`${rsshubUrl}?format=json`);
-                            const data = await res.json();
+                    try {
+                        const res = await fetch(proxyUrl);
+                        const text = await res.text();
 
-                            if (data.items?.length > 0) {
-                                return data.items.slice(0, 15).map((item: any) => ({
-                                    id: item.url || item.id,
-                                    title: (item.title || 'Untitled').replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim(),
-                                    abstract: (item.content_text || item.summary || '').replace(/<[^>]*>/g, '').slice(0, 300) + '...',
-                                    url: item.url || item.id,
-                                    publishedAt: new Date(item.date_published || Date.now()),
-                                    authors: item.authors?.map((a: any) => a.name) || ['ArXiv'],
-                                    category: categoryName,
-                                    source: 'ArXiv'
-                                }));
-                            }
-                            throw new Error('RSSHub JSON failed');
-                        },
-                        // Fallback: RSSHub RSS format via rss2json
-                        async () => {
-                            const url = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rsshubUrl)}`;
-                            const res = await fetch(url);
-                            const data = await res.json();
-                            if (data.status === 'ok' && data.items?.length > 0) {
-                                return data.items.slice(0, 15).map((item: any) => ({
-                                    id: item.link || item.guid,
-                                    title: (item.title || 'Untitled').replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim(),
-                                    abstract: (item.description || item.content || '').replace(/<[^>]*>/g, '').slice(0, 300) + '...',
-                                    url: item.link,
-                                    publishedAt: new Date(item.pubDate || Date.now()),
-                                    authors: ['ArXiv'],
-                                    category: categoryName,
-                                    source: 'ArXiv'
-                                }));
-                            }
-                            throw new Error('rss2json failed');
+                        // Parse Atom XML response
+                        const parser = new DOMParser();
+                        const xml = parser.parseFromString(text, 'text/xml');
+                        const entries = xml.querySelectorAll('entry');
+
+                        if (entries.length > 0) {
+                            console.log(`ArXiv ${category}: fetched ${entries.length} papers via local proxy`);
                         }
-                    ];
 
-                    for (const fetchMethod of fetchMethods) {
-                        try {
-                            const papers = await fetchMethod();
-                            if (papers.length > 0) {
-                                console.log(`ArXiv ${category}: fetched ${papers.length} papers via RSSHub`);
-                                return papers;
-                            }
-                        } catch (e) {
-                            console.warn(`ArXiv fetch method failed for ${category}, trying next...`);
-                        }
+                        return Array.from(entries).map((entry) => {
+                            const title = entry.querySelector('title')?.textContent?.trim() || 'Untitled';
+                            const summary = entry.querySelector('summary')?.textContent?.trim() || '';
+                            const id = entry.querySelector('id')?.textContent || '';
+                            const published = entry.querySelector('published')?.textContent || '';
+                            const authors = Array.from(entry.querySelectorAll('author name')).map(a => a.textContent || 'Unknown');
+
+                            return {
+                                id,
+                                title: title.replace(/\s+/g, ' '),
+                                abstract: summary.replace(/\s+/g, ' ').slice(0, 300) + '...',
+                                url: id,
+                                publishedAt: new Date(published),
+                                authors: authors.length > 0 ? authors : ['ArXiv'],
+                                category: categoryName,
+                                source: 'ArXiv'
+                            };
+                        });
+                    } catch (e) {
+                        console.warn(`Failed to fetch ArXiv ${category} via local proxy:`, e);
+                        return [];
                     }
-
-                    console.warn(`All ArXiv fetch methods failed for ${category}`);
-                    return [];
                 };
 
                 // Fetch Hugging Face directly via their JSON API
