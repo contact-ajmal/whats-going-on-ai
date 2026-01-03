@@ -74,10 +74,11 @@ export function ResearchFeed() {
                 };
 
                 // Fetch all sources in parallel - using reliable RSS feeds
-                const [arxivAI, arxivML, semanticScholar, pwcTrending] = await Promise.all([
+                const [arxivAI, arxivML, arxivCL, huggingFace, pwcTrending] = await Promise.all([
                     fetchRSS('http://arxiv.org/rss/cs.AI', 'ArXiv', 'Artificial Intelligence'),
                     fetchRSS('http://arxiv.org/rss/cs.LG', 'ArXiv', 'Machine Learning'),
-                    fetchRSS('https://www.semanticscholar.org/feed/recent-publications/computer-science', 'Semantic Scholar', 'Computer Science'),
+                    fetchRSS('http://arxiv.org/rss/cs.CL', 'ArXiv', 'Computation & Language'),
+                    fetchRSS('https://huggingface.co/papers/rss', 'Hugging Face', 'Daily Papers'),
                     fetchRSS('https://paperswithcode.com/latest.rss', 'Papers With Code', 'Trending')
                 ]);
 
@@ -86,7 +87,8 @@ export function ResearchFeed() {
                 const allFetched = [
                     ...(arxivAI || []),
                     ...(arxivML || []),
-                    ...(semanticScholar || []),
+                    ...(arxivCL || []),
+                    ...(huggingFace || []),
                     ...(pwcTrending || [])
                 ];
 

@@ -77,10 +77,34 @@ const FEEDS: Omit<FeedStatus, 'status'>[] = [
 
     // --- RESEARCH ---
     {
-        id: 'research-arxiv',
+        id: 'research-arxiv-ai',
         name: 'ArXiv (CS.AI)',
-        displayUrl: 'arxiv.org',
-        url: 'https://api.rss2json.com/v1/api.json?rss_url=http://export.arxiv.org/rss/cs.AI'
+        displayUrl: 'arxiv.org/cs.AI',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=http://arxiv.org/rss/cs.AI'
+    },
+    {
+        id: 'research-arxiv-ml',
+        name: 'ArXiv (CS.LG)',
+        displayUrl: 'arxiv.org/cs.LG',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=http://arxiv.org/rss/cs.LG'
+    },
+    {
+        id: 'research-arxiv-cl',
+        name: 'ArXiv (CS.CL)',
+        displayUrl: 'arxiv.org/cs.CL',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=http://arxiv.org/rss/cs.CL'
+    },
+    {
+        id: 'research-huggingface',
+        name: 'Hugging Face Papers',
+        displayUrl: 'huggingface.co/papers',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://huggingface.co/papers/rss'
+    },
+    {
+        id: 'research-pwc',
+        name: 'Papers With Code',
+        displayUrl: 'paperswithcode.com',
+        url: 'https://api.rss2json.com/v1/api.json?rss_url=https://paperswithcode.com/latest.rss'
     },
 
     // --- JOBS ---
