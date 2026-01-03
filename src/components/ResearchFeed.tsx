@@ -101,6 +101,41 @@ export function ResearchFeed() {
                     return [];
                 };
 
+                // Fetch ArXiv directly via their Atom API (no proxy needed!)
+                const fetchArxiv = async (category: string, categoryName: string): Promise<ResearchPaper[]> => {
+                    try {
+                        const url = `https://export.arxiv.org/api/query?search_query=cat:${category}&sortBy=submittedDate&sortOrder=descending&max_results=15`;
+                        const res = await fetch(url);
+                        const text = await res.text();
+
+                        const parser = new DOMParser();
+                        const xml = parser.parseFromString(text, 'text/xml');
+                        const entries = xml.querySelectorAll('entry');
+
+                        return Array.from(entries).map((entry) => {
+                            const title = entry.querySelector('title')?.textContent?.trim() || 'Untitled';
+                            const summary = entry.querySelector('summary')?.textContent?.trim() || '';
+                            const id = entry.querySelector('id')?.textContent || '';
+                            const published = entry.querySelector('published')?.textContent || '';
+                            const authors = Array.from(entry.querySelectorAll('author name')).map(a => a.textContent || 'Unknown');
+
+                            return {
+                                id,
+                                title: title.replace(/\s+/g, ' '), // Clean up whitespace
+                                abstract: summary.replace(/\s+/g, ' ').slice(0, 300) + '...',
+                                url: id, // ArXiv ID is the URL
+                                publishedAt: new Date(published),
+                                authors: authors.length > 0 ? authors : ['ArXiv'],
+                                category: categoryName,
+                                source: 'ArXiv'
+                            };
+                        });
+                    } catch (e) {
+                        console.warn(`Failed to fetch ArXiv ${category}:`, e);
+                        return [];
+                    }
+                };
+
                 // Fetch Hugging Face directly via their JSON API
                 const fetchHuggingFace = async (): Promise<ResearchPaper[]> => {
                     try {
@@ -125,11 +160,11 @@ export function ResearchFeed() {
                     }
                 };
 
-                // Fetch all sources in parallel
+                // Fetch all sources in parallel - ALL DIRECT APIs, no proxies!
                 const [arxivAI, arxivML, arxivCL, huggingFacePapers] = await Promise.all([
-                    fetchRSS('http://arxiv.org/rss/cs.AI', 'ArXiv', 'Artificial Intelligence'),
-                    fetchRSS('http://arxiv.org/rss/cs.LG', 'ArXiv', 'Machine Learning'),
-                    fetchRSS('http://arxiv.org/rss/cs.CL', 'ArXiv', 'Computation & Language'),
+                    fetchArxiv('cs.AI', 'Artificial Intelligence'),
+                    fetchArxiv('cs.LG', 'Machine Learning'),
+                    fetchArxiv('cs.CL', 'Computation & Language'),
                     fetchHuggingFace()
                 ]);
 

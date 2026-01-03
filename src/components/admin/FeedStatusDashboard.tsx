@@ -75,24 +75,24 @@ const FEEDS: Omit<FeedStatus, 'status'>[] = [
         url: 'https://api.rss2json.com/v1/api.json?rss_url=https://blog.google/rss'
     },
 
-    // --- RESEARCH ---
+    // --- RESEARCH (Direct APIs - no proxy needed) ---
     {
         id: 'research-arxiv-ai',
         name: 'ArXiv (CS.AI)',
-        displayUrl: 'arxiv.org/cs.AI',
-        url: 'https://api.rss2json.com/v1/api.json?rss_url=http://arxiv.org/rss/cs.AI'
+        displayUrl: 'export.arxiv.org/api',
+        url: 'https://export.arxiv.org/api/query?search_query=cat:cs.AI&sortBy=submittedDate&sortOrder=descending&max_results=1'
     },
     {
         id: 'research-arxiv-ml',
         name: 'ArXiv (CS.LG)',
-        displayUrl: 'arxiv.org/cs.LG',
-        url: 'https://api.rss2json.com/v1/api.json?rss_url=http://arxiv.org/rss/cs.LG'
+        displayUrl: 'export.arxiv.org/api',
+        url: 'https://export.arxiv.org/api/query?search_query=cat:cs.LG&sortBy=submittedDate&sortOrder=descending&max_results=1'
     },
     {
         id: 'research-arxiv-cl',
         name: 'ArXiv (CS.CL)',
-        displayUrl: 'arxiv.org/cs.CL',
-        url: 'https://api.rss2json.com/v1/api.json?rss_url=http://arxiv.org/rss/cs.CL'
+        displayUrl: 'export.arxiv.org/api',
+        url: 'https://export.arxiv.org/api/query?search_query=cat:cs.CL&sortBy=submittedDate&sortOrder=descending&max_results=1'
     },
     {
         id: 'research-huggingface',
