@@ -184,33 +184,40 @@ export default function Home() {
       <NeuralBackground />
       <Navigation />
 
-      {/* 🔥 TRENDING STICKER BANNER - Animated Ticker */}
-      <div className="fixed top-14 md:top-16 lg:top-16 left-0 right-0 z-40 bg-gradient-to-r from-orange-500/90 via-red-500/90 to-orange-500/90 backdrop-blur-sm overflow-hidden py-1.5 md:py-2 border-b border-orange-400/30">
-        <div className="animate-marquee whitespace-nowrap flex items-center">
-          {[...Array(3)].map((_, i) => (
-            <div key={i} className="flex items-center gap-4 md:gap-8 mx-4 md:mx-8">
-              <Link to="/trending" className="flex items-center gap-1 md:gap-2 text-white font-bold text-xs md:text-sm hover:text-yellow-200 transition-colors">
-                <span className="text-base md:text-lg">🔥</span>
-                <span className="hidden sm:inline">TRENDING AI TECH</span>
-                <span className="sm:hidden">TRENDING</span>
-                <span className="text-base md:text-lg">🔥</span>
+      {/* ✨ TRENDING STICKER BANNER - Styled like Research Ticker */}
+      <div className="fixed top-16 md:top-[4.5rem] lg:top-[4.5rem] left-0 right-0 z-40 bg-black/40 border-b border-white/10 overflow-hidden h-10 md:h-12 flex items-center">
+        {/* Fixed Label */}
+        <div className="absolute left-0 z-20 bg-background/95 backdrop-blur px-3 md:px-4 h-full flex items-center border-r border-white/10 text-xs font-bold text-primary shrink-0 uppercase tracking-wider shadow-[10px_0_20px_-5px_rgba(0,0,0,0.5)]">
+          <div className="w-2 h-2 rounded-full mr-2 md:mr-3 bg-primary animate-pulse shadow-[0_0_10px_currentColor]"></div>
+          <span className="hidden sm:inline">Trending</span>
+          <span className="sm:hidden">Hot</span>
+        </div>
+
+        {/* Scrolling Content */}
+        <div className="flex animate-marquee items-center hover:[animation-play-state:paused] ml-[80px] sm:ml-[100px] md:ml-[120px]">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="flex items-center gap-6 md:gap-10 mx-6 md:mx-10">
+              <Link to="/trending/anthropic-skills" className="inline-flex items-center px-3 py-1 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:scale-105 transition-all duration-300 group">
+                <span className="text-xs uppercase whitespace-nowrap font-bold text-primary group-hover:text-primary/80">
+                  🧩 Claude Agent Skills
+                </span>
               </Link>
-              <Link to="/trending/anthropic-skills" className="text-white/80 text-xs md:text-sm hover:text-white hover:underline transition-colors">
-                <span className="hidden md:inline">🧩 Claude Code Agent Skills — Extend Claude with SKILL.md</span>
-                <span className="md:hidden">🧩 Agent Skills</span>
+              <Link to="/trending/context-graphs" className="inline-flex items-center px-3 py-1 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:scale-105 transition-all duration-300 group">
+                <span className="text-xs uppercase whitespace-nowrap font-bold text-purple-400 group-hover:text-purple-300">
+                  🕸️ Decision Traces
+                </span>
               </Link>
-              <span className="text-white/60 hidden sm:inline">•</span>
-              <Link to="/trending/context-graphs" className="text-white/80 text-xs md:text-sm hover:text-white hover:underline transition-colors hidden sm:inline">
-                <span className="hidden md:inline">🕸️ Decision Traces — Why Decisions Were Made</span>
-                <span className="md:hidden">🕸️ Decision Traces</span>
-              </Link>
-              <span className="text-white/60 hidden sm:inline">•</span>
-              <Link to="/trending" className="flex items-center gap-1 text-yellow-200 font-semibold text-xs md:text-sm hover:text-white transition-colors group">
-                Explore <ArrowRight className="w-3 h-3 md:w-4 md:h-4 group-hover:translate-x-1 transition-transform" />
+              <Link to="/trending" className="inline-flex items-center px-3 py-1 rounded-full border border-primary/30 bg-primary/10 hover:bg-primary/20 hover:scale-105 transition-all duration-300 group">
+                <span className="text-xs uppercase whitespace-nowrap font-bold text-primary group-hover:text-primary/80">
+                  ✨ Explore All →
+                </span>
               </Link>
             </div>
           ))}
         </div>
+
+        {/* Fade overlay on right */}
+        <div className="absolute right-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
       </div>
 
       {/* HERO SECTION */}

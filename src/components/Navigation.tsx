@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { BroadcastModal } from '@/components/BroadcastModal';
-import { Menu, X, Search, Newspaper, Video, Globe, Briefcase, Wrench, Clock, BookOpen, Info, GraduationCap, Brain, Radio } from 'lucide-react';
+import { Menu, X, Search, Newspaper, Video, Globe, Briefcase, Wrench, Clock, BookOpen, Info, GraduationCap, Brain, Radio, Sparkles } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { SearchDialog } from '@/components/SearchDialog';
 import { Button } from '@/components/ui/button';
@@ -20,7 +20,7 @@ import {
 import { UserMenu } from "@/components/UserMenu";
 import { cn } from "@/lib/utils";
 import { BuyCoffeeButton } from './BuyCoffeeButton';
-import logo from '@/assets/logo.png';
+import logo from '@/assets/logo.jpg';
 
 const ListItem = ({ className, title, children, href, icon: Icon, ...props }: any) => {
   return (
@@ -78,16 +78,12 @@ export function Navigation() {
           <div className="flex items-center justify-between gap-2 md:gap-4">
 
             {/* Logo */}
-            {/* Logo */}
-            <Link to="/" className="group flex flex-col items-center justify-center gap-0.5 shrink-0 hover:opacity-90 transition-opacity" aria-label="WhatsGoingOnAI Home">
+            <Link to="/" className="group flex items-center shrink-0 hover:opacity-90 transition-opacity" aria-label="WhatsGoingOnAI Home">
               <img
                 src={logo}
                 alt="WhatsGoingOnAI Logo"
-                className="w-10 h-10 object-contain filter drop-shadow-[0_0_8px_rgba(59,130,246,0.3)]"
+                className="h-10 md:h-12 w-auto object-contain"
               />
-              <span className="text-[10px] md:text-[11px] font-black tracking-wider leading-none bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/80 group-hover:from-primary group-hover:to-purple-500 transition-all duration-300">
-                WhatsGoingOnAI
-              </span>
             </Link>
 
             {/* Desktop Navigation */}
@@ -163,6 +159,9 @@ export function Navigation() {
                         </ListItem>
                         <ListItem href="/tools" title="Tools Directory" icon={Wrench}>
                           Explore standard tools and MCP servers.
+                        </ListItem>
+                        <ListItem href="/skills" title="Claude Skills" icon={Sparkles}>
+                          Agent skills across industries.
                         </ListItem>
                         <ListItem href="/history" title="Timeline" icon={Clock}>
                           Interactive history of AI milestones.
@@ -273,6 +272,7 @@ export function Navigation() {
                 <Link to="/jobs" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><Briefcase className="w-4 h-4" /> Jobs</Link>
                 <Link to="/learning" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><GraduationCap className="w-4 h-4" /> Learning</Link>
                 <Link to="/tools" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><Wrench className="w-4 h-4" /> Tools</Link>
+                <Link to="/skills" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><Sparkles className="w-4 h-4" /> Claude Skills</Link>
                 <Link to="/history" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><Clock className="w-4 h-4" /> Timeline</Link>
 
                 <div className="border-t border-border/50 my-2" />
