@@ -64,9 +64,9 @@ const FeaturedCard = ({ item }: { item: DeepMindItem }) => {
         <SpotlightCard className="col-span-1 md:col-span-2 lg:col-span-2 row-span-2 !bg-gradient-to-br from-blue-950/30 to-black border-blue-500/20">
             <div className="p-8 md:p-12 flex flex-col h-full bg-[url('https://transparenttextures.com/patterns/cubes.png')] bg-blend-overlay">
                 <div className="flex justify-between items-start mb-8">
-                    <span className="text-6xl md:text-8xl drop-shadow-[0_0_30px_rgba(66,133,244,0.3)] filter text-white">
-                        {item.icon}
-                    </span>
+                    <div>
+                        {/* Title was below, moving up/restructuring if needed, but for now just removing icon */}
+                    </div>
                     {item.year && (
                         <Badge variant="outline" className="text-blue-200 border-blue-500/30 bg-blue-500/10 px-3 py-1">
                             {item.year}
@@ -116,7 +116,6 @@ const CompactCard = ({ item }: { item: DeepMindItem }) => {
         <SpotlightCard className="hover:border-white/20 transition-colors">
             <div className="p-6 h-full flex flex-col">
                 <div className="flex justify-between items-start mb-4">
-                    <span className="text-4xl">{item.icon}</span>
                     {item.year && (
                         <span className="text-xs font-mono text-muted-foreground border border-white/10 px-2 py-0.5 rounded-full">
                             {item.year}
@@ -303,7 +302,6 @@ export default function DeepMind() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {algorithms.map((item) => (
                                 <div key={item.id} className="border border-white/10 rounded-2xl p-6 bg-white/[0.02] hover:bg-white/[0.05] transition-colors flex flex-col">
-                                    <div className="text-3xl mb-4 opacity-80">{item.icon}</div>
                                     <h3 className="font-bold text-white mb-2">{item.title}</h3>
                                     <p className="text-xs text-muted-foreground/80 mb-4 flex-grow">{item.description}</p>
                                     <div className="flex flex-wrap gap-1 mt-auto">

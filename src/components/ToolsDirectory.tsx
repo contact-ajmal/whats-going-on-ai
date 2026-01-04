@@ -140,9 +140,6 @@ function ToolCard({ tool, isExpanded, onToggle }: { tool: Tool, isExpanded: bool
                 <div className="p-6">
                     <div className="flex items-start justify-between mb-4">
                         <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-2xl">
-                                {tool.icon}
-                            </div>
                             <div>
                                 <h3 className="font-bold text-lg text-white leading-tight flex items-center gap-2">
                                     {tool.name}

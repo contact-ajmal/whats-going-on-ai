@@ -50,7 +50,7 @@ export default function ClaudeSkills() {
     }, [filteredSkills]);
 
     const getCategoryInfo = (categoryId: string) => {
-        return SKILL_CATEGORIES.find(c => c.id === categoryId) || { name: categoryId, icon: '📦', color: 'text-gray-400' };
+        return SKILL_CATEGORIES.find(c => c.id === categoryId) || { name: categoryId, color: 'text-gray-400' };
     };
 
     return (
@@ -152,7 +152,7 @@ export default function ClaudeSkills() {
                                         onClick={() => setSelectedCategory(cat.id)}
                                         className="rounded-full"
                                     >
-                                        {cat.icon} {cat.name} ({count})
+                                        {cat.name} ({count})
                                     </Button>
                                 );
                             })}
@@ -198,7 +198,6 @@ export default function ClaudeSkills() {
                                     transition={{ duration: 0.5, delay: 0.1 * idx }}
                                 >
                                     <div className="flex items-center gap-3 mb-6">
-                                        <span className="text-3xl">{catInfo.icon}</span>
                                         <h2 className={`text-2xl font-bold ${catInfo.color}`}>
                                             {catInfo.name}
                                         </h2>

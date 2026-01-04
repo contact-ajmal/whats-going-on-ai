@@ -205,22 +205,22 @@ export default function Home() {
             <div key={i} className="flex items-center gap-6 md:gap-10 mx-6 md:mx-10">
               <Link to="/trending/anthropic-skills" className="inline-flex items-center px-3 py-1 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:scale-105 transition-all duration-300 group">
                 <span className="text-xs uppercase whitespace-nowrap font-bold text-primary group-hover:text-primary/80">
-                  🧩 Claude Agent Skills
+                  Claude Agent Skills
                 </span>
               </Link>
               <Link to="/trending/context-graphs" className="inline-flex items-center px-3 py-1 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:scale-105 transition-all duration-300 group">
                 <span className="text-xs uppercase whitespace-nowrap font-bold text-purple-400 group-hover:text-purple-300">
-                  🕸️ Decision Traces
+                  Decision Traces
                 </span>
               </Link>
               <Link to="/trending/agentic-crafting" className="inline-flex items-center px-3 py-1 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:scale-105 transition-all duration-300 group">
                 <span className="text-xs uppercase whitespace-nowrap font-bold text-rose-400 group-hover:text-rose-300">
-                  🎸 Agentic Crafting
+                  Agentic Crafting
                 </span>
               </Link>
               <Link to="/trending" className="inline-flex items-center px-3 py-1 rounded-full border border-primary/30 bg-primary/10 hover:bg-primary/20 hover:scale-105 transition-all duration-300 group">
                 <span className="text-xs uppercase whitespace-nowrap font-bold text-primary group-hover:text-primary/80">
-                  ✨ Explore All →
+                  Explore All →
                 </span>
               </Link>
             </div>

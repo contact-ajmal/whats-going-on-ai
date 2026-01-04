@@ -77,10 +77,10 @@ const RoboTale = ({ title, story, color }: { title: string, story: string, color
 
 const BrainBox = () => {
     const terms = [
-        { term: "Training", emoji: "🏋️", desc: "Just like you go to school! We show the computer millions of pictures until it learns what a 'Cat' looks like." },
-        { term: "Hallucination", emoji: "🤪", desc: "When the AI gets confused and makes things up, like seeing a bunny in the clouds." },
-        { term: "Prompt", emoji: "🗣️", desc: "The magic words you say to the AI to get it to do something. Like 'Abracadabra' but for computers!" },
-        { term: "Robot", emoji: "🤖", desc: "A machine that can move and do tasks. An AI is the 'brain', and the Robot is the 'body'." },
+        { term: "Training", desc: "Just like you go to school! We show the computer millions of pictures until it learns what a 'Cat' looks like." },
+        { term: "Hallucination", desc: "When the AI gets confused and makes things up, like seeing a bunny in the clouds." },
+        { term: "Prompt", desc: "The magic words you say to the AI to get it to do something. Like 'Abracadabra' but for computers!" },
+        { term: "Robot", desc: "A machine that can move and do tasks. An AI is the 'brain', and the Robot is the 'body'." },
     ];
 
     return (
@@ -92,7 +92,6 @@ const BrainBox = () => {
                     className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border-2 border-white/20 hover:border-yellow-400 transition-colors"
                 >
                     <div className="flex items-center gap-4 mb-3">
-                        <span className="text-4xl">{t.emoji}</span>
                         <h4 className="text-2xl font-bold text-yellow-300">{t.term}</h4>
                     </div>
                     <p className="text-slate-200 text-lg">{t.desc}</p>
@@ -313,7 +312,6 @@ const LegendMission = ({ legend, onClose }: { legend: any, onClose: () => void }
             <div className={`bg-slate-900 w-full max-w-2xl rounded-3xl border border-white/20 overflow-hidden relative ${missionState === 'complete' ? 'ring-4 ring-yellow-400' : ''}`}>
                 <div className={`p-6 ${legend.color} text-white flex justify-between items-center`}>
                     <h3 className="text-2xl font-bold flex items-center gap-3">
-                        <span className="text-4xl">{legend.icon}</span>
                         Mission: {legend.missionTitle}
                     </h3>
                     <Button onClick={onClose} variant="ghost" size="icon" className="text-white hover:bg-white/20">✖️</Button>
@@ -393,7 +391,6 @@ const TimeTravelLab = () => {
             id: 'newton',
             name: 'Isaac Newton',
             title: 'The Gravity Guy',
-            icon: '🍎',
             color: 'bg-red-600',
             missionTitle: 'Gravity Garden',
             missionDesc: 'Apples are floating away! Click to increase gravity and bring them down.',
@@ -410,7 +407,6 @@ const TimeTravelLab = () => {
             id: 'ada',
             name: 'Ada Lovelace',
             title: 'The First Coder',
-            icon: '💻',
             color: 'bg-purple-600',
             missionTitle: 'Logic Loom',
             missionDesc: 'The Analytical Engine is stuck! Feed it the right logic cards.',
@@ -427,7 +423,6 @@ const TimeTravelLab = () => {
             id: 'turing',
             name: 'Alan Turing',
             title: 'The Code Breaker',
-            icon: '🔐',
             color: 'bg-slate-600',
             missionTitle: 'Enigma Cracker',
             missionDesc: 'Intercepting secret message... Decrypt the signal!',
@@ -444,7 +439,6 @@ const TimeTravelLab = () => {
             id: 'curie',
             name: 'Marie Curie',
             title: 'Radiant Scientist',
-            icon: '🧪',
             color: 'bg-emerald-600',
             missionTitle: 'Glow Hunter',
             missionDesc: 'The lab is dark. Find the glowing Radium elements!',
@@ -461,7 +455,6 @@ const TimeTravelLab = () => {
             id: 'darwin',
             name: 'Charles Darwin',
             title: 'Nature Detective',
-            icon: '🐢',
             color: 'bg-amber-600',
             missionTitle: 'Beak Match',
             missionDesc: 'The finches are hungry. Match the beak to the right food!',
@@ -505,7 +498,6 @@ const TimeTravelLab = () => {
                     >
                         <div className="flex items-start justify-between mb-4">
                             <div className={`w-16 h-16 rounded-2xl ${legend.color} flex items-center justify-center text-4xl shadow-lg`}>
-                                {legend.icon}
                             </div>
                             <Badge className="bg-white/10 text-white group-hover:bg-white/20">
                                 Mission Ready

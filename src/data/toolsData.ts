@@ -19,7 +19,7 @@ export const toolsData: Tool[] = [
         description: 'Allow LLMs to read and write files on your local machine safely.',
         category: 'MCP Server',
         url: 'https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem',
-        icon: '📂',
+        icon: '',
         tags: ['mcp', 'local', 'files'],
         isNew: true,
         pricing: 'Open Source',
@@ -35,7 +35,7 @@ export const toolsData: Tool[] = [
         description: 'Give AI context about your repositories, issues, and PRs.',
         category: 'MCP Server',
         url: 'https://github.com/modelcontextprotocol/servers/tree/main/src/github',
-        icon: '🐙',
+        icon: '',
         tags: ['mcp', 'git', 'coding'],
         isNew: true,
         pricing: 'Open Source',
@@ -51,7 +51,7 @@ export const toolsData: Tool[] = [
         description: 'Enable read-only or read-write access to your Postgres databases for AI analysis.',
         category: 'MCP Server',
         url: 'https://github.com/modelcontextprotocol/servers/tree/main/src/postgres',
-        icon: '🐘',
+        icon: '',
         tags: ['mcp', 'database', 'sql'],
         pricing: 'Open Source'
     },
@@ -61,7 +61,7 @@ export const toolsData: Tool[] = [
         description: 'Let AI read channels and summarize threads in your Slack workspace.',
         category: 'MCP Server',
         url: 'https://github.com/modelcontextprotocol/servers',
-        icon: '💬',
+        icon: '',
         tags: ['mcp', 'communication', 'business'],
         pricing: 'Open Source'
     },
@@ -71,7 +71,7 @@ export const toolsData: Tool[] = [
         description: 'Access Docs, Sheets, and Slides directly within your LLM context.',
         category: 'MCP Server',
         url: 'https://github.com/modelcontextprotocol/servers',
-        icon: '📄',
+        icon: '',
         tags: ['mcp', 'productivity', 'google'],
         pricing: 'Open Source'
     },
@@ -81,7 +81,7 @@ export const toolsData: Tool[] = [
         description: 'Give your local LLM ability to search the web privately.',
         category: 'MCP Server',
         url: 'https://github.com/modelcontextprotocol/servers',
-        icon: '🦁',
+        icon: '',
         tags: ['mcp', 'search', 'web'],
         pricing: 'Open Source'
     },
@@ -91,7 +91,7 @@ export const toolsData: Tool[] = [
         description: 'Analyze error logs and stack traces directly with AI.',
         category: 'MCP Server',
         url: 'https://mcp.so/server/sentry/modelcontextprotocol',
-        icon: '🚨',
+        icon: '',
         tags: ['mcp', 'debugging', 'dev'],
         pricing: 'Open Source'
     },
@@ -101,7 +101,7 @@ export const toolsData: Tool[] = [
         description: 'Bring enterprise-grade stock market data to agents and LLMs.',
         category: 'MCP Server',
         url: 'https://mcp.alphavantage.co/',
-        icon: '📈',
+        icon: '',
         tags: ['mcp', 'finance', 'stocks'],
         isNew: true,
         pricing: 'Freemium'
@@ -112,7 +112,7 @@ export const toolsData: Tool[] = [
         description: 'Powerful web scraping for Cursor, Claude and other LLMs.',
         category: 'MCP Server',
         url: 'https://mcp.so/server/firecrawl-mcp-server/mendableai',
-        icon: '🔥',
+        icon: '',
         tags: ['mcp', 'scraping', 'data'],
         isNew: true,
         pricing: 'Open Source'
@@ -123,7 +123,7 @@ export const toolsData: Tool[] = [
         description: 'Interact with Redis key-value stores from your LLM.',
         category: 'MCP Server',
         url: 'https://mcp.so/server/redis/modelcontextprotocol',
-        icon: '🗄️',
+        icon: '',
         tags: ['mcp', 'database', 'cache'],
         pricing: 'Open Source'
     },
@@ -133,7 +133,7 @@ export const toolsData: Tool[] = [
         description: 'Timezone conversion and current time lookup for LLMs.',
         category: 'MCP Server',
         url: 'https://mcp.so/server/time/modelcontextprotocol',
-        icon: '⏰',
+        icon: '',
         tags: ['mcp', 'utility', 'time'],
         pricing: 'Open Source'
     },
@@ -143,7 +143,7 @@ export const toolsData: Tool[] = [
         description: 'Search engine specifically designed for large models.',
         category: 'MCP Server',
         url: 'https://mcp.so/server/zhipu-web-search/BigModel',
-        icon: '�',
+        icon: '',
         tags: ['mcp', 'search', 'chinese'],
         pricing: 'Open Source'
     },
@@ -153,7 +153,7 @@ export const toolsData: Tool[] = [
         description: 'Interact with powerful Text to Speech, image, and video generation APIs.',
         category: 'MCP Server',
         url: 'https://mcp.so/server/MiniMax-MCP/MiniMax-AI',
-        icon: '🦄',
+        icon: '',
         tags: ['mcp', 'media', 'generation'],
         pricing: 'Paid'
     },
@@ -163,7 +163,7 @@ export const toolsData: Tool[] = [
         description: 'Browser automation and web scraping controlled by AI.',
         category: 'MCP Server',
         url: 'https://mcp.so/server/puppeteer/modelcontextprotocol',
-        icon: '🎭',
+        icon: '',
         tags: ['mcp', 'automation', 'testing'],
         pricing: 'Open Source'
     },
@@ -173,7 +173,7 @@ export const toolsData: Tool[] = [
         description: 'GitLab API integration for project management.',
         category: 'MCP Server',
         url: 'https://mcp.so/server/gitlab/modelcontextprotocol',
-        icon: '🦊',
+        icon: '',
         tags: ['mcp', 'coding', 'git'],
         pricing: 'Open Source'
     },
@@ -183,7 +183,7 @@ export const toolsData: Tool[] = [
         description: 'AI image generation using various models via MCP.',
         category: 'MCP Server',
         url: 'https://mcp.so/server/everart/modelcontextprotocol',
-        icon: '🎨',
+        icon: '',
         tags: ['mcp', 'art', 'image'],
         pricing: 'Paid'
     },
@@ -193,7 +193,7 @@ export const toolsData: Tool[] = [
         description: 'Retrieve info from AWS KB using Bedrock Agent Runtime.',
         category: 'MCP Server',
         url: 'https://mcp.so/server/aws-kb-retrieval-server/modelcontextprotocol',
-        icon: '☁️',
+        icon: '',
         tags: ['mcp', 'cloud', 'aws'],
         pricing: 'Paid'
     },
@@ -203,7 +203,7 @@ export const toolsData: Tool[] = [
         description: 'Robust browser automation server by Microsoft.',
         category: 'MCP Server',
         url: 'https://mcp.so/server/playwright-mcp/microsoft',
-        icon: '🎭',
+        icon: '',
         tags: ['mcp', 'testing', 'automation'],
         pricing: 'Open Source'
     },
@@ -213,7 +213,7 @@ export const toolsData: Tool[] = [
         description: 'Search the web using Perplexity API without leaving context.',
         category: 'MCP Server',
         url: 'https://mcp.so/server/perplexity/ppl-ai',
-        icon: '🔎',
+        icon: '',
         tags: ['mcp', 'search', 'research'],
         pricing: 'Paid'
     },
@@ -223,7 +223,7 @@ export const toolsData: Tool[] = [
         description: 'Unified API for Search, Crawling, and Sitemaps.',
         category: 'MCP Server',
         url: 'https://mcp.so/server/search1api',
-        icon: '🕸️',
+        icon: '',
         tags: ['mcp', 'search', 'dev'],
         pricing: 'Paid'
     },
@@ -235,7 +235,7 @@ export const toolsData: Tool[] = [
         description: 'The industry standard. GPT-4o offers multimodal capabilities.',
         category: 'Chatbot',
         url: 'https://chat.openai.com',
-        icon: '🟢',
+        icon: '',
         tags: ['llm', 'text', 'multimodal'],
         pricing: 'Freemium'
     },
@@ -245,7 +245,7 @@ export const toolsData: Tool[] = [
         description: 'Anthropic\'s top model, excelled at coding and nuance.',
         category: 'Chatbot',
         url: 'https://claude.ai',
-        icon: '🟠',
+        icon: '',
         tags: ['llm', 'coding', 'safe'],
         pricing: 'Freemium'
     },
@@ -255,7 +255,7 @@ export const toolsData: Tool[] = [
         description: 'Deeply integrated with Google Workspace. Massive context window.',
         category: 'Chatbot',
         url: 'https://gemini.google.com',
-        icon: '💠',
+        icon: '',
         tags: ['llm', 'google', 'context'],
         pricing: 'Freemium'
     },
@@ -265,7 +265,7 @@ export const toolsData: Tool[] = [
         description: 'AI-powered search engine. Replaces Google for many users.',
         category: 'Productivity',
         url: 'https://perplexity.ai',
-        icon: '🔎',
+        icon: '',
         tags: ['search', 'research'],
         pricing: 'Freemium'
     },
@@ -275,7 +275,7 @@ export const toolsData: Tool[] = [
         description: 'X.ai\'s model with real-time access to X (Twitter) data.',
         category: 'Chatbot',
         url: 'https://twitter.com/i/grok',
-        icon: '⬛',
+        icon: '',
         tags: ['llm', 'social', 'uncensored'],
         pricing: 'Paid'
     },
@@ -287,7 +287,7 @@ export const toolsData: Tool[] = [
         description: 'VS Code fork with native AI editing validation.',
         category: 'Dev',
         url: 'https://cursor.sh',
-        icon: '🖱️',
+        icon: '',
         tags: ['editor', 'coding', 'copilot'],
         pricing: 'Freemium'
     },
@@ -297,7 +297,7 @@ export const toolsData: Tool[] = [
         description: 'Generate UI components and websites from text prompts.',
         category: 'Dev',
         url: 'https://v0.dev',
-        icon: '▲',
+        icon: '',
         tags: ['ui', 'react', 'tailwind'],
         isNew: true,
         pricing: 'Freemium'
@@ -308,7 +308,7 @@ export const toolsData: Tool[] = [
         description: 'The ubiquitous AI pair programmer.',
         category: 'Dev',
         url: 'https://github.com/features/copilot',
-        icon: '✈️',
+        icon: '',
         tags: ['coding', 'autocomplete'],
         pricing: 'Paid'
     },
@@ -318,7 +318,7 @@ export const toolsData: Tool[] = [
         description: 'Prompt to full-stack web app in the browser.',
         category: 'Dev',
         url: 'https://bolt.new',
-        icon: '⚡',
+        icon: '',
         tags: ['fullstack', 'generation'],
         isNew: true,
         pricing: 'Freemium'
@@ -329,7 +329,7 @@ export const toolsData: Tool[] = [
         description: 'GPT-4 powered full-stack app builder with Supabase integration.',
         category: 'Dev',
         url: 'https://lovable.dev',
-        icon: '💜',
+        icon: '',
         tags: ['nocode', 'lowcode'],
         pricing: 'Paid'
     },
@@ -341,7 +341,7 @@ export const toolsData: Tool[] = [
         description: 'Highest fidelity AI image generation.',
         category: 'Image',
         url: 'https://midjourney.com',
-        icon: '🎨',
+        icon: '',
         tags: ['art', 'generation'],
         pricing: 'Paid'
     },
@@ -351,7 +351,7 @@ export const toolsData: Tool[] = [
         description: 'State-of-the-art open weights image model by Black Forest Labs.',
         category: 'Image',
         url: 'https://flux.1',
-        icon: '🌊',
+        icon: '',
         tags: ['opensource', 'art'],
         isNew: true,
         pricing: 'Open Source'
@@ -362,7 +362,7 @@ export const toolsData: Tool[] = [
         description: 'Cinematic video generation from text/image.',
         category: 'Video',
         url: 'https://runwayml.com',
-        icon: '🎞️',
+        icon: '',
         tags: ['video', 'movies'],
         pricing: 'Paid'
     },
@@ -372,7 +372,7 @@ export const toolsData: Tool[] = [
         description: 'High-consistency video generation model.',
         category: 'Video',
         url: 'https://kling.ai',
-        icon: '🎥',
+        icon: '',
         tags: ['video', '3d'],
         isNew: true,
         pricing: 'Paid'
@@ -383,7 +383,7 @@ export const toolsData: Tool[] = [
         description: 'Fast, high-quality video generation.',
         category: 'Video',
         url: 'https://lumalabs.ai/dream-machine',
-        icon: '🌙',
+        icon: '',
         tags: ['video', '3d'],
         pricing: 'Freemium'
     },
@@ -395,7 +395,7 @@ export const toolsData: Tool[] = [
         description: 'Best-in-class AI voice cloning and TTS.',
         category: 'Audio',
         url: 'https://elevenlabs.io',
-        icon: '🎙️',
+        icon: '',
         tags: ['voice', 'tts'],
         pricing: 'Freemium'
     },
@@ -405,7 +405,7 @@ export const toolsData: Tool[] = [
         description: 'Generate radio-quality songs from prompt which lyrics.',
         category: 'Audio',
         url: 'https://suno.com',
-        icon: '🎵',
+        icon: '',
         tags: ['music', 'songs'],
         pricing: 'Freemium'
     },
@@ -415,7 +415,7 @@ export const toolsData: Tool[] = [
         description: 'High-fidelity music generation with pro tools.',
         category: 'Audio',
         url: 'https://udio.com',
-        icon: '🎧',
+        icon: '',
         tags: ['music', 'production'],
         pricing: 'Freemium'
     },
@@ -427,7 +427,7 @@ export const toolsData: Tool[] = [
         description: 'Writing assistant and database analyzer inside Notion.',
         category: 'Productivity',
         url: 'https://notion.so',
-        icon: '📓',
+        icon: '',
         tags: ['writing', 'notes'],
         pricing: 'Paid'
     },
@@ -437,7 +437,7 @@ export const toolsData: Tool[] = [
         description: 'Self-organizing workspace that learns from your notes.',
         category: 'Productivity',
         url: 'https://mem.ai',
-        icon: '🧠',
+        icon: '',
         tags: ['notes', 'pkm'],
         pricing: 'Freemium'
     },
@@ -447,7 +447,7 @@ export const toolsData: Tool[] = [
         description: 'Teach AI bots to work across 6,000+ apps.',
         category: 'Productivity',
         url: 'https://zapier.com/central',
-        icon: '🟠',
+        icon: '',
         tags: ['automation', 'agents'],
         pricing: 'Freemium'
     },
@@ -459,7 +459,7 @@ export const toolsData: Tool[] = [
         description: 'Analyze research papers at scale.',
         category: 'Research',
         url: 'https://elicit.com',
-        icon: '🎓',
+        icon: '',
         tags: ['science', 'papers'],
         pricing: 'Freemium'
     },
@@ -469,7 +469,7 @@ export const toolsData: Tool[] = [
         description: 'Search engine for scientific consensus.',
         category: 'Research',
         url: 'https://consensus.app',
-        icon: '📚',
+        icon: '',
         tags: ['science', 'facts'],
         pricing: 'Freemium'
     },
@@ -481,7 +481,7 @@ export const toolsData: Tool[] = [
         description: 'Run Llama 3, Mistral, and other LLMs locally.',
         category: 'Dev',
         url: 'https://ollama.com',
-        icon: '🦙',
+        icon: '',
         tags: ['local', 'opensource'],
         pricing: 'Open Source',
         howToUse: [
@@ -496,7 +496,7 @@ export const toolsData: Tool[] = [
         description: 'Easy GUI to discover and download local LLMs.',
         category: 'Dev',
         url: 'https://lmstudio.ai',
-        icon: '🖥️',
+        icon: '',
         tags: ['local', 'gui'],
         pricing: 'Freemium'
     },
@@ -506,7 +506,7 @@ export const toolsData: Tool[] = [
         description: 'The GitHub of AI. Host models, datasets, and demos.',
         category: 'Dev',
         url: 'https://huggingface.co',
-        icon: '🤗',
+        icon: '',
         tags: ['hub', 'models'],
         pricing: 'Freemium'
     }

@@ -33,7 +33,7 @@ export function AdminTools() {
         category: 'Dev',
         tags: '',
         pricing: 'Free',
-        icon: '🔧'
+        icon: ''
     };
     const [formData, setFormData] = useState(emptyForm);
 
@@ -63,7 +63,7 @@ export function AdminTools() {
                 category: tool.category,
                 tags: tool.tags.join(', '),
                 pricing: tool.pricing || 'Free',
-                icon: typeof tool.icon === 'string' ? tool.icon : '🔧'
+                icon: typeof tool.icon === 'string' ? tool.icon : ''
             });
         } else {
             setEditingTool(null);
@@ -82,6 +82,8 @@ export function AdminTools() {
         try {
             const toolData = {
                 ...formData,
+                category: formData.category as Tool['category'],
+                pricing: formData.pricing as Tool['pricing'],
                 tags: formData.tags.split(',').map(t => t.trim()).filter(Boolean),
             };
 
@@ -154,9 +156,6 @@ export function AdminTools() {
                             {filteredTools.slice(0, 10).map(tool => (
                                 <div key={tool.id} className="flex items-center justify-between p-3 rounded-lg border border-white/5 bg-white/5 hover:bg-white/10 transition-colors">
                                     <div className="flex items-center gap-3">
-                                        <div className="h-10 w-10 shrink-0 rounded flex items-center justify-center bg-background border border-white/10 text-xl">
-                                            {typeof tool.icon === 'string' ? tool.icon : '🔧'}
-                                        </div>
                                         <div className="min-w-0">
                                             <h4 className="font-medium text-sm truncate">{tool.name}</h4>
                                             <p className="text-xs text-muted-foreground truncate max-w-[200px]">{tool.category}</p>

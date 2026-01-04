@@ -10,18 +10,18 @@ export interface ClaudeSkill {
 }
 
 export const SKILL_CATEGORIES = [
-    { id: 'documents', name: 'Document Skills', icon: '📄', color: 'text-blue-400' },
-    { id: 'creative', name: 'Creative & Design', icon: '🎨', color: 'text-rose-400' },
-    { id: 'development', name: 'Development & Code', icon: '🛠️', color: 'text-green-400' },
-    { id: 'context', name: 'Context Engineering', icon: '🧠', color: 'text-violet-400' },
-    { id: 'data', name: 'Data & Analysis', icon: '📊', color: 'text-purple-400' },
-    { id: 'scientific', name: 'Scientific & Research', icon: '🔬', color: 'text-cyan-400' },
-    { id: 'writing', name: 'Writing & Research', icon: '✍️', color: 'text-yellow-400' },
-    { id: 'learning', name: 'Learning & Knowledge', icon: '📘', color: 'text-indigo-400' },
-    { id: 'media', name: 'Media & Content', icon: '🎬', color: 'text-pink-400' },
-    { id: 'collaboration', name: 'Collaboration & PM', icon: '🤝', color: 'text-orange-400' },
-    { id: 'security', name: 'Security & Testing', icon: '🛡️', color: 'text-red-400' },
-    { id: 'utility', name: 'Utility & Automation', icon: '🔧', color: 'text-gray-400' },
+    { id: 'documents', name: 'Document Skills', icon: '', color: 'text-blue-400' },
+    { id: 'creative', name: 'Creative & Design', icon: '', color: 'text-rose-400' },
+    { id: 'development', name: 'Development & Code', icon: '', color: 'text-green-400' },
+    { id: 'context', name: 'Context Engineering', icon: '', color: 'text-violet-400' },
+    { id: 'data', name: 'Data & Analysis', icon: '', color: 'text-purple-400' },
+    { id: 'scientific', name: 'Scientific & Research', icon: '', color: 'text-cyan-400' },
+    { id: 'writing', name: 'Writing & Research', icon: '', color: 'text-yellow-400' },
+    { id: 'learning', name: 'Learning & Knowledge', icon: '', color: 'text-indigo-400' },
+    { id: 'media', name: 'Media & Content', icon: '', color: 'text-pink-400' },
+    { id: 'collaboration', name: 'Collaboration & PM', icon: '', color: 'text-orange-400' },
+    { id: 'security', name: 'Security & Testing', icon: '', color: 'text-red-400' },
+    { id: 'utility', name: 'Utility & Automation', icon: '', color: 'text-gray-400' },
 ];
 
 export const CLAUDE_SKILLS: ClaudeSkill[] = [
