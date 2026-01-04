@@ -81,9 +81,6 @@ const Trending = () => {
 
                                     <CardHeader>
                                         <div className="flex justify-between items-start mb-2">
-                                            <div className="text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
-                                                {topic.icon}
-                                            </div>
                                             <Badge variant="secondary" className="bg-white/5 border-white/10">
                                                 {topic.difficulty}
                                             </Badge>
