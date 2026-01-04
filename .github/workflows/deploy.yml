@@ -36,6 +36,7 @@ jobs:
         env:
            VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
            VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+           VITE_ARXIV_PROXY_URL: ${{ vars.VITE_ARXIV_PROXY_URL }}
            VITE_USE_SUPABASE: true
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
