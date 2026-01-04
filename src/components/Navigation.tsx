@@ -112,6 +112,15 @@ export function Navigation() {
 
                   <NavigationMenuItem>
                     <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                      <Link to="/research" className="font-bold flex items-center gap-2">
+                        <BookOpen className="w-4 h-4 text-primary" />
+                        Research Papers
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+
+                  <NavigationMenuItem>
+                    <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
                       <Link to="/decoded" className="group flex items-center gap-2 font-bold">
                         <span className="relative flex h-2 w-2 mr-1">
                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
@@ -148,9 +157,7 @@ export function Navigation() {
                         <ListItem href="/deepmind" title="Google DeepMind" icon={Brain}>
                           Latest from Google's AI research lab.
                         </ListItem>
-                        <ListItem href="/research" title="Research" icon={BookOpen}>
-                          Deep dive into the latest ArXiv papers.
-                        </ListItem>
+
                         <ListItem href="/jobs" title="Jobs Board" icon={Briefcase}>
                           Find your next role in AI & ML.
                         </ListItem>
@@ -266,9 +273,12 @@ export function Navigation() {
                 <Link to="/updates" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><Newspaper className="w-4 h-4" /> AI News</Link>
                 <Link to="/videos" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><Video className="w-4 h-4" /> Videos</Link>
 
+                <Link to="/research" onClick={() => setIsOpen(false)} className="mx-4 mb-2 px-4 py-3 rounded-xl bg-blue-500/10 border border-blue-500/20 text-sm font-bold flex items-center gap-3 text-blue-400">
+                  <BookOpen className="w-4 h-4" /> Research Papers
+                </Link>
+
                 <div className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mt-2">Discover</div>
                 <Link to="/deepmind" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><Brain className="w-4 h-4" /> Google DeepMind</Link>
-                <Link to="/research" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><BookOpen className="w-4 h-4" /> Research</Link>
                 <Link to="/jobs" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><Briefcase className="w-4 h-4" /> Jobs</Link>
                 <Link to="/learning" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><GraduationCap className="w-4 h-4" /> Learning</Link>
                 <Link to="/tools" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><Wrench className="w-4 h-4" /> Tools</Link>
