@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+";
 
@@ -11,34 +10,48 @@ interface TextRevealProps {
 }
 
 export const TextReveal = ({ text, className = "", delay = 0, duration = 2000 }: TextRevealProps) => {
-    const [display, setDisplay] = useState("");
+    // Start with actual text for immediate visibility (mobile-friendly)
+    const [display, setDisplay] = useState(text);
+    const [hasAnimated, setHasAnimated] = useState(false);
 
-    // Use a predictable "scramble" effect
     useEffect(() => {
-        let iterations = 0;
-        const interval = setInterval(() => {
-            setDisplay(
-                text
-                    .split("")
-                    .map((letter, index) => {
-                        if (index < iterations) {
-                            return text[index];
-                        }
-                        if (letter === " ") return " ";
-                        return letters[Math.floor(Math.random() * letters.length)];
-                    })
-                    .join("")
-            );
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion || hasAnimated) {
+            setDisplay(text);
+            return;
+        }
 
-            if (iterations >= text.length) {
-                clearInterval(interval);
-            }
+        // Delay before starting animation
+        const delayTimer = setTimeout(() => {
+            let iterations = 0;
+            const interval = setInterval(() => {
+                setDisplay(
+                    text
+                        .split("")
+                        .map((letter, index) => {
+                            if (index < iterations) {
+                                return text[index];
+                            }
+                            if (letter === " ") return " ";
+                            return letters[Math.floor(Math.random() * letters.length)];
+                        })
+                        .join("")
+                );
 
-            iterations += 1 / 2; // Speed of reveal
-        }, 40); // Tick rate
+                if (iterations >= text.length) {
+                    clearInterval(interval);
+                    setHasAnimated(true);
+                }
 
-        return () => clearInterval(interval);
-    }, [text]);
+                iterations += 1 / 2;
+            }, 40);
+
+            return () => clearInterval(interval);
+        }, delay * 1000);
+
+        return () => clearTimeout(delayTimer);
+    }, [text, delay, hasAnimated]);
 
     return (
         <span className={`font-mono ${className}`}>
@@ -46,3 +59,4 @@ export const TextReveal = ({ text, className = "", delay = 0, duration = 2000 }:
         </span>
     );
 };
+

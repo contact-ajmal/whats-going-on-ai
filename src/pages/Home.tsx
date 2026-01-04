@@ -232,7 +232,7 @@ export default function Home() {
       </div>
 
       {/* HERO SECTION */}
-      <section className="relative pt-36 md:pt-44 pb-20 lg:pt-56 lg:pb-32 container mx-auto px-4 md:px-6 overflow-hidden min-h-screen flex flex-col justify-center">
+      <section className="relative pt-28 md:pt-44 pb-12 md:pb-20 lg:pt-56 lg:pb-32 container mx-auto px-4 md:px-6 overflow-hidden min-h-[80vh] md:min-h-screen flex flex-col justify-center">
 
         {/* Radar Scan Effect */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-20 select-none">
@@ -251,10 +251,10 @@ export default function Home() {
           className="max-w-5xl mx-auto text-center z-10 relative"
         >
           {/* BRAND SIGNAL */}
-          <motion.div variants={itemVariants} className="flex flex-col items-center justify-center mb-10 min-h-[80px]">
+          <motion.div variants={itemVariants} className="flex flex-col items-center justify-center mb-6 md:mb-10 min-h-[60px] md:min-h-[80px]">
 
-            {/* Decorative Signal Lines */}
-            <div className="flex items-center gap-4 mb-4 opacity-50">
+            {/* Decorative Signal Lines - Hidden on mobile */}
+            <div className="hidden sm:flex items-center gap-4 mb-4 opacity-50">
               <div className="h-px w-12 bg-gradient-to-l from-primary to-transparent" />
               <div className="text-[10px] tracking-[0.3em] font-mono text-primary/80 uppercase">Incoming Signal</div>
               <div className="h-px w-12 bg-gradient-to-r from-primary to-transparent" />
@@ -263,7 +263,7 @@ export default function Home() {
             {/* The Brand */}
             <div className="relative group">
               <div className="absolute -inset-4 bg-primary/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-              <h2 className="relative text-4xl md:text-6xl font-black tracking-tight text-white select-none normal-case">
+              <h2 className="relative text-2xl sm:text-4xl md:text-6xl font-black tracking-tight text-white select-none normal-case">
                 WhatsGoingOn<span className="text-primary normal-case">AI</span>
               </h2>
             </div>
@@ -280,46 +280,46 @@ export default function Home() {
           </motion.div>
 
           {/* HEADLINE */}
-          <motion.h1 variants={itemVariants} className="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1]">
-            <span className="text-transparent bg-clip-text bg-gradient-to-br from-white via-primary/50 to-transparent">
+          <motion.h1 variants={itemVariants} className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight mb-4 md:mb-6 leading-[1.1]">
+            <span className="text-white" style={{ WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundImage: 'linear-gradient(to bottom right, white, hsl(180 100% 45% / 0.5), transparent)' }}>
               <TextReveal text="Your Daily AI HUB" delay={0.5} />
             </span>
           </motion.h1>
 
           {/* VALUE PROPOSITION */}
-          <motion.p variants={itemVariants} className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-4 leading-relaxed">
+          <motion.p variants={itemVariants} className="text-sm sm:text-base md:text-xl text-muted-foreground max-w-3xl mx-auto mb-3 md:mb-4 leading-relaxed px-2">
             Stay ahead with <span className="text-primary font-semibold">curated research papers</span>,
             discover the <span className="text-emerald-400 font-semibold">latest AI tools & MCP servers</span>,
             catch the <span className="text-purple-400 font-semibold">latest news</span>, and
             level up with <span className="text-pink-400 font-semibold">hand-picked learning resources</span>.
           </motion.p>
 
-          <motion.p variants={itemVariants} className="text-sm md:text-base text-muted-foreground/70 max-w-2xl mx-auto mb-8">
+          <motion.p variants={itemVariants} className="hidden sm:block text-sm md:text-base text-muted-foreground/70 max-w-2xl mx-auto mb-6 md:mb-8">
             Everything you need to navigate the AI landscape — aggregated, filtered, and updated daily.
           </motion.p>
 
           {/* SIGNAL UPLINK (BOOKMARK) */}
-          <motion.div variants={itemVariants} className="flex justify-center mb-12">
+          <motion.div variants={itemVariants} className="flex justify-center mb-8 md:mb-12">
             <BookmarkUplink />
           </motion.div>
 
-          {/* TICKER */}
-          <motion.div variants={itemVariants} className="w-full max-w-2xl mx-auto mb-16 opacity-80">
+          {/* TICKER - Hidden on mobile */}
+          <motion.div variants={itemVariants} className="hidden md:block w-full max-w-2xl mx-auto mb-16 opacity-80">
             <Ticker />
           </motion.div>
 
           {/* BENTO GRID (Mission Visualization) */}
-          <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 max-w-7xl mx-auto">
+          <motion.div variants={itemVariants} className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 max-w-7xl mx-auto">
 
             <Link to="/research" className="block h-full group">
               <TiltCard className="h-full" rotationFactor={20}>
                 <Spotlight className="h-full hover:border-blue-500/50 transition-colors">
-                  <div className="p-6 h-full flex flex-col items-start text-left relative z-20">
-                    <div className="p-3 rounded-lg bg-blue-500/10 text-blue-400 mb-4">
-                      <BookOpen size={24} />
+                  <div className="p-4 md:p-6 h-full flex flex-col items-start text-left relative z-20">
+                    <div className="p-2 md:p-3 rounded-lg bg-blue-500/10 text-blue-400 mb-2 md:mb-4">
+                      <BookOpen size={20} className="md:w-6 md:h-6" />
                     </div>
-                    <h3 className="text-lg font-bold mb-2 text-foreground">Deep Research</h3>
-                    <p className="text-xs text-muted-foreground leading-relaxed">Daily feed of ArXiv papers selected for impact, not hype. Filter by citation count.</p>
+                    <h3 className="text-sm md:text-lg font-bold mb-1 md:mb-2 text-foreground">Deep Research</h3>
+                    <p className="hidden sm:block text-xs text-muted-foreground leading-relaxed">Daily feed of ArXiv papers selected for impact.</p>
                   </div>
                   <BorderBeam size={150} duration={10} delay={0} borderWidth={1.5} colorFrom="#3b82f6" colorTo="#6366f1" />
                 </Spotlight>
@@ -329,12 +329,12 @@ export default function Home() {
             <Link to="/jobs" className="block h-full group">
               <TiltCard className="h-full" rotationFactor={20}>
                 <Spotlight className="h-full hover:border-emerald-500/50 transition-colors">
-                  <div className="p-6 h-full flex flex-col items-start text-left relative z-20">
-                    <div className="p-3 rounded-lg bg-emerald-500/10 text-emerald-400 mb-4">
-                      <Briefcase size={24} />
+                  <div className="p-4 md:p-6 h-full flex flex-col items-start text-left relative z-20">
+                    <div className="p-2 md:p-3 rounded-lg bg-emerald-500/10 text-emerald-400 mb-2 md:mb-4">
+                      <Briefcase size={20} className="md:w-6 md:h-6" />
                     </div>
-                    <h3 className="text-lg font-bold mb-2 text-foreground">Career Signal</h3>
-                    <p className="text-xs text-muted-foreground leading-relaxed">Live index of AI roles. Filter by remote status, tech stack, and salary ranges.</p>
+                    <h3 className="text-sm md:text-lg font-bold mb-1 md:mb-2 text-foreground">Career Signal</h3>
+                    <p className="hidden sm:block text-xs text-muted-foreground leading-relaxed">Live index of AI roles, remote status, salary.</p>
                   </div>
                   <BorderBeam size={150} duration={10} delay={3} borderWidth={1.5} colorFrom="#10b981" colorTo="#34d399" />
                 </Spotlight>
@@ -344,12 +344,12 @@ export default function Home() {
             <Link to="/updates" className="block h-full group">
               <TiltCard className="h-full" rotationFactor={20}>
                 <Spotlight className="h-full hover:border-purple-500/50 transition-colors">
-                  <div className="p-6 h-full flex flex-col items-start text-left relative z-20">
-                    <div className="p-3 rounded-lg bg-purple-500/10 text-purple-400 mb-4">
-                      <Newspaper size={24} />
+                  <div className="p-4 md:p-6 h-full flex flex-col items-start text-left relative z-20">
+                    <div className="p-2 md:p-3 rounded-lg bg-purple-500/10 text-purple-400 mb-2 md:mb-4">
+                      <Newspaper size={20} className="md:w-6 md:h-6" />
                     </div>
-                    <h3 className="text-lg font-bold mb-2 text-foreground">Pulse News</h3>
-                    <p className="text-xs text-muted-foreground leading-relaxed">Real-time headlines aggregated from top tech sources. No clickbait permitted.</p>
+                    <h3 className="text-sm md:text-lg font-bold mb-1 md:mb-2 text-foreground">Pulse News</h3>
+                    <p className="hidden sm:block text-xs text-muted-foreground leading-relaxed">Real-time headlines, no clickbait.</p>
                   </div>
                   <BorderBeam size={150} duration={10} delay={6} borderWidth={1.5} colorFrom="#a855f7" colorTo="#d946ef" />
                 </Spotlight>
@@ -359,27 +359,27 @@ export default function Home() {
             <Link to="/tools" className="block h-full group">
               <TiltCard className="h-full" rotationFactor={20}>
                 <Spotlight className="h-full hover:border-orange-500/50 transition-colors">
-                  <div className="p-6 h-full flex flex-col items-start text-left relative z-20">
-                    <div className="p-3 rounded-lg bg-orange-500/10 text-orange-400 mb-4">
-                      <Wrench size={24} />
+                  <div className="p-4 md:p-6 h-full flex flex-col items-start text-left relative z-20">
+                    <div className="p-2 md:p-3 rounded-lg bg-orange-500/10 text-orange-400 mb-2 md:mb-4">
+                      <Wrench size={20} className="md:w-6 md:h-6" />
                     </div>
-                    <h3 className="text-lg font-bold mb-2 text-foreground">Toolbox & MCP</h3>
-                    <p className="text-xs text-muted-foreground leading-relaxed">Directory of agentic tools and Model Context Protocol servers for developers.</p>
+                    <h3 className="text-sm md:text-lg font-bold mb-1 md:mb-2 text-foreground">Toolbox</h3>
+                    <p className="hidden sm:block text-xs text-muted-foreground leading-relaxed">AI tools and MCP servers.</p>
                   </div>
                   <BorderBeam size={150} duration={10} delay={9} borderWidth={1.5} colorFrom="#f97316" colorTo="#fbbf24" />
                 </Spotlight>
               </TiltCard>
             </Link>
 
-            <Link to="/skills" className="block h-full group">
+            <Link to="/skills" className="block h-full group col-span-2 sm:col-span-1">
               <TiltCard className="h-full" rotationFactor={20}>
                 <Spotlight className="h-full hover:border-cyan-500/50 transition-colors">
-                  <div className="p-6 h-full flex flex-col items-start text-left relative z-20">
-                    <div className="p-3 rounded-lg bg-cyan-500/10 text-cyan-400 mb-4">
-                      <Sparkles size={24} />
+                  <div className="p-4 md:p-6 h-full flex flex-col items-start text-left relative z-20">
+                    <div className="p-2 md:p-3 rounded-lg bg-cyan-500/10 text-cyan-400 mb-2 md:mb-4">
+                      <Sparkles size={20} className="md:w-6 md:h-6" />
                     </div>
-                    <h3 className="text-lg font-bold mb-2 text-foreground">Claude Skills</h3>
-                    <p className="text-xs text-muted-foreground leading-relaxed">90+ agent skills across 12 categories to extend Claude's capabilities.</p>
+                    <h3 className="text-sm md:text-lg font-bold mb-1 md:mb-2 text-foreground">Claude Skills</h3>
+                    <p className="hidden sm:block text-xs text-muted-foreground leading-relaxed">90+ agent skills across 12 categories.</p>
                   </div>
                   <BorderBeam size={150} duration={10} delay={12} borderWidth={1.5} colorFrom="#06b6d4" colorTo="#22d3ee" />
                 </Spotlight>
@@ -388,12 +388,12 @@ export default function Home() {
 
           </motion.div>
 
-          {/* Scroll CTA */}
+          {/* Scroll CTA - Hidden on mobile */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 2 }}
-            className="mt-24 flex justify-center"
+            className="hidden md:flex mt-16 md:mt-24 justify-center"
           >
             <Button variant="ghost" onClick={scrollToContent} className="text-muted-foreground/50 hover:text-primary animate-bounce">
               <ChevronDown size={24} />
