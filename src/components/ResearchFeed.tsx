@@ -103,9 +103,9 @@ export function ResearchFeed() {
 
                 // Fetch ArXiv via self-hosted CORS proxy
                 const fetchArxiv = async (category: string, categoryName: string): Promise<ResearchPaper[]> => {
-                    // Use configured proxy URL or fallback to localhost for dev
-                    // In production, set VITE_ARXIV_PROXY_URL to your deployed proxy URL
-                    const proxyBase = import.meta.env.VITE_ARXIV_PROXY_URL || 'http://localhost:1200';
+                    // Use configured proxy URL or fallback to production Supabase URL
+                    // This prevents "Local Network Access" warnings by avoiding localhost in prod
+                    const proxyBase = import.meta.env.VITE_ARXIV_PROXY_URL || 'https://cdfrdvrsnfcxarzcyogj.supabase.co/functions/v1/proxy-arxiv';
                     const arxivUrl = `https://export.arxiv.org/api/query?search_query=cat:${category}&sortBy=submittedDate&sortOrder=descending&max_results=15`;
                     const proxyUrl = `${proxyBase}/${arxivUrl}`;
 
