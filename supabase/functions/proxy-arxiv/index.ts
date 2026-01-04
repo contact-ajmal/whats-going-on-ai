@@ -5,7 +5,7 @@ const corsHeaders = {
     'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-serve(async (req) => {
+serve(async (req: Request) => {
     if (req.method === 'OPTIONS') {
         return new Response('ok', { headers: corsHeaders })
     }
@@ -34,6 +34,15 @@ serve(async (req) => {
             })
         }
 
+        // SECURITY CHECK: Only allow ArXiv URLs
+        const targetUrlObj = new URL(targetUrl)
+        if (!targetUrlObj.hostname.endsWith('arxiv.org')) {
+            return new Response(JSON.stringify({ error: 'Forbidden: Only arxiv.org URLs are allowed.' }), {
+                status: 403,
+                headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            })
+        }
+
         console.log(`Proxying request to: ${targetUrl}`)
         const response = await fetch(targetUrl)
         const text = await response.text()
@@ -44,8 +53,8 @@ serve(async (req) => {
                 'Content-Type': 'application/xml', // ArXiv returns Atom/XML
             },
         })
-    } catch (error) {
-        return new Response(JSON.stringify({ error: error.message }), {
+    } catch (error: any) {
+        return new Response(JSON.stringify({ error: error.message || 'Unknown error' }), {
             status: 500,
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         })
