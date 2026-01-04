@@ -110,7 +110,11 @@ export function ResearchFeed() {
                     const proxyUrl = `${proxyBase}/${arxivUrl}`;
 
                     try {
-                        const res = await fetch(proxyUrl);
+                        const res = await fetch(proxyUrl, {
+                            headers: {
+                                'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`
+                            }
+                        });
                         const text = await res.text();
 
                         // Parse Atom XML response
