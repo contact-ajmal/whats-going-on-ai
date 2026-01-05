@@ -15,6 +15,7 @@ import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { SEO } from '@/components/SEO';
 
 // --- Reusable Components ---
 
@@ -571,6 +572,12 @@ const FactsDataViz = () => {
 export default function ContextGraphsDeepDive() {
     return (
         <div className="min-h-screen bg-black font-sans text-slate-200">
+            <SEO
+                title="Context Graphs: AI's Trillion-Dollar Opportunity"
+                description="The missing layer that captures WHY decisions were made. From Foundation Capital's viral thesis on decision traces, the event clock, and building the next generation of enterprise AI."
+                url="/trending/context-graphs"
+                type="article"
+            />
             <Navigation />
             <NeuralBackground />
 

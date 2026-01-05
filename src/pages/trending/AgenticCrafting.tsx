@@ -16,6 +16,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import ShareButtons from '@/components/ShareButtons';
+import { SEO } from '@/components/SEO';
 
 // --- Reusable Components ---
 
@@ -204,6 +205,12 @@ const IPAViz = () => {
 export default function AgenticCrafting() {
     return (
         <div className="min-h-screen bg-black font-sans text-slate-200">
+            <SEO
+                title="Agentic Crafting: ROCK, ROLL, and ROME"
+                description="Deep dive into ROCK, ROLL, and ROME—the new ALE ecosystem for building autonomous agents. From arXiv:2512.24873, learn how to train reliable agent LLMs."
+                url="/trending/agentic-crafting"
+                type="article"
+            />
             <Navigation />
             <NeuralBackground />
 

@@ -12,6 +12,7 @@ import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { SEO } from '@/components/SEO';
 
 // --- Reusable Components ---
 
@@ -86,8 +87,8 @@ const SkillsFlowDiagram = () => {
                         key={idx}
                         onClick={() => setActiveStep(idx)}
                         className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all ${activeStep === idx
-                                ? 'bg-orange-500/20 border-2 border-orange-500 text-orange-300'
-                                : 'bg-white/5 border border-white/10 text-slate-400 hover:bg-white/10'
+                            ? 'bg-orange-500/20 border-2 border-orange-500 text-orange-300'
+                            : 'bg-white/5 border border-white/10 text-slate-400 hover:bg-white/10'
                             }`}
                     >
                         <step.icon className="w-4 h-4" />
@@ -206,6 +207,12 @@ pip install pypdf pdfplumber
 
     return (
         <div className="min-h-screen bg-black font-sans text-slate-200">
+            <SEO
+                title="Claude Code Agent Skills"
+                description="Extend Claude Code's capabilities with custom Skills. Teach Claude domain-specific knowledge, workflows, and best practices using simple Markdown files."
+                url="/trending/anthropic-skills"
+                type="article"
+            />
             <Navigation />
             <NeuralBackground />
 
