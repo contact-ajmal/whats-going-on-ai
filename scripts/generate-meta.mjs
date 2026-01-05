@@ -45,6 +45,11 @@ const routes = [
         description: "NVIDIA's open Cascade RL framework trains unified reasoning LLMs by sequentially optimizing across domains—achieving SOTA on math, code, and SWE benchmarks.",
     },
     {
+        path: '/trending/geometry-of-reason',
+        title: 'Geometry of Reason: Spectral Signatures of Valid Mathematical Reasoning',
+        description: "A training-free method to detect valid mathematical reasoning through spectral analysis of attention patterns. 85-95% accuracy with no fine-tuning required.",
+    },
+    {
         path: '/about',
         title: 'About | WhatsGoingOnAI',
         description: 'Learn about WhatsGoingOnAI - your daily hub for AI news, research, and emerging technologies.',

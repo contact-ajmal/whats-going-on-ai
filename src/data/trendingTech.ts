@@ -69,5 +69,19 @@ export const TRENDING_TOPICS: TrendingTopic[] = [
         color: 'from-emerald-500 to-teal-500',
         isBreaking: true,
         date: '2025-01'
+    },
+    {
+        id: 'geometry-of-reason',
+        title: 'Geometry of Reason',
+        shortDescription: 'Detect valid reasoning via spectral analysis.',
+        fullDescription: 'A training-free method to detect valid mathematical reasoning through spectral analysis of attention patterns. By treating attention as graphs, four metrics achieve 85-95% accuracy with no fine-tuning.',
+        icon: '',
+        difficulty: 'Advanced',
+        readTime: '10 min',
+        tags: ['Interpretability', 'Attention Analysis', 'AI Safety', 'arXiv:2601.00791'],
+        link: '/trending/geometry-of-reason',
+        color: 'from-cyan-500 to-blue-500',
+        isBreaking: true,
+        date: '2026-01'
     }
 ];

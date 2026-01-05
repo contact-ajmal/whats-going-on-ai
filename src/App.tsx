@@ -33,6 +33,7 @@ import ContextGraphsDeepDive from '@/pages/trending/ContextGraphs';
 import ClaudeSkills from '@/pages/ClaudeSkills';
 import AgenticCrafting from '@/pages/trending/AgenticCrafting';
 import NemotronCascade from '@/pages/trending/NemotronCascade';
+import GeometryOfReason from '@/pages/trending/GeometryOfReason';
 import { SharePlatformFab } from '@/components/SharePlatformFab';
 import { HelmetProvider } from 'react-helmet-async';
 
@@ -69,6 +70,7 @@ const App = () => (
           <Route path="/trending/context-graphs" element={<ContextGraphsDeepDive />} />
           <Route path="/trending/agentic-crafting" element={<AgenticCrafting />} />
           <Route path="/trending/nemotron-cascade" element={<NemotronCascade />} />
+          <Route path="/trending/geometry-of-reason" element={<GeometryOfReason />} />
           <Route path="/skills" element={<ClaudeSkills />} />
           <Route path="/profile" element={<Profile />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
