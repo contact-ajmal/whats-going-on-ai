@@ -367,6 +367,205 @@ const BeforeAfterComparison = () => {
     );
 };
 
+// --- NEW: Two Clocks Visualization ---
+
+const TwoClocksViz = () => {
+    return (
+        <div className="bg-slate-900/50 p-6 rounded-xl border border-white/10 backdrop-blur-sm">
+            <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                <History className="w-5 h-5 text-cyan-400" />
+                The Two Clocks Problem
+            </h3>
+
+            <div className="grid md:grid-cols-2 gap-6">
+                {/* State Clock */}
+                <div className="bg-blue-500/5 border border-blue-500/20 rounded-xl p-5">
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+                            <Database className="w-6 h-6 text-blue-400" />
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-blue-400">State Clock</h4>
+                            <p className="text-xs text-slate-500">What's true now</p>
+                        </div>
+                    </div>
+                    <div className="bg-black/30 rounded-lg p-3 font-mono text-xs mb-3">
+                        <div className="text-slate-500">// Current config</div>
+                        <div><span className="text-blue-400">timeout</span> = <span className="text-green-400">30s</span></div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <Badge className="bg-blue-500/20 text-blue-400 text-[10px]">$100T+ Infrastructure</Badge>
+                    </div>
+                </div>
+
+                {/* Event Clock */}
+                <div className="bg-purple-500/5 border border-purple-500/20 rounded-xl p-5">
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
+                            <History className="w-6 h-6 text-purple-400" />
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-purple-400">Event Clock</h4>
+                            <p className="text-xs text-slate-500">What happened & why</p>
+                        </div>
+                    </div>
+                    <div className="bg-black/30 rounded-lg p-3 font-mono text-xs mb-3 space-y-1">
+                        <div className="text-slate-500">// Decision trace</div>
+                        <div><span className="text-purple-400">was</span>: 5s → <span className="text-purple-400">now</span>: 30s</div>
+                        <div><span className="text-purple-400">who</span>: @sarah</div>
+                        <div><span className="text-purple-400">why</span>: "SEV-1 timeout cascade"</div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <Badge className="bg-red-500/20 text-red-400 text-[10px]">Barely Exists</Badge>
+                    </div>
+                </div>
+            </div>
+
+            <div className="mt-6 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/20 rounded-lg p-4">
+                <p className="text-sm text-slate-300 text-center">
+                    <strong className="text-cyan-400">"The git blame shows who. The reasoning is gone."</strong>
+                    <span className="text-slate-500 block mt-1">— The config file says timeout=30s. It used to say timeout=5s. Someone tripled it. Why?</span>
+                </p>
+            </div>
+        </div>
+    );
+};
+
+// --- NEW: Three Layers Model ---
+
+const ThreeLayersViz = () => {
+    const [activeLayer, setActiveLayer] = useState<'content' | 'entities' | 'facts'>('content');
+
+    const layers = {
+        content: {
+            title: "Content Layer",
+            subtitle: "The State Clock",
+            desc: "Immutable source documents. Never edited, merged, or deleted. The canonical evidence trail.",
+            icon: FileSearch,
+            color: "blue",
+            example: '"Paula works at Microsoft as Principal Engineer" — Email from March 15, 2024'
+        },
+        entities: {
+            title: "Entity Layer",
+            subtitle: "Identity Resolution",
+            desc: "Who and what content mentions. 'Sarah Chen', 'S. Chen', and '@sarah' are the same person.",
+            icon: Users,
+            color: "orange",
+            example: 'Paula Chen → Person | Microsoft → Organization | Principal Engineer → Role'
+        },
+        facts: {
+            title: "Facts Layer",
+            subtitle: "The Event Clock",
+            desc: "Temporal claims about the world. Not just 'Paula works at X' but 'Paula started at X on March 15th'.",
+            icon: Database,
+            color: "purple",
+            example: 'validAt: 2024-03-15 | invalidAt: null | status: Canonical'
+        }
+    };
+
+    return (
+        <div className="bg-slate-900/50 p-6 rounded-xl border border-white/10 backdrop-blur-sm">
+            <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                <Layers className="w-5 h-5 text-orange-400" />
+                Three Layers, Not Two
+            </h3>
+
+            {/* Layer Selector */}
+            <div className="flex gap-2 mb-6 justify-center">
+                {(['content', 'entities', 'facts'] as const).map((layer) => (
+                    <button
+                        key={layer}
+                        onClick={() => setActiveLayer(layer)}
+                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${activeLayer === layer
+                            ? `bg-${layers[layer].color}-500/20 border-2 border-${layers[layer].color}-500 text-${layers[layer].color}-300`
+                            : 'bg-white/5 border border-white/10 text-slate-400 hover:bg-white/10'
+                            }`}
+                    >
+                        {layers[layer].title}
+                    </button>
+                ))}
+            </div>
+
+            {/* Active Layer Detail */}
+            <motion.div
+                key={activeLayer}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`bg-${layers[activeLayer].color}-500/5 border border-${layers[activeLayer].color}-500/20 rounded-xl p-6`}
+            >
+                <div className="flex items-start gap-4">
+                    <div className={`p-3 rounded-xl bg-${layers[activeLayer].color}-500/20`}>
+                        {React.createElement(layers[activeLayer].icon, {
+                            className: `w-8 h-8 text-${layers[activeLayer].color}-400`
+                        })}
+                    </div>
+                    <div className="flex-1">
+                        <div className="flex items-center gap-3 mb-2">
+                            <h4 className={`text-xl font-bold text-${layers[activeLayer].color}-400`}>
+                                {layers[activeLayer].title}
+                            </h4>
+                            <Badge variant="outline" className={`border-${layers[activeLayer].color}-500/30 text-${layers[activeLayer].color}-300 text-xs`}>
+                                {layers[activeLayer].subtitle}
+                            </Badge>
+                        </div>
+                        <p className="text-slate-400 mb-4">{layers[activeLayer].desc}</p>
+                        <div className="bg-black/30 rounded-lg p-3 font-mono text-xs text-slate-300">
+                            {layers[activeLayer].example}
+                        </div>
+                    </div>
+                </div>
+            </motion.div>
+
+            {/* Progression Arrow */}
+            <div className="flex items-center justify-center gap-2 mt-6 text-slate-500">
+                <span className="text-xs">Raw Evidence</span>
+                <ArrowRight className="w-4 h-4" />
+                <span className="text-xs">+ Identity</span>
+                <ArrowRight className="w-4 h-4" />
+                <span className="text-xs">+ Temporality</span>
+            </div>
+        </div>
+    );
+};
+
+// --- NEW: Facts as First-Class Data ---
+
+const FactsDataViz = () => {
+    return (
+        <div className="bg-slate-900/50 p-6 rounded-xl border border-white/10 backdrop-blur-sm">
+            <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                <Award className="w-5 h-5 text-green-400" />
+                Facts as First-Class Data
+            </h3>
+
+            <div className="bg-black/30 rounded-xl p-5 font-mono text-sm mb-6">
+                <div className="text-slate-500 mb-3">// Fact Object Structure</div>
+                <div className="space-y-2">
+                    <div><span className="text-purple-400">text:</span> <span className="text-green-300">"Paula works at Microsoft as Principal Engineer"</span></div>
+                    <div><span className="text-purple-400">validAt:</span> <span className="text-cyan-300">2024-03-15</span></div>
+                    <div><span className="text-purple-400">invalidAt:</span> <span className="text-slate-500">null</span> <span className="text-slate-600">// still current</span></div>
+                    <div><span className="text-purple-400">status:</span> <span className="text-yellow-300">"Canonical"</span></div>
+                    <div><span className="text-purple-400">mentions:</span> [<span className="text-orange-300">Paula→Person</span>, <span className="text-orange-300">Microsoft→Org</span>]</div>
+                    <div><span className="text-purple-400">source:</span> <span className="text-blue-300">email_2024_03_15.eml</span></div>
+                </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-4">
+                <div className="bg-green-500/5 border border-green-500/20 rounded-lg p-4">
+                    <h4 className="font-bold text-green-400 mb-2 text-sm">Query: Current Employer</h4>
+                    <code className="text-xs text-slate-400 block">WHERE invalidAt IS NULL</code>
+                    <p className="text-xs text-slate-500 mt-2">No LLM guesswork. Just data.</p>
+                </div>
+                <div className="bg-blue-500/5 border border-blue-500/20 rounded-lg p-4">
+                    <h4 className="font-bold text-blue-400 mb-2 text-sm">Query: Employer in 2022</h4>
+                    <code className="text-xs text-slate-400 block">WHERE validAt &lt;= 2022 AND invalidAt &gt; 2022</code>
+                    <p className="text-xs text-slate-500 mt-2">Time-travel queries on the event clock.</p>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 // --- Main Component ---
 
 export default function ContextGraphsDeepDive() {
@@ -542,8 +741,60 @@ export default function ContextGraphsDeepDive() {
                     </div>
                 </Section>
 
-                {/* Section 3: Decision Trace Demo */}
-                <Section title="3. How Decision Traces Work">
+                {/* Section 3: The Two Clocks Problem */}
+                <Section title="3. The Two Clocks Problem">
+                    <div className="space-y-6">
+                        <p className="text-lg text-slate-400">
+                            Every system has a <strong className="text-blue-400">state clock</strong>—what's true now—and an
+                            <strong className="text-purple-400"> event clock</strong>—what happened, in what order, with what reasoning.
+                            We've built $100T+ infrastructure for the state clock. The event clock barely exists.
+                        </p>
+                        <TwoClocksViz />
+
+                        <div className="bg-slate-900 p-6 rounded-xl border border-white/10 mt-8">
+                            <h4 className="font-bold text-white mb-4">This Pattern is Everywhere:</h4>
+                            <ul className="text-sm text-slate-400 space-y-3">
+                                <li className="flex items-start gap-2">
+                                    <span className="text-red-400">•</span>
+                                    <span>The CRM says <strong className="text-white">"closed lost"</strong> but doesn't say you were the second choice</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-red-400">•</span>
+                                    <span>The treatment plan says <strong className="text-white">"switched to Drug B"</strong> but doesn't say Drug A was working until insurance stopped covering it</span>
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-red-400">•</span>
+                                    <span>The contract says <strong className="text-white">60-day termination</strong> but doesn't say the client pushed for 30 and you traded it for the liability cap</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </Section>
+
+                {/* Section 4: Three Layers Architecture */}
+                <Section title="4. Three Layers Architecture">
+                    <div className="space-y-6">
+                        <p className="text-lg text-slate-400">
+                            The two-clock model is right, but implementation requires <strong className="text-white">three distinct layers</strong>:
+                            Content for evidence, Entities for identity, and Facts for temporality.
+                        </p>
+                        <ThreeLayersViz />
+                        <FactsDataViz />
+
+                        <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20 rounded-xl p-6 mt-6">
+                            <h4 className="font-bold text-green-400 mb-3">💡 World Models Without Continual Learning</h4>
+                            <p className="text-sm text-slate-400">
+                                The model doesn't need to update its weights to "learn" that Paula now works at Microsoft.
+                                The <strong className="text-white">world model—the accumulated, resolved facts—captures that knowledge</strong>.
+                                At inference time, the model reasons over current facts, not stale training data.
+                                This is how you give agents <strong className="text-white">memory that actually works</strong>.
+                            </p>
+                        </div>
+                    </div>
+                </Section>
+
+                {/* Section 5: Decision Trace Demo */}
+                <Section title="5. How Decision Traces Work">
                     <p className="text-lg text-slate-400 mb-8">
                         When an AI agent makes a decision, it can capture the full context—turning ephemeral reasoning into durable artifacts.
                         Here's an example of a renewal agent deciding on a discount:
@@ -560,8 +811,8 @@ export default function ContextGraphsDeepDive() {
                     </div>
                 </Section>
 
-                {/* NEW Section: The Compound Learning Flywheel */}
-                <Section title="4. The Compound Learning Flywheel">
+                {/* Section 6: The Compound Learning Flywheel */}
+                <Section title="6. The Compound Learning Flywheel">
                     <div className="space-y-6">
                         <p className="text-lg text-slate-400">
                             Context graphs don't just store decisions—they <strong className="text-white">compound</strong>.
@@ -578,8 +829,8 @@ export default function ContextGraphsDeepDive() {
                     </div>
                 </Section>
 
-                {/* Section 5: Why Incumbents Can't Build This */}
-                <Section title="5. Why This is Hard for Incumbents">
+                {/* Section 7: Why Incumbents Can't Build This */}
+                <Section title="7. Why This is Hard for Incumbents">
                     <div className="space-y-6">
                         <p className="text-lg text-slate-400">
                             Salesforce, Workday, and even data warehouses like Snowflake have fundamental limitations:
@@ -630,8 +881,8 @@ export default function ContextGraphsDeepDive() {
                     </div>
                 </Section>
 
-                {/* Section 6: Three Paths for Startups */}
-                <Section title="6. Three Paths for Startups">
+                {/* Section 8: Three Paths for Startups */}
+                <Section title="8. Three Paths for Startups">
                     <div className="space-y-6">
                         <div className="grid gap-6">
                             <div className="bg-slate-900 p-6 rounded-xl border border-white/10">
@@ -688,8 +939,8 @@ export default function ContextGraphsDeepDive() {
                     </div>
                 </Section>
 
-                {/* Section 7: Key Signals */}
-                <Section title="7. Where to Look for Opportunities">
+                {/* Section 9: Key Signals */}
+                <Section title="9. Where to Look for Opportunities">
                     <div className="space-y-6">
                         <p className="text-lg text-slate-400">
                             Two key signals point to context graph opportunities:
@@ -740,8 +991,8 @@ export default function ContextGraphsDeepDive() {
                     </div>
                 </Section>
 
-                {/* Section 8: Resources */}
-                <Section title="8. Learn More">
+                {/* Section 10: Resources */}
+                <Section title="10. Learn More">
                     <div className="grid md:grid-cols-2 gap-4">
                         <a
                             href="https://foundationcapital.com/context-graphs-ais-trillion-dollar-opportunity/"
@@ -797,6 +1048,20 @@ export default function ContextGraphsDeepDive() {
                             <div>
                                 <h4 className="font-bold text-white group-hover:text-purple-400 transition-colors">Arize</h4>
                                 <p className="text-xs text-slate-500">Observability for AI agents</p>
+                            </div>
+                        </a>
+                        <a
+                            href="https://graphlit.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-4 p-4 bg-slate-900 rounded-xl border border-white/10 hover:border-purple-500/50 transition-all group"
+                        >
+                            <div className="p-3 bg-cyan-500/10 rounded-lg">
+                                <Database className="w-5 h-5 text-cyan-400" />
+                            </div>
+                            <div>
+                                <h4 className="font-bold text-white group-hover:text-purple-400 transition-colors">Graphlit</h4>
+                                <p className="text-xs text-slate-500">Building the Event Clock infrastructure</p>
                             </div>
                         </a>
                     </div>
