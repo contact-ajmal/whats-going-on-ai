@@ -40,6 +40,11 @@ const routes = [
         description: "Extend Claude Code's capabilities with custom Skills. Teach Claude domain-specific knowledge, workflows, and best practices using simple Markdown files.",
     },
     {
+        path: '/trending/nemotron-cascade',
+        title: 'Nemotron-Cascade: Scaling Cascaded RL for Reasoning Models',
+        description: "NVIDIA's open Cascade RL framework trains unified reasoning LLMs by sequentially optimizing across domains—achieving SOTA on math, code, and SWE benchmarks.",
+    },
+    {
         path: '/about',
         title: 'About | WhatsGoingOnAI',
         description: 'Learn about WhatsGoingOnAI - your daily hub for AI news, research, and emerging technologies.',

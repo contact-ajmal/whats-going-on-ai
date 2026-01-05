@@ -55,5 +55,19 @@ export const TRENDING_TOPICS: TrendingTopic[] = [
         color: 'from-rose-500 to-orange-500',
         isBreaking: true,
         date: '2025-12'
+    },
+    {
+        id: 'nemotron-cascade',
+        title: 'Nemotron-Cascade (Cascaded RL)',
+        shortDescription: 'Train reasoning LLMs without forgetting.',
+        fullDescription: 'NVIDIA\'s Cascade RL framework trains unified reasoning models by sequentially optimizing across RLHF, instruction-following, math, code, and SWE—achieving SOTA and a silver medal at IOI 2025.',
+        icon: '',
+        difficulty: 'Advanced',
+        readTime: '12 min',
+        tags: ['NVIDIA', 'Reinforcement Learning', 'Reasoning', 'arXiv:2512.13607'],
+        link: '/trending/nemotron-cascade',
+        color: 'from-emerald-500 to-teal-500',
+        isBreaking: true,
+        date: '2025-01'
     }
 ];

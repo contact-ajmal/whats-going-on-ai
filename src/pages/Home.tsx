@@ -218,6 +218,11 @@ export default function Home() {
                   Agentic Crafting
                 </span>
               </Link>
+              <Link to="/trending/nemotron-cascade" className="inline-flex items-center px-3 py-1 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:scale-105 transition-all duration-300 group">
+                <span className="text-xs uppercase whitespace-nowrap font-bold text-emerald-400 group-hover:text-emerald-300">
+                  Cascade RL
+                </span>
+              </Link>
               <Link to="/trending" className="inline-flex items-center px-3 py-1 rounded-full border border-primary/30 bg-primary/10 hover:bg-primary/20 hover:scale-105 transition-all duration-300 group">
                 <span className="text-xs uppercase whitespace-nowrap font-bold text-primary group-hover:text-primary/80">
                   Explore All →
