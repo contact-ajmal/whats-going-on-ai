@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     ArrowLeft, ArrowRight, Database, Zap,
     ExternalLink, GitBranch, Network, Brain,
     Layers, Search, History, Users, Building2,
     Workflow, FileSearch, MessageSquare, CheckCircle,
-    AlertTriangle, Target, TrendingUp, Lightbulb
+    AlertTriangle, Target, TrendingUp, Lightbulb,
+    RefreshCw, Eye, EyeOff, Slack, Mail, Phone,
+    DollarSign, Award, ArrowDown, ChevronRight
 } from 'lucide-react';
 import { NeuralBackground } from '@/components/NeuralBackground';
 import { Navigation } from '@/components/Navigation';
@@ -80,8 +82,8 @@ const DecisionTraceDemo = () => {
                         key={idx}
                         onClick={() => setStep(idx)}
                         className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${step === idx
-                                ? 'bg-purple-500/20 border-2 border-purple-500 text-purple-300'
-                                : 'bg-white/5 border border-white/10 text-slate-400 hover:bg-white/10'
+                            ? 'bg-purple-500/20 border-2 border-purple-500 text-purple-300'
+                            : 'bg-white/5 border border-white/10 text-slate-400 hover:bg-white/10'
                             }`}
                     >
                         Step {idx + 1}
@@ -184,6 +186,187 @@ const ContextGraphViz = () => {
     );
 };
 
+// --- NEW: Tribal Knowledge Visualization ---
+
+const TribalKnowledgeViz = () => {
+    const [showHidden, setShowHidden] = useState(false);
+
+    const knowledgeSources = [
+        { icon: Slack, label: "Slack threads", color: "purple", hidden: true },
+        { icon: Phone, label: "Zoom calls", color: "blue", hidden: true },
+        { icon: Brain, label: "People's heads", color: "pink", hidden: true },
+        { icon: Mail, label: "Email chains", color: "orange", hidden: true },
+    ];
+
+    const capturedSources = [
+        { icon: Database, label: "CRM", color: "green", hidden: false },
+        { icon: FileSearch, label: "ERP", color: "cyan", hidden: false },
+    ];
+
+    return (
+        <div className="bg-slate-900/50 p-6 rounded-xl border border-white/10 backdrop-blur-sm">
+            <div className="flex items-center justify-between mb-6">
+                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                    <EyeOff className="w-5 h-5 text-red-400" />
+                    Where Decision Knowledge Lives Today
+                </h3>
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setShowHidden(!showHidden)}
+                    className="text-xs border-purple-500/30 text-purple-400"
+                >
+                    {showHidden ? <Eye className="w-3 h-3 mr-1" /> : <EyeOff className="w-3 h-3 mr-1" />}
+                    {showHidden ? "Show Captured" : "Reveal Hidden"}
+                </Button>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {/* Captured sources */}
+                {!showHidden && capturedSources.map((source, idx) => (
+                    <motion.div
+                        key={idx}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className={`p-4 rounded-lg border border-${source.color}-500/30 bg-${source.color}-500/10 text-center`}
+                    >
+                        <source.icon className={`w-8 h-8 text-${source.color}-400 mx-auto mb-2`} />
+                        <span className="text-sm text-white font-medium">{source.label}</span>
+                        <Badge className="mt-2 bg-green-500/20 text-green-400 text-[10px]">Captured</Badge>
+                    </motion.div>
+                ))}
+
+                {/* Hidden sources */}
+                {showHidden && knowledgeSources.map((source, idx) => (
+                    <motion.div
+                        key={idx}
+                        initial={{ opacity: 0, scale: 0.9, rotate: -5 }}
+                        animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                        transition={{ delay: idx * 0.1 }}
+                        className={`p-4 rounded-lg border-2 border-dashed border-red-500/50 bg-red-500/5 text-center relative overflow-hidden`}
+                    >
+                        <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,rgba(239,68,68,0.05)_10px,rgba(239,68,68,0.05)_20px)]" />
+                        <source.icon className={`w-8 h-8 text-${source.color}-400 mx-auto mb-2 relative z-10`} />
+                        <span className="text-sm text-white font-medium relative z-10">{source.label}</span>
+                        <Badge className="mt-2 bg-red-500/20 text-red-400 text-[10px] relative z-10">Never Captured</Badge>
+                    </motion.div>
+                ))}
+            </div>
+
+            <p className="text-sm text-slate-500 text-center mt-6">
+                {showHidden
+                    ? "👆 This tribal knowledge disappears after every decision. Context graphs capture it."
+                    : "Click \"Reveal Hidden\" to see where 80% of decision context actually lives."
+                }
+            </p>
+        </div>
+    );
+};
+
+// --- NEW: Compound Learning Loop ---
+
+const CompoundLoopViz = () => {
+    const [activeStep, setActiveStep] = useState(0);
+
+    const steps = [
+        { label: "Capture", desc: "Agent records decision trace", icon: Database, color: "purple" },
+        { label: "Search", desc: "Find similar past decisions", icon: Search, color: "blue" },
+        { label: "Automate", desc: "Apply precedent automatically", icon: Zap, color: "green" },
+        { label: "Grow", desc: "More traces = smarter system", icon: TrendingUp, color: "orange" },
+    ];
+
+    React.useEffect(() => {
+        const interval = setInterval(() => {
+            setActiveStep((prev) => (prev + 1) % steps.length);
+        }, 2000);
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <div className="bg-slate-900/50 p-6 rounded-xl border border-white/10 backdrop-blur-sm">
+            <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                <RefreshCw className="w-5 h-5 text-green-400 animate-spin" style={{ animationDuration: '3s' }} />
+                The Compound Learning Flywheel
+            </h3>
+
+            <div className="flex flex-wrap justify-center items-center gap-4 mb-8">
+                {steps.map((step, idx) => (
+                    <React.Fragment key={idx}>
+                        <motion.div
+                            animate={{
+                                scale: activeStep === idx ? 1.15 : 1,
+                                opacity: activeStep === idx ? 1 : 0.5,
+                            }}
+                            className={`flex flex-col items-center p-4 rounded-xl transition-all ${activeStep === idx
+                                ? `bg-${step.color}-500/20 border-2 border-${step.color}-500 shadow-lg shadow-${step.color}-500/20`
+                                : 'bg-slate-800/50 border border-slate-700'
+                                }`}
+                        >
+                            <step.icon className={`w-8 h-8 text-${step.color}-400 mb-2`} />
+                            <span className="font-bold text-white text-sm">{step.label}</span>
+                            <span className="text-[10px] text-slate-500 text-center mt-1 max-w-[80px]">{step.desc}</span>
+                        </motion.div>
+                        {idx < steps.length - 1 && (
+                            <ChevronRight className={`w-5 h-5 ${activeStep === idx ? 'text-white' : 'text-slate-600'}`} />
+                        )}
+                    </React.Fragment>
+                ))}
+                <ChevronRight className={`w-5 h-5 ${activeStep === steps.length - 1 ? 'text-white' : 'text-slate-600'} rotate-180`} />
+            </div>
+
+            <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20 rounded-lg p-4">
+                <p className="text-sm text-slate-300 text-center">
+                    <strong className="text-green-400">The Moat:</strong> Every decision makes the next one smarter.
+                    Incumbents can't catch up because they're not in the execution path.
+                </p>
+            </div>
+        </div>
+    );
+};
+
+// --- NEW: Before/After Comparison ---
+
+const BeforeAfterComparison = () => {
+    return (
+        <div className="grid md:grid-cols-2 gap-6">
+            {/* Before: CRM View */}
+            <div className="bg-red-500/5 border border-red-500/20 rounded-xl p-6">
+                <div className="flex items-center gap-2 mb-4">
+                    <EyeOff className="w-5 h-5 text-red-400" />
+                    <h4 className="font-bold text-red-400">What CRM Shows</h4>
+                </div>
+                <div className="bg-black/30 rounded-lg p-4 font-mono text-sm">
+                    <div className="text-slate-500 mb-2">// Opportunity Record</div>
+                    <div><span className="text-blue-400">Deal:</span> <span className="text-white">Acme Corp Renewal</span></div>
+                    <div><span className="text-blue-400">Discount:</span> <span className="text-green-400">20%</span></div>
+                    <div><span className="text-blue-400">Status:</span> <span className="text-yellow-400">Closed Won</span></div>
+                    <div className="mt-4 text-slate-600 italic">// That's it. Just the final state.</div>
+                </div>
+                <p className="text-xs text-slate-500 mt-4">No trace of why 20% was approved when policy caps at 10%.</p>
+            </div>
+
+            {/* After: Context Graph View */}
+            <div className="bg-green-500/5 border border-green-500/20 rounded-xl p-6">
+                <div className="flex items-center gap-2 mb-4">
+                    <Eye className="w-5 h-5 text-green-400" />
+                    <h4 className="font-bold text-green-400">What Context Graph Shows</h4>
+                </div>
+                <div className="bg-black/30 rounded-lg p-4 font-mono text-xs space-y-2">
+                    <div className="text-slate-500">// Decision Trace #4521</div>
+                    <div><span className="text-purple-400">context.crm:</span> ARR $2.1M, 3yr customer</div>
+                    <div><span className="text-purple-400">context.pagerduty:</span> 3 SEV-1 incidents</div>
+                    <div><span className="text-purple-400">context.zendesk:</span> Open escalation</div>
+                    <div><span className="text-purple-400">policy:</span> Max 10% unless exception</div>
+                    <div><span className="text-purple-400">precedent:</span> VP approved similar Q3</div>
+                    <div><span className="text-purple-400">approver:</span> @jsmith (Finance)</div>
+                    <div><span className="text-purple-400">rationale:</span> "Churn risk + history"</div>
+                </div>
+                <p className="text-xs text-slate-500 mt-4">Full audit trail. Searchable. Replayable.</p>
+            </div>
+        </div>
+    );
+};
+
 // --- Main Component ---
 
 export default function ContextGraphsDeepDive() {
@@ -205,18 +388,43 @@ export default function ContextGraphsDeepDive() {
                     </Link>
 
                     <div className="text-center">
-                        <Badge variant="outline" className="mb-6 text-purple-400 border-purple-400/30 py-1.5 px-4 text-sm backdrop-blur-md">
-                            🕸️ Enterprise AI Infrastructure
+                        <Badge variant="outline" className="mb-6 text-purple-400 border-purple-400/30 py-1.5 px-4 text-sm backdrop-blur-md animate-pulse">
+                            🔥 Viral on X • Foundation Capital
                         </Badge>
                         <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-tight">
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-indigo-400 to-purple-600">
                                 Context Graphs
                             </span>
                         </h1>
-                        <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
+                        <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed mb-8">
                             The missing layer that captures <strong className="text-white">why</strong> decisions were made—not just what happened.
-                            This is AI's trillion-dollar opportunity.
+                            This is AI's <strong className="text-purple-400">trillion-dollar opportunity</strong>.
                         </p>
+
+                        {/* Viral Quote */}
+                        <div className="max-w-3xl mx-auto bg-gradient-to-r from-purple-500/10 via-indigo-500/5 to-purple-500/10 border border-purple-500/20 rounded-2xl p-6 backdrop-blur-sm">
+                            <p className="text-lg italic text-slate-300 mb-4">
+                                "The last generation built trillion-dollar platforms by owning <span className="text-white font-semibold">what happened</span>.
+                                The next generation will own <span className="text-purple-400 font-semibold">why it happened</span>."
+                            </p>
+                            <p className="text-sm text-slate-500">— Jaya Gupta & Ashu Garg, Foundation Capital</p>
+                        </div>
+
+                        {/* Stats Banner */}
+                        <div className="flex flex-wrap justify-center gap-8 mt-10">
+                            <div className="text-center">
+                                <div className="text-4xl font-black text-white">$100T+</div>
+                                <div className="text-xs text-slate-500 uppercase tracking-wider">Built on "What"</div>
+                            </div>
+                            <div className="text-center">
+                                <div className="text-4xl font-black text-purple-400">$0</div>
+                                <div className="text-xs text-slate-500 uppercase tracking-wider">Built on "Why"</div>
+                            </div>
+                            <div className="text-center">
+                                <div className="text-4xl font-black text-green-400">∞</div>
+                                <div className="text-xs text-slate-500 uppercase tracking-wider">Opportunity</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </header>
@@ -293,6 +501,11 @@ export default function ContextGraphsDeepDive() {
                                 </div>
                             </div>
                         </div>
+
+                        {/* NEW: Tribal Knowledge Visualization */}
+                        <div className="mt-10">
+                            <TribalKnowledgeViz />
+                        </div>
                     </div>
                 </Section>
 
@@ -336,10 +549,37 @@ export default function ContextGraphsDeepDive() {
                         Here's an example of a renewal agent deciding on a discount:
                     </p>
                     <DecisionTraceDemo />
+
+                    {/* NEW: Before/After Comparison */}
+                    <div className="mt-10">
+                        <h4 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                            <ArrowRight className="w-5 h-5 text-purple-400" />
+                            See the Difference
+                        </h4>
+                        <BeforeAfterComparison />
+                    </div>
                 </Section>
 
-                {/* Section 4: Why Incumbents Can't Build This */}
-                <Section title="4. Why This is Hard for Incumbents">
+                {/* NEW Section: The Compound Learning Flywheel */}
+                <Section title="4. The Compound Learning Flywheel">
+                    <div className="space-y-6">
+                        <p className="text-lg text-slate-400">
+                            Context graphs don't just store decisions—they <strong className="text-white">compound</strong>.
+                            Every captured trace becomes searchable precedent for future decisions.
+                        </p>
+                        <CompoundLoopViz />
+                        <div className="bg-purple-500/5 border border-purple-500/20 rounded-xl p-6 mt-6">
+                            <h4 className="font-bold text-purple-400 mb-3">💡 The Power of Progressive Automation</h4>
+                            <p className="text-sm text-slate-400">
+                                It starts with <strong className="text-white">human-in-the-loop</strong>: the agent proposes, gathers context, routes approvals, and records the trace.
+                                Over time, as similar cases repeat, more of the path can be automated because the system has a <strong className="text-white">structured library of prior decisions</strong>.
+                            </p>
+                        </div>
+                    </div>
+                </Section>
+
+                {/* Section 5: Why Incumbents Can't Build This */}
+                <Section title="5. Why This is Hard for Incumbents">
                     <div className="space-y-6">
                         <p className="text-lg text-slate-400">
                             Salesforce, Workday, and even data warehouses like Snowflake have fundamental limitations:
@@ -390,8 +630,8 @@ export default function ContextGraphsDeepDive() {
                     </div>
                 </Section>
 
-                {/* Section 5: Three Paths for Startups */}
-                <Section title="5. Three Paths for Startups">
+                {/* Section 6: Three Paths for Startups */}
+                <Section title="6. Three Paths for Startups">
                     <div className="space-y-6">
                         <div className="grid gap-6">
                             <div className="bg-slate-900 p-6 rounded-xl border border-white/10">
@@ -448,8 +688,8 @@ export default function ContextGraphsDeepDive() {
                     </div>
                 </Section>
 
-                {/* Section 6: Key Signals */}
-                <Section title="6. Where to Look for Opportunities">
+                {/* Section 7: Key Signals */}
+                <Section title="7. Where to Look for Opportunities">
                     <div className="space-y-6">
                         <p className="text-lg text-slate-400">
                             Two key signals point to context graph opportunities:
@@ -477,17 +717,31 @@ export default function ContextGraphsDeepDive() {
                                 <Target className="w-5 h-5 text-pink-400" />
                                 The "Glue Function" Signal
                             </h4>
-                            <p className="text-sm text-slate-400">
+                            <p className="text-sm text-slate-400 mb-4">
                                 <strong className="text-white">RevOps, DevOps, SecOps</strong>—these roles exist because no single system owns the cross-functional workflow.
                                 An agent that automates these roles doesn't just run steps faster; it can persist the decisions and precedents
                                 the role was created to produce.
                             </p>
+                            <div className="grid grid-cols-3 gap-3 mt-4">
+                                <div className="bg-pink-500/10 border border-pink-500/20 rounded-lg p-3 text-center">
+                                    <span className="text-sm font-bold text-pink-400">RevOps</span>
+                                    <p className="text-[10px] text-slate-500 mt-1">Sales + Finance + CS</p>
+                                </div>
+                                <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-3 text-center">
+                                    <span className="text-sm font-bold text-blue-400">DevOps</span>
+                                    <p className="text-[10px] text-slate-500 mt-1">Dev + IT + Support</p>
+                                </div>
+                                <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-3 text-center">
+                                    <span className="text-sm font-bold text-green-400">SecOps</span>
+                                    <p className="text-[10px] text-slate-500 mt-1">IT + Eng + Compliance</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </Section>
 
-                {/* Section 7: Resources */}
-                <Section title="7. Learn More">
+                {/* Section 8: Resources */}
+                <Section title="8. Learn More">
                     <div className="grid md:grid-cols-2 gap-4">
                         <a
                             href="https://foundationcapital.com/context-graphs-ais-trillion-dollar-opportunity/"
