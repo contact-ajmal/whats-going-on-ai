@@ -203,7 +203,7 @@ export default function Home() {
         <div className="flex animate-marquee items-center hover:[animation-play-state:paused] ml-[80px] sm:ml-[100px] md:ml-[120px]">
           {[...Array(4)].map((_, i) => (
             <div key={i} className="flex items-center gap-6 md:gap-10 mx-6 md:mx-10">
-              <Link to="/trending/anthropic-skills" className="inline-flex items-center px-3 py-1 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:scale-105 transition-all duration-300 group">
+              <Link to="/agentic-ai/anthropic-skills" className="inline-flex items-center px-3 py-1 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:scale-105 transition-all duration-300 group">
                 <span className="text-xs uppercase whitespace-nowrap font-bold text-primary group-hover:text-primary/80">
                   Claude Agent Skills
                 </span>

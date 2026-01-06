@@ -39,6 +39,7 @@ import NvidiaAlpamayo from '@/pages/trending/NvidiaAlpamayo';
 import Robotics from '@/pages/Robotics';
 import BostonDynamicsDeepMind from '@/pages/robotics/BostonDynamicsDeepMind';
 import AgenticAI from '@/pages/AgenticAI';
+import AgenticAnthropicSkills from '@/pages/agentic-ai/AnthropicSkills';
 import { SharePlatformFab } from '@/components/SharePlatformFab';
 import { HelmetProvider } from 'react-helmet-async';
 
@@ -81,6 +82,7 @@ const App = () => (
           <Route path="/robotics" element={<Robotics />} />
           <Route path="/robotics/boston-dynamics-deepmind" element={<BostonDynamicsDeepMind />} />
           <Route path="/agentic-ai" element={<AgenticAI />} />
+          <Route path="/agentic-ai/anthropic-skills" element={<AgenticAnthropicSkills />} />
           <Route path="/skills" element={<ClaudeSkills />} />
           <Route path="/profile" element={<Profile />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

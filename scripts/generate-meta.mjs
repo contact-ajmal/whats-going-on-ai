@@ -35,8 +35,8 @@ const routes = [
         description: 'Deep dive into ROCK, ROLL, and ROME—the new ALE ecosystem for building autonomous agents. From arXiv:2512.24873, learn how to train reliable agent LLMs.',
     },
     {
-        path: '/trending/anthropic-skills',
-        title: 'Claude Code Agent Skills',
+        path: '/agentic-ai/anthropic-skills',
+        title: 'Claude Code Agent Skills | Agentic AI',
         description: "Extend Claude Code's capabilities with custom Skills. Teach Claude domain-specific knowledge, workflows, and best practices using simple Markdown files.",
     },
     {

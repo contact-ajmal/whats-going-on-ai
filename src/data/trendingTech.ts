@@ -15,20 +15,6 @@ export interface TrendingTopic {
 
 export const TRENDING_TOPICS: TrendingTopic[] = [
     {
-        id: 'anthropic-skills',
-        title: 'Claude Code Agent Skills',
-        shortDescription: 'Extend Claude Code with custom SKILL.md files.',
-        fullDescription: 'Agent Skills let you teach Claude domain-specific knowledge, workflows, and best practices using simple Markdown files. Skills auto-trigger based on descriptions and can include reference files, utility scripts, and tool restrictions.',
-        icon: '',
-        difficulty: 'Intermediate',
-        readTime: '8 min',
-        tags: ['Claude Code', 'Agents', 'Extensibility', 'Anthropic'],
-        link: '/trending/anthropic-skills',
-        color: 'from-orange-500 to-red-500',
-        isBreaking: true,
-        date: '2025-01'
-    },
-    {
         id: 'context-graphs',
         title: 'Context Graphs & Decision Traces',
         shortDescription: 'The trillion-dollar layer AI agents are building.',
