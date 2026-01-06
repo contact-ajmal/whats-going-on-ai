@@ -87,7 +87,7 @@ export function Navigation() {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden xl:flex items-center justify-center flex-1">
+            <div className="hidden xl:flex items-center justify-center flex-1 min-w-0 overflow-x-auto scrollbar-hide">
               <NavigationMenu>
                 <NavigationMenuList>
                   <NavigationMenuItem>
@@ -272,7 +272,7 @@ export function Navigation() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="xl:hidden mt-4 pb-4 border-t border-border/50"
+              className="xl:hidden mt-4 pb-4 border-t border-border/50 max-h-[calc(100vh-80px)] overflow-y-auto"
             >
               <div className="flex flex-col gap-2 pt-4">
                 <Link to="/" onClick={() => setIsOpen(false)} className="px-4 py-3 rounded-lg text-sm font-medium hover:bg-muted">Home</Link>
@@ -291,6 +291,22 @@ export function Navigation() {
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
                   </span>
                   <span className="bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Trending AI Tech</span>
+                </Link>
+
+                <Link to="/robotics" onClick={() => setIsOpen(false)} className="mx-4 mb-2 px-4 py-3 rounded-xl bg-gradient-to-r from-teal-500/10 via-cyan-500/10 to-teal-500/10 border border-teal-500/20 text-sm font-bold flex items-center gap-3 group">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
+                  </span>
+                  <span className="bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">AI Robotics</span>
+                </Link>
+
+                <Link to="/agentic-ai" onClick={() => setIsOpen(false)} className="mx-4 mb-2 px-4 py-3 rounded-xl bg-gradient-to-r from-violet-500/10 via-purple-500/10 to-violet-500/10 border border-violet-500/20 text-sm font-bold flex items-center gap-3 group">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-violet-500"></span>
+                  </span>
+                  <span className="bg-gradient-to-r from-violet-400 to-purple-400 bg-clip-text text-transparent">Agentic AI</span>
                 </Link>
 
                 <Link to="/young-minds" onClick={() => setIsOpen(false)} className="mx-4 mb-2 px-4 py-3 rounded-xl bg-yellow-400/10 border border-yellow-400/20 text-sm font-bold flex items-center gap-3 text-yellow-400">
