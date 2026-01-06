@@ -41,6 +41,7 @@ import BostonDynamicsDeepMind from '@/pages/robotics/BostonDynamicsDeepMind';
 import AgenticAI from '@/pages/AgenticAI';
 import AgenticAnthropicSkills from '@/pages/agentic-ai/AnthropicSkills';
 import { SharePlatformFab } from '@/components/SharePlatformFab';
+import ScrollToTop from '@/components/ScrollToTop';
 import { HelmetProvider } from 'react-helmet-async';
 
 const queryClient = new QueryClient();
@@ -51,6 +52,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter basename={import.meta.env.BASE_URL}>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
