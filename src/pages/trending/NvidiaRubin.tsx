@@ -335,7 +335,7 @@ const VideoSection = () => (
         <div className="aspect-video rounded-lg overflow-hidden bg-black">
             <iframe
                 className="w-full h-full"
-                src="https://www.youtube.com/embed/Y2F8YGg-DCQ"
+                src="https://www.youtube.com/embed/tyLSDGfjk2g?si=MUY3g7WgNFws9Fdf"
                 title="NVIDIA GTC 2025 Keynote"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
@@ -537,7 +537,7 @@ export default function NvidiaRubin() {
                             <ExternalLink className="ml-auto w-4 h-4 text-slate-600 group-hover:text-green-400" />
                         </a>
                         <a
-                            href="https://www.youtube.com/watch?v=Y2F8YGg-DCQ"
+                            href="https://www.youtube.com/watch?v=tyLSDGfjk2g"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-4 p-4 bg-slate-900 rounded-xl border border-white/10 hover:border-red-500/50 transition-all group"
