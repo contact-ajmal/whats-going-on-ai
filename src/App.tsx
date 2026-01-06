@@ -35,6 +35,8 @@ import AgenticCrafting from '@/pages/trending/AgenticCrafting';
 import NemotronCascade from '@/pages/trending/NemotronCascade';
 import GeometryOfReason from '@/pages/trending/GeometryOfReason';
 import NvidiaRubin from '@/pages/trending/NvidiaRubin';
+import Robotics from '@/pages/Robotics';
+import AgenticAI from '@/pages/AgenticAI';
 import { SharePlatformFab } from '@/components/SharePlatformFab';
 import { HelmetProvider } from 'react-helmet-async';
 
@@ -73,6 +75,8 @@ const App = () => (
           <Route path="/trending/nemotron-cascade" element={<NemotronCascade />} />
           <Route path="/trending/geometry-of-reason" element={<GeometryOfReason />} />
           <Route path="/trending/nvidia-rubin" element={<NvidiaRubin />} />
+          <Route path="/robotics" element={<Robotics />} />
+          <Route path="/agentic-ai" element={<AgenticAI />} />
           <Route path="/skills" element={<ClaudeSkills />} />
           <Route path="/profile" element={<Profile />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

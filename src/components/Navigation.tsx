@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { BroadcastModal } from '@/components/BroadcastModal';
-import { Menu, X, Search, Newspaper, Video, Globe, Briefcase, Wrench, Clock, BookOpen, Info, GraduationCap, Brain, Radio, Sparkles } from 'lucide-react';
+import { Menu, X, Search, Newspaper, Video, Globe, Briefcase, Wrench, Clock, BookOpen, Info, GraduationCap, Brain, Radio, Sparkles, Bot } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { SearchDialog } from '@/components/SearchDialog';
 import { Button } from '@/components/ui/button';
@@ -142,6 +142,34 @@ export function Navigation() {
                         </span>
                         <span className="bg-gradient-to-r from-orange-400 via-red-400 to-orange-500 bg-clip-text text-transparent animate-gradient bg-300% group-hover:from-orange-300 group-hover:via-red-300 group-hover:to-orange-400 transition-all duration-300">
                           Trending AI Tech
+                        </span>
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+
+                  <NavigationMenuItem>
+                    <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                      <Link to="/robotics" className="group flex items-center gap-2 font-bold">
+                        <span className="relative flex h-2 w-2 mr-1">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
+                        </span>
+                        <span className="bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-500 bg-clip-text text-transparent animate-gradient bg-300% group-hover:from-teal-300 group-hover:via-cyan-300 group-hover:to-teal-400 transition-all duration-300">
+                          AI Robotics
+                        </span>
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+
+                  <NavigationMenuItem>
+                    <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                      <Link to="/agentic-ai" className="group flex items-center gap-2 font-bold">
+                        <span className="relative flex h-2 w-2 mr-1">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-violet-400 opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-violet-500"></span>
+                        </span>
+                        <span className="bg-gradient-to-r from-violet-400 via-purple-400 to-violet-500 bg-clip-text text-transparent animate-gradient bg-300% group-hover:from-violet-300 group-hover:via-purple-300 group-hover:to-violet-400 transition-all duration-300">
+                          Agentic AI
                         </span>
                       </Link>
                     </NavigationMenuLink>

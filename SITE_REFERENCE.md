@@ -42,6 +42,8 @@ The main navigation is defined in `src/components/Navigation.tsx`.
 | Research Papers | `/research` | BookOpen | Link |
 | AI Decoded | `/decoded` | — | Link (animated gradient) |
 | Trending AI Tech | `/trending` | — | Link (animated gradient) |
+| AI Robotics | `/robotics` | — | Link (animated gradient, teal) |
+| Agentic AI | `/agentic-ai` | — | Link (animated gradient, violet) |
 | Discover | — | — | Dropdown |
 | Blog | `/blog` | — | Link |
 

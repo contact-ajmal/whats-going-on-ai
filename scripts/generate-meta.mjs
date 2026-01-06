@@ -69,6 +69,16 @@ const routes = [
         title: 'AI Learning Resources | WhatsGoingOnAI',
         description: 'Curated AI learning resources, tutorials, and courses to help you master artificial intelligence.',
     },
+    {
+        path: '/robotics',
+        title: 'AI Robotics | WhatsGoingOnAI',
+        description: 'Explore the latest in AI-powered robotics: humanoids, autonomous systems, industrial automation, and the future of physical AI.',
+    },
+    {
+        path: '/agentic-ai',
+        title: 'Agentic AI | WhatsGoingOnAI',
+        description: 'Discover the world of autonomous AI agents: reasoning models, tool use, multi-agent systems, and the future of AI that can act.',
+    },
 ];
 
 const siteUrl = 'https://whatsgoingonai.com';
