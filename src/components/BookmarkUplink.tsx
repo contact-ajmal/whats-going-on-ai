@@ -1,15 +1,89 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Radio, Command, X, Wifi } from 'lucide-react';
+import { Radio, Command, X, Wifi, Smartphone, Monitor, Share, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+
+type DeviceType = 'mac' | 'windows' | 'ios' | 'android' | 'other';
+
+function detectDevice(): DeviceType {
+    const userAgent = navigator.userAgent.toLowerCase();
+    const platform = navigator.platform?.toLowerCase() || '';
+
+    // Check for iOS (iPhone, iPad, iPod)
+    if (/iphone|ipad|ipod/.test(userAgent) || (platform === 'macintel' && navigator.maxTouchPoints > 1)) {
+        return 'ios';
+    }
+    // Check for Android
+    if (/android/.test(userAgent)) {
+        return 'android';
+    }
+    // Check for Mac
+    if (/mac/.test(platform)) {
+        return 'mac';
+    }
+    // Check for Windows
+    if (/win/.test(platform)) {
+        return 'windows';
+    }
+    return 'other';
+}
+
+interface InstructionStep {
+    icon: React.ReactNode;
+    text: string;
+}
+
+function getInstructions(device: DeviceType): { title: string; steps: InstructionStep[]; shortcut?: string } {
+    switch (device) {
+        case 'ios':
+            return {
+                title: 'Add to Home Screen',
+                steps: [
+                    { icon: <Share className="w-4 h-4" />, text: 'Tap the Share button in Safari' },
+                    { icon: <Plus className="w-4 h-4" />, text: 'Scroll down and tap "Add to Home Screen"' },
+                    { icon: <Smartphone className="w-4 h-4" />, text: 'Tap "Add" to save to your home screen' },
+                ],
+            };
+        case 'android':
+            return {
+                title: 'Add to Home Screen',
+                steps: [
+                    { icon: <Monitor className="w-4 h-4" />, text: 'Tap the menu (⋮) in Chrome' },
+                    { icon: <Smartphone className="w-4 h-4" />, text: 'Tap "Add to Home screen"' },
+                    { icon: <Plus className="w-4 h-4" />, text: 'Tap "Add" to confirm' },
+                ],
+            };
+        case 'mac':
+            return {
+                title: 'Save to Bookmarks',
+                steps: [],
+                shortcut: '⌘ + D',
+            };
+        case 'windows':
+            return {
+                title: 'Save to Bookmarks',
+                steps: [],
+                shortcut: 'Ctrl + D',
+            };
+        default:
+            return {
+                title: 'Save to Bookmarks',
+                steps: [],
+                shortcut: 'Ctrl + D',
+            };
+    }
+}
 
 export function BookmarkUplink() {
     const [showPrompt, setShowPrompt] = useState(false);
-    const [isMac, setIsMac] = useState(false);
+    const [device, setDevice] = useState<DeviceType>('other');
 
     useEffect(() => {
-        setIsMac(navigator.platform.toUpperCase().indexOf('MAC') >= 0);
+        setDevice(detectDevice());
     }, []);
+
+    const instructions = getInstructions(device);
+    const isMobile = device === 'ios' || device === 'android';
 
     return (
         <>
@@ -41,7 +115,10 @@ export function BookmarkUplink() {
             {/* Holographic Prompt Overlay */}
             <AnimatePresence>
                 {showPrompt && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+                    <div
+                        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+                        onClick={() => setShowPrompt(false)}
+                    >
                         <motion.div
                             initial={{ scale: 0.9, opacity: 0, y: 20 }}
                             animate={{ scale: 1, opacity: 1, y: 0 }}
@@ -64,27 +141,60 @@ export function BookmarkUplink() {
 
                             <div className="flex flex-col items-center text-center space-y-4">
                                 <div className="p-3 bg-cyan-500/10 rounded-full border border-cyan-500/20">
-                                    <Radio className="w-8 h-8 text-cyan-400 animate-pulse" />
+                                    {isMobile ? (
+                                        <Smartphone className="w-8 h-8 text-cyan-400 animate-pulse" />
+                                    ) : (
+                                        <Radio className="w-8 h-8 text-cyan-400 animate-pulse" />
+                                    )}
                                 </div>
 
                                 <div className="space-y-1">
                                     <h3 className="text-lg font-bold text-white tracking-widest uppercase font-mono">
-                                        Save to Bookmarks
+                                        {instructions.title}
                                     </h3>
                                     <p className="text-sm text-gray-400">
-                                        Press the key combination to save this site.
+                                        {isMobile
+                                            ? 'Follow these steps to save this app to your device.'
+                                            : 'Press the key combination to save this site.'
+                                        }
                                     </p>
                                 </div>
 
-                                <div className="flex items-center gap-3 py-3 px-6 bg-white/5 rounded-lg border border-white/10 w-full justify-center group cursor-default hover:border-cyan-500/30 transition-colors">
-                                    <Command className="w-5 h-5 text-gray-400 group-hover:text-cyan-400 transition-colors" />
-                                    <span className="font-mono text-xl font-bold text-white tracking-widest">
-                                        {isMac ? 'CMD + D' : 'CTRL + D'}
-                                    </span>
-                                </div>
+                                {/* Desktop: Show keyboard shortcut */}
+                                {instructions.shortcut && (
+                                    <div className="flex items-center gap-3 py-3 px-6 bg-white/5 rounded-lg border border-white/10 w-full justify-center group cursor-default hover:border-cyan-500/30 transition-colors">
+                                        <Command className="w-5 h-5 text-gray-400 group-hover:text-cyan-400 transition-colors" />
+                                        <span className="font-mono text-xl font-bold text-white tracking-widest">
+                                            {instructions.shortcut}
+                                        </span>
+                                    </div>
+                                )}
+
+                                {/* Mobile: Show step-by-step instructions */}
+                                {instructions.steps.length > 0 && (
+                                    <div className="w-full space-y-3">
+                                        {instructions.steps.map((step, idx) => (
+                                            <div
+                                                key={idx}
+                                                className="flex items-center gap-3 py-2 px-4 bg-white/5 rounded-lg border border-white/10 text-left hover:border-cyan-500/30 transition-colors"
+                                            >
+                                                <div className="flex-shrink-0 w-7 h-7 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400">
+                                                    {idx + 1}
+                                                </div>
+                                                <div className="flex items-center gap-2 text-sm text-gray-300">
+                                                    <span className="text-cyan-400">{step.icon}</span>
+                                                    {step.text}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
 
                                 <p className="text-xs text-muted-foreground font-mono">
-                                    Use this shortcut to add to your browser
+                                    {isMobile
+                                        ? `Detected: ${device === 'ios' ? 'iPhone/iPad' : 'Android'}`
+                                        : 'Use this shortcut to add to your browser'
+                                    }
                                 </p>
                             </div>
 
