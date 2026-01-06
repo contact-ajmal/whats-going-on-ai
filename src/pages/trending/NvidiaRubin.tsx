@@ -330,19 +330,19 @@ const VideoSection = () => (
     <div className="bg-slate-900/50 p-6 rounded-xl border border-white/10">
         <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
             <Play className="w-5 h-5 text-red-500" />
-            Watch: NVIDIA GTC 2025 - Rubin Architecture Deep Dive
+            Watch: NVIDIA GTC 2025 - Rubin Architecture Announcement
         </h3>
         <div className="aspect-video rounded-lg overflow-hidden bg-black">
             <iframe
                 className="w-full h-full"
-                src="https://www.youtube.com/embed/k9r19tJxVLU"
+                src="https://www.youtube.com/embed/Y2F8YGg-DCQ"
                 title="NVIDIA GTC 2025 Keynote"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
             />
         </div>
         <p className="text-sm text-slate-500 mt-3 text-center">
-            Jensen Huang's GTC 2025 Keynote covering Blackwell Ultra, Rubin, and the $50T AI future
+            Jensen Huang's GTC 2025 Keynote covering Blackwell Ultra, Rubin, and the AI future
         </p>
     </div>
 );
@@ -537,7 +537,7 @@ export default function NvidiaRubin() {
                             <ExternalLink className="ml-auto w-4 h-4 text-slate-600 group-hover:text-green-400" />
                         </a>
                         <a
-                            href="https://www.youtube.com/watch?v=k9r19tJxVLU"
+                            href="https://www.youtube.com/watch?v=Y2F8YGg-DCQ"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-4 p-4 bg-slate-900 rounded-xl border border-white/10 hover:border-red-500/50 transition-all group"
