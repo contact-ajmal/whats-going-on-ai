@@ -83,5 +83,19 @@ export const TRENDING_TOPICS: TrendingTopic[] = [
         color: 'from-cyan-500 to-blue-500',
         isBreaking: true,
         date: '2026-01'
+    },
+    {
+        id: 'nvidia-rubin',
+        title: 'NVIDIA Rubin Architecture',
+        shortDescription: 'The 2026 AI supercomputer leap.',
+        fullDescription: 'NVIDIA\'s next-generation Rubin platform brings HBM4 memory (288GB, 22TB/s), custom Vera CPU with 88 Olympus cores, NVLink 6, and 5x performance over Blackwell—designed for agentic AI.',
+        icon: '',
+        difficulty: 'Intermediate',
+        readTime: '12 min',
+        tags: ['NVIDIA', 'Hardware', 'HBM4', 'AI Infrastructure'],
+        link: '/trending/nvidia-rubin',
+        color: 'from-green-500 to-emerald-500',
+        isBreaking: true,
+        date: '2026-01'
     }
 ];

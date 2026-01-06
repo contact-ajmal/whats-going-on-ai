@@ -50,6 +50,11 @@ const routes = [
         description: "A training-free method to detect valid mathematical reasoning through spectral analysis of attention patterns. 85-95% accuracy with no fine-tuning required.",
     },
     {
+        path: '/trending/nvidia-rubin',
+        title: 'NVIDIA Rubin Architecture: The 2026 AI Supercomputer Platform',
+        description: "Deep dive into NVIDIA's Rubin architecture: HBM4 memory (288GB, 22TB/s), Vera CPU with 88 Olympus cores, NVLink 6, and 5x performance over Blackwell.",
+    },
+    {
         path: '/about',
         title: 'About | WhatsGoingOnAI',
         description: 'Learn about WhatsGoingOnAI - your daily hub for AI news, research, and emerging technologies.',

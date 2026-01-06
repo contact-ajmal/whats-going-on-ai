@@ -126,6 +126,7 @@ interface TrendingTopic {
 | `agentic-crafting` | Agentic Crafting (ROME) | `from-rose-500 to-orange-500` | Advanced | `/trending/agentic-crafting` |
 | `nemotron-cascade` | Nemotron-Cascade (Cascaded RL) | `from-emerald-500 to-teal-500` | Advanced | `/trending/nemotron-cascade` |
 | `geometry-of-reason` | Geometry of Reason | `from-cyan-500 to-blue-500` | Advanced | `/trending/geometry-of-reason` |
+| `nvidia-rubin` | NVIDIA Rubin Architecture | `from-green-500 to-emerald-500` | Intermediate | `/trending/nvidia-rubin` |
 
 ### Deep-Dive Pages
 
@@ -138,6 +139,7 @@ Located in `src/pages/trending/`:
 | `AgenticCrafting.tsx` | ALE ecosystem, ROCK/ROLL/ROME | Architecture demo |
 | `NemotronCascade.tsx` | Cascade RL pipeline, benchmarks | IOI 2025 spotlight |
 | `GeometryOfReason.tsx` | Spectral metrics, attention graphs | Safety applications |
+| `NvidiaRubin.tsx` | HBM4, Vera CPU, Blackwell comparison | YouTube video, architecture diagram |
 
 ---
 
@@ -231,6 +233,7 @@ This script generates static HTML files for each route with proper Open Graph an
 | `/trending/anthropic-skills` | Claude Code Agent Skills |
 | `/trending/nemotron-cascade` | Nemotron-Cascade: Scaling Cascaded RL... |
 | `/trending/geometry-of-reason` | Geometry of Reason: Spectral Signatures... |
+| `/trending/nvidia-rubin` | NVIDIA Rubin Architecture: The 2026 AI... |
 | `/about` | About \| WhatsGoingOnAI |
 | `/news` | AI News \| WhatsGoingOnAI |
 | `/learning` | AI Learning Resources \| WhatsGoingOnAI |
