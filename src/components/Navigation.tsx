@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { BroadcastModal } from '@/components/BroadcastModal';
-import { Menu, X, Search, Newspaper, Video, Globe, Briefcase, Wrench, Clock, BookOpen, Info, GraduationCap, Brain, Radio, Sparkles, Bot } from 'lucide-react';
+import { Menu, X, Search, Newspaper, Video, Globe, Briefcase, Wrench, Clock, BookOpen, Info, GraduationCap, Brain, Radio, Sparkles, Bot, PenTool } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { SearchDialog } from '@/components/SearchDialog';
 import { Button } from '@/components/ui/button';
@@ -204,14 +204,11 @@ export function Navigation() {
                         <ListItem href="/about" title="About" icon={Info}>
                           Learn about this platform.
                         </ListItem>
+                        <ListItem href="/blog" title="Blog" icon={PenTool}>
+                          Insights and updates from the team.
+                        </ListItem>
                       </ul>
                     </NavigationMenuContent>
-                  </NavigationMenuItem>
-
-                  <NavigationMenuItem>
-                    <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                      <Link to="/blog" className={location.pathname === '/blog' ? 'text-primary' : ''}>Blog</Link>
-                    </NavigationMenuLink>
                   </NavigationMenuItem>
                 </NavigationMenuList>
               </NavigationMenu>
