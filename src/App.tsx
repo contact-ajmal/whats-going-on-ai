@@ -36,6 +36,7 @@ import NemotronCascade from '@/pages/trending/NemotronCascade';
 import GeometryOfReason from '@/pages/trending/GeometryOfReason';
 import NvidiaRubin from '@/pages/trending/NvidiaRubin';
 import Robotics from '@/pages/Robotics';
+import BostonDynamicsDeepMind from '@/pages/robotics/BostonDynamicsDeepMind';
 import AgenticAI from '@/pages/AgenticAI';
 import { SharePlatformFab } from '@/components/SharePlatformFab';
 import { HelmetProvider } from 'react-helmet-async';
@@ -76,6 +77,7 @@ const App = () => (
           <Route path="/trending/geometry-of-reason" element={<GeometryOfReason />} />
           <Route path="/trending/nvidia-rubin" element={<NvidiaRubin />} />
           <Route path="/robotics" element={<Robotics />} />
+          <Route path="/robotics/boston-dynamics-deepmind" element={<BostonDynamicsDeepMind />} />
           <Route path="/agentic-ai" element={<AgenticAI />} />
           <Route path="/skills" element={<ClaudeSkills />} />
           <Route path="/profile" element={<Profile />} />

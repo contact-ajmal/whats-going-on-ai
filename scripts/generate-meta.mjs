@@ -71,7 +71,12 @@ const routes = [
     },
     {
         path: '/robotics',
-        title: 'AI Robotics | Boston Dynamics × DeepMind Partnership',
+        title: 'AI Robotics | WhatsGoingOnAI',
+        description: 'Explore the latest in AI-powered robotics: humanoids, autonomous systems, industrial automation, and the future of physical AI.',
+    },
+    {
+        path: '/robotics/boston-dynamics-deepmind',
+        title: 'Boston Dynamics × DeepMind: Foundational AI for Humanoid Robots',
         description: 'Explore the historic Boston Dynamics and Google DeepMind partnership bringing Gemini Robotics AI to the new all-electric Atlas humanoid robot.',
     },
     {
