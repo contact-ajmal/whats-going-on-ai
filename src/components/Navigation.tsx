@@ -87,7 +87,7 @@ export function Navigation() {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden xl:flex items-center justify-center flex-1 min-w-0 overflow-x-auto scrollbar-hide">
+            <div className="hidden xl:flex items-center justify-center flex-1 min-w-0">
               <NavigationMenu>
                 <NavigationMenuList>
                   <NavigationMenuItem>
