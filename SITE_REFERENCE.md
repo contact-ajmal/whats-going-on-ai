@@ -10,10 +10,11 @@
 2. [Navigation Structure](#navigation-structure)
 3. [Main Pages](#main-pages)
 4. [Trending AI Tech Section](#trending-ai-tech-section)
-5. [AI Decoded Section](#ai-decoded-section)
-6. [Social Sharing & SEO](#social-sharing--seo)
-7. [Home Page Ticker](#home-page-ticker)
-8. [Adding New Content](#adding-new-content)
+5. [AI Robotics Section](#ai-robotics-section)
+6. [AI Decoded Section](#ai-decoded-section)
+7. [Social Sharing & SEO](#social-sharing--seo)
+8. [Home Page Ticker](#home-page-ticker)
+9. [Adding New Content](#adding-new-content)
 
 ---
 
@@ -145,6 +146,45 @@ Located in `src/pages/trending/`:
 
 ---
 
+## AI Robotics Section
+
+### Data Schema
+
+**File**: `src/data/roboticsData.ts`
+
+```typescript
+interface RoboticsTopic {
+    id: string;              // URL-safe identifier (e.g., 'boston-dynamics-deepmind')
+    title: string;           // Display title
+    shortDescription: string; // One-liner for cards
+    fullDescription: string;  // Expanded description
+    icon: string;            // Currently unused (empty string)
+    difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+    readTime: string;        // e.g., '10 min'
+    tags: string[];          // Topic tags for filtering
+    link: string;            // Route path (e.g., '/robotics/boston-dynamics-deepmind')
+    color: string;           // Tailwind gradient (e.g., 'from-teal-500 to-cyan-500')
+    isBreaking?: boolean;    // Show "NEW" badge
+    date?: string;           // Format: 'YYYY-MM'
+}
+```
+
+### Current Topics
+
+| ID | Title | Color | Difficulty | Route |
+|----|-------|-------|------------|-------|
+| `boston-dynamics-deepmind` | Boston Dynamics × DeepMind | `from-teal-500 to-cyan-500` | Intermediate | `/robotics/boston-dynamics-deepmind` |
+
+### Deep-Dive Pages
+
+Located in `src/pages/robotics/`:
+
+| File | Sections | Key Features |
+|------|----------|--------------|
+| `BostonDynamicsDeepMind.tsx` | Partnership, Gemini Robotics, Atlas specs, Timeline | YouTube video, industry applications |
+
+---
+
 ## AI Decoded Section
 
 ### Data Schema
@@ -239,6 +279,9 @@ This script generates static HTML files for each route with proper Open Graph an
 | `/about` | About \| WhatsGoingOnAI |
 | `/news` | AI News \| WhatsGoingOnAI |
 | `/learning` | AI Learning Resources \| WhatsGoingOnAI |
+| `/robotics` | AI Robotics \| WhatsGoingOnAI |
+| `/robotics/boston-dynamics-deepmind` | Boston Dynamics × DeepMind: Foundational AI... |
+| `/agentic-ai` | Agentic AI \| WhatsGoingOnAI |
 
 ---
 
@@ -253,6 +296,9 @@ The scrolling ticker on the home page showcases trending topics.
 - Decision Traces (purple)
 - Agentic Crafting (rose)
 - Cascade RL (emerald)
+- Geometry of Reason (cyan)
+- NVIDIA Rubin (green)
+- Atlas × DeepMind (teal)
 - Explore All → (primary)
 
 **To add a new ticker item:**
@@ -319,6 +365,14 @@ Same process but use:
 - Page location: `src/pages/decoded/YourTopic.tsx`
 - Route prefix: `/decoded/`
 
+### Add a New Robotics Topic
+
+Same process but use:
+- Data file: `src/data/roboticsData.ts`
+- Page location: `src/pages/robotics/YourTopic.tsx`
+- Route prefix: `/robotics/`
+- Listing page: `src/pages/Robotics.tsx` (auto-renders from data)
+
 ---
 
 ## Color Palette Reference
@@ -343,6 +397,7 @@ Common Tailwind gradient pairs used in the site:
 | Routing | `src/App.tsx` |
 | Navigation | `src/components/Navigation.tsx` |
 | Trending Data | `src/data/trendingTech.ts` |
+| Robotics Data | `src/data/roboticsData.ts` |
 | Decoded Data | `src/data/aiDecoded.ts` |
 | SEO Component | `src/components/SEO.tsx` |
 | Social Meta Script | `scripts/generate-meta.mjs` |
