@@ -97,5 +97,19 @@ export const TRENDING_TOPICS: TrendingTopic[] = [
         color: 'from-green-500 to-emerald-500',
         isBreaking: true,
         date: '2026-01'
+    },
+    {
+        id: 'nvidia-alpamayo',
+        title: 'NVIDIA Alpamayo',
+        shortDescription: 'Thinking AI for autonomous driving.',
+        fullDescription: 'The world\'s first chain-of-thought reasoning AI for Level 4 autonomous vehicles. 10B parameter VLA model with explainable decision logic. Mercedes-Benz CLA launching Q1 2026.',
+        icon: '',
+        difficulty: 'Intermediate',
+        readTime: '10 min',
+        tags: ['NVIDIA', 'Autonomous Driving', 'Chain-of-Thought', 'Level 4'],
+        link: '/trending/nvidia-alpamayo',
+        color: 'from-lime-500 to-green-500',
+        isBreaking: true,
+        date: '2026-01'
     }
 ];

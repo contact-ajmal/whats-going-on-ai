@@ -55,6 +55,11 @@ const routes = [
         description: "Deep dive into NVIDIA's Rubin architecture: HBM4 memory (288GB, 22TB/s), Vera CPU with 88 Olympus cores, NVLink 6, and 5x performance over Blackwell.",
     },
     {
+        path: '/trending/nvidia-alpamayo',
+        title: 'NVIDIA Alpamayo: Thinking & Reasoning AI for Autonomous Driving',
+        description: "The world's first chain-of-thought AI for Level 4 autonomous vehicles. 10B VLA model launching with Mercedes-Benz CLA Q1 2026.",
+    },
+    {
         path: '/about',
         title: 'About | WhatsGoingOnAI',
         description: 'Learn about WhatsGoingOnAI - your daily hub for AI news, research, and emerging technologies.',

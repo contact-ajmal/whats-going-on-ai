@@ -74,21 +74,21 @@ export function Navigation() {
         transition={{ duration: 0.6, ease: 'easeOut' }}
         className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-background/80 border-b border-border/50"
       >
-        <div className="container mx-auto px-3 md:px-6 py-2 md:py-3">
-          <div className="flex items-center justify-between gap-2 md:gap-4">
+        <div className="max-w-[1920px] mx-auto px-3 md:px-4 lg:px-6 py-2 md:py-3">
+          <div className="flex items-center justify-between gap-2 lg:gap-3">
 
             {/* Logo */}
             <Link to="/" className="group flex items-center shrink-0 hover:opacity-90 transition-opacity" aria-label="WhatsGoingOnAI Home">
               <img
                 src={logo}
                 alt="WhatsGoingOnAI Logo"
-                className="h-10 md:h-12 w-auto object-contain"
+                className="h-9 md:h-10 lg:h-11 w-auto object-contain"
               />
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden xl:flex items-center justify-center flex-1 min-w-0">
-              <NavigationMenu>
+            <div className="hidden xl:flex items-center justify-center flex-1 min-w-0 px-2">
+              <NavigationMenu className="max-w-none">
                 <NavigationMenuList>
                   <NavigationMenuItem>
                     <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
@@ -215,7 +215,7 @@ export function Navigation() {
             </div>
 
             {/* Right Side Utilities */}
-            <div className="hidden xl:flex items-center gap-1 shrink-0">
+            <div className="hidden xl:flex items-center gap-0.5 shrink-0">
               <VisitorHUD />
               <LibraryDrawer />
 
