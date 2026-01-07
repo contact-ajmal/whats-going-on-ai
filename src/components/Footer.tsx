@@ -134,7 +134,7 @@ export function Footer() {
 
           <div className="order-1 md:order-2 flex flex-col items-center gap-1">
             <p className="flex items-center gap-2 text-sm text-muted-foreground/60">
-              <span>Crafted at the edge of AGI by</span>
+              <span>Developed & Designed by</span>
               <a href="https://linkedin.com/in/ajmalnazir" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 transition-colors font-medium flex items-center gap-1">
                 Ajmal Baba
               </a>
