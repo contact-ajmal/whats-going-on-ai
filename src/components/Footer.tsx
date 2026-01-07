@@ -128,10 +128,20 @@ export function Footer() {
         </div>
 
         <div className="mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground order-2 md:order-1">
             &copy; {new Date().getFullYear()} WhatsGoingOnAI. All rights reserved.
           </p>
-          <div className="flex items-center gap-6 text-sm text-muted-foreground">
+
+          <div className="order-1 md:order-2 flex flex-col items-center gap-1">
+            <p className="flex items-center gap-2 text-sm text-muted-foreground/60">
+              <span>Crafted at the edge of AGI by</span>
+              <a href="https://linkedin.com/in/ajmalnazir" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 transition-colors font-medium flex items-center gap-1">
+                Ajmal Baba
+              </a>
+            </p>
+          </div>
+
+          <div className="flex items-center gap-6 text-sm text-muted-foreground order-3">
             <Link to="#" className="hover:text-foreground transition-colors">Privacy Policy</Link>
             <Link to="#" className="hover:text-foreground transition-colors">Terms of Service</Link>
             <Link to="#" className="hover:text-foreground transition-colors">Cookie Policy</Link>
