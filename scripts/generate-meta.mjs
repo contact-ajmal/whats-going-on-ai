@@ -40,6 +40,11 @@ const routes = [
         description: "Extend Claude Code's capabilities with custom Skills. Teach Claude domain-specific knowledge, workflows, and best practices using simple Markdown files.",
     },
     {
+        path: '/agentic-ai/claude-code',
+        title: 'Claude Code Mastery | Agentic AI',
+        description: "Master Claude Code from beginner to expert. Interactive guide covering installation, CLI commands, tool management, MCP integrations, and power-user workflows.",
+    },
+    {
         path: '/trending/nemotron-cascade',
         title: 'Nemotron-Cascade: Scaling Cascaded RL for Reasoning Models',
         description: "NVIDIA's open Cascade RL framework trains unified reasoning LLMs by sequentially optimizing across domains—achieving SOTA on math, code, and SWE benchmarks.",

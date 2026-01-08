@@ -28,6 +28,20 @@ export const AGENTIC_TOPICS: AgenticTopic[] = [
         isBreaking: true,
         date: '2025-01'
     },
+    {
+        id: 'claude-code',
+        title: 'Claude Code Mastery',
+        shortDescription: 'Master the AI coding agent from beginner to expert.',
+        fullDescription: 'Comprehensive guide to Claude Code covering installation, CLI commands, tool management, MCP integrations, and power-user workflows. Interactive skill levels take you from basics to automation.',
+        icon: '',
+        difficulty: 'Beginner',
+        readTime: '15 min',
+        tags: ['Claude Code', 'Terminal', 'CLI', 'Anthropic', 'Coding Agent'],
+        link: '/agentic-ai/claude-code',
+        color: 'from-cyan-500 to-blue-500',
+        isBreaking: true,
+        date: '2026-01'
+    },
 ];
 
 export const getAgenticTopic = (id: string): AgenticTopic | undefined => {
