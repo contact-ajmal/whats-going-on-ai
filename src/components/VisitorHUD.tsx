@@ -59,10 +59,37 @@ export function VisitorHUD() {
 
         async function initSession() {
             try {
-                // 1. Get User Location
-                const res = await fetch('https://ipapi.co/json/');
-                const data = await res.json();
-                setGeo(data);
+                // 1. Get User Location (with caching to avoid rate limits)
+                let data: GeoData | null = null;
+
+                // Check if we have cached geo data from this session
+                const cachedGeo = sessionStorage.getItem('user_geo');
+                if (cachedGeo) {
+                    try {
+                        data = JSON.parse(cachedGeo);
+                        setGeo(data);
+                    } catch {
+                        // Invalid cache, will fetch fresh
+                    }
+                }
+
+                // Only fetch if not cached
+                if (!data) {
+                    try {
+                        const res = await fetch('https://ipapi.co/json/', {
+                            signal: AbortSignal.timeout(5000) // 5 second timeout
+                        });
+                        if (res.ok) {
+                            data = await res.json();
+                            setGeo(data);
+                            // Cache for this session to avoid rate limits
+                            sessionStorage.setItem('user_geo', JSON.stringify(data));
+                        }
+                    } catch (geoErr) {
+                        // Silently fail for geo - it's not critical
+                        console.warn("Geo lookup skipped (rate limited or unavailable)");
+                    }
+                }
 
                 if (!supabase) {
                     console.error("VisitorHUD: Supabase client is NULL. Check VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in .env");
@@ -71,11 +98,11 @@ export function VisitorHUD() {
 
                 console.log("VisitorHUD: Attempting to log visit...");
 
-                // 2. Log Visit to Supabase
+                // 2. Log Visit to Supabase (only if we have geo data)
                 const { error: insertError } = await supabase.from('analytics_visits').insert({
-                    country: data.country_name,
-                    city: data.city,
-                    country_code: data.country_code,
+                    country: data?.country_name || 'Unknown',
+                    city: data?.city || 'Unknown',
+                    country_code: data?.country_code || 'XX',
                     path: window.location.pathname,
                     user_agent: navigator.userAgent
                 });
