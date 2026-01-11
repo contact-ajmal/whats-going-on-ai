@@ -6,8 +6,24 @@ import { toast } from 'sonner';
 
 export function SharePlatformFab() {
     const [isOpen, setIsOpen] = useState(false);
-    const url = window.location.origin; // Share the home page, or use window.location.href for specific page
-    const title = "Check out WhatsGoingOnAI - The Ultimate AI Aggregator";
+
+    // Get current page URL (not just origin)
+    const url = typeof window !== 'undefined' ? window.location.href : '';
+
+    // Get page title from document or use fallback
+    const getPageTitle = () => {
+        if (typeof document !== 'undefined') {
+            // Try to get the first h1, or use document title, or fallback
+            const h1 = document.querySelector('h1');
+            if (h1?.textContent) {
+                return `${h1.textContent} | WhatsGoingOnAI`;
+            }
+            return document.title || "Check out WhatsGoingOnAI";
+        }
+        return "Check out WhatsGoingOnAI";
+    };
+
+    const title = getPageTitle();
 
     const handleCopy = () => {
         navigator.clipboard.writeText(url);
