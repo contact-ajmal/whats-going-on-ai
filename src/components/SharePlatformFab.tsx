@@ -7,31 +7,28 @@ import { toast } from 'sonner';
 export function SharePlatformFab() {
     const [isOpen, setIsOpen] = useState(false);
 
-    // Get current page URL (not just origin)
-    const url = typeof window !== 'undefined' ? window.location.href : '';
+    // Get current page URL fresh on each call
+    const getCurrentUrl = () => window.location.href;
 
-    // Get page title from document or use fallback
+    // Get page title fresh on each call
     const getPageTitle = () => {
-        if (typeof document !== 'undefined') {
-            // Try to get the first h1, or use document title, or fallback
-            const h1 = document.querySelector('h1');
-            if (h1?.textContent) {
-                return `${h1.textContent} | WhatsGoingOnAI`;
-            }
-            return document.title || "Check out WhatsGoingOnAI";
+        const h1 = document.querySelector('h1');
+        if (h1?.textContent) {
+            return `${h1.textContent} | WhatsGoingOnAI`;
         }
-        return "Check out WhatsGoingOnAI";
+        return document.title || "Check out WhatsGoingOnAI";
     };
 
-    const title = getPageTitle();
-
     const handleCopy = () => {
+        const url = getCurrentUrl();
         navigator.clipboard.writeText(url);
         toast.success("Link copied to clipboard!");
         setIsOpen(false);
     };
 
     const shareTwitter = () => {
+        const url = getCurrentUrl();
+        const title = getPageTitle();
         window.open(
             `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`,
             '_blank'
@@ -40,6 +37,7 @@ export function SharePlatformFab() {
     };
 
     const shareLinkedin = () => {
+        const url = getCurrentUrl();
         window.open(
             `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
             '_blank'
