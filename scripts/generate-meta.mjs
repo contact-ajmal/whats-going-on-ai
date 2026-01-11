@@ -65,6 +65,11 @@ const routes = [
         description: "The world's first chain-of-thought AI for Level 4 autonomous vehicles. 10B VLA model launching with Mercedes-Benz CLA Q1 2026.",
     },
     {
+        path: '/trending/universal-commerce-protocol',
+        title: 'Universal Commerce Protocol (UCP) | Google Open Standard',
+        description: "Google's open-source standard for agentic commerce. Endorsed by Shopify, Stripe, Visa, and 20+ partners. Enable AI agents to discover, checkout, and pay seamlessly.",
+    },
+    {
         path: '/about',
         title: 'About | WhatsGoingOnAI',
         description: 'Learn about WhatsGoingOnAI - your daily hub for AI news, research, and emerging technologies.',

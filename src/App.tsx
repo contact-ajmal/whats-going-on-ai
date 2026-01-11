@@ -36,6 +36,7 @@ import NemotronCascade from '@/pages/trending/NemotronCascade';
 import GeometryOfReason from '@/pages/trending/GeometryOfReason';
 import NvidiaRubin from '@/pages/trending/NvidiaRubin';
 import NvidiaAlpamayo from '@/pages/trending/NvidiaAlpamayo';
+import UniversalCommerceProtocol from '@/pages/trending/UniversalCommerceProtocol';
 import Robotics from '@/pages/Robotics';
 import BostonDynamicsDeepMind from '@/pages/robotics/BostonDynamicsDeepMind';
 import AgenticAI from '@/pages/AgenticAI';
@@ -82,6 +83,7 @@ const App = () => (
           <Route path="/trending/geometry-of-reason" element={<GeometryOfReason />} />
           <Route path="/trending/nvidia-rubin" element={<NvidiaRubin />} />
           <Route path="/trending/nvidia-alpamayo" element={<NvidiaAlpamayo />} />
+          <Route path="/trending/universal-commerce-protocol" element={<UniversalCommerceProtocol />} />
           <Route path="/robotics" element={<Robotics />} />
           <Route path="/robotics/boston-dynamics-deepmind" element={<BostonDynamicsDeepMind />} />
           <Route path="/agentic-ai" element={<AgenticAI />} />

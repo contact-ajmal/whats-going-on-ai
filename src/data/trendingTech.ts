@@ -97,5 +97,19 @@ export const TRENDING_TOPICS: TrendingTopic[] = [
         color: 'from-lime-500 to-green-500',
         isBreaking: true,
         date: '2026-01'
+    },
+    {
+        id: 'universal-commerce-protocol',
+        title: 'Universal Commerce Protocol (UCP)',
+        shortDescription: 'The open standard for agentic commerce.',
+        fullDescription: 'Google\'s open-source protocol for AI-powered shopping. Endorsed by Shopify, Stripe, Visa, and 20+ partners. Enables agents to discover products, checkout, and pay via a unified API.',
+        icon: '',
+        difficulty: 'Intermediate',
+        readTime: '15 min',
+        tags: ['Google', 'E-Commerce', 'Agents', 'Open Source', 'Payments'],
+        link: '/trending/universal-commerce-protocol',
+        color: 'from-cyan-500 to-blue-500',
+        isBreaking: true,
+        date: '2026-01'
     }
 ];
