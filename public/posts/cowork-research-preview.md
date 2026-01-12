@@ -3,7 +3,7 @@ title: "Cowork with Claude: Agentic Capabilities for Everyone"
 date: "2026-01-12"
 description: "Claude Code's agentic capabilities are now available for general work tasks. Give Claude access to your files and let it organize, create, and edit documents while you focus on what matters."
 tags: [Claude, Agents, Productivity, AI]
-coverImage: "/images/cowork-research-preview.png"
+coverImage: "/images/cowork-research-preview.jpg"
 excerpt: "Cowork is a simpler way for anyone—not just developers—to work with Claude. It can read, edit, or create files in a folder of your choosing on your computer."
 ---
 
@@ -13,7 +13,19 @@ When Anthropic released **Claude Code**, developers quickly began using it for a
 
 Cowork is available today as a **research preview** for Claude Max subscribers on the [macOS app](https://claude.com/download).
 
-![Cowork with Claude](/images/cowork-research-preview.png)
+![Cowork with Claude](/images/cowork-research-preview.jpg)
+
+## See Cowork in Action
+
+<div style="display: flex; flex-direction: column; gap: 20px; margin: 30px 0;">
+  <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube.com/embed/UAmKyyZ-b9E?si=DdYxj4yCzF7R8azy" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </div>
+
+  <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube.com/embed/WBNZpAWhw5E?si=CoU7bmZQNiROoIR1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </div>
+</div>
 
 ## How is Cowork different?
 
