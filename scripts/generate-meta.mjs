@@ -99,6 +99,12 @@ const routes = [
         title: 'Agentic AI | WhatsGoingOnAI',
         description: 'Discover the world of autonomous AI agents: reasoning models, tool use, multi-agent systems, and the future of AI that can act.',
     },
+    {
+        path: '/blog/cowork-research-preview',
+        title: 'Cowork with Claude: Protocol for the Future of Work',
+        description: 'Cowork brings agentic AI to everyone. We dive deep into real-world use cases—from automating expense reports to organizing chaotic file systems.',
+        image: '/images/cowork-research-preview.jpg'
+    },
 ];
 
 const siteUrl = 'https://whatsgoingonai.com';
