@@ -152,10 +152,7 @@ export default function BlogPostPage() {
                 </div>
               )}
 
-              {/* Support Button (Top) */}
-              <div className="flex justify-start">
-                <BuyCoffeeButton className="h-9 px-4 text-sm" />
-              </div>
+
 
             </motion.header>
 
