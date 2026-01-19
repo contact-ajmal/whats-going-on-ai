@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-01-19T21:30:26.661Z",
+  "lastUpdated": "2026-01-19T22:13:29.968Z",
   "header": "AI Weekly Digest",
   "sectionLabels": {
     "trending": "Trending",
@@ -19,45 +19,29 @@
   },
   "items": [
     {
-      "id": "news-hackernews-https://news.ycombinator.com/item?id=46684591",
-      "title": "AI in Biotech in 2026",
-      "description": "\nArticle URL: https://www.benchling.com/biotech-ai-report-2026\nComments URL: https://news.ycombinator.com/item?id=46684591\nPoints: 1\n# Comments: 0\n...",
-      "url": "https://www.benchling.com/biotech-ai-report-2026",
-      "date": "2026-01-19T21:15:13.000Z",
+      "id": "research-2312.00752",
+      "title": "Mamba: Linear-Time Sequence Modeling with Selective State Spaces",
+      "description": "We introduce Mamba, a new class of models that combines the efficient hardware-aware design of FlashAttention with the training parallelizability and ...",
+      "url": "https://arxiv.org/abs/2312.00752",
+      "date": "2026-01-16T00:00:00.000Z",
       "dateGranularity": "day",
-      "source": "news",
-      "category": "Hacker News",
+      "source": "research",
+      "category": "Machine Learning",
       "tags": [
-        "ai",
-        "news"
+        "ArXiv"
       ]
     },
     {
-      "id": "news-hackernews-https://news.ycombinator.com/item?id=46684329",
-      "title": "Can AI Pass Freshman CS? [video]",
-      "description": "\nArticle URL: https://www.youtube.com/watch?v=56HJQm5nb0U\nComments URL: https://news.ycombinator.com/item?id=46684329\nPoints: 1\n# Comments: 0\n...",
-      "url": "https://www.youtube.com/watch?v=56HJQm5nb0U",
-      "date": "2026-01-19T20:50:35.000Z",
+      "id": "research-2303.08774",
+      "title": "GPT-4 Technical Report",
+      "description": "We report the development of GPT-4, a large-scale, multimodal model which can accept image and text inputs and produce text outputs....",
+      "url": "https://arxiv.org/abs/2303.08774",
+      "date": "2026-01-16T00:00:00.000Z",
       "dateGranularity": "day",
-      "source": "news",
-      "category": "Hacker News",
+      "source": "research",
+      "category": "Deep Learning",
       "tags": [
-        "ai",
-        "news"
-      ]
-    },
-    {
-      "id": "news-hackernews-https://news.ycombinator.com/item?id=46684243",
-      "title": "AI Engineering: Pi 5 x K8s x Nvidia GPU passthrough [video]",
-      "description": "\nArticle URL: https://www.youtube.com/shorts/3W_t9fJ1R1Q\nComments URL: https://news.ycombinator.com/item?id=46684243\nPoints: 1\n# Comments: 0\n...",
-      "url": "https://www.youtube.com/shorts/3W_t9fJ1R1Q",
-      "date": "2026-01-19T20:44:11.000Z",
-      "dateGranularity": "day",
-      "source": "news",
-      "category": "Hacker News",
-      "tags": [
-        "ai",
-        "news"
+        "ArXiv"
       ]
     }
   ]
