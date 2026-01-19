@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-01-19T22:24:10.655Z",
+  "lastUpdated": "2026-01-19T22:26:52.122Z",
   "header": "AI Weekly Digest",
   "sectionLabels": {
     "trending": "Trending",
@@ -19,19 +19,85 @@
   },
   "items": [
     {
-      "id": "robotics-boston-dynamics-deepmind",
-      "title": "Boston Dynamics × DeepMind",
-      "description": "Foundational AI for humanoid robots.",
-      "url": "https://www.whatsgoingonai.com//robotics/boston-dynamics-deepmind",
+      "id": "news-thevergeai-https://www.theverge.com/?p=863570",
+      "title": "Google brings its AI videomaker to Workspace users",
+      "description": "Google is expanding access to its AI videomaking tool. Launched last May, Flow was initially only available to Google AI Pro and AI Ultra subscribers,...",
+      "url": "https://www.theverge.com/news/863570/google-flow-ai-video-generator-workspace",
+      "date": "2026-01-16T19:37:52.000Z",
+      "dateGranularity": "day",
+      "source": "news",
+      "category": "The Verge AI",
+      "tags": [
+        "ai",
+        "news"
+      ]
+    },
+    {
+      "id": "news-thevergeai-https://www.theverge.com/?p=863428",
+      "title": "Ads are coming soon to ChatGPT, starting with shopping links",
+      "description": "ChatGPT will soon start showing you sponsored products or services if they're related to your conversation. In an announcement on Friday, OpenAI says ...",
+      "url": "https://www.theverge.com/news/863428/openai-chatgpt-shopping-ads-test",
+      "date": "2026-01-16T18:00:00.000Z",
+      "dateGranularity": "day",
+      "source": "news",
+      "category": "The Verge AI",
+      "tags": [
+        "ai",
+        "news"
+      ]
+    },
+    {
+      "id": "news-openai-https://openai.com/index/the-truth-elon-left-out",
+      "title": "The truth left out from Elon Musk’s recent court filing",
+      "description": "The truth left out from Elon Musk’s recent court filing....",
+      "url": "https://openai.com/index/the-truth-elon-left-out",
+      "date": "2026-01-16T12:00:00.000Z",
+      "dateGranularity": "day",
+      "source": "news",
+      "category": "OpenAI",
+      "tags": [
+        "ai",
+        "news"
+      ]
+    },
+    {
+      "id": "news-openai-https://openai.com/index/introducing-chatgpt-go",
+      "title": "Introducing ChatGPT Go, now available worldwide",
+      "description": "ChatGPT Go is now available worldwide, offering expanded access to GPT-5.2 Instant, higher usage limits, and longer memory—making advanced AI more aff...",
+      "url": "https://openai.com/index/introducing-chatgpt-go",
       "date": "2026-01-16T00:00:00.000Z",
       "dateGranularity": "day",
-      "source": "robotics",
-      "category": "Intermediate",
+      "source": "news",
+      "category": "OpenAI",
       "tags": [
-        "Boston Dynamics",
-        "DeepMind",
-        "Atlas",
-        "Gemini Robotics"
+        "ai",
+        "news"
+      ]
+    },
+    {
+      "id": "research-2312.00752",
+      "title": "Mamba: Linear-Time Sequence Modeling with Selective State Spaces",
+      "description": "We introduce Mamba, a new class of models that combines the efficient hardware-aware design of FlashAttention with the training parallelizability and ...",
+      "url": "https://arxiv.org/abs/2312.00752",
+      "date": "2026-01-16T00:00:00.000Z",
+      "dateGranularity": "day",
+      "source": "research",
+      "category": "Machine Learning",
+      "tags": [
+        "ArXiv"
+      ]
+    },
+    {
+      "id": "research-2303.08774",
+      "title": "GPT-4 Technical Report",
+      "description": "We report the development of GPT-4, a large-scale, multimodal model which can accept image and text inputs and produce text outputs....",
+      "url": "https://arxiv.org/abs/2303.08774",
+      "date": "2026-01-16T00:00:00.000Z",
+      "dateGranularity": "day",
+      "source": "research",
+      "category": "Deep Learning",
+      "tags": [
+        "ArXiv"
       ]
     }
   ]
