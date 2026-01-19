@@ -115,12 +115,35 @@ export function DailyNewsletterGenerator({ token, repo }: DailyNewsletterGenerat
         });
     };
 
-    const handleSelectAll = () => setSelectedIds(new Set(filteredContent.map(item => item.id)));
-    const handleDeselectAll = () => setSelectedIds(new Set());
+    const handleSelectAll = () => {
+        setSelectedIds(prev => {
+            const newSet = new Set(prev);
+            filteredContent.forEach(item => newSet.add(item.id));
+            return newSet;
+        });
+    };
+
+    const handleDeselectAll = () => {
+        setSelectedIds(prev => {
+            const newSet = new Set(prev);
+            filteredContent.forEach(item => newSet.delete(item.id));
+            return newSet;
+        });
+    };
 
     const getSelectedItems = useCallback(() => {
-        return filteredContent.filter(item => selectedIds.has(item.id));
-    }, [filteredContent, selectedIds]);
+        // Get ALL content for the day, not just what's currently filtered/visible
+        const dailyItems = filterContentByDay(allContent, selectedDate);
+
+        // Filter by selection
+        const selected = dailyItems.filter(item => selectedIds.has(item.id));
+
+        // Sort to ensure consistent output order
+        return selected.sort((a, b) => {
+            if (a.source !== b.source) return a.source.localeCompare(b.source);
+            return new Date(b.date).getTime() - new Date(a.date).getTime();
+        });
+    }, [allContent, selectedDate, selectedIds]);
 
     // Generate professional newsletter content
     const generateNewsletter = useCallback(() => {
