@@ -1,0 +1,48 @@
+{
+  "lastUpdated": "2026-01-19T21:09:45.896Z",
+  "header": "AI Weekly Digest",
+  "sectionLabels": {
+    "trending": "Trending",
+    "blog": "Blog Posts",
+    "agentic": "Agentic AI",
+    "research": "Research Papers",
+    "news": "News Feed",
+    "video": "Videos",
+    "jobs": "Job Listings",
+    "tools": "AI Tools",
+    "learning": "Learning Resources",
+    "decoded": "AI Decoded",
+    "deepmind": "DeepMind",
+    "robotics": "Robotics",
+    "skills": "Claude Skills",
+    "timeline": "AI History"
+  },
+  "items": [
+    {
+      "id": "research-2312.00752",
+      "title": "Mamba: Linear-Time Sequence Modeling with Selective State Spaces",
+      "description": "We introduce Mamba, a new class of models that combines the efficient hardware-aware design of FlashAttention with the training parallelizability and ...",
+      "url": "https://arxiv.org/abs/2312.00752",
+      "date": "2026-01-16T00:00:00.000Z",
+      "dateGranularity": "day",
+      "source": "research",
+      "category": "Machine Learning",
+      "tags": [
+        "ArXiv"
+      ]
+    },
+    {
+      "id": "research-2303.08774",
+      "title": "GPT-4 Technical Report",
+      "description": "We report the development of GPT-4, a large-scale, multimodal model which can accept image and text inputs and produce text outputs....",
+      "url": "https://arxiv.org/abs/2303.08774",
+      "date": "2026-01-16T00:00:00.000Z",
+      "dateGranularity": "day",
+      "source": "research",
+      "category": "Deep Learning",
+      "tags": [
+        "ArXiv"
+      ]
+    }
+  ]
+}
