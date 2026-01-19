@@ -223,6 +223,112 @@ async function fetchVideoContent(): Promise<NewsletterContentItem[]> {
     return items;
 }
 
+return items;
+}
+
+/**
+ * Fetch Research Papers (ArXiv + Hugging Face)
+ * Ported from ResearchFeed.tsx
+ */
+async function fetchResearchContent(): Promise<NewsletterContentItem[]> {
+    const items: NewsletterContentItem[] = [];
+
+    // Helper to fetch ArXiv via Supabase Proxy (or direct if needed)
+    const fetchArxiv = async (category: string, categoryName: string) => {
+        // Use configured proxy URL or fallback to production Supabase URL
+        const proxyBase = import.meta.env.VITE_ARXIV_PROXY_URL || 'https://cdfrdvrsnfcxarzcyogj.supabase.co/functions/v1/proxy-arxiv';
+        const arxivUrl = `https://export.arxiv.org/api/query?search_query=cat:${category}&sortBy=submittedDate&sortOrder=descending&max_results=5`;
+        const proxyUrl = `${proxyBase}/${arxivUrl}`;
+
+        try {
+            const res = await fetch(proxyUrl, {
+                headers: {
+                    'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`
+                }
+            });
+            const text = await res.text();
+            const parser = new DOMParser();
+            const xml = parser.parseFromString(text, 'text/xml');
+            const entries = xml.querySelectorAll('entry');
+
+            return Array.from(entries).map((entry) => {
+                const title = entry.querySelector('title')?.textContent?.trim() || 'Untitled';
+                const summary = entry.querySelector('summary')?.textContent?.trim() || '';
+                const id = entry.querySelector('id')?.textContent || '';
+                const published = entry.querySelector('published')?.textContent || '';
+                const link = entry.querySelector('id')?.textContent || ''; // Arxiv ID is url
+
+                return {
+                    id: `research-arxiv-${id.split('/').pop()}`,
+                    title: title.replace(/\s+/g, ' '),
+                    description: summary.replace(/\s+/g, ' ').slice(0, 150) + '...',
+                    url: link,
+                    date: new Date(published),
+                    dateGranularity: 'day' as const,
+                    source: 'research' as const,
+                    category: categoryName,
+                    tags: ['research', 'arxiv', categoryName.toLowerCase()]
+                };
+            });
+        } catch (e) {
+            console.warn(`Failed to fetch ArXiv ${category}:`, e);
+            return [];
+        }
+    };
+
+    // Helper to fetch Hugging Face Daily Papers
+    const fetchHuggingFace = async () => {
+        try {
+            const res = await fetch('https://huggingface.co/api/daily_papers');
+            const data = await res.json();
+            if (Array.isArray(data)) {
+                return data.slice(0, 5).map((item: any) => ({
+                    id: `research-hf-${item.paper?.id || item.id}`,
+                    title: item.paper?.title || item.title || 'Untitled',
+                    description: (item.paper?.summary || '').slice(0, 150) + '...',
+                    url: `https://huggingface.co/papers/${item.paper?.id || item.id}`,
+                    date: new Date(item.publishedAt || Date.now()),
+                    dateGranularity: 'day' as const,
+                    source: 'research' as const,
+                    category: 'Hugging Face',
+                    tags: ['research', 'huggingface']
+                }));
+            }
+            return [];
+        } catch (e) {
+            console.warn('Failed to fetch Hugging Face papers:', e);
+            return [];
+        }
+    };
+
+    try {
+        const [arxivAI, arxivML, arxivCL, hfPapers] = await Promise.all([
+            fetchArxiv('cs.AI', 'Artificial Intelligence'),
+            fetchArxiv('cs.LG', 'Machine Learning'),
+            fetchArxiv('cs.CL', 'Computation & Language'),
+            fetchHuggingFace()
+        ]);
+
+        const all = [
+            ...(arxivAI || []),
+            ...(arxivML || []),
+            ...(arxivCL || []),
+            ...(hfPapers || [])
+        ];
+
+        // Dedupe by URL
+        const unique = new Map();
+        all.forEach(item => unique.set(item.url, item));
+
+        items.push(...Array.from(unique.values()));
+
+    } catch (error) {
+        console.error('Failed to fetch research content:', error);
+    }
+
+    return items;
+}
+
 /**
  * Aggregate all content from various sources and normalize to common format
  */
