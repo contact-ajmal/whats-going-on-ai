@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-01-19T22:26:52.122Z",
+  "lastUpdated": "2026-01-19T22:35:50.201Z",
   "header": "AI Weekly Digest",
   "sectionLabels": {
     "trending": "Trending",
@@ -98,6 +98,22 @@
       "category": "Deep Learning",
       "tags": [
         "ArXiv"
+      ]
+    },
+    {
+      "id": "robotics-boston-dynamics-deepmind",
+      "title": "Boston Dynamics × DeepMind",
+      "description": "Foundational AI for humanoid robots.",
+      "url": "http://localhost:8080//robotics/boston-dynamics-deepmind",
+      "date": "2026-01-16T00:00:00.000Z",
+      "dateGranularity": "day",
+      "source": "robotics",
+      "category": "Intermediate",
+      "tags": [
+        "Boston Dynamics",
+        "DeepMind",
+        "Atlas",
+        "Gemini Robotics"
       ]
     }
   ]
