@@ -266,20 +266,42 @@ export async function aggregateAllContent(): Promise<NewsletterContentItem[]> {
         }
     });
 
-    // 3. Research Papers
-    FALLBACK_PAPERS.forEach(paper => {
-        items.push({
-            id: `research-${paper.id}`,
-            title: paper.title,
-            description: paper.abstract.slice(0, 150) + '...',
-            url: paper.url, // External ArXiv links
-            date: paper.publishedAt,
-            dateGranularity: 'day', // Research papers have full dates
-            source: 'research',
-            category: paper.category,
-            tags: [paper.source]
+    // 3. Research Papers (Live + Fallback)
+    try {
+        const liveResearch = await fetchResearchContent();
+        if (liveResearch.length > 0) {
+            items.push(...liveResearch);
+        } else {
+            // Fallback only if live fetch fails completely
+            FALLBACK_PAPERS.forEach(paper => {
+                items.push({
+                    id: `research-${paper.id}`,
+                    title: paper.title,
+                    description: paper.abstract.slice(0, 150) + '...',
+                    url: paper.url,
+                    date: paper.publishedAt,
+                    dateGranularity: 'day',
+                    source: 'research',
+                    category: paper.category,
+                    tags: [paper.source]
+                });
+            });
+        }
+    } catch (e) {
+        FALLBACK_PAPERS.forEach(paper => {
+            items.push({
+                id: `research-${paper.id}`,
+                title: paper.title,
+                description: paper.abstract.slice(0, 150) + '...',
+                url: paper.url,
+                date: paper.publishedAt,
+                dateGranularity: 'day',
+                source: 'research',
+                category: paper.category,
+                tags: [paper.source]
+            });
         });
-    });
+    }
 
     // 4. Blog Posts (async)
     try {
