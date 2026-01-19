@@ -33,28 +33,52 @@ export default function Daily() {
 
     useEffect(() => {
         const loadData = async () => {
+            let serverData: DailyData | null = null;
+            let localData: DailyData | null = null;
+
+            // 1. Try fetching from server
             try {
-                // Try fetching from file (production/deployed)
-                const res = await fetch('/data/daily_curated.json');
+                const res = await fetch('/data/daily_curated.json?t=' + new Date().getTime()); // Prevent browser caching
                 if (res.ok) {
-                    const jsonData = await res.json();
-                    setData(jsonData);
-                    return;
+                    serverData = await res.json();
                 }
-                throw new Error("File not found");
             } catch (err) {
-                // Fallback to localStorage (local development/preview)
-                console.log("Remote file not found, checking local preview cache...");
-                const localData = localStorage.getItem('daily_preview_data');
-                if (localData) {
-                    setData(JSON.parse(localData));
-                    toast.info("Showing local preview version");
-                } else {
-                    setError('No daily brief published yet.');
-                }
-            } finally {
-                setIsLoading(false);
+                console.warn("Failed to fetch server data");
             }
+
+            // 2. Try fetching from localStorage
+            try {
+                const cached = localStorage.getItem('daily_preview_data');
+                if (cached) {
+                    localData = JSON.parse(cached);
+                }
+            } catch (err) {
+                console.warn("Failed to parse local data");
+            }
+
+            // 3. Decide which one to use
+            if (serverData && localData) {
+                const serverTime = new Date(serverData.lastUpdated).getTime();
+                const localTime = new Date(localData.lastUpdated).getTime();
+
+                // If local is newer (user just published but deploy hasn't finished), show local
+                if (localTime > serverTime) {
+                    console.log("Local data is newer, showing preview.");
+                    setData(localData);
+                    toast.info("Showing local preview (newer than live site)");
+                } else {
+                    setData(serverData);
+                }
+            } else if (serverData) {
+                setData(serverData);
+            } else if (localData) {
+                setData(localData);
+                toast.info("Showing local preview");
+            } else {
+                setError('No daily brief published yet.');
+            }
+
+            setIsLoading(false);
         };
 
         loadData();
