@@ -1,9 +1,9 @@
-import { LayoutDashboard, FileText, Mail, Wrench, LogOut, Activity } from 'lucide-react';
+import { LayoutDashboard, FileText, Mail, Wrench, LogOut, Activity, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface AdminSidebarProps {
-    activeTab: 'dashboard' | 'status' | 'blog' | 'newsletter' | 'tools';
-    setActiveTab: (tab: 'dashboard' | 'status' | 'blog' | 'newsletter' | 'tools') => void;
+    activeTab: 'dashboard' | 'status' | 'blog' | 'newsletter' | 'social' | 'tools';
+    setActiveTab: (tab: 'dashboard' | 'status' | 'blog' | 'newsletter' | 'social' | 'tools') => void;
     onLogout: () => void;
 }
 
@@ -13,6 +13,7 @@ export function AdminSidebar({ activeTab, setActiveTab, onLogout }: AdminSidebar
         { id: 'status', label: 'System Status', icon: Activity },
         { id: 'blog', label: 'Blog Editor', icon: FileText },
         { id: 'newsletter', label: 'Newsletter', icon: Mail },
+        { id: 'social', label: 'Social Post', icon: Share2 },
         { id: 'tools', label: 'Tools Manager', icon: Wrench },
     ] as const;
 

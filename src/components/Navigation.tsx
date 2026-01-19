@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { BroadcastModal } from '@/components/BroadcastModal';
-import { Menu, X, Search, Newspaper, Video, Globe, Briefcase, Wrench, Clock, BookOpen, Info, GraduationCap, Brain, Radio, Sparkles, Bot, PenTool } from 'lucide-react';
+import { Menu, X, Search, Newspaper, Video, Globe, Briefcase, Wrench, Clock, BookOpen, Info, GraduationCap, Brain, Radio, Sparkles, Bot, PenTool, Calendar } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { SearchDialog } from '@/components/SearchDialog';
 import { Button } from '@/components/ui/button';
@@ -100,6 +100,9 @@ export function Navigation() {
                     <NavigationMenuTrigger>News</NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[400px]">
+                        <ListItem href="/daily" title="Daily Brief" icon={Calendar}>
+                          Curated daily digest of top AI updates.
+                        </ListItem>
                         <ListItem href="/updates" title="AI News" icon={Newspaper}>
                           Latest headlines and breakthroughs in AI.
                         </ListItem>
@@ -311,6 +314,7 @@ export function Navigation() {
                 </Link>
 
                 <div className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">News</div>
+                <Link to="/daily" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><Calendar className="w-4 h-4" /> Daily Brief</Link>
                 <Link to="/updates" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><Newspaper className="w-4 h-4" /> AI News</Link>
                 <Link to="/videos" onClick={() => setIsOpen(false)} className="px-4 py-2 text-sm ml-2 hover:text-primary flex items-center gap-2"><Video className="w-4 h-4" /> Videos</Link>
 

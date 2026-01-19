@@ -26,7 +26,7 @@ export const TRENDING_TOPICS: TrendingTopic[] = [
         link: '/trending/context-graphs',
         color: 'from-purple-500 to-indigo-500',
         isBreaking: false,
-        date: '2025-01'
+        date: '2026-01-16'
     },
     {
         id: 'agentic-crafting',
@@ -40,7 +40,7 @@ export const TRENDING_TOPICS: TrendingTopic[] = [
         link: '/trending/agentic-crafting',
         color: 'from-rose-500 to-orange-500',
         isBreaking: true,
-        date: '2025-12'
+        date: '2026-01-16'
     },
     {
         id: 'nemotron-cascade',
@@ -54,7 +54,7 @@ export const TRENDING_TOPICS: TrendingTopic[] = [
         link: '/trending/nemotron-cascade',
         color: 'from-emerald-500 to-teal-500',
         isBreaking: true,
-        date: '2025-01'
+        date: '2026-01-16'
     },
     {
         id: 'geometry-of-reason',
@@ -68,7 +68,7 @@ export const TRENDING_TOPICS: TrendingTopic[] = [
         link: '/trending/geometry-of-reason',
         color: 'from-cyan-500 to-blue-500',
         isBreaking: true,
-        date: '2026-01'
+        date: '2026-01-16'
     },
     {
         id: 'nvidia-rubin',
@@ -82,7 +82,7 @@ export const TRENDING_TOPICS: TrendingTopic[] = [
         link: '/trending/nvidia-rubin',
         color: 'from-green-500 to-emerald-500',
         isBreaking: true,
-        date: '2026-01'
+        date: '2026-01-16'
     },
     {
         id: 'nvidia-alpamayo',
@@ -96,7 +96,7 @@ export const TRENDING_TOPICS: TrendingTopic[] = [
         link: '/trending/nvidia-alpamayo',
         color: 'from-lime-500 to-green-500',
         isBreaking: true,
-        date: '2026-01'
+        date: '2026-01-16'
     },
     {
         id: 'universal-commerce-protocol',
@@ -110,6 +110,6 @@ export const TRENDING_TOPICS: TrendingTopic[] = [
         link: '/trending/universal-commerce-protocol',
         color: 'from-cyan-500 to-blue-500',
         isBreaking: true,
-        date: '2026-01'
+        date: '2026-01-16'
     }
 ];

@@ -31,7 +31,7 @@ export const FALLBACK_LEARNING: LearningResource[] = [
         duration: '16 hours',
         rating: 4.8,
         tags: ['LLM', 'Fine-tuning', 'Transformers'],
-        dateAdded: '2025-10-15'
+        dateAdded: '2026-01-16'
     },
     {
         id: 'course-2',
@@ -47,7 +47,7 @@ export const FALLBACK_LEARNING: LearningResource[] = [
         duration: 'Top-tier',
         rating: 4.9,
         tags: ['Deep Learning', 'PyTorch', 'Computer Vision'],
-        dateAdded: '2025-08-01'
+        dateAdded: '2026-01-16'
     },
     {
         id: 'video-1',
@@ -63,7 +63,7 @@ export const FALLBACK_LEARNING: LearningResource[] = [
         duration: '45 min',
         rating: 4.9,
         tags: ['Transformers', 'Paper Review', 'Theory'],
-        dateAdded: '2025-01-10'
+        dateAdded: '2026-01-16'
     },
     {
         id: 'course-3',
@@ -79,7 +79,7 @@ export const FALLBACK_LEARNING: LearningResource[] = [
         duration: '7 weeks',
         rating: 4.7,
         tags: ['Python', 'Algorithms', 'Logic'],
-        dateAdded: '2025-09-20'
+        dateAdded: '2026-01-16'
     },
     {
         id: 'video-2',
@@ -95,7 +95,7 @@ export const FALLBACK_LEARNING: LearningResource[] = [
         duration: '1 hour',
         rating: 4.6,
         tags: ['LangChain', 'Agents', 'Development'],
-        dateAdded: '2025-11-05'
+        dateAdded: '2026-01-16'
     },
     {
         id: 'course-4',
@@ -111,7 +111,7 @@ export const FALLBACK_LEARNING: LearningResource[] = [
         duration: 'Self-paced',
         rating: 4.9,
         tags: ['NLP', 'Hugging Face', 'Transformers'],
-        dateAdded: '2025-07-15'
+        dateAdded: '2026-01-16'
     },
     {
         id: 'video-3',
@@ -127,6 +127,6 @@ export const FALLBACK_LEARNING: LearningResource[] = [
         duration: '42 min',
         rating: 5.0,
         tags: ['GPT', 'Training', 'LLM'],
-        dateAdded: '2025-05-23'
+        dateAdded: '2026-01-16'
     }
 ];

@@ -1,3 +1,6 @@
+// Default date for content without explicit dates
+export const DEFAULT_CONTENT_DATE = '2026-01-16';
+
 export interface Tool {
     id: string;
     name: string;
@@ -9,6 +12,7 @@ export interface Tool {
     isNew?: boolean;
     howToUse?: string[];
     pricing?: 'Free' | 'Freemium' | 'Paid' | 'Open Source';
+    dateAdded?: string; // ISO format: YYYY-MM-DD (defaults to DEFAULT_CONTENT_DATE)
 }
 
 export const toolsData: Tool[] = [

@@ -42,6 +42,7 @@ import BostonDynamicsDeepMind from '@/pages/robotics/BostonDynamicsDeepMind';
 import AgenticAI from '@/pages/AgenticAI';
 import AgenticAnthropicSkills from '@/pages/agentic-ai/AnthropicSkills';
 import ClaudeCodeDeepDive from '@/pages/agentic-ai/ClaudeCode';
+import Daily from '@/pages/Daily';
 import { SharePlatformFab } from '@/components/SharePlatformFab';
 import ScrollToTop from '@/components/ScrollToTop';
 import { HelmetProvider } from 'react-helmet-async';
@@ -91,6 +92,7 @@ const App = () => (
           <Route path="/agentic-ai/claude-code" element={<ClaudeCodeDeepDive />} />
           <Route path="/skills" element={<ClaudeSkills />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/daily" element={<Daily />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

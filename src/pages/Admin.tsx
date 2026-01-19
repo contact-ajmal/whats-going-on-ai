@@ -11,6 +11,7 @@ import { FeedStatusDashboard } from '@/components/admin/FeedStatusDashboard';
 import { AdminBlog } from '@/components/admin/AdminBlog';
 import { AdminNewsletter } from '@/components/admin/AdminNewsletter';
 import { AdminTools } from '@/components/admin/AdminTools';
+import { DailyNewsletterGenerator } from '@/components/admin/DailyNewsletterGenerator';
 
 const Admin = () => {
     const [token, setToken] = useState('');
@@ -18,7 +19,7 @@ const Admin = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const [activeTab, setActiveTab] = useState<'dashboard' | 'status' | 'blog' | 'newsletter' | 'tools'>('dashboard');
+    const [activeTab, setActiveTab] = useState<'dashboard' | 'status' | 'blog' | 'newsletter' | 'social' | 'tools'>('dashboard');
 
     useEffect(() => {
         const storedToken = localStorage.getItem('gh_token');
@@ -33,16 +34,42 @@ const Admin = () => {
     const verifyToken = async (t: string, r: string, initial = false) => {
         setIsLoading(true);
         try {
-            const client = new GitHubClient(t, r);
-            await client.getUser();
+            // Trim inputs to avoid whitespace issues
+            const cleanToken = t.trim();
+            const cleanRepo = r.trim().replace('https://github.com/', '');
+
+            console.log('Verifying GitHub connection...', { repo: cleanRepo, tokenLength: cleanToken.length });
+
+            const client = new GitHubClient(cleanToken, cleanRepo);
+            const user = await client.getUser();
+            console.log('GitHub User verified:', user.login);
+
             setIsAuthenticated(true);
-            localStorage.setItem('gh_token', t);
-            localStorage.setItem('gh_repo', r);
-            if (!initial) toast.success('Connected to Admin Console');
-        } catch (error) {
-            console.error(error);
-            if (!initial) toast.error('Connection failed. Check Token and Repo.');
-            localStorage.removeItem('gh_token');
+            setToken(cleanToken);
+            setRepo(cleanRepo);
+
+            localStorage.setItem('gh_token', cleanToken);
+            localStorage.setItem('gh_repo', cleanRepo);
+
+            if (!initial) toast.success(`Connected as ${user.login}`);
+        } catch (error: any) {
+            console.error('Admin Login verification failed:', error);
+            const msg = error.message || 'Unknown error';
+
+            if (!initial) {
+                toast.error(`Connection failed: ${msg}`);
+                // Detailed debug toast
+                if (msg.includes('401') || msg.includes('Invalid Token')) {
+                    toast.info("Check if your Token has 'repo' scope and hasn't expired.");
+                } else if (msg.includes('404')) {
+                    toast.info("Repo not found. Make sure it is 'username/repo' and the Token has access.");
+                }
+            } else {
+                console.warn('Initial session check failed, clearly invalid credentials.');
+                // Only clear if explicitly invalid, to avoid clearing on network errors? 
+                // Currently safe to clear to force re-login.
+                localStorage.removeItem('gh_token');
+            }
         } finally {
             setIsLoading(false);
         }
@@ -114,6 +141,7 @@ const Admin = () => {
                         {activeTab === 'status' && <FeedStatusDashboard />}
                         {activeTab === 'blog' && <AdminBlog token={token} repo={repo} />}
                         {activeTab === 'newsletter' && <AdminNewsletter />}
+                        {activeTab === 'social' && <DailyNewsletterGenerator token={token} repo={repo} />}
                         {activeTab === 'tools' && <AdminTools />}
                     </div>
                 </div>

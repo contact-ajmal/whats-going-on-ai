@@ -26,7 +26,7 @@ export const AGENTIC_TOPICS: AgenticTopic[] = [
         link: '/agentic-ai/anthropic-skills',
         color: 'from-orange-500 to-red-500',
         isBreaking: true,
-        date: '2025-01'
+        date: '2026-01-16'
     },
     {
         id: 'claude-code',
@@ -40,7 +40,7 @@ export const AGENTIC_TOPICS: AgenticTopic[] = [
         link: '/agentic-ai/claude-code',
         color: 'from-cyan-500 to-blue-500',
         isBreaking: true,
-        date: '2026-01'
+        date: '2026-01-16'
     },
 ];
 

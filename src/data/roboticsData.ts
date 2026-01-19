@@ -26,7 +26,7 @@ export const ROBOTICS_TOPICS: RoboticsTopic[] = [
         link: '/robotics/boston-dynamics-deepmind',
         color: 'from-teal-500 to-cyan-500',
         isBreaking: true,
-        date: '2026-01'
+        date: '2026-01-16'
     },
 ];
 

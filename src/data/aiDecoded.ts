@@ -1,3 +1,6 @@
+// Default date for content without explicit dates
+export const DEFAULT_CONTENT_DATE = '2026-01-16';
+
 export interface DecodedTopic {
     id: string;
     title: string;
@@ -9,6 +12,7 @@ export interface DecodedTopic {
     tags: string[];
     link: string; // External or internal
     color: string; // Tailwind color class for glow
+    dateAdded?: string; // ISO format: YYYY-MM-DD
 }
 
 export const DECODED_TOPICS: DecodedTopic[] = [

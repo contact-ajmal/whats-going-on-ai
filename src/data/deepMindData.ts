@@ -1,3 +1,6 @@
+// Default date for content without explicit dates
+export const DEFAULT_CONTENT_DATE = '2026-01-16';
+
 export interface DeepMindItem {
     id: string;
     title: string;
@@ -8,6 +11,7 @@ export interface DeepMindItem {
     icon?: string; // Emoji or Lucide icon name
     link?: string; // External link or internal deep link
     tags: string[];
+    dateAdded?: string; // ISO format: YYYY-MM-DD
 }
 
 export const DEEPMIND_CONTENT: DeepMindItem[] = [
