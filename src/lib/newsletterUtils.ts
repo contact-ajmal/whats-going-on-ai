@@ -223,8 +223,6 @@ async function fetchVideoContent(): Promise<NewsletterContentItem[]> {
     return items;
 }
 
-return items;
-}
 
 /**
  * Fetch Research Papers (ArXiv + Hugging Face)
