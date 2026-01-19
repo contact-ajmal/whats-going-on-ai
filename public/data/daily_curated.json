@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-01-19T22:36:30.566Z",
+  "lastUpdated": "2026-01-19T22:38:11.884Z",
   "header": "AI Weekly Digest",
   "sectionLabels": {
     "trending": "Trending",
@@ -18,6 +18,61 @@
     "timeline": "AI History"
   },
   "items": [
+    {
+      "id": "news-thevergeai-https://www.theverge.com/?p=863570",
+      "title": "Google brings its AI videomaker to Workspace users",
+      "description": "Google is expanding access to its AI videomaking tool. Launched last May, Flow was initially only available to Google AI Pro and AI Ultra subscribers,...",
+      "url": "https://www.theverge.com/news/863570/google-flow-ai-video-generator-workspace",
+      "date": "2026-01-16T19:37:52.000Z",
+      "dateGranularity": "day",
+      "source": "news",
+      "category": "The Verge AI",
+      "tags": [
+        "ai",
+        "news"
+      ]
+    },
+    {
+      "id": "news-thevergeai-https://www.theverge.com/?p=863428",
+      "title": "Ads are coming soon to ChatGPT, starting with shopping links",
+      "description": "ChatGPT will soon start showing you sponsored products or services if they're related to your conversation. In an announcement on Friday, OpenAI says ...",
+      "url": "https://www.theverge.com/news/863428/openai-chatgpt-shopping-ads-test",
+      "date": "2026-01-16T18:00:00.000Z",
+      "dateGranularity": "day",
+      "source": "news",
+      "category": "The Verge AI",
+      "tags": [
+        "ai",
+        "news"
+      ]
+    },
+    {
+      "id": "news-openai-https://openai.com/index/introducing-chatgpt-go",
+      "title": "Introducing ChatGPT Go, now available worldwide",
+      "description": "ChatGPT Go is now available worldwide, offering expanded access to GPT-5.2 Instant, higher usage limits, and longer memory—making advanced AI more aff...",
+      "url": "https://openai.com/index/introducing-chatgpt-go",
+      "date": "2026-01-16T00:00:00.000Z",
+      "dateGranularity": "day",
+      "source": "news",
+      "category": "OpenAI",
+      "tags": [
+        "ai",
+        "news"
+      ]
+    },
+    {
+      "id": "research-2312.00752",
+      "title": "Mamba: Linear-Time Sequence Modeling with Selective State Spaces",
+      "description": "We introduce Mamba, a new class of models that combines the efficient hardware-aware design of FlashAttention with the training parallelizability and ...",
+      "url": "https://arxiv.org/abs/2312.00752",
+      "date": "2026-01-16T00:00:00.000Z",
+      "dateGranularity": "day",
+      "source": "research",
+      "category": "Machine Learning",
+      "tags": [
+        "ArXiv"
+      ]
+    },
     {
       "id": "robotics-boston-dynamics-deepmind",
       "title": "Boston Dynamics × DeepMind",
