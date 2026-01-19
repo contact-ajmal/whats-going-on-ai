@@ -137,10 +137,11 @@ export default function Daily() {
 
                 {/* Social Share Images */}
                 <meta property="og:image" content="https://whatsgoingonai.com/og-daily.png" />
-                <meta property="og:image:width" content="1200" />
-                <meta property="og:image:height" content="630" />
+                <meta property="og:image:width" content="1792" />
+                <meta property="og:image:height" content="1024" />
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:image" content="https://whatsgoingonai.com/og-daily.png" />
+
             </Helmet>
 
             <div className="container mx-auto px-4 max-w-4xl">
