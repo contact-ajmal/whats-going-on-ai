@@ -109,7 +109,7 @@ const routes = [
         path: '/daily',
         title: 'AI Daily Brief | WhatsGoingOnAI',
         description: 'Your curated daily digest of the most important AI news, research, and tools. Filtered signal from the noise.',
-        image: '/og-daily.png'
+        image: '/og-image.png'
     },
 ];
 
