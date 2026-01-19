@@ -132,18 +132,16 @@ export function DailyNewsletterGenerator({ token, repo }: DailyNewsletterGenerat
     };
 
     const getSelectedItems = useCallback(() => {
-        // Get ALL content for the day, not just what's currently filtered/visible
-        const dailyItems = filterContentByDay(allContent, selectedDate);
-
-        // Filter by selection
-        const selected = dailyItems.filter(item => selectedIds.has(item.id));
+        // Return ALL selected items regardless of date
+        // This allows users to mix content from different days/sections (e.g. today's News + evergreen Skills)
+        const selected = allContent.filter(item => selectedIds.has(item.id));
 
         // Sort to ensure consistent output order
         return selected.sort((a, b) => {
             if (a.source !== b.source) return a.source.localeCompare(b.source);
             return new Date(b.date).getTime() - new Date(a.date).getTime();
         });
-    }, [allContent, selectedDate, selectedIds]);
+    }, [allContent, selectedIds]);
 
     // Generate professional newsletter content
     const generateNewsletter = useCallback(() => {
