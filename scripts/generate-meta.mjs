@@ -105,6 +105,12 @@ const routes = [
         description: 'Cowork brings agentic AI to everyone. We dive deep into real-world use cases—from automating expense reports to organizing chaotic file systems.',
         image: '/images/cowork-research-preview.jpg'
     },
+    {
+        path: '/daily',
+        title: 'AI Daily Brief | WhatsGoingOnAI',
+        description: 'Your curated daily digest of the most important AI news, research, and tools. Filtered signal from the noise.',
+        image: '/og-daily.png'
+    },
 ];
 
 const siteUrl = 'https://whatsgoingonai.com';
