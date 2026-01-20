@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-01-19T22:38:11.884Z",
+  "lastUpdated": "2026-01-20T12:42:31.354Z",
   "header": "AI Weekly Digest",
   "sectionLabels": {
     "trending": "Trending",
@@ -19,74 +19,89 @@
   },
   "items": [
     {
-      "id": "news-thevergeai-https://www.theverge.com/?p=863570",
-      "title": "Google brings its AI videomaker to Workspace users",
-      "description": "Google is expanding access to its AI videomaking tool. Launched last May, Flow was initially only available to Google AI Pro and AI Ultra subscribers,...",
-      "url": "https://www.theverge.com/news/863570/google-flow-ai-video-generator-workspace",
-      "date": "2026-01-16T19:37:52.000Z",
-      "dateGranularity": "day",
-      "source": "news",
-      "category": "The Verge AI",
-      "tags": [
-        "ai",
-        "news"
-      ]
-    },
-    {
-      "id": "news-thevergeai-https://www.theverge.com/?p=863428",
-      "title": "Ads are coming soon to ChatGPT, starting with shopping links",
-      "description": "ChatGPT will soon start showing you sponsored products or services if they're related to your conversation. In an announcement on Friday, OpenAI says ...",
-      "url": "https://www.theverge.com/news/863428/openai-chatgpt-shopping-ads-test",
-      "date": "2026-01-16T18:00:00.000Z",
-      "dateGranularity": "day",
-      "source": "news",
-      "category": "The Verge AI",
-      "tags": [
-        "ai",
-        "news"
-      ]
-    },
-    {
-      "id": "news-openai-https://openai.com/index/introducing-chatgpt-go",
-      "title": "Introducing ChatGPT Go, now available worldwide",
-      "description": "ChatGPT Go is now available worldwide, offering expanded access to GPT-5.2 Instant, higher usage limits, and longer memory—making advanced AI more aff...",
-      "url": "https://openai.com/index/introducing-chatgpt-go",
+      "id": "decoded-moe",
+      "title": "Mixture of Experts",
+      "description": "Why modern models are \"Sparse\".",
+      "url": "https://www.whatsgoingonai.com/decoded/moe",
       "date": "2026-01-16T00:00:00.000Z",
       "dateGranularity": "day",
+      "source": "decoded",
+      "category": "Advanced",
+      "tags": [
+        "Architecture",
+        "Efficiency",
+        "Scaling"
+      ]
+    },
+    {
+      "id": "news-techmeme-http://www.techmeme.com/260120/p12#a260120p12",
+      "title": "Vibe coding startup Emergent raised a $70M Series B led by Khosla and SoftBank Vision Fund 2, after a $23M Series A in September 2025, and claims 5M+ users (Ben Bergman/Business Insider)",
+      "description": "\n\n Ben Bergman / Business Insider:Vibe coding startup Emergent raised a $70M Series B led by Khosla and SoftBank Vision Fund 2, after a $23M Series A ...",
+      "url": "http://www.techmeme.com/260120/p12#a260120p12",
+      "date": "2026-01-20T12:05:00.000Z",
+      "dateGranularity": "day",
       "source": "news",
-      "category": "OpenAI",
+      "category": "Techmeme",
       "tags": [
         "ai",
         "news"
       ]
     },
     {
-      "id": "research-2312.00752",
-      "title": "Mamba: Linear-Time Sequence Modeling with Selective State Spaces",
-      "description": "We introduce Mamba, a new class of models that combines the efficient hardware-aware design of FlashAttention with the training parallelizability and ...",
-      "url": "https://arxiv.org/abs/2312.00752",
-      "date": "2026-01-16T00:00:00.000Z",
+      "id": "news-techmeme-http://www.techmeme.com/260120/p10#a260120p10",
+      "title": "Sources: Baidu's Ernie Assistant passes 200M MAUs, as competition intensifies among Chinese tech giants in AI; Ernie is linked to apps like JD.com and Meituan (Jiahui Huang/Wall Street Journal)",
+      "description": "\n\n Jiahui Huang / Wall Street Journal:Sources: Baidu's Ernie Assistant passes 200M MAUs, as competition intensifies among Chinese tech giants in AI; E...",
+      "url": "http://www.techmeme.com/260120/p10#a260120p10",
+      "date": "2026-01-20T11:35:01.000Z",
+      "dateGranularity": "day",
+      "source": "news",
+      "category": "Techmeme",
+      "tags": [
+        "ai",
+        "news"
+      ]
+    },
+    {
+      "id": "news-hackernews-https://news.ycombinator.com/item?id=46690404",
+      "title": "A Personal AI Maturity Model (Paimm)",
+      "description": "\nArticle URL: https://danielmiessler.com/blog/personal-ai-maturity-model\nComments URL: https://news.ycombinator.com/item?id=46690404\nPoints: 2\n# Comme...",
+      "url": "https://danielmiessler.com/blog/personal-ai-maturity-model",
+      "date": "2026-01-20T10:47:44.000Z",
+      "dateGranularity": "day",
+      "source": "news",
+      "category": "Hacker News",
+      "tags": [
+        "ai",
+        "news"
+      ]
+    },
+    {
+      "id": "news-hackernews-https://news.ycombinator.com/item?id=46690392",
+      "title": "Show HN: Gemini-live-react – Real-time voice AI that works in the browser",
+      "description": "\nGemini Live offers real-time bidirectional voice AI, but using it in the browser is rough:\n- 16kHz in, 24kHz out, browser wants 44.1/48kHz\n- PCM16 en...",
+      "url": "https://news.ycombinator.com/item?id=46690392",
+      "date": "2026-01-20T10:45:14.000Z",
+      "dateGranularity": "day",
+      "source": "news",
+      "category": "Hacker News",
+      "tags": [
+        "ai",
+        "news"
+      ]
+    },
+    {
+      "id": "research-arxiv-2601.11517v1",
+      "title": "Do explanations generalize across large reasoning models?",
+      "description": "Large reasoning models (LRMs) produce a textual chain of thought (CoT) in the process of solving a problem, which serves as a potentially powerful too...",
+      "url": "http://arxiv.org/abs/2601.11517v1",
+      "date": "2026-01-16T18:55:29.000Z",
       "dateGranularity": "day",
       "source": "research",
-      "category": "Machine Learning",
+      "category": "Computation & Language",
       "tags": [
-        "ArXiv"
-      ]
-    },
-    {
-      "id": "robotics-boston-dynamics-deepmind",
-      "title": "Boston Dynamics × DeepMind",
-      "description": "Foundational AI for humanoid robots.",
-      "url": "https://www.whatsgoingonai.com//robotics/boston-dynamics-deepmind",
-      "date": "2026-01-16T00:00:00.000Z",
-      "dateGranularity": "day",
-      "source": "robotics",
-      "category": "Intermediate",
-      "tags": [
-        "Boston Dynamics",
-        "DeepMind",
-        "Atlas",
-        "Gemini Robotics"
+        "research",
+        "arxiv",
+        "computation & language"
       ]
     }
   ]
