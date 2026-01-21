@@ -199,11 +199,6 @@ export function VisitorHUD() {
                         <span className="text-xs font-mono font-medium text-white/90">
                             {totalVisits.toLocaleString()}
                         </span>
-                        <div className="w-px h-3 bg-white/10 mx-1" />
-                        <div className="flex items-center gap-1 text-orange-400">
-                            <Flame className="w-3 h-3 fill-orange-400" />
-                            <span className="text-xs font-mono font-bold">{gameState.streak}</span>
-                        </div>
                     </>
                 )}
 
@@ -243,23 +238,12 @@ export function VisitorHUD() {
 
                             <div className="p-4 space-y-6">
                                 {/* Stats Grid */}
-                                <div className="grid grid-cols-2 gap-4">
+                                <div>
                                     {/* Total Visitors */}
                                     <div>
                                         <p className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">Total Visitors</p>
                                         <h3 className="text-2xl font-black text-white font-mono tracking-tighter">
                                             {totalVisits.toLocaleString()}
-                                        </h3>
-                                    </div>
-                                    {/* Daily Visitors */}
-                                    <div>
-                                        <p className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">Daily Visitors</p>
-                                        <h3 className="text-2xl font-black text-primary font-mono tracking-tighter flex items-center gap-2">
-                                            {dailyVisits.toLocaleString()}
-                                            <span className="relative flex h-2 w-2">
-                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                                                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-                                            </span>
                                         </h3>
                                     </div>
                                 </div>
