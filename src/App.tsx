@@ -37,6 +37,7 @@ import GeometryOfReason from '@/pages/trending/GeometryOfReason';
 import NvidiaRubin from '@/pages/trending/NvidiaRubin';
 import NvidiaAlpamayo from '@/pages/trending/NvidiaAlpamayo';
 import UniversalCommerceProtocol from '@/pages/trending/UniversalCommerceProtocol';
+import PersonaPlex from '@/pages/trending/PersonaPlex';
 import Robotics from '@/pages/Robotics';
 import BostonDynamicsDeepMind from '@/pages/robotics/BostonDynamicsDeepMind';
 import AgenticAI from '@/pages/AgenticAI';
