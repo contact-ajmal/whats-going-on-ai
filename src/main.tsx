@@ -11,7 +11,6 @@ import { CodeProtection } from "./components/CodeProtection";
 createRoot(document.getElementById("root")!).render(
     <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
         <HelmetProvider>
-            <CodeProtection />
             <AuthProvider>
                 <App />
             </AuthProvider>
