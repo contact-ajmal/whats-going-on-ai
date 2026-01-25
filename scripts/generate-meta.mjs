@@ -70,6 +70,11 @@ const routes = [
         description: "Google's open-source standard for agentic commerce. Endorsed by Shopify, Stripe, Visa, and 20+ partners. Enable AI agents to discover, checkout, and pay seamlessly.",
     },
     {
+        path: '/trending/personaplex',
+        title: 'NVIDIA PersonaPlex-7B-v1 | Trending AI Tech',
+        description: "NVIDIA's specialized 7B model for full-duplex conversational speech. Control voice, role, and personality for next-gen digital humans and NPCs.",
+    },
+    {
         path: '/about',
         title: 'About | WhatsGoingOnAI',
         description: 'Learn about WhatsGoingOnAI - your daily hub for AI news, research, and emerging technologies.',

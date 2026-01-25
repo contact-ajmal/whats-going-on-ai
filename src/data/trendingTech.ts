@@ -111,5 +111,19 @@ export const TRENDING_TOPICS: TrendingTopic[] = [
         color: 'from-cyan-500 to-blue-500',
         isBreaking: true,
         date: '2026-01-16'
+    },
+    {
+        id: 'personaplex',
+        title: 'NVIDIA PersonaPlex-7B-v1',
+        shortDescription: 'Role control for full-duplex speech models.',
+        fullDescription: 'PersonaPlex-7B-v1 is a specialized 7B model designed for full-duplex conversational speech. It excels at maintaining consistent personas, handling interruptions, and controlling speaking style (voice) and role for realistic digital avatars and NPCs.',
+        icon: '',
+        difficulty: 'Intermediate',
+        readTime: '10 min',
+        tags: ['NVIDIA', 'Speech AI', 'Digital Humans', 'Hugging Face', 'Full Duplex'],
+        link: '/trending/personaplex',
+        color: 'from-green-500 to-emerald-500',
+        isBreaking: true,
+        date: '2026-01-25'
     }
 ];

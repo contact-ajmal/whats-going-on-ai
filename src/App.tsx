@@ -85,6 +85,7 @@ const App = () => (
           <Route path="/trending/nvidia-rubin" element={<NvidiaRubin />} />
           <Route path="/trending/nvidia-alpamayo" element={<NvidiaAlpamayo />} />
           <Route path="/trending/universal-commerce-protocol" element={<UniversalCommerceProtocol />} />
+          <Route path="/trending/personaplex" element={<PersonaPlex />} />
           <Route path="/robotics" element={<Robotics />} />
           <Route path="/robotics/boston-dynamics-deepmind" element={<BostonDynamicsDeepMind />} />
           <Route path="/agentic-ai" element={<AgenticAI />} />

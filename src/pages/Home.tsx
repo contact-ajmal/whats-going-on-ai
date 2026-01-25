@@ -248,6 +248,11 @@ export default function Home() {
                   Explore All →
                 </span>
               </Link>
+              <Link to="/trending/personaplex" className="inline-flex items-center px-3 py-1 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:scale-105 transition-all duration-300 group">
+                <span className="text-xs uppercase whitespace-nowrap font-bold text-green-400 group-hover:text-green-300">
+                  NVIDIA PersonaPlex
+                </span>
+              </Link>
             </div>
           ))}
         </div>
