@@ -305,6 +305,44 @@ const GoogleAgenticVision = () => {
                     </div>
                 </div>
 
+                {/* References */}
+                <div className="max-w-4xl mx-auto mb-16">
+                    <h2 className="text-2xl font-bold text-white mb-6 text-center">References & Resources</h2>
+                    <div className="grid md:grid-cols-2 gap-4">
+                        <a
+                            href="https://blog.google/innovation-and-ai/technology/developers-tools/agentic-vision-gemini-3-flash/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-4 p-4 rounded-xl bg-slate-900/40 border border-white/10 hover:border-blue-500/30 hover:bg-slate-900/60 transition-all group"
+                        >
+                            <div className="p-3 bg-blue-500/10 rounded-lg group-hover:bg-blue-500/20 transition-colors">
+                                <Sparkles className="w-5 h-5 text-blue-400" />
+                            </div>
+                            <div>
+                                <h3 className="font-semibold text-white group-hover:text-blue-400 transition-colors">Google Blog Post</h3>
+                                <p className="text-sm text-slate-400">Read the official announcement</p>
+                            </div>
+                            <ArrowRight className="w-4 h-4 text-slate-500 ml-auto group-hover:translate-x-1 transition-transform" />
+                        </a>
+
+                        <a
+                            href="https://aistudio.google.com/apps/bundled/gemini_visual_thinking?e=0&showPreview=true&showAssistant=true&fullscreenApplet=true"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-4 p-4 rounded-xl bg-slate-900/40 border border-white/10 hover:border-indigo-500/30 hover:bg-slate-900/60 transition-all group"
+                        >
+                            <div className="p-3 bg-indigo-500/10 rounded-lg group-hover:bg-indigo-500/20 transition-colors">
+                                <Code2 className="w-5 h-5 text-indigo-400" />
+                            </div>
+                            <div>
+                                <h3 className="font-semibold text-white group-hover:text-indigo-400 transition-colors">AI Studio Demo</h3>
+                                <p className="text-sm text-slate-400">Try the interactive app</p>
+                            </div>
+                            <ArrowRight className="w-4 h-4 text-slate-500 ml-auto group-hover:translate-x-1 transition-transform" />
+                        </a>
+                    </div>
+                </div>
+
                 {/* Back Link */}
                 <div className="mt-20 text-center">
                     <Link
