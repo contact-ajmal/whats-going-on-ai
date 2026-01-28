@@ -152,6 +152,47 @@ const GoogleAgenticVision = () => {
                     </div>
                 </div>
 
+                {/* Detailed Analysis Section */}
+                <div className="max-w-7xl mx-auto mb-32 grid md:grid-cols-3 gap-8">
+                    <div className="p-8 rounded-2xl bg-slate-900/40 border border-white/10 hover:border-blue-500/30 transition-colors">
+                        <div className="mb-6 p-3 bg-blue-500/10 rounded-xl w-fit">
+                            <Sparkles className="w-6 h-6 text-blue-400" />
+                        </div>
+                        <h3 className="text-xl font-bold text-white mb-4">What It Is</h3>
+                        <p className="text-slate-400 leading-relaxed">
+                            Agentic Vision converts image understanding from a static "one-pass" act into a dynamic, agentic process.
+                            Unlike traditional multimodal models that simply look and predict, <span className="text-white font-medium">Gemini 3 Flash</span> can actively explore an image.
+                            It uses tools to gain new perspectives—zooming in on details, measuring objects, or verifying counts—before committing to an answer.
+                        </p>
+                    </div>
+
+                    <div className="p-8 rounded-2xl bg-slate-900/40 border border-white/10 hover:border-indigo-500/30 transition-colors">
+                        <div className="mb-6 p-3 bg-indigo-500/10 rounded-xl w-fit">
+                            <Cpu className="w-6 h-6 text-indigo-400" />
+                        </div>
+                        <h3 className="text-xl font-bold text-white mb-4">How It Works</h3>
+                        <p className="text-slate-400 leading-relaxed">
+                            The model is equipped with a <span className="text-white font-medium">Python sandbox</span>. When faced with a complex visual task,
+                            it writes and executes code to manipulate the image or perform calculations.
+                            For example, if asked to read a small text on a building plan, it won't just squint; it will calculate crop coordinates,
+                            execute a crop function, and re-examine the high-resolution patch.
+                        </p>
+                    </div>
+
+                    <div className="p-8 rounded-2xl bg-slate-900/40 border border-white/10 hover:border-green-500/30 transition-colors">
+                        <div className="mb-6 p-3 bg-green-500/10 rounded-xl w-fit">
+                            <CheckCircle2 className="w-6 h-6 text-green-400" />
+                        </div>
+                        <h3 className="text-xl font-bold text-white mb-4">The Impact</h3>
+                        <p className="text-slate-400 leading-relaxed">
+                            This "grounding" in code replaces probabilistic guessing with verifiable execution.
+                            Google reports a <span className="text-green-400 font-bold">5-10% quality boost</span> across major vision benchmarks.
+                            It dramatically reduces hallucinations in counting and spatial reasoning tasks, enabling enterprise use cases like
+                            <span className="text-white font-medium"> PlanCheckSolver</span>, which uses this to validate complex building codes with high accuracy.
+                        </p>
+                    </div>
+                </div>
+
                 {/* Video Showcase */}
                 <div className="max-w-7xl mx-auto mb-32">
                     <div className="flex items-center justify-between mb-10">
