@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-    Eye, Cpu, MousePointerClick, Layers, ArrowLeft,
-    Sparkles, Square, ZoomIn, Calculator, Zap,
-    Terminal, Lock, Globe, Code
+    Eye, Cpu, Terminal, ArrowLeft, Sparkles,
+    ZoomIn, Calculator, Layers, Play,
+    ArrowRight, CheckCircle2, ScanEye, Code2, MousePointerClick
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SEO } from '@/components/SEO';
@@ -11,29 +11,55 @@ import { Navigation } from '@/components/Navigation';
 import { NeuralBackground } from '@/components/NeuralBackground';
 import { Footer } from '@/components/Footer';
 import { Badge } from '@/components/ui/badge';
-import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
-const FeatureCard = ({ icon: Icon, title, description, delay }: { icon: any, title: string, description: string, delay: number }) => (
+// Official Google Video URLs
+const VIDEOS = {
+    zoom: "https://storage.googleapis.com/gweb-uniblog-publish-prod/original_videos/1_ZoomInspect_V5_1.mp4",
+    annotate: "https://storage.googleapis.com/gweb-uniblog-publish-prod/original_videos/2_Image_Annotation_V4.mp4",
+    plot: "https://storage.googleapis.com/gweb-uniblog-publish-prod/original_videos/3_Visual_MathPlotting_V3.mp4"
+};
+
+const FeatureCard = ({ icon: Icon, title, description, videoUrl, delay }: { icon: any, title: string, description: string, videoUrl: string, delay: number }) => (
     <motion.div
         initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
         transition={{ delay }}
-        className="p-6 rounded-2xl bg-white/5 border border-white/10 hover:border-blue-400/50 transition-all duration-300"
+        className="group relative rounded-2xl bg-slate-900/40 border border-white/10 overflow-hidden hover:border-blue-500/50 transition-all duration-300"
     >
-        <div className="p-3 bg-blue-500/20 rounded-xl w-fit mb-4">
-            <Icon className="w-6 h-6 text-blue-400" />
+        <div className="aspect-video relative bg-black/50 overflow-hidden">
+            <video
+                src={videoUrl}
+                muted
+                loop
+                autoPlay
+                playsInline
+                className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent" />
+            <div className="absolute bottom-4 left-4 right-4">
+                <div className="flex items-center gap-2 mb-2">
+                    <div className="p-2 rounded-lg bg-blue-500/20 backdrop-blur-md">
+                        <Icon className="w-4 h-4 text-blue-400" />
+                    </div>
+                    <h3 className="text-lg font-bold text-white">{title}</h3>
+                </div>
+            </div>
         </div>
-        <h3 className="text-xl font-bold text-white mb-2">{title}</h3>
-        <p className="text-slate-400 text-sm leading-relaxed">{description}</p>
+        <div className="p-6 pt-2">
+            <p className="text-slate-400 text-sm leading-relaxed">{description}</p>
+        </div>
     </motion.div>
 );
 
-const StepCard = ({ number, title, description, icon: Icon }: { number: string, title: string, description: string, icon: any }) => (
-    <div className="relative p-6 rounded-xl bg-slate-900/50 border border-white/10 z-10">
-        <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-bold text-white text-sm">
+const StepCard = ({ number, title, description, icon: Icon, isActive = false }: any) => (
+    <div className={`relative p-6 rounded-xl border transition-all duration-300 ${isActive ? 'bg-blue-500/10 border-blue-500/50' : 'bg-slate-900/50 border-white/10'}`}>
+        <div className="absolute -top-3 -left-3 w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-bold text-white text-sm shadow-lg shadow-blue-500/20">
             {number}
         </div>
-        <div className="mb-4 text-blue-400">
+        <div className={`mb-4 ${isActive ? 'text-blue-400' : 'text-slate-400'}`}>
             <Icon className="w-8 h-8" />
         </div>
         <h4 className="text-lg font-bold text-white mb-2">{title}</h4>
@@ -42,11 +68,13 @@ const StepCard = ({ number, title, description, icon: Icon }: { number: string, 
 );
 
 const GoogleAgenticVision = () => {
+    const [activeStep, setActiveStep] = useState(0);
+
     return (
         <div className="min-h-screen bg-black text-slate-200 font-sans selection:bg-blue-500/30">
             <SEO
-                title="Google Agentic Vision | Gemini 3 Flash"
-                description="Explore Google's Agentic Vision: A new capability in Gemini 3 Flash that uses a Think, Act, Observe loop for active image understanding."
+                title="Google Agentic Vision Deep Dive | Gemini 3 Flash"
+                description="Analysis of Gemini 3 Flash's Agentic Vision capability. See the Think-Act-Observe loop in action with real backend logs and video demos."
                 url="/agentic-ai/google-agentic-vision"
             />
             <Navigation />
@@ -60,105 +88,178 @@ const GoogleAgenticVision = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6 }}
                     >
-                        <Badge variant="outline" className="mb-6 border-blue-500/30 text-blue-400 px-4 py-1.5 text-sm backdrop-blur-md">
-                            <Sparkles className="w-3.5 h-3.5 mr-2" />
-                            New in Gemini 3 Flash
-                        </Badge>
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-sm font-medium mb-6">
+                            <Sparkles className="w-4 h-4" />
+                            <span>Gemini 3 Flash Capability</span>
+                        </div>
                         <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-white mb-6">
                             Agentic <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">Vision</span>
                         </h1>
-                        <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
-                            Transforming computer vision from a static analysis into an active, agentic process of thinking, acting, and observing.
+                        <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed mb-8">
+                            Moving beyond static analysis. Gemini now <span className="text-white">Thinks</span>, <span className="text-white">Acts</span> via code, and <span className="text-white">Observes</span> results to solve complex visual tasks with
+                            <span className="inline-flex items-center ml-2 px-2 py-0.5 rounded bg-green-500/10 text-green-400 text-base font-bold border border-green-500/20">
+                                <ArrowRight className="w-3 h-3 mr-1" />
+                                10% Higher Accuracy
+                            </span>
                         </p>
                     </motion.div>
                 </div>
 
-                {/* The Loop Section */}
-                <div className="max-w-6xl mx-auto mb-24">
+                {/* The Agentic Loop Viz */}
+                <div className="max-w-7xl mx-auto mb-32">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl font-bold text-white mb-4">The Agentic Loop</h2>
-                        <p className="text-slate-400">How Gemini 3 Flash actively understands images</p>
+                        <p className="text-slate-400">How Gemini 3 Flash actively understands images by writing code.</p>
                     </div>
 
-                    <div className="grid md:grid-cols-3 gap-8 relative">
-                        {/* Connecting Line (Desktop) */}
-                        <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-blue-500/30 to-transparent -translate-y-1/2 z-0" />
+                    <div className="grid lg:grid-cols-2 gap-12 items-center">
+                        {/* Left: Diagram */}
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            className="bg-white/5 rounded-3xl p-2 border border-white/10 backdrop-blur-sm"
+                        >
+                            <img
+                                src="/images/google-agentic/loop-diagram.png"
+                                alt="Agentic Loop Diagram: Think, Act, Observe"
+                                className="w-full rounded-2xl shadow-2xl"
+                            />
+                        </motion.div>
 
-                        <StepCard
-                            number="1"
-                            title="Think"
-                            description="The model analyzes the initial image and user query, formulating a multi-step plan to gather more information."
-                            icon={Cpu}
-                        />
-                        <StepCard
-                            number="2"
-                            title="Act"
-                            description="It generates and executes Python code to manipulate the image (crop, zoom) or analyze it (count, measure)."
-                            icon={Terminal}
-                        />
-                        <StepCard
-                            number="3"
-                            title="Observe"
-                            description="The new data (transformed image or calculation) is added to the context. The model inspects this to refine its answer."
-                            icon={Eye}
-                        />
+                        {/* Right: Steps */}
+                        <div className="space-y-6">
+                            <StepCard
+                                number="1"
+                                title="Think (Planning)"
+                                description="The model doesn't just guess. It analyzes the user query and image to formulate a multi-step plan. 'I need to count the apples, so I should write code to detect objects.'"
+                                icon={Cpu}
+                                isActive={true}
+                            />
+                            <StepCard
+                                number="2"
+                                title="Act (Code Execution)"
+                                description="It generates and executes Python code in a secure sandbox. This can be cropping to zoom in, using OpenCV to count, or Matplotlib to plot data."
+                                icon={Terminal}
+                            />
+                            <StepCard
+                                number="3"
+                                title="Observe (Refinement)"
+                                description="The output (a cropped image, a count, or a graph) is fed back into the context. The model 'sees' this new evidence to ground its final answer."
+                                icon={Eye}
+                            />
+                        </div>
                     </div>
                 </div>
 
-                {/* Key Capabilities */}
-                <div className="max-w-6xl mx-auto mb-24">
-                    <h2 className="text-3xl font-bold text-white mb-10 text-center">New Capabilities</h2>
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* Video Showcase */}
+                <div className="max-w-7xl mx-auto mb-32">
+                    <div className="flex items-center justify-between mb-10">
+                        <h2 className="text-3xl font-bold text-white">Capabilities in Action</h2>
+                        <Badge variant="outline" className="text-blue-400 border-blue-400/20">Official Demos</Badge>
+                    </div>
+                    <div className="grid md:grid-cols-3 gap-6">
                         <FeatureCard
                             icon={ZoomIn}
                             title="Implicit Zooming"
-                            description="Detects fine-grained details by automatically cropping and inspecting high-resolution patches, like verifying building plan codes."
+                            description="Automatically detects when details are too small (like building codes) and writes code to crop and 'zoom in' for better resolution."
+                            videoUrl={VIDEOS.zoom}
                             delay={0.1}
                         />
                         <FeatureCard
-                            icon={Square}
+                            icon={MousePointerClick}
                             title="Visual Annotation"
-                            description="Uses a 'visual scratchpad' to draw bounding boxes and labels on the image (e.g., counting fingers) to ensure pixel-perfect accuracy."
+                            description="Uses a 'visual scratchpad' to verify its work. It draws bounding boxes on objects (like fingers) to ensure counting accuracy."
+                            videoUrl={VIDEOS.annotate}
                             delay={0.2}
                         />
                         <FeatureCard
                             icon={Calculator}
                             title="Visual Math"
-                            description="Parses dense tables and plots data using Python libraries like Matplotlib, replacing probabilistic guessing with deterministic execution."
+                            description="Extracts raw data from charts or tables and uses Python libraries to plot verified, deterministic graphs."
+                            videoUrl={VIDEOS.plot}
                             delay={0.3}
                         />
                     </div>
                 </div>
 
-                {/* Deep Dive / Technical Section */}
-                <div className="max-w-4xl mx-auto bg-slate-900/30 border border-white/10 rounded-3xl p-8 md:p-12 backdrop-blur-sm">
+                {/* Technical Deep Dive: Visual Math */}
+                <div className="max-w-6xl mx-auto mb-24">
                     <div className="flex items-center gap-4 mb-8">
                         <div className="p-3 bg-indigo-500/10 rounded-xl">
                             <Layers className="w-6 h-6 text-indigo-400" />
                         </div>
                         <div>
-                            <h2 className="text-2xl font-bold text-white">Under the Hood</h2>
-                            <p className="text-slate-400 text-sm">Powered by Google's Code Execution Tool</p>
+                            <h2 className="text-2xl font-bold text-white">Deep Dive: Visual Math</h2>
+                            <p className="text-slate-400 text-sm">A look inside the model's "Thinking Process"</p>
                         </div>
                     </div>
 
-                    <div className="space-y-6 text-slate-300 leading-relaxed">
-                        <p>
-                            Traditional multimodal models process an image in a single pass. If details are too small or the task requires counting complex objects, they often hallucinate.
-                        </p>
-                        <p>
-                            <span className="text-white font-medium">Agentic Vision</span> changes this by giving the model
-                            access to a Python sandbox. When it needs to see better, it writes code to crop the image.
-                            When it needs to count, it writes code to draw on the image. This "grounding" in code execution
-                            make the results verifiable and significantly more accurate.
-                        </p>
+                    <div className="bg-slate-900/30 border border-white/10 rounded-3xl p-8 backdrop-blur-sm overflow-hidden">
+                        <div className="grid lg:grid-cols-2 gap-12">
+                            {/* Process Logs */}
+                            <div className="space-y-6">
+                                <div>
+                                    <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                                        <Terminal className="w-5 h-5 text-blue-400" />
+                                        Step 1: The Plan & Execution
+                                    </h3>
+                                    <p className="text-slate-400 text-sm mb-4">
+                                        Here we see the model explicitly planning to "normalize prior SOTA to 1.0" and then generating the Python code to perform the calculation.
+                                    </p>
+                                    <Dialog>
+                                        <DialogTrigger asChild>
+                                            <div className="relative group cursor-pointer border border-white/10 rounded-xl overflow-hidden hover:border-blue-500/30 transition-all">
+                                                <img
+                                                    src="/images/google-agentic/reasoning-logs.png"
+                                                    alt="Model Reasoning Logs"
+                                                    className="w-full opacity-90 group-hover:opacity-100 transition-opacity"
+                                                />
+                                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 backdrop-blur-[2px]">
+                                                    <span className="flex items-center gap-2 bg-black/80 px-4 py-2 rounded-full text-white text-sm font-medium border border-white/20">
+                                                        <ZoomIn className="w-4 h-4" /> View Logs
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </DialogTrigger>
+                                        <DialogContent className="max-w-4xl bg-slate-900 border-white/10">
+                                            <img src="/images/google-agentic/reasoning-logs.png" alt="Full Reasoning Logs" className="w-full rounded-lg" />
+                                        </DialogContent>
+                                    </Dialog>
+                                </div>
+                            </div>
 
-                        <div className="mt-8 p-4 rounded-xl bg-black/50 border border-white/10 font-mono text-xs md:text-sm text-green-400 overflow-x-auto">
-                            <div className="text-slate-500 mb-2"># Example: Model thinking process</div>
-                            <div className="mb-1"><span className="text-blue-400">PLAN:</span> I need to count the apples. I will detect them and draw boxes.</div>
-                            <div className="mb-1"><span className="text-blue-400">ACT:</span> <span className="text-yellow-400">execute_python</span>(detect_and_draw(image))</div>
-                            <div className="mb-1"><span className="text-blue-400">OBSERVE:</span> [Detailed image with 5 marked boxes returned]</div>
-                            <div><span className="text-blue-400">ANSWER:</span> There are exactly 5 apples in the image.</div>
+                            {/* Final Output */}
+                            <div className="space-y-6">
+                                <div>
+                                    <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
+                                        <ScanEye className="w-5 h-5 text-green-400" />
+                                        Step 2: The Observed Output
+                                    </h3>
+                                    <p className="text-slate-400 text-sm mb-4">
+                                        The final Matplotlib chart generated by the code. This isn't a hallucinated image; it's a deterministically rendered plot based on the data.
+                                    </p>
+                                    <Dialog>
+                                        <DialogTrigger asChild>
+                                            <div className="relative group cursor-pointer border border-white/10 rounded-xl overflow-hidden hover:border-green-500/30 transition-all">
+                                                <img
+                                                    src="/images/google-agentic/plotting-output.png"
+                                                    alt="Final Matplotlib Output"
+                                                    className="w-full opacity-90 group-hover:opacity-100 transition-opacity"
+                                                />
+                                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 backdrop-blur-[2px]">
+                                                    <span className="flex items-center gap-2 bg-black/80 px-4 py-2 rounded-full text-white text-sm font-medium border border-white/20">
+                                                        <ZoomIn className="w-4 h-4" /> View Chart
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </DialogTrigger>
+                                        <DialogContent className="max-w-4xl bg-slate-900 border-white/10">
+                                            <img src="/images/google-agentic/plotting-output.png" alt="Full Chart Output" className="w-full rounded-lg" />
+                                        </DialogContent>
+                                    </Dialog>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -167,9 +268,9 @@ const GoogleAgenticVision = () => {
                 <div className="mt-20 text-center">
                     <Link
                         to="/agentic-ai"
-                        className="inline-flex items-center gap-2 text-indigo-400 hover:text-indigo-300 transition-colors font-medium"
+                        className="inline-flex items-center gap-2 text-indigo-400 hover:text-indigo-300 transition-colors font-medium group"
                     >
-                        <ArrowLeft className="w-4 h-4" />
+                        <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                         Back to Agentic AI
                     </Link>
                 </div>
