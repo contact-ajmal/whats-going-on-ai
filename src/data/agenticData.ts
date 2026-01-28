@@ -42,6 +42,20 @@ export const AGENTIC_TOPICS: AgenticTopic[] = [
         isBreaking: true,
         date: '2026-01-16'
     },
+    {
+        id: 'google-agentic-vision',
+        title: 'Google Agentic Vision',
+        shortDescription: 'Gemini 3 Flash using Think, Act, Observe loops for vision.',
+        fullDescription: 'Agentic Vision transforms image understanding from a static process to an active one. Gemini 3 Flash can now "think" about an image, "act" by executing code to zoom or annotate, and "observe" the results to gain deeper insight.',
+        icon: '',
+        difficulty: 'Intermediate',
+        readTime: '6 min',
+        tags: ['Computer Vision', 'Gemini', 'Google', 'Agentic'],
+        link: '/agentic-ai/google-agentic-vision',
+        color: 'from-blue-500 to-indigo-500',
+        isBreaking: true,
+        date: '2026-02-27'
+    },
 ];
 
 export const getAgenticTopic = (id: string): AgenticTopic | undefined => {

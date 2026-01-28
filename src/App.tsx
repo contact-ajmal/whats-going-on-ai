@@ -42,6 +42,7 @@ import Robotics from '@/pages/Robotics';
 import BostonDynamicsDeepMind from '@/pages/robotics/BostonDynamicsDeepMind';
 import AgenticAI from '@/pages/AgenticAI';
 import AgenticAnthropicSkills from '@/pages/agentic-ai/AnthropicSkills';
+import GoogleAgenticVision from '@/pages/agentic-ai/GoogleAgenticVision';
 import ClaudeCodeDeepDive from '@/pages/agentic-ai/ClaudeCode';
 import Daily from '@/pages/Daily';
 import { SharePlatformFab } from '@/components/SharePlatformFab';
@@ -91,6 +92,7 @@ const App = () => (
           <Route path="/robotics/boston-dynamics-deepmind" element={<BostonDynamicsDeepMind />} />
           <Route path="/agentic-ai" element={<AgenticAI />} />
           <Route path="/agentic-ai/anthropic-skills" element={<AgenticAnthropicSkills />} />
+          <Route path="/agentic-ai/google-agentic-vision" element={<GoogleAgenticVision />} />
           <Route path="/agentic-ai/claude-code" element={<ClaudeCodeDeepDive />} />
           <Route path="/skills" element={<ClaudeSkills />} />
           <Route path="/profile" element={<Profile />} />

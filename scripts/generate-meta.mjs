@@ -116,6 +116,11 @@ const routes = [
         description: 'Your curated daily digest of the most important AI news, research, and tools. Filtered signal from the noise.',
         image: '/og-image.png'
     },
+    {
+        path: '/agentic-ai/google-agentic-vision',
+        title: 'Google Agentic Vision | Gemini 3 Flash',
+        description: 'Explore Google\'s Agentic Vision: A new capability in Gemini 3 Flash that uses a Think, Act, Observe loop for active image understanding.',
+    },
 ];
 
 const siteUrl = 'https://whatsgoingonai.com';
