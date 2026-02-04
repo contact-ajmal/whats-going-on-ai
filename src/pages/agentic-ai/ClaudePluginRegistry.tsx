@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     Search, Filter, ExternalLink, ShieldCheck,
     Terminal, Cable, Brain, ArrowLeft, Download,
-    Check
+    Check, Github
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SEO } from '@/components/SEO';
@@ -159,11 +159,23 @@ const PluginCard = ({ plugin }: { plugin: ClaudePlugin }) => {
                     </Tabs>
 
                     <div className="mt-8 flex gap-3">
-                        <Button className="w-full bg-white text-black hover:bg-slate-200">
+                        {/* <Button className="w-full bg-white text-black hover:bg-slate-200">
                             <Download className="w-4 h-4 mr-2" /> Install Plugin
-                        </Button>
+                        </Button> */}
+                        {plugin.repoUrl && (
+                            <a
+                                href={plugin.repoUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="w-full"
+                            >
+                                <Button className="w-full bg-white text-black hover:bg-slate-200">
+                                    <Github className="w-4 h-4 mr-2" /> View on GitHub
+                                </Button>
+                            </a>
+                        )}
                         <Button variant="outline" className="w-full border-white/10 hover:bg-white/5">
-                            <ExternalLink className="w-4 h-4 mr-2" /> View Documentation
+                            <ExternalLink className="w-4 h-4 mr-2" /> Documentation
                         </Button>
                     </div>
                 </div>
