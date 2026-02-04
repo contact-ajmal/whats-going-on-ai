@@ -21,8 +21,8 @@ const CategoryFilter = ({ category, isSelected, onClick }: { category: string, i
     <button
         onClick={onClick}
         className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${isSelected
-                ? 'bg-white text-black shadow-lg shadow-white/20 scale-105'
-                : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
+            ? 'bg-white text-black shadow-lg shadow-white/20 scale-105'
+            : 'bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white'
             }`}
     >
         {category}
@@ -176,7 +176,7 @@ const ClaudePluginRegistry = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [activeCategory, setActiveCategory] = useState('All');
 
-    const categories = ['All', 'Productivity', 'Dev', 'Data', 'Creative'];
+    const categories = ['All', 'Productivity', 'Dev', 'Data', 'Business', 'Scientific', 'Creative'];
 
     const filteredPlugins = CLAUDE_PLUGINS.filter(plugin => {
         const matchesSearch = plugin.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
