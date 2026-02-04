@@ -56,6 +56,20 @@ export const AGENTIC_TOPICS: AgenticTopic[] = [
         isBreaking: true,
         date: '2026-02-27'
     },
+    {
+        id: 'claude-plugin-registry',
+        title: 'Claude Plugin Registry',
+        shortDescription: 'Marketplace for Commands, Connectors, and Agent Skills.',
+        fullDescription: 'Browse the curated registry of Claude plugins to extend your agent\'s capabilities. Find specific commands for quick actions, connectors for tool integration, and specialized skills for domain expertise.',
+        icon: '',
+        difficulty: 'Beginner',
+        readTime: 'Interactive',
+        tags: ['Marketplace', 'Plugins', 'Tools', 'Extensions'],
+        link: '/agentic-ai/claude-plugin-registry',
+        color: 'from-purple-500 to-pink-500',
+        isBreaking: false,
+        date: '2026-03-01'
+    },
 ];
 
 export const getAgenticTopic = (id: string): AgenticTopic | undefined => {

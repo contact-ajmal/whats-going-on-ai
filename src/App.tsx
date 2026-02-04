@@ -44,6 +44,7 @@ import AgenticAI from '@/pages/AgenticAI';
 import AgenticAnthropicSkills from '@/pages/agentic-ai/AnthropicSkills';
 import GoogleAgenticVision from '@/pages/agentic-ai/GoogleAgenticVision';
 import ClaudeCodeDeepDive from '@/pages/agentic-ai/ClaudeCode';
+import ClaudePluginRegistry from '@/pages/agentic-ai/ClaudePluginRegistry';
 import Daily from '@/pages/Daily';
 import { SharePlatformFab } from '@/components/SharePlatformFab';
 import ScrollToTop from '@/components/ScrollToTop';
@@ -93,7 +94,9 @@ const App = () => (
           <Route path="/agentic-ai" element={<AgenticAI />} />
           <Route path="/agentic-ai/anthropic-skills" element={<AgenticAnthropicSkills />} />
           <Route path="/agentic-ai/google-agentic-vision" element={<GoogleAgenticVision />} />
+          <Route path="/agentic-ai/google-agentic-vision" element={<GoogleAgenticVision />} />
           <Route path="/agentic-ai/claude-code" element={<ClaudeCodeDeepDive />} />
+          <Route path="/agentic-ai/claude-plugin-registry" element={<ClaudePluginRegistry />} />
           <Route path="/skills" element={<ClaudeSkills />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/daily" element={<Daily />} />
